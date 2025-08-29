@@ -1,4 +1,49 @@
-export default function SignupForm() {
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import z, { email } from "zod"
+import { userService } from "../../services/UserService"
+import { useNavigate } from "react-router-dom"
+
+const signupSchema = z.object({
+        name:z.string().min(2, "Name must be atleast 2 charecters."),
+        email:z.string().email("Invalid email"),
+        password: z.string().min(6, "Password must be atleast 6 charecters")
+    })
+
+type SignupForm = z.infer<typeof signupSchema>
+
+
+console.log("schema-",signupSchema)
+
+export default function SignUp() {
+
+  const {register, handleSubmit, formState : {errors}} = useForm<SignupForm>({
+    resolver : zodResolver(signupSchema)
+  })  
+
+  const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState("")
+  const navigate = useNavigate()
+
+  const onSubmit = async(data : SignupForm)=>{
+    try {
+        console.log("dta",data)
+        setLoading(true)
+        setErrorMsg("")
+
+        const res = await userService.signUp(data)
+        console.log("res",res)
+
+        navigate(`/verify-otp`, {state:{email:data.email}})
+    } catch (error:any) {
+        console.error("err",error)
+        setErrorMsg(error.message)
+    } finally{
+        setLoading(false)
+    }
+  }
+    
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-gradient-to-b from-green-600 to-green-800 rounded-2xl p-8 text-white">
@@ -16,28 +61,39 @@ export default function SignupForm() {
         <h2 className="text-2xl font-semibold text-center mb-8">Register</h2>
 
         {/* Form Fields */}
+        <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4 mb-6">
           <input
+          {...register("name")}
             type="text"
             placeholder="Full Name"
             className="w-full px-4 py-3 bg-black/20 border border-white/20 rounded-full placeholder-gray-300 text-white focus:outline-none focus:border-white/40"
           />
+          {errors.name && <p className="text-red-500"> {errors.name?.message}</p>}
           <input
+            {...register("email")}
             type="email"
             placeholder="Enter Email"
             className="w-full px-4 py-3 bg-black/20 border border-white/20 rounded-full placeholder-gray-300 text-white focus:outline-none focus:border-white/40"
           />
+          {errors.email && <p className="text-red-500"> {errors.email.message}</p>}
           <input
+            {...register("password")}
             type="password"
             placeholder="Password"
             className="w-full px-4 py-3 bg-black/20 border border-white/20 rounded-full placeholder-gray-300 text-white focus:outline-none focus:border-white/40"
           />
+          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+          {errorMsg && <p className="text-red-400">{errorMsg}</p>}
         </div>
 
         {/* Create Account Button */}
-        <button className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 rounded-full mb-6 transition-colors">
-          Creat Account
+        <button
+        type="submit"
+         className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 rounded-full mb-6 transition-colors">
+          { loading ? "Signing Up.." : "Creat Account"}
         </button>
+        </form>
 
         {/* Divider */}
         <div className="flex items-center mb-6">

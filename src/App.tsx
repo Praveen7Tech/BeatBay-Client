@@ -1,10 +1,8 @@
-import SignupForm from "./pages/user/SignUp"
+import AppRoutes from "./routes/AppRoutes"
 
 
 const App = () => {
-  return (
-    <SignupForm/>
-  )
+  return <AppRoutes/>
 }
 
 export default App
