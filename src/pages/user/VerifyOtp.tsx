@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { userService } from "../../services/UserService"
 
@@ -14,6 +14,15 @@ export default function OtpVerification() {
     const location = useLocation()
     const email = location.state?.email
     console.log("email-",email)
+
+    useEffect(()=>{
+      if(timer > 0){
+        const interval = setInterval(()=>{
+          setTimer((time)=> time - 1)
+        },1000)
+        return ()=> clearInterval(interval)
+      }
+    },[timer])
 
     const handleChange = (value: string, index:number)=>{
       const newOtp = [...otp]
@@ -33,6 +42,14 @@ export default function OtpVerification() {
         console.error("Error in otp verifivation",error)
       }finally{
         setLoading(false)
+      }
+    }
+
+    const handleResend = async()=>{
+      try {
+        await userService.resendOTP(email)
+      } catch (error) {
+        console.error("Error in resend OTP")
       }
     }
 
@@ -57,7 +74,8 @@ export default function OtpVerification() {
         <div className="flex justify-center gap-4 mb-8">
           {otp.map((digit, index)=>(
           <input
-          key={digit}
+            key={index}
+            value={digit}
             onChange={(e)=> handleChange(e.target.value, index)}
             type="text"
             maxLength={1}
@@ -74,13 +92,18 @@ export default function OtpVerification() {
         </button>
 
         {/* Timer */}
-        <div className="text-white text-sm mb-6">1 : 27</div>
+        <div className="text-white text-sm mb-6">
+          {Math.floor(timer/60)} : {String(timer % 60).padStart(2, "0")}
+        </div>
 
         {/* Divider */}
         <div className="border-t border-green-400 mb-6"></div>
 
         {/* Resend Button */}
-        <button className="bg-transparent border border-gray-400 text-white py-2 px-8 rounded-full text-sm hover:bg-gray-700 transition-colors">
+        <button
+        onClick={handleResend}
+        disabled={timer > 0}
+         className="bg-transparent border border-gray-400 text-white py-2 px-8 rounded-full text-sm hover:bg-gray-700 transition-colors">
           RESEND OTP
         </button>
       </div>

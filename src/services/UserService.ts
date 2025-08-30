@@ -33,5 +33,10 @@ export const userService = {
         const response = await api.post<verifyOtpResponse>("/user/verify-otp",{email,otp})
         console.log("res ot", response)
         return response.data
+    },
+
+    resendOTP : async(email: string) : Promise<verifyOtpResponse> =>{
+        const response = await api.post<verifyOtpResponse>("/user/resend-otp",{email})
+        return response.data
     }
 }

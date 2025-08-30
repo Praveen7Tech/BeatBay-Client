@@ -38,7 +38,7 @@ export default function SignUp() {
         navigate(`/verify-otp`, {state:{email:data.email}})
     } catch (error:any) {
         console.error("err",error)
-        setErrorMsg(error.message)
+        setErrorMsg(error.response.data.message)
     } finally{
         setLoading(false)
     }
