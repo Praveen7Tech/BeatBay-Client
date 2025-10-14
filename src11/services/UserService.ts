@@ -1,4 +1,5 @@
-import api from "../lib/axios"
+import { API_ROUTES } from "../core/api/apiRoutes"
+import { axiosInstace } from "../core/api/axios"
 
 interface Signup {
     name: string,
@@ -24,19 +25,19 @@ interface verifyOtpResponse {
 
 export const userService = {
     signUp : async(data: Signup) : Promise<SignUpResponse> => {
-        const response = await api.post<SignUpResponse>("/user/signup", data)
+        const response = await axiosInstace.post<SignUpResponse>(API_ROUTES.SIGNUP, data)
         console.log("re dt",response)
         return response.data
     },
 
     verifyOTP : async(email: string, otp: string) : Promise<verifyOtpResponse> =>{
-        const response = await api.post<verifyOtpResponse>("/user/verify-otp",{email,otp})
+        const response = await axiosInstace.post<verifyOtpResponse>(API_ROUTES.VERIFY_OTP,{email,otp})
         console.log("res ot", response)
         return response.data
     },
 
     resendOTP : async(email: string) : Promise<verifyOtpResponse> =>{
-        const response = await api.post<verifyOtpResponse>("/user/resend-otp",{email})
+        const response = await axiosInstace.post<verifyOtpResponse>(API_ROUTES.RESEND_OTP,{email})
         return response.data
     }
 }
