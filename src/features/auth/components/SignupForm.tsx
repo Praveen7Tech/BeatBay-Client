@@ -34,7 +34,7 @@ export default function SignupForm() {
       await signup(data);
       navigate(`/verify-otp`, { state: { email: data.email } });
     } catch (err) {
-      // Error handling is managed by the useApi hook and Redux slice
+      // Error handling is managed by the useApi hook 
     }
   };
 

@@ -54,6 +54,7 @@ export const authApi = {
 
   resendOtp: async (data: ResendOtpRequest): Promise<VerifyOtpResponse> => {
     const response = await axiosInstance.post<VerifyOtpResponse>(API_ROUTES.RESEND_OTP, data);
+    console.log("rese ", response)
     return response.data;
   },
 

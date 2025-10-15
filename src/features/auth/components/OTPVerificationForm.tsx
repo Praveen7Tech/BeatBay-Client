@@ -1,5 +1,62 @@
+import { data, useLocation, useNavigate } from "react-router-dom"
+import { useApi } from "../../../core/hooks/useApi"
+import { authApi } from "../services/authApi"
+import { useState } from "react"
+import { Button } from "../../../core/components/Button"
+import {Timer} from "../../../core/components/Timer"
+
+
 
 export function OtpVerification() {
+
+  const [otp, setOtp] = useState(["","","",""])
+  const location = useLocation()
+  const navigate = useNavigate()
+  const email = location.state?.email
+
+  console.log("otp - ",email)
+
+  const HandleChange =  (index: number, value: string)=>{
+    if(!/^[0-9]?$/.test(value)) return;
+
+    const newOtp = [...otp]
+    newOtp[index] = value
+    setOtp(newOtp)
+
+    const nextInput = document.getElementById(`otp-${index + 2}`)
+    if(value && nextInput){
+      (nextInput as HTMLInputElement).focus()
+    }
+  }
+
+  const {execute: verifyOTP, loading, error} = useApi(authApi.verifyOtp)
+  const {execute: resendOTP} = useApi(authApi.resendOtp)
+
+  const HandleVerify = async ()=>{
+    const code = otp.join("")
+    if(code.length < 4) {
+      alert("please enter otp")
+      return
+    }  
+
+    try {
+      await verifyOTP({email, otp:code})
+      console.log("otp verification successfull.")
+      navigate("/login")
+    } catch (error) {
+      
+    }
+  }
+
+  const HandleResend = async ()=>{
+    try {
+      await resendOTP({email})
+      console.log("otp resend successfully")
+    } catch (error) {
+      
+    }
+  }
+  
   return (
     <div className="flex items-center gap-4">
       {/* Accessible label for screen readers */}
@@ -9,55 +66,47 @@ export function OtpVerification() {
 
       {/* OTP inputs left-to-right */}
       <div className="flex items-center gap-2" aria-label="Enter 4-digit code">
+        {otp.map((digit, index)=>(
         <input
-          id="otp-1"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={1}
+           key={index}
+            id={`otp-${index + 1}`}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={1}
+            value={digit}
+            onChange={(e)=> HandleChange(index, e.target.value)}
           className="h-12 w-12 text-center rounded-md border border-input bg-background text-foreground outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           placeholder="•"
           aria-label="Digit 1"
         />
-        <input
-          id="otp-2"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={1}
-          className="h-12 w-12 text-center rounded-md border border-input bg-background text-foreground outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          placeholder="•"
-          aria-label="Digit 2"
-        />
-        <input
-          id="otp-3"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={1}
-          className="h-12 w-12 text-center rounded-md border border-input bg-background text-foreground outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          placeholder="•"
-          aria-label="Digit 3"
-        />
-        <input
-          id="otp-4"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={1}
-          className="h-12 w-12 text-center rounded-md border border-input bg-background text-foreground outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          placeholder="•"
-          aria-label="Digit 4"
-        />
+        ))}
+        
       </div>
 
-      {/* Verify button (no logic wired) */}
-      <button
+      {error && <p className="text-red-500">{error}</p>}
+
+      {/* Verify otp button*/}
+      <Button
         type="button"
-        className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
+        disabled={loading}
+        onClick={HandleVerify}
+        className="mt-4"
       >
-        Verify
-      </button>
+        {loading ? "Verifying..." : "Verify"}
+      </Button>
+
+      {/* timer */}
+      <Timer>TIMER</Timer>
+
+      {/* resend otp button */}
+      <Button
+      type="button"
+      disabled={loading}
+      onClick={HandleResend}
+      >
+        Resend OTP
+      </Button>
     </div>
   )
 }
