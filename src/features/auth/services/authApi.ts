@@ -9,7 +9,7 @@ interface SignupRequest {
 
 interface SignupResponse {
   message: string;
-  otp?: string; // For development
+  otp?: string; 
 }
 
 interface VerifyOtpRequest {

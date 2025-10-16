@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react"
 
 interface TimerProps {
     initialTime ?: number,
-    onExpire ?: ()=> void,
-    reset ?: any
+    onExpire ?: ()=> void
 } 
 
-export const Timer: React.FC<TimerProps> =({initialTime = 60,onExpire,reset}) =>{
+export const Timer: React.FC<TimerProps> =({initialTime = 60,onExpire}) =>{
 
     const [seconds, setSeconds] = useState(initialTime)
 
     useEffect(()=>{
         setSeconds(initialTime)
-    },[reset, initialTime])
+    },[ initialTime])
 
     useEffect(()=>{
         if(seconds <= 0){
@@ -35,7 +34,7 @@ export const Timer: React.FC<TimerProps> =({initialTime = 60,onExpire,reset}) =>
 
     return (
         <div>
-            <span className="text-sm text-red-600"> {formatTime(seconds)}</span>
+            <span className="text-md text-shadow-black"> {formatTime(seconds)}</span>
         </div>
     )
 }

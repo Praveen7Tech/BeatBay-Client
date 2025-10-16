@@ -10,9 +10,15 @@ import {Timer} from "../../../core/components/Timer"
 export function OtpVerification() {
 
   const [otp, setOtp] = useState(["","","",""])
+  const [timerKey, setTimerKey] = useState(0)
+  const [isTimerActive, setTimerActive] = useState(true)
+
   const location = useLocation()
   const navigate = useNavigate()
   const email = location.state?.email
+
+  const {execute: verifyOTP, loading, error} = useApi(authApi.verifyOtp)
+  const {execute: resendOTP} = useApi(authApi.resendOtp)
 
   console.log("otp - ",email)
 
@@ -28,9 +34,6 @@ export function OtpVerification() {
       (nextInput as HTMLInputElement).focus()
     }
   }
-
-  const {execute: verifyOTP, loading, error} = useApi(authApi.verifyOtp)
-  const {execute: resendOTP} = useApi(authApi.resendOtp)
 
   const HandleVerify = async ()=>{
     const code = otp.join("")
@@ -51,9 +54,11 @@ export function OtpVerification() {
   const HandleResend = async ()=>{
     try {
       await resendOTP({email})
+      setTimerActive(true)
+      setTimerKey((prev)=> prev + 1)
       console.log("otp resend successfully")
     } catch (error) {
-      
+      console.error("error in resend otp",error)
     }
   }
   
@@ -97,13 +102,22 @@ export function OtpVerification() {
       </Button>
 
       {/* timer */}
-      <Timer>TIMER</Timer>
+      {
+      isTimerActive ? 
+      (<Timer
+      key={timerKey}
+      initialTime={60}
+      onExpire={()=> setTimerActive(false)}
+      />)
+      :
+      (<p>no timer</p>)
+      }
 
       {/* resend otp button */}
       <Button
-      type="button"
-      disabled={loading}
-      onClick={HandleResend}
+        type="button"
+        disabled={isTimerActive}
+        onClick={HandleResend}
       >
         Resend OTP
       </Button>
