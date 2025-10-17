@@ -20,8 +20,6 @@ export function OtpVerification() {
   const {execute: verifyOTP, loading, error} = useApi(authApi.verifyOtp)
   const {execute: resendOTP} = useApi(authApi.resendOtp)
 
-  console.log("otp - ",email)
-
   const HandleChange =  (index: number, value: string)=>{
     if(!/^[0-9]?$/.test(value)) return;
 
@@ -44,7 +42,6 @@ export function OtpVerification() {
 
     try {
       await verifyOTP({email, otp:code})
-      console.log("otp verification successfull.")
       navigate("/login")
     } catch (error) {
       
@@ -56,7 +53,6 @@ export function OtpVerification() {
       await resendOTP({email})
       setTimerActive(true)
       setTimerKey((prev)=> prev + 1)
-      console.log("otp resend successfully")
     } catch (error) {
       console.error("error in resend otp",error)
     }

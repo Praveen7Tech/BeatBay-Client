@@ -1,52 +1,75 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface AuthState {
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    role: 'user' | 'admin' | 'artist';
-  } | null;
+interface User {
+  id: string;
+  email: string;
+  role: 'user' | 'admin' | 'artist'; // Add user roles
+}
+
+export interface AuthState {
   isAuthenticated: boolean;
+  user: User | null;
+  accessToken: string | null;
   loading: boolean;
   error: string | null;
+  initialHydrationComplete: boolean;
 }
 
 const initialState: AuthState = {
-  user: null,
   isAuthenticated: false,
+  user: null, // User details will be fetched after login
+  accessToken: null,
   loading: false,
   error: null,
+  initialHydrationComplete: false
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    setAuthLoading: (state) => {
-      state.loading = true;
-      state.error = null;
+  reducers:{
+    setAccessToken(state, action:PayloadAction<string>){
+      state.accessToken = action.payload
     },
-    setAuthSuccess: (state, action: PayloadAction<{ user: AuthState['user']; token: string }>) => {
-      state.user = action.payload.user;
+    loginSuccess(state, action: PayloadAction<{user:User; accessToken: string}>) {
       state.isAuthenticated = true;
-      state.loading = false;
-      localStorage.setItem('token', action.payload.token);
+      state.user = action.payload.user;
+      state.accessToken = action.payload.accessToken;
+      state.initialHydrationComplete = true
     },
-    setAuthFailure: (state, action: PayloadAction<string>) => {
+    loginFailure(state, action: PayloadAction<string>) {
       state.isAuthenticated = false;
-      state.loading = false;
-      state.error = action.payload;
-    },
-    logout: (state) => {
       state.user = null;
-      state.isAuthenticated = false;
-      state.loading = false;
-      localStorage.removeItem('token');
+      state.accessToken = null;
+      state.error = action.payload;
+      state.initialHydrationComplete = true
     },
-  },
+    logout(state) {
+      state.isAuthenticated = false;
+      state.user = null;
+      state.accessToken = null;
+      // The backend needs a separate endpoint to clear the HttpOnly cookie
+    },
+    setAuthLoading(state) {
+      state.loading = true;
+      state.error = null
+    },
+    setAuthFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload
+    },
+    completeInitialHydration(state, action:PayloadAction<{user: User; accessToken: string} | null>) {
+      if(action.payload){
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken
+      }
+      state.initialHydrationComplete = true
+    }
+  }
+
 });
 
-export const { setAuthLoading, setAuthSuccess, setAuthFailure, logout } = authSlice.actions;
+export const { loginSuccess, loginFailure, logout, setAuthLoading, setAuthFailure, completeInitialHydration, setAccessToken } = authSlice.actions;
 export default authSlice.reducer;
 

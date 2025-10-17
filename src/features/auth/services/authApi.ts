@@ -1,5 +1,7 @@
 import { axiosInstance } from "../../../core/api/axios";
 import { API_ROUTES } from "../../../core/api/apiRoutes";
+import { logout } from "../slices/authSlice";
+import { data } from "react-router-dom";
 
 interface SignupRequest {
   name: string;
@@ -32,7 +34,7 @@ interface LoginRequest {
 
 interface LoginResponse {
   message: string;
-  token: string;
+  accessToken: string; 
   user: {
     id: string;
     name: string;
@@ -54,7 +56,7 @@ export const authApi = {
 
   resendOtp: async (data: ResendOtpRequest): Promise<VerifyOtpResponse> => {
     const response = await axiosInstance.post<VerifyOtpResponse>(API_ROUTES.RESEND_OTP, data);
-    console.log("rese ", response)
+    
     return response.data;
   },
 
@@ -62,5 +64,10 @@ export const authApi = {
     const response = await axiosInstance.post<LoginResponse>(API_ROUTES.LOGIN, data);
     return response.data;
   },
+
+  logout: async() =>{
+    const response = await axiosInstance.post(API_ROUTES.LOGOUT);
+    return response
+  }
 };
 

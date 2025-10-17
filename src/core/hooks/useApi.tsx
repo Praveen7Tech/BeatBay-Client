@@ -18,11 +18,11 @@ export const useApi = <TData, TParams = any>(
       try {
         const response = await apiCall(params);
         setData(response);
-        console.log("res--",response)
         return response;
       } catch (err: any) {
         const errorMessage = err.response?.data?.message || err.message || 'An error occurred';
         setError(errorMessage);
+        setLoading(false)
         dispatch(setAuthFailure(errorMessage));
         throw err;
       } finally {
