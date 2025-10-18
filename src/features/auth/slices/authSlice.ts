@@ -48,6 +48,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
       state.accessToken = null;
+      state.loading= false
       // The backend needs a separate endpoint to clear the HttpOnly cookie
     },
     setAuthLoading(state) {

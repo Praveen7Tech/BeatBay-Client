@@ -1,6 +1,6 @@
-import React from 'react'
+
 import { Button } from '../core/components/Button';
-import { data, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/auth/slices/authSlice';
 import { useApi } from '../core/hooks/useApi';
@@ -16,7 +16,7 @@ const HomePage = () => {
     try {
       await Logout(null)
       dispatch(logout())
-      navigate("/login");
+      window.location.href='/login'
     } catch (error) {
       console.error("error in logout", error)
     }

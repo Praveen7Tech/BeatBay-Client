@@ -33,7 +33,7 @@ export default function LoginForm () {
         try {
             const res = await login(data)
             if(res){
-                dispatch(loginSuccess({user: res.user, accessToken: res.accessToken}))
+                dispatch(loginSuccess({user: res?.user, accessToken: res.accessToken}))
                 navigate("/home")
             }
            

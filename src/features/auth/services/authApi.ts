@@ -1,7 +1,5 @@
 import { axiosInstance } from "../../../core/api/axios";
 import { API_ROUTES } from "../../../core/api/apiRoutes";
-import { logout } from "../slices/authSlice";
-import { data } from "react-router-dom";
 
 interface SignupRequest {
   name: string;

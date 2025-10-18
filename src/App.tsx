@@ -17,6 +17,7 @@ const AppContext : React.FC = ()=> {
       try {
         const response = await axiosInstance.get('/user/check-auth-status')
         const {user, accessToken} = response.data
+        console.log("hydration suucess", response.data)
         
         dispatch(completeInitialHydration({user, accessToken}))
 

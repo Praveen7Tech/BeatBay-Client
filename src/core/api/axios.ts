@@ -14,7 +14,7 @@ export const axiosInstance = axios.create({
 });
 
 // A private variable to prevent multiple refresh requests at once
-let isRefreshing = false;
+//let isRefreshing = false;
 let failedRequestsQueue: { resolve: (value: unknown) => void; reject: (reason?: any) => void; }[] = [];
 
 // Function to process the queue of failed requests
@@ -34,6 +34,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const state: AuthState = store.getState().auth;
     const accessToken = state.accessToken; // Assumes your state has an `accessToken` field
+    console.log("req token ",accessToken)
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -47,24 +48,27 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const state: AuthState = store.getState().auth;
+    //const state: AuthState = store.getState().auth;
+    console.log("response intercepter",error)
+    console.log("retry ", originalRequest)
 
     // Retry logic for 401 errors
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (originalRequest.url?.includes('/refresh-token')) {
+        console.log("something happening ")
         // refresh itself failed -> logout
         store.dispatch(logout());
         return Promise.reject(error);
       }
 
       originalRequest._retry = true;
-      isRefreshing = true;
+      //isRefreshing = true;
 
 
       try {
         // Make request to refresh token endpoint
         const response = await axiosInstance.post('/user/refresh-token'); // Your backend's refresh endpoint
-        ("err 1 2 3", response)
+        console.log("call refresh ",response)
         const newAccessToken = response.data.accessToken;
 
         // Update the access token in Redux
@@ -81,7 +85,7 @@ axiosInstance.interceptors.response.use(
         processQueue(refreshError, null);
         return Promise.reject(refreshError);
       } finally {
-        isRefreshing = false;
+        //isRefreshing = false;
       }
     }
 

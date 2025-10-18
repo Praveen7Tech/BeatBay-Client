@@ -1,4 +1,4 @@
-import { data, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useApi } from "../../../core/hooks/useApi"
 import { authApi } from "../services/authApi"
 import { useState } from "react"
