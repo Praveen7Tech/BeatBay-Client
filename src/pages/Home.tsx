@@ -1,13 +1,11 @@
 
 import { Button } from '../core/components/Button';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/auth/slices/authSlice';
 import { useApi } from '../core/hooks/useApi';
 import { authApi } from '../features/auth/services/authApi';
 
 const HomePage = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const {execute: Logout} = useApi(authApi.logout)
@@ -23,12 +21,12 @@ const HomePage = () => {
     
   };
  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+      <h1 className="text-2xl font-semibold text-gray-200 mb-4">
         Welcome to the Home Page 👋
       </h1>
 
-      <p className="text-gray-600 mb-6">
+      <p className="text-gray-300 mb-6">
         You are successfully logged in!
       </p>
 

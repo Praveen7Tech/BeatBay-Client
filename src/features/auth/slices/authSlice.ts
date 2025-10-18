@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface User {
   id: string;
   email: string;
-  role: 'user' | 'admin' | 'artist'; // Add user roles
+  role: 'user' | 'admin' | 'artist'; 
 }
 
 export interface AuthState {
@@ -17,7 +17,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  user: null, // User details will be fetched after login
+  user: null, 
   accessToken: null,
   loading: false,
   error: null,
@@ -49,7 +49,6 @@ const authSlice = createSlice({
       state.user = null;
       state.accessToken = null;
       state.loading= false
-      // The backend needs a separate endpoint to clear the HttpOnly cookie
     },
     setAuthLoading(state) {
       state.loading = true;

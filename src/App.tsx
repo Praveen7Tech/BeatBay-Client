@@ -7,6 +7,7 @@ import { axiosInstance } from './core/api/axios';
 import { completeInitialHydration } from './features/auth/slices/authSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from './core/store/store'; 
+import Spinner from './core/components/Spinner';
 
 const AppContext : React.FC = ()=> {
   const dispatch = useDispatch()
@@ -30,8 +31,13 @@ const AppContext : React.FC = ()=> {
     if(!initialHydrationComplete){
       checkAuthStatus()
     }
+    
 
   },[dispatch,initialHydrationComplete])
+
+  if(!initialHydrationComplete){
+    return <Spinner/>
+  }
 
   return <AppRouter/>
 }

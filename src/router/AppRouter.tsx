@@ -24,7 +24,6 @@ const PublicOnlyRoute: React.FC<{ children: React.ReactNode }> = ({ children }) 
 // A component that protects routes, requiring authentication and specific roles.
 const ProtectedRoute: React.FC<{ children: React.ReactNode; requiredRole?: string }> = ({ children, requiredRole }) => {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
-  console.log("is auth ", isAuthenticated, user)
 
   if (!isAuthenticated) {
     // If not authenticated, redirect to login
