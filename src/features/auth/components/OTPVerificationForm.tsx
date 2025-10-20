@@ -4,6 +4,7 @@ import { authApi } from "../services/authApi"
 import { useState } from "react"
 import { Button } from "../../../core/components/Button"
 import {Timer} from "../../../core/components/Timer"
+import { Devider } from "../../../core/components/Devider.ui"
 
 
 
@@ -59,33 +60,24 @@ export function OtpVerification() {
   }
   
   return (
-    <div className="flex items-center gap-4">
-      {/* Accessible label for screen readers */}
-      <label className="sr-only" htmlFor="otp-1">
-        Enter 4-digit verification code
-      </label>
-
-      {/* OTP inputs left-to-right */}
-      <div className="flex items-center gap-2" aria-label="Enter 4-digit code">
-        {otp.map((digit, index)=>(
-        <input
-           key={index}
+    <div className="flex flex-col items-center gap-8 w-full max-w-xs mx-auto">
+      <div className="flex gap-4 justify-center w-full">
+        {otp.map((digit, index) => (
+          <input
+            key={index}
             id={`otp-${index + 1}`}
             type="text"
             inputMode="numeric"
             pattern="[0-9]*"
             maxLength={1}
             value={digit}
-            onChange={(e)=> HandleChange(index, e.target.value)}
-          className="h-12 w-12 text-center rounded-md border border-input bg-background text-foreground outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          placeholder="•"
-          aria-label="Digit 1"
-        />
+            onChange={(e) => HandleChange(index, e.target.value)}
+            className="h-14 w-14 text-center text-2xl font-semibold rounded-lg border-2 border-green-600/60 bg-black/30 text-white placeholder-gray-500 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/30 transition-all"
+            placeholder="•"
+            aria-label={`OTP digit ${index + 1}`}
+          />
         ))}
-        
       </div>
-
-      {error && <p className="text-red-500">{error}</p>}
 
       {/* Verify otp button*/}
       <Button
@@ -96,6 +88,7 @@ export function OtpVerification() {
       >
         {loading ? "Verifying..." : "Verify"}
       </Button>
+      {error && <p className="text-red-500">{error}</p>}
 
       {/* timer */}
       {
@@ -109,13 +102,15 @@ export function OtpVerification() {
       (<p>no timer</p>)
       }
 
+      <Devider/>
+
       {/* resend otp button */}
       <Button
         type="button"
         disabled={isTimerActive}
         onClick={HandleResend}
       >
-        Resend OTP
+        {loading ? "Re sending Otp.." : "Resend OTP"}
       </Button>
     </div>
   )

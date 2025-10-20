@@ -18,6 +18,7 @@ export const useApi = <TData, TParams = any>(
       try {
         const response = await apiCall(params);
         setData(response);
+        setLoading(false)
         return response;
       } catch (err: any) {
         const errorMessage = err.response?.data?.message || err.message || 'An error occurred';

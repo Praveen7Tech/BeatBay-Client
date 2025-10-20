@@ -1,15 +1,17 @@
-import React from 'react';
+import type React from "react"
 
-const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface AuthLayoutProps {
+  children: React.ReactNode
+  logo?: React.ReactNode
+}
+
+export default function AuthLayout({ children, logo }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-gradient-to-b from-green-600 to-green-900 rounded-2xl p-8 text-white">
-        {/* logo, input, button add */}
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+      <div className="w-full max-w-lg bg-gradient-to-r from-green-600 to-gray-900 rounded-2xl p-8 text-white shadow-2xl">
+        {logo && <div className="flex justify-center">{logo}</div>}
         {children}
       </div>
     </div>
-  );
-};
-
-export default AuthLayout;
-
+  )
+}

@@ -5,11 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../../core/components/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../core/store/store"; 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../slices/authSlice";
+import { Devider } from "../../../core/components/Devider.ui";
 
 const LoginSchema = z.object({
     email:z.string().email("Invalid email"),
@@ -42,18 +43,45 @@ export default function LoginForm () {
         }
     }
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="space-y-4 mb-6">
-                <Input {...register("email")} type="email" placeholder="enter email"/>
-                {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
+      <div className="w-full max-w-xs space-y-4">
+        <div>
+          <Input {...register("email")} type="email" placeholder="Enter Username Or Email" />
+          {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
+        </div>
 
-                <Input {...register("password")} type="password" placeholder="enter password"/>
-                {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-                {error && <p className="text-red-400">{error}</p>}
-            </div>
-            <Button type="submit" disabled={loading}>
-                {loading ? "Loging..." : "Log in"}
-            </Button>
-        </form>
+        <div>
+          <Input {...register("password")} type="password" placeholder="Password" />
+          {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
+        </div>
+
+        <div className="text-right">
+          <Link to={"/forgot-password"} className="text-green-400 hover:text-green-300 text-sm font-semibold">
+            Forgot Password?
+          </Link>
+        </div>
+        {error && <p className="text-red-400">{error}</p>}
+
+        <Button type="submit" disabled={false}>
+           {loading ? "Signing ip.." : "Log in"}
+        </Button>
+      </div>
+      <Devider/>
+
+      <div className="w-full max-w-xs flex items-center justify-center">
+        <img
+          src="/logos/g.png"
+          alt="Google"
+          className="h-10 cursor-pointer hover:opacity-80 transition-opacity"
+        />
+      </div>
+
+      <p className="text-center text-white/70 text-sm mt-6">
+        Not A Member?{" "}
+        <Link to={"/"} className="text-green-400 hover:text-green-300 font-semibold">
+          Register Now
+        </Link>
+      </p>
+    </form>
     )
 }
