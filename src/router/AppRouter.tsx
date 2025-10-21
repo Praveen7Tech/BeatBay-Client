@@ -7,6 +7,8 @@ import SignupPage from '../features/auth/pages/Signup';
 import VerifyOTPPage from '../features/auth/pages/VerifyOTP';
 import LoginPage from '../features/auth/pages/Login';
 import HomePage from '../pages/Home';
+import ForgotPassword from '../features/auth/pages/Forgot-passowrd';
+import ResetPassword from '../features/auth/pages/reset-password';
 // import DashboardPage from '../pages/Dashboard';
 // import AdminDashboard from '../features/admin/pages/AdminDashboard'; // Example
 // import ArtistDashboard from '../features/artist/pages/ArtistDashboard'; // Example
@@ -51,6 +53,8 @@ const AppRouter: React.FC = () => {
         <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
         <Route path="/" element={<PublicOnlyRoute><SignupPage /></PublicOnlyRoute>} />
         <Route path="/verify-otp" element={<PublicOnlyRoute><VerifyOTPPage /></PublicOnlyRoute>} />
+        <Route path='/forgot-password' element={<PublicOnlyRoute><ForgotPassword/></PublicOnlyRoute>}/>
+        <Route path='/reset-password' element={<PublicOnlyRoute><ResetPassword/></PublicOnlyRoute>}/>
         
         {/* Public Routes (accessible to all) - if any */}
 

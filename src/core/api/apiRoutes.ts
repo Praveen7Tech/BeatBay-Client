@@ -3,5 +3,7 @@ export const API_ROUTES = {
   VERIFY_OTP: '/user/verify-otp',
   RESEND_OTP: '/user/resend-otp',
   LOGIN: '/user/login',
-  LOGOUT: '/user/logout'
+  LOGOUT: '/user/logout',
+  VERIFY_EMAIL: '/user/verify-email',
+  RESET_PASSWORD: '/user/reset-password'
 };

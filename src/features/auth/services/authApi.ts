@@ -41,6 +41,15 @@ interface LoginResponse {
   };
 }
 
+interface VerifyEmailRequest {
+  email: string
+}
+
+interface ResetPassRequest {
+  password: string,
+  token: string
+}
+
 export const authApi = {
   signup: async (data: SignupRequest): Promise<SignupResponse> => {
     const response = await axiosInstance.post<SignupResponse>(API_ROUTES.SIGNUP, data);
@@ -65,6 +74,16 @@ export const authApi = {
 
   logout: async() =>{
     const response = await axiosInstance.post(API_ROUTES.LOGOUT);
+    return response
+  },
+
+  verifyEmail: async(data:VerifyEmailRequest)=> {
+    const response = await axiosInstance.post(API_ROUTES.VERIFY_EMAIL, data)
+    return response
+  },
+
+  ResetPassword: async(data: ResetPassRequest)=> {
+    const response = await axiosInstance.put(API_ROUTES.RESET_PASSWORD, data)
     return response
   }
 };
