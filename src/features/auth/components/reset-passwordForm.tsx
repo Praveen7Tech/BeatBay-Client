@@ -25,10 +25,9 @@ export default function ResetPasswordForm() {
     })
     const [queryParams] = useSearchParams()
     const token = queryParams.get("token")
-    console.log("tokki", token)
 
     const navigate = useNavigate()
-    const {execute: resetPassword, loading , error} = useApi(authApi.ResetPassword)
+    const {execute: resetPassword, loading } = useApi(authApi.ResetPassword)
 
     const onSubmit = async(data: ResetPassInput)=> {
         if (!token) {
@@ -52,7 +51,6 @@ export default function ResetPasswordForm() {
       <Button type="submit">
         {loading ? "validating password.." : "Reset Password"}
       </Button>
-      {error && <p className="text-red-400">{error}</p>}
     </form>
   )
 }

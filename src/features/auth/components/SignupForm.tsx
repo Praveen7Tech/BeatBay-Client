@@ -26,7 +26,7 @@ export default function SignupForm() {
   });
 
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading } = useSelector((state: RootState) => state.auth);
   const { execute: signup } = useApi(authApi.signup);
 
   const onSubmit = async (data: SignupFormInputs) => {
@@ -56,7 +56,6 @@ export default function SignupForm() {
           <Input {...register("password")} type="password" placeholder="Password" />
           {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
         </div>
-        {error && <p className="text-red-500">{error}</p>}
 
         <Button type="submit" disabled={false}>
           {loading ? "Signing Up.." : "Create Account"}

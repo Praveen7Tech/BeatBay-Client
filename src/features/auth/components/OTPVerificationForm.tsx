@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Button } from "../../../core/components/Button"
 import {Timer} from "../../../core/components/Timer"
 import { Devider } from "../../../core/components/Devider.ui"
-
+import { showError } from "../../../core/utils/toast.config"
 
 
 export function OtpVerification() {
@@ -18,7 +18,7 @@ export function OtpVerification() {
   const navigate = useNavigate()
   const email = location.state?.email
 
-  const {execute: verifyOTP, loading, error} = useApi(authApi.verifyOtp)
+  const {execute: verifyOTP, loading } = useApi(authApi.verifyOtp)
   const {execute: resendOTP} = useApi(authApi.resendOtp)
 
   const HandleChange =  (index: number, value: string)=>{
@@ -37,7 +37,7 @@ export function OtpVerification() {
   const HandleVerify = async ()=>{
     const code = otp.join("")
     if(code.length < 4) {
-      alert("please enter otp")
+      showError("Fill the OTP form")
       return
     }  
 
@@ -88,7 +88,6 @@ export function OtpVerification() {
       >
         {loading ? "Verifying..." : "Verify"}
       </Button>
-      {error && <p className="text-red-500">{error}</p>}
 
       {/* timer */}
       {

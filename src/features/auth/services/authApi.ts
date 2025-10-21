@@ -74,17 +74,17 @@ export const authApi = {
 
   logout: async() =>{
     const response = await axiosInstance.post(API_ROUTES.LOGOUT);
-    return response
+    return response.data
   },
 
   verifyEmail: async(data:VerifyEmailRequest)=> {
     const response = await axiosInstance.post(API_ROUTES.VERIFY_EMAIL, data)
-    return response
+    return response.data
   },
 
   ResetPassword: async(data: ResetPassRequest)=> {
     const response = await axiosInstance.put(API_ROUTES.RESET_PASSWORD, data)
-    return response
+    return response.data
   }
 };
 

@@ -9,6 +9,7 @@ import LoginPage from '../features/auth/pages/Login';
 import HomePage from '../pages/Home';
 import ForgotPassword from '../features/auth/pages/Forgot-passowrd';
 import ResetPassword from '../features/auth/pages/reset-password';
+import { Toaster } from 'react-hot-toast';
 // import DashboardPage from '../pages/Dashboard';
 // import AdminDashboard from '../features/admin/pages/AdminDashboard'; // Example
 // import ArtistDashboard from '../features/artist/pages/ArtistDashboard'; // Example
@@ -74,6 +75,7 @@ const AppRouter: React.FC = () => {
         {/* Catch-all for undefined routes */}
         <Route path="*" element={<div>404: Page Not Found</div>} />
       </Routes>
+      <Toaster/>
     </BrowserRouter>
   );
 };

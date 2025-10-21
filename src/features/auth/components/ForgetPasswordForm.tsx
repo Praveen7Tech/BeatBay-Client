@@ -20,11 +20,10 @@ export default function ForgotPasswordForm() {
   })
   
   const [submited, setSubmitted] = useState(false)
-  const {execute: verifyEmail, error, loading} = useApi(authApi.verifyEmail)
+  const {execute: verifyEmail,  loading} = useApi(authApi.verifyEmail)
 
   const onSubmit = async(data: VerifyEmailInput)=> {
     try {
-      console.log("data ",data)
       await verifyEmail(data)
       setSubmitted(true)
     } catch (error) {
@@ -49,7 +48,6 @@ export default function ForgotPasswordForm() {
       <Button type="submit" className="mb-6" disabled={submited}>
         {loading ? "Verifying email..." : "Submit"}
       </Button>
-      {error && <p className="text-red-400">{error}</p>}
 
       {submited && (
       <p className="text-center text-xs text-gray-400">

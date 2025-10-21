@@ -27,7 +27,7 @@ export default function LoginForm () {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {loading, error} = useSelector((state: RootState)=> state.auth);
+    const {loading} = useSelector((state: RootState)=> state.auth);
     const {execute: login} = useApi(authApi.login)
 
     const onSubmit = async (data: LoginFormInput) =>{
@@ -60,10 +60,9 @@ export default function LoginForm () {
             Forgot Password?
           </Link>
         </div>
-        {error && <p className="text-red-400">{error}</p>}
 
         <Button type="submit" disabled={false}>
-           {loading ? "Signing ip.." : "Log in"}
+           {loading ? "Signing in..." : "Log in"}
         </Button>
       </div>
       <Devider/>

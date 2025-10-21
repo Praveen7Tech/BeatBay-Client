@@ -10,7 +10,7 @@ export const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // IMPORTANT: Allows cookies (including HttpOnly ones) to be sent
+  withCredentials: true, 
 });
 
 // A private variable to prevent multiple refresh requests at once
@@ -45,12 +45,10 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log("err ", error)
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (originalRequest.url?.includes('/refresh-token')) {
-        console.log("dis--")
         store.dispatch(logout());
         return Promise.reject(error);
       }
