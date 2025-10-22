@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { store } from '../store/store';
 import { logout, setAccessToken } from '../../features/auth/slices/authSlice';
-import { AuthState } from '../../features/auth/slices/authSlice'; // Make sure to export this interface from your slice
+import { AuthState } from '../../features/auth/slices/authSlice'; 
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -13,7 +13,7 @@ export const axiosInstance = axios.create({
   withCredentials: true, 
 });
 
-// A private variable to prevent multiple refresh requests at once
+//variable to prevent multiple refresh requests at once
 //let isRefreshing = false;
 let failedRequestsQueue: { resolve: (value: unknown) => void; reject: (reason?: any) => void; }[] = [];
 
@@ -33,7 +33,7 @@ const processQueue = (error: any, token: string | null = null) => {
 axiosInstance.interceptors.request.use(
   (config) => {
     const state: AuthState = store.getState().auth;
-    const accessToken = state.accessToken; // Assumes your state has an `accessToken` field
+    const accessToken = state.accessToken; 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

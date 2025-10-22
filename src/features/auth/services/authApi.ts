@@ -50,6 +50,10 @@ interface ResetPassRequest {
   token: string
 }
 
+interface googleSignUp {
+  token: string
+}
+
 export const authApi = {
   signup: async (data: SignupRequest): Promise<SignupResponse> => {
     const response = await axiosInstance.post<SignupResponse>(API_ROUTES.SIGNUP, data);
@@ -84,6 +88,12 @@ export const authApi = {
 
   ResetPassword: async(data: ResetPassRequest)=> {
     const response = await axiosInstance.put(API_ROUTES.RESET_PASSWORD, data)
+    return response.data
+  },
+
+  googleSignup: async(data: googleSignUp)=> {
+    const response = await axiosInstance.post(API_ROUTES.GOOGLE_SIGNUP, data)
+    console.log("re--", response)
     return response.data
   }
 };

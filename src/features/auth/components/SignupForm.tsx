@@ -9,6 +9,7 @@ import { RootState } from "../../../core/store/store";
 import { Button } from "../../../core/components/Button"; 
 import { Input } from "../../../core/components/Input"; 
 import { Devider } from "../../../core/components/Devider.ui";
+import { GoogleAuthButton } from "../../../core/components/GoogleAuthButton";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -39,6 +40,8 @@ export default function SignupForm() {
     }
   };
 
+ 
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
       <div className="w-full max-w-xs space-y-4">
@@ -63,15 +66,9 @@ export default function SignupForm() {
       </div>
 
       <Devider/>
-
-      <div className="w-full max-w-xs flex items-center justify-center">
-        <img
-          src="/logos/g.png"
-          alt="Google"
-          className=" h-10 cursor-pointer hover:opacity-80 transition-opacity"
-        />
-      </div>
-
+      {/* google login button */}
+      <GoogleAuthButton/>
+       
       <p className="text-center text-white/70 text-sm mt-6">
         Do You Have An Account?{" "}
         <Link to={'/login'} className="text-green-400 hover:text-green-300 font-semibold">

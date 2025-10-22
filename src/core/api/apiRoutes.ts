@@ -5,5 +5,6 @@ export const API_ROUTES = {
   LOGIN: '/user/login',
   LOGOUT: '/user/logout',
   VERIFY_EMAIL: '/user/verify-email',
-  RESET_PASSWORD: '/user/reset-password'
+  RESET_PASSWORD: '/user/reset-password',
+  GOOGLE_SIGNUP: '/user/google-signup'
 };

@@ -11,6 +11,7 @@ import { authApi } from "../services/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../slices/authSlice";
 import { Devider } from "../../../core/components/Devider.ui";
+import { GoogleAuthButton } from "../../../core/components/GoogleAuthButton";
 
 const LoginSchema = z.object({
     email:z.string().email("Invalid email"),
@@ -66,14 +67,8 @@ export default function LoginForm () {
         </Button>
       </div>
       <Devider/>
-
-      <div className="w-full max-w-xs flex items-center justify-center">
-        <img
-          src="/logos/g.png"
-          alt="Google"
-          className="h-10 cursor-pointer hover:opacity-80 transition-opacity"
-        />
-      </div>
+      {/* google login button */}
+      <GoogleAuthButton/>
 
       <p className="text-center text-white/70 text-sm mt-6">
         Not A Member?{" "}
