@@ -2,6 +2,7 @@ import axios from 'axios';
 import { store } from '../store/store';
 import { logout, setAccessToken } from '../../features/auth/slices/authSlice';
 import { AuthState } from '../../features/auth/slices/authSlice'; 
+import { API_ROUTES } from './apiRoutes';
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -13,23 +14,9 @@ export const axiosInstance = axios.create({
   withCredentials: true, 
 });
 
-//variable to prevent multiple refresh requests at once
-//let isRefreshing = false;
-let failedRequestsQueue: { resolve: (value: unknown) => void; reject: (reason?: any) => void; }[] = [];
 
-// Function to process the queue of failed requests
-const processQueue = (error: any, token: string | null = null) => {
-  failedRequestsQueue.forEach(req => {
-    if (error) {
-      req.reject(error);
-    } else {
-      req.resolve(token);
-    }
-  });
-  failedRequestsQueue = [];
-};
 
-// Request Interceptor: Attach access token from Redux store
+// Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     const state: AuthState = store.getState().auth;
@@ -42,38 +29,36 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Response interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     if (error.response?.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url?.includes('/refresh-token')) {
+      if (originalRequest.url?.includes('/auth-status')) {
+        // If the refresh token itself failed, log out
         store.dispatch(logout());
         return Promise.reject(error);
       }
 
       originalRequest._retry = true;
 
-
       try {
-        // refresh token 
-        const response = await axiosInstance.post('/user/refresh-token'); 
-        const newAccessToken = response.data.accessToken;
+        const response = await axiosInstance.get(API_ROUTES.AUTH_STATUS); 
+        const { accessToken } = response.data;
 
-        store.dispatch(setAccessToken(newAccessToken));
-        
-        // Retry the original request with the new token
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        processQueue(null, newAccessToken);
-        return axiosInstance(originalRequest);
+        if (accessToken) {
+            store.dispatch(setAccessToken(accessToken));
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+            return axiosInstance(originalRequest);
+        } else {
+            store.dispatch(logout());
+            return Promise.reject(error);
+        }
 
       } catch (refreshError: any) {
         store.dispatch(logout());
-        processQueue(refreshError, null);
         return Promise.reject(refreshError);
-      } finally {
-        //isRefreshing = false;
       }
     }
 

@@ -1,8 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../core/store/store';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignupPage from '../features/auth/pages/Signup';
 import VerifyOTPPage from '../features/auth/pages/VerifyOTP';
 import LoginPage from '../features/auth/pages/Login';
@@ -10,41 +7,15 @@ import HomePage from '../pages/Home';
 import ForgotPassword from '../features/auth/pages/Forgot-passowrd';
 import ResetPassword from '../features/auth/pages/reset-password';
 import { Toaster } from 'react-hot-toast';
-// import DashboardPage from '../pages/Dashboard';
-// import AdminDashboard from '../features/admin/pages/AdminDashboard'; // Example
-// import ArtistDashboard from '../features/artist/pages/ArtistDashboard'; // Example
+import ProtectedRoute from './Protected-route';
+import PublicOnlyRoute from './Public-route';
+import { ROLES } from '../core/types/roles';
+import NotFound from '../pages/page-notFound';
+import Unauthorized from '../pages/unAutharized-page';
+import AdminLogin from '../features/admin/pages/Login';
+import AdminDashboard from '../features/admin/pages/dashBoard'; 
+//import ArtistDashboard from '../features/artist/pages/ArtistDashboard';
 
-// A component that only allows public access.
-// Redirects authenticated users to the home page.
-const PublicOnlyRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  if (isAuthenticated) {
-    return <Navigate to="/home" replace />;
-  }
-  return children;
-};
-
-// A component that protects routes, requiring authentication and specific roles.
-const ProtectedRoute: React.FC<{ children: React.ReactNode; requiredRole?: string }> = ({ children, requiredRole }) => {
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
-
-  if (!isAuthenticated) {
-    // If not authenticated, redirect to login
-    return <Navigate to="/" replace />;
-  }
-  
-  if (requiredRole && user?.role !== requiredRole) {
-    // If wrong role, redirect to unauthorized page or home
-    return <Navigate to="/unauthorized" replace />;
-  }
-  
-  return <>{children}</>;
-};
-
-// Route for unauthorized access (e.g., wrong role)
-const UnauthorizedPage: React.FC = () => {
-  return <div>You do not have permission to view this page.</div>;
-};
 
 const AppRouter: React.FC = () => {
   return (
@@ -56,24 +27,16 @@ const AppRouter: React.FC = () => {
         <Route path="/verify-otp" element={<PublicOnlyRoute><VerifyOTPPage /></PublicOnlyRoute>} />
         <Route path='/forgot-password' element={<PublicOnlyRoute><ForgotPassword/></PublicOnlyRoute>}/>
         <Route path='/reset-password' element={<PublicOnlyRoute><ResetPassword/></PublicOnlyRoute>}/>
-        
-        {/* Public Routes (accessible to all) - if any */}
+        <Route path='/admin' element={<PublicOnlyRoute><AdminLogin/></PublicOnlyRoute>}/>
 
         {/* Protected Routes: Accessible only when logged in */}
-        <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-        {/* Example Protected Route for a specific role */}
-        {/* <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} /> */}
-
-        {/* Protected Routes for Specific Roles (Admin and Artist) */}
-        {/* Replace these with your actual dashboard pages once implemented */}
-        <Route path="/admin/*" element={<ProtectedRoute requiredRole="admin"><div>Admin Dashboard</div></ProtectedRoute>} />
-        <Route path="/artist/*" element={<ProtectedRoute requiredRole="artist"><div>Artist Dashboard</div></ProtectedRoute>} />
+        <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}><HomePage /></ProtectedRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
+        {/* <Route path="/artist-dashboard" element={<ProtectedRoute requiredRole={ROLES.ARTIST}><ArtistDashboard /></ProtectedRoute>} /> */}
 
         {/* Unauthorized page for role mismatches */}
-        <Route path="/unauthorized" element={<UnauthorizedPage />} />
-
-        {/* Catch-all for undefined routes */}
-        <Route path="*" element={<div>404: Page Not Found</div>} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
       <Toaster/>
     </BrowserRouter>

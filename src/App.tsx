@@ -8,6 +8,7 @@ import { completeInitialHydration } from './features/auth/slices/authSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from './core/store/store'; 
 import Spinner from './core/components/Spinner';
+import { API_ROUTES } from './core/api/apiRoutes';
 
 const AppContext : React.FC = ()=> {
   const dispatch = useDispatch()
@@ -16,7 +17,7 @@ const AppContext : React.FC = ()=> {
   useEffect(()=> {
     const checkAuthStatus = async ()=>{
       try {
-        const response = await axiosInstance.get('/user/check-auth-status')
+        const response = await axiosInstance.get(API_ROUTES.AUTH_STATUS)
         const {user, accessToken} = response.data
         console.log("hydration suucess", response.data)
         
@@ -24,7 +25,6 @@ const AppContext : React.FC = ()=> {
 
       } catch (error) {
         console.error("hydration error",error)
-        dispatch(completeInitialHydration(null))
       }
     }
 

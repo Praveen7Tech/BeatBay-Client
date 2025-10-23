@@ -2,11 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface User {
   id: string;
+  name:string
   email: string;
+  role: string;
 }
 
 export interface AuthState {
-  isAuthenticated: boolean;
   user: User | null;
   accessToken: string | null;
   loading: boolean;
@@ -15,7 +16,6 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  isAuthenticated: false,
   user: null, 
   accessToken: null,
   loading: false,
@@ -31,20 +31,17 @@ const authSlice = createSlice({
       state.accessToken = action.payload
     },
     loginSuccess(state, action: PayloadAction<{user:User; accessToken: string}>) {
-      state.isAuthenticated = true;
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
       state.initialHydrationComplete = true
     },
     loginFailure(state, action: PayloadAction<string>) {
-      state.isAuthenticated = false;
       state.user = null;
       state.accessToken = null;
       state.error = action.payload;
       state.initialHydrationComplete = true
     },
     logout(state) {
-      state.isAuthenticated = false;
       state.user = null;
       state.accessToken = null;
       state.loading= false
@@ -59,9 +56,11 @@ const authSlice = createSlice({
     },
     completeInitialHydration(state, action:PayloadAction<{user: User; accessToken: string} | null>) {
       if(action.payload){
-        state.isAuthenticated = true;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken
+      }else{
+        state.user = null
+        state.accessToken = null
       }
       state.initialHydrationComplete = true
     }

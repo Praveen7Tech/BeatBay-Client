@@ -6,5 +6,11 @@ export const API_ROUTES = {
   LOGOUT: '/user/logout',
   VERIFY_EMAIL: '/user/verify-email',
   RESET_PASSWORD: '/user/reset-password',
-  GOOGLE_SIGNUP: '/user/google-signup'
+  GOOGLE_SIGNUP: '/user/google-signup',
+  AUTH_STATUS: '/user/auth-status'
 };
+
+export const API_ROUTE_ADMIN = {
+  LOGIN: "/admin/login",
+  LOGOUT: '/admin/logout'
+}
