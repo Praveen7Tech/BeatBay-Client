@@ -14,3 +14,7 @@ export const API_ROUTE_ADMIN = {
   LOGIN: "/admin/login",
   LOGOUT: '/admin/logout'
 }
+
+export const API_ROUTE_ARTIST = {
+  SIGNUP: '/artist/signup'
+}

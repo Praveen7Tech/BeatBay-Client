@@ -14,6 +14,7 @@ import NotFound from '../pages/page-notFound';
 import Unauthorized from '../pages/unAutharized-page';
 import AdminLogin from '../features/admin/pages/Login';
 import AdminDashboard from '../features/admin/pages/dashBoard'; 
+import AuthLayout from '../features/artist/pages/Home';
 //import ArtistDashboard from '../features/artist/pages/ArtistDashboard';
 
 
@@ -21,13 +22,18 @@ const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public-only Routes: Only accessible when NOT logged in */}
+        {/* Public-only Routes: user */}
         <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
         <Route path="/" element={<PublicOnlyRoute><SignupPage /></PublicOnlyRoute>} />
         <Route path="/verify-otp" element={<PublicOnlyRoute><VerifyOTPPage /></PublicOnlyRoute>} />
         <Route path='/forgot-password' element={<PublicOnlyRoute><ForgotPassword/></PublicOnlyRoute>}/>
         <Route path='/reset-password' element={<PublicOnlyRoute><ResetPassword/></PublicOnlyRoute>}/>
+
+        {/* Public-only Routes: admin */}
         <Route path='/admin' element={<PublicOnlyRoute><AdminLogin/></PublicOnlyRoute>}/>
+
+        {/* Public-only Routes: user */}
+        <Route path='/artist' element={<PublicOnlyRoute><AuthLayout/></PublicOnlyRoute>}/>
 
         {/* Protected Routes: Accessible only when logged in */}
         <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}><HomePage /></ProtectedRoute>} />
