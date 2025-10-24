@@ -1,4 +1,4 @@
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { useApi } from "../hooks/useApi";
 import { authApi } from "../../features/auth/services/authApi";
 import { useDispatch } from "react-redux";
@@ -6,35 +6,41 @@ import { loginSuccess } from "../../features/auth/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export function GoogleAuthButton() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { execute: GoogleSignup } = useApi(authApi.googleSignup);
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const {execute: GoogleSignup} = useApi(authApi.googleSignup)
+    const onSuccess = async (credentialResponse:any) => {
+        try {
+            const idToken = credentialResponse.credential; 
+            if (!idToken) return;
 
-    const GoogleSignUp = useGoogleLogin({
-        onSuccess: async(credentialRes)=> {
-            try {
-                const token = credentialRes.access_token
-                if(!token) return
-                const res  = await GoogleSignup({token})
-                if(res){
-                    dispatch(loginSuccess({user: res.user, accessToken: res.accessToken}))
-                    navigate('/home')
-                }
-            } catch (error) {
-                console.error("error in google auth")
+            const res = await GoogleSignup({ token: idToken });
+            if (res) {
+                dispatch(loginSuccess({ user: res.user, accessToken: res.accessToken }));
+                navigate('/home');
             }
-        },
-        onError :()=> console.error("google signup error..!")
-    })
+        } catch (error) {
+            console.error("error in google auth", error);
+        }
+    };
+
+    const onError = () => {
+        console.error("google signup error..!");
+    };
 
     return (
-        <div onClick={()=> GoogleSignUp()} className="w-full max-w-xs flex items-center justify-center">
-        <img
-          src="/logos/g.png"
-          alt="Google"
-          className=" h-10 cursor-pointer hover:opacity-80 transition-opacity"
-        />
-      </div>
-    )
+        <div className="w-full max-w-xs flex items-center justify-center">
+            <GoogleLogin
+                onSuccess={onSuccess}
+                onError={onError}
+                theme="filled_black"    // 'filled_blue', 'outline', 'filled_black'
+                size="large"           // 'large', 'medium', 'small'
+                text="continue_with"   // 'signin_with', 'signup_with', 'continue_with'
+                shape="circle"           //  'rectangular', 'circle', or 'pill'
+                logo_alignment="center"  // move Google logo to left or center
+                width="10"
+            />
+        </div>
+    );
 }
