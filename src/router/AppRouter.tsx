@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignupPage from '../features/auth/pages/Signup';
 import VerifyOTPPage from '../features/auth/pages/VerifyOTP';
 import LoginPage from '../features/auth/pages/Login';
-import HomePage from '../pages/Home';
+//import HomePage from '../pages/Home';
 import ForgotPassword from '../features/auth/pages/Forgot-passowrd';
 import ResetPassword from '../features/auth/pages/reset-password';
 import { Toaster } from 'react-hot-toast';
@@ -18,6 +18,7 @@ import SignupPageArtist from '../features/artist/pages/Signup.artist';
 import VerifyOTPartist from '../features/artist/pages/VerifyOTP.artist';
 import ArtistDashboard from '../features/artist/pages/Dashboard.artist'; 
 import SignInPageArtist from '../features/artist/pages/SignIn.artist';
+import Home from '@/features/user/pages/Home';
 
 const AppRouter: React.FC = () => {
   return (
@@ -35,7 +36,7 @@ const AppRouter: React.FC = () => {
           <Route path='/artist-signin' element={<SignInPageArtist/>} />
         </Route>
 
-        <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}><HomePage /></ProtectedRoute>} />
+        <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
         <Route path="/artist-dashboard" element={<ProtectedRoute requiredRole={ROLES.ARTIST}><ArtistDashboard /></ProtectedRoute>} />
 
