@@ -16,5 +16,6 @@ export const API_ROUTE_ADMIN = {
 }
 
 export const API_ROUTE_ARTIST = {
-  SIGNUP: '/artist/signup'
+  SIGNUP: '/artist/signup',
+  VERIFY_OTP: '/artist/verify-otp'
 }

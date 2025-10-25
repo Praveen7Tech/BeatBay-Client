@@ -2,8 +2,11 @@ import { Link, useLocation } from "react-router-dom";
 
 export function AuthFooter() {
   const location = useLocation();
-  const isSignup = location.pathname.includes("signup");
-  const isLogin = location.pathname.includes("signin");
+  const isSignup = location.pathname.toLowerCase().includes("artist");
+  const isLogin = location.pathname.toLowerCase().includes("signin");
+
+  console.log("Path:", location.pathname);
+
 
   return (
     <p className="text-white/80 text-sm text-center">
