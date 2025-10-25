@@ -17,5 +17,8 @@ export const API_ROUTE_ADMIN = {
 
 export const API_ROUTE_ARTIST = {
   SIGNUP: '/artist/signup',
-  VERIFY_OTP: '/artist/verify-otp'
+  VERIFY_OTP: '/artist/verify-otp',
+  RESEND_OTP: '/artist/resend-otp',
+  LOGIN: '/artist/login',
+  LOGOUT: '/artist/logout',
 }

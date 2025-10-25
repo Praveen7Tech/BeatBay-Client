@@ -17,31 +17,28 @@ import AdminDashboard from '../features/admin/pages/dashBoard';
 import SignupPageArtist from '../features/artist/pages/Signup.artist';
 import VerifyOTPartist from '../features/artist/pages/VerifyOTP.artist';
 import ArtistDashboard from '../features/artist/pages/Dashboard.artist'; 
+import SignInPageArtist from '../features/artist/pages/SignIn.artist';
 
 const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public-only Routes: user */}
-        <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
-        <Route path="/" element={<PublicOnlyRoute><SignupPage /></PublicOnlyRoute>} />
-        <Route path="/verify-otp" element={<PublicOnlyRoute><VerifyOTPPage /></PublicOnlyRoute>} />
-        <Route path='/forgot-password' element={<PublicOnlyRoute><ForgotPassword/></PublicOnlyRoute>}/>
-        <Route path='/reset-password' element={<PublicOnlyRoute><ResetPassword/></PublicOnlyRoute>}/>
+        <Route element={<PublicOnlyRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<SignupPage />} />
+          <Route path="/verify-otp" element={<VerifyOTPPage />} />
+          <Route path='/forgot-password' element={<ForgotPassword/>} />
+          <Route path='/reset-password' element={<ResetPassword/>} />
+          <Route path='/admin' element={<AdminLogin/>} />
+          <Route path='/artist' element={<SignupPageArtist/>} />
+          <Route path='/verify-otp-artist' element={<VerifyOTPartist/>} />
+          <Route path='/artist-signin' element={<SignInPageArtist/>} />
+        </Route>
 
-        {/* Public-only Routes: admin */}
-        <Route path='/admin' element={<PublicOnlyRoute><AdminLogin/></PublicOnlyRoute>}/>
-
-        {/* Public-only Routes: user */}
-        <Route path='/artist' element={<PublicOnlyRoute><SignupPageArtist/></PublicOnlyRoute>}/>
-        <Route path='/verify-otp-artist' element={<PublicOnlyRoute><VerifyOTPartist/></PublicOnlyRoute>}/>
-
-        {/* Protected Routes: Accessible only when logged in */}
         <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}><HomePage /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
         <Route path="/artist-dashboard" element={<ProtectedRoute requiredRole={ROLES.ARTIST}><ArtistDashboard /></ProtectedRoute>} />
 
-        {/* Unauthorized page for role mismatches */}
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
@@ -49,5 +46,6 @@ const AppRouter: React.FC = () => {
     </BrowserRouter>
   );
 };
+
 
 export default AppRouter;

@@ -1,26 +1,27 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { RootState } from "../core/store/store";
 import { ROLES } from "../core/types/roles";
 
-const PublicOnlyRoute: React.FC<{ children: React.ReactNode}> = ({ children}) => {
+const PublicOnlyRoute: React.FC = () => {
   const { user} = useSelector((state: RootState) => state.auth);
   const isAuthenticated = !!user
 
-  if (isAuthenticated && user?.role === ROLES.USER) {
-    return <Navigate to="/home" replace />;
+  if(isAuthenticated){
+    switch (user.role){
+      case ROLES.USER:
+        return <Navigate to={'/home'} replace/>;
+      case ROLES.ADMIN:
+        return <Navigate to={'/dashboard'} replace />; 
+      case ROLES.ARTIST:
+        return <Navigate to={'/artist-dashboard'} replace/>;
+      default :
+        return <Navigate to="/home" replace />;    
+    }
   }
 
-  if (isAuthenticated && user?.role === ROLES.ADMIN) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  if (isAuthenticated ) {
-    return <Navigate to="/home" replace />;
-  }
-
-  return children;
+  return <Outlet/>
 };
 
 export default PublicOnlyRoute;

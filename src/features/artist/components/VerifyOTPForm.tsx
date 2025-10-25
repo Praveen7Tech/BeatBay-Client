@@ -8,9 +8,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function VerifyOTPFormArtist() {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [canResend, setCanResend] = useState(false);
+  const [timerKey, setTimerKey] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const { execute: verifyOtp } = useApi(authApiArtist.verifyOtp);
+  const {execute: resendOTP} = useApi(authApiArtist.resendOtp)
   const email = location.state?.email;
 
   const handleChange = (index: number, value: string) => {
@@ -35,11 +37,15 @@ export default function VerifyOTPFormArtist() {
     }
   };
 
-  const handleResend = () => {
-    // resend OTP logic here
-    console.log("Resending OTP...");
-    setCanResend(false);
-  };
+  const HandleResend = async ()=>{
+    try {
+      await resendOTP({email})
+      setCanResend(false)
+      setTimerKey((prev) => prev + 1)
+    } catch (error) {
+      console.error("error in resend otp",error)
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 text-center">
@@ -59,7 +65,7 @@ export default function VerifyOTPFormArtist() {
       </div>
 
       {/* Timer */}
-      <Timer duration={120} onExpire={() => setCanResend(true)} />
+      <Timer key={timerKey} duration={120} onExpire={() => setCanResend(true)} />
 
       {/* Verify button */}
       <Button type="submit" variant="primary">
@@ -69,7 +75,7 @@ export default function VerifyOTPFormArtist() {
       {/* Resend OTP button */}
       <Button
         type="button"
-        onClick={handleResend}
+        onClick={HandleResend}
         variant="secondary"
         disabled={!canResend}
       >
