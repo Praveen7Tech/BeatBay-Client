@@ -1,125 +1,46 @@
-"use client"
 
-import { Sidebar } from "../components/sidebar" 
-import { RightSidebar } from "../components/right-sidebar" 
-import { Header } from "../components/header" 
-import { FeaturedArtist } from "../components/featured-artist" 
-import { AlbumSection } from "../components/album-section" 
-import { MusicPlayer } from "../components/music-player" 
-
-const popularReleases = [
-  {
-    id: "1",
-    title: "New York",
-    artist: "A R Rahman",
-    image: "/album-new-york.jpg",
-  },
-  {
-    id: "2",
-    title: "Munbe va",
-    artist: "Shreya Ghoshal",
-    image: "/album-munbe-va.jpg",
-  },
-  {
-    id: "3",
-    title: "Kaathalae",
-    artist: "Govind Vasantha",
-    image: "/album-kaathalae.jpg",
-  },
-  {
-    id: "4",
-    title: "Oru Kathilola",
-    artist: "M G Sreekumar",
-    image: "/album-oru-kathilola.jpg",
-  },
-  {
-    id: "5",
-    title: "Pottukuthedi",
-    artist: "Vasundhra Das",
-    image: "/album-pottukuthedi.jpg",
-  },
-  {
-    id: "6",
-    title: "Ranam Title - Track",
-    artist: "Ajay Shravan",
-    image: "/album-ranam.jpg",
-  },
-]
-
-const trendingAlbums = [
-  {
-    id: "1",
-    title: "Best Of Anirudh",
-    artist: "Anirudh",
-    image: "/album-anirudh.jpg",
-  },
-  {
-    id: "2",
-    title: "Varanam Ayiram",
-    artist: "A R Rahman",
-    image: "/album-varanam.jpg",
-  },
-  {
-    id: "3",
-    title: "Vettam - Hits",
-    artist: "M G Sreekumar",
-    image: "/album-vettam.jpg",
-  },
-  {
-    id: "4",
-    title: "Meesha Madhvan",
-    artist: "Sugatha Mohanan",
-    image: "/album-meesha.jpg",
-  },
-  {
-    id: "5",
-    title: "Mohan Lal - Hits",
-    artist: "East Cost",
-    image: "/album-mohan-lal.jpg",
-  },
-  {
-    id: "6",
-    title: "Ranam Title - Track",
-    artist: "Ajay Shravan",
-    image: "/album-ranam-trending.jpg",
-  },
-]
-
-export default function Home() {
+import AlbumCard from "../components/album-card" 
+import ArtistCard from "../components/artist-card" 
+export default function HomeContent() {
+ 
   return (
-    <div className="flex h-screen bg-background">
-      {/* Left Sidebar */}
-      <Sidebar activeTab="home" />
+    <div className="flex-1 flex flex-col bg-[#0f0f0f] overflow-hidden">
+      <div className="flex-1 overflow-y-auto">
+        {/* Artist Profile */}
+        <div className="px-6 py-8">
+          <ArtistCard />
+        </div>
 
-      {/* Main Content */}
-      <div className="flex-1 ml-64 flex flex-col">
-        {/* Header */}
-        <Header />
-
-        {/* Content Area */}
-        <main className="flex-1 overflow-auto pt-24 pb-32">
-          <div className="flex gap-8 px-8 max-w-7xl mx-auto">
-            {/* Main Content */}
-            <div className="flex-1">
-              <FeaturedArtist
-                name="A R Rahman"
-                verified
-                listeners={67856}
-                image="/artist-ar-rahman-with-headphones.jpg"
-              />
-
-              <AlbumSection title="Popular Releases" albums={popularReleases} />
-              <AlbumSection title="Trending Albums" albums={trendingAlbums} />
-            </div>
-
-            {/* Right Sidebar */}
-            <RightSidebar />
+        {/* Popular Releases */}
+        <div className="px-6 py-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold">Popular Releases</h2>
+            <a href="#" className="text-[#00d084] text-sm hover:underline">
+              Show All →
+            </a>
           </div>
-        </main>
-      </div>
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <AlbumCard key={i} index={i} />
+            ))}
+          </div>
+        </div>
 
-      {/* Music Player */}
-      <MusicPlayer />
+        {/* Trending Albums */}
+        <div className="px-6 py-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold">Trending Albums</h2>
+            <a href="#" className="text-[#00d084] text-sm hover:underline">
+              Show All →
+            </a>
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <AlbumCard key={i} index={i} trending />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

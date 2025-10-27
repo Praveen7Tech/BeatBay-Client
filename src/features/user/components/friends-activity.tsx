@@ -1,51 +1,29 @@
 "use client"
 
-import { Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
+const friends = [
+  { name: "Rohith Krishna", status: "listening", avatar: "👤" },
+  { name: "Alwin P.G", status: "listening", avatar: "👤" },
+  { name: "Felwin Shaji", status: "listening", avatar: "👤" },
+  { name: "Devan", status: "listening", avatar: "👤" },
+]
 
-interface Friend {
-  id: string
-  name: string
-  status: string
-  avatar: string
-}
+export default function FriendsActivityCard({ index }: { index: number }) {
+  const friend = friends[index - 1]
 
-interface FriendsActivityProps {
-  friends?: Friend[]
-}
-
-export function FriendsActivity({
-  friends = [
-    { id: "1", name: "Rohith Krishna", status: "listening", avatar: "/user-avatar.jpg" },
-    { id: "2", name: "Allwin P G", status: "listening", avatar: "/user-avatar.jpg" },
-    { id: "3", name: "Felwin Shaji", status: "listening", avatar: "/user-avatar.jpg" },
-    { id: "4", name: "Devan", status: "listening", avatar: "/user-avatar.jpg" },
-  ],
-}: FriendsActivityProps) {
   return (
-    <div className="bg-card rounded-xl p-6">
-      <h3 className="font-bold text-foreground mb-4">FRIENDS ACTIVITY</h3>
-      <div className="space-y-3">
-        {friends.map((friend) => (
-          <div key={friend.id} className="flex items-center justify-between">
-            <div className="flex items-center gap-3 flex-1">
-              <img
-                src={friend.avatar || "/placeholder.svg"}
-                alt={friend.name}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">{friend.name}</p>
-                <p className="text-xs text-muted-foreground">♪ {friend.status}</p>
-              </div>
-            </div>
-            <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs gap-1 ml-2">
-              <Plus className="w-3 h-3" />
-              JOIN
-            </Button>
-          </div>
-        ))}
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3 flex-1">
+        <div className="w-10 h-10 bg-gradient-to-br from-[#00d084] to-[#00a060] rounded-full flex items-center justify-center text-lg">
+          {friend.avatar}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium truncate">{friend.name}</p>
+          <p className="text-xs text-gray-400">🎵 {friend.status}</p>
+        </div>
       </div>
+      <button className="bg-[#00d084] text-black px-4 py-1 rounded-full text-xs font-bold hover:bg-[#00c070] transition-colors whitespace-nowrap ml-2">
+        JOIN +
+      </button>
     </div>
   )
 }

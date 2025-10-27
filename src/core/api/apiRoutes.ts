@@ -22,3 +22,7 @@ export const API_ROUTE_ARTIST = {
   LOGIN: '/artist/login',
   LOGOUT: '/artist/logout',
 }
+
+export const API_ROUTES_USER ={
+  EDIT_PROFILE: '/user/edit-profile'
+}

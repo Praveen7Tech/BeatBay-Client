@@ -18,12 +18,16 @@ import SignupPageArtist from '../features/artist/pages/Signup.artist';
 import VerifyOTPartist from '../features/artist/pages/VerifyOTP.artist';
 import ArtistDashboard from '../features/artist/pages/Dashboard.artist'; 
 import SignInPageArtist from '../features/artist/pages/SignIn.artist';
-import Home from '@/features/user/pages/Home';
+import ProfilePage from '@/features/user/pages/ProfilePage';
+import UserLayout from '@/features/user/pages/layout/layout';
+import HomeContent from '@/features/user/pages/Home';
+import EditProfile from '@/features/user/pages/EditProfile';
 
 const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* public routes */}
         <Route element={<PublicOnlyRoute />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<SignupPage />} />
@@ -36,8 +40,17 @@ const AppRouter: React.FC = () => {
           <Route path='/artist-signin' element={<SignInPageArtist/>} />
         </Route>
 
-        <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
+        {/* USER ROUTES WITH PERSISTENT LAYOUT */}
+        <Route element={<ProtectedRoute requiredRole={ROLES.USER}><UserLayout /></ProtectedRoute>}>
+          <Route path="/home" element={<HomeContent/>} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path='/edit-profile' element={<EditProfile/>}/>
+        </Route>
+
+        {/* admin routes */}
         <Route path="/dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
+
+        {/* artist routes */}
         <Route path="/artist-dashboard" element={<ProtectedRoute requiredRole={ROLES.ARTIST}><ArtistDashboard /></ProtectedRoute>} />
 
         <Route path="/unauthorized" element={<Unauthorized />} />
