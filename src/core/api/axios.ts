@@ -8,9 +8,9 @@ const API_URL = import.meta.env.VITE_API_URL
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  // headers: {
+  //   'Content-Type': 'application/json',
+  // },
   withCredentials: true, 
 });
 
@@ -24,6 +24,11 @@ axiosInstance.interceptors.request.use(
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
+
+    if(!(config.data instanceof FormData)){
+      config.headers['Content-Type'] = 'application/json'
+    }
+    
     return config;
   },
   (error) => Promise.reject(error)
