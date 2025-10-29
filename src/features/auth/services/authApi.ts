@@ -93,7 +93,6 @@ export const authApi = {
 
   googleSignup: async(data: googleSignUp)=> {
     const response = await axiosInstance.post(API_ROUTES.GOOGLE_SIGNUP, data)
-    console.log("re--", response)
     return response.data
   }
 };

@@ -29,10 +29,8 @@ const AdminLogin: React.FC = () => {
     try {
       const res = await AdminLogin(data)
       if(res){
-        console.log("ad ", res.user.role)
         dispatch(loginSuccess({user: res.user, accessToken: res.accessToken}))
         navigate("/dashboard", {replace: true})
-        console.log("haiiii")
       }
       
     } catch (error) {

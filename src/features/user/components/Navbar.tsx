@@ -10,9 +10,10 @@ interface NavbarProps {
   onBackClick?: () => void
 }
 
+const URL = import.meta.env.VITE_API_URL
+
 export default function Navbar({ onProfileClick, onBackClick }: NavbarProps) {
   const user = useSelector((state: RootState)=> state.auth.user)
-  console.log("img", user?.profilePicture)
   return (
     <nav className="fixed top-0 left-0 right-0 h-24 bg-black border-b border-gray-800 z-50">
       <div className="flex items-center justify-between h-full px-6 gap-4">
@@ -69,7 +70,7 @@ export default function Navbar({ onProfileClick, onBackClick }: NavbarProps) {
             <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden">
                 {user?.profilePicture ? (
                   <img
-                    src={user?.profilePicture}
+                    src={`${URL}/uploads/${user?.profilePicture}`}
                     alt={`${user.name}'s profile`}
                     className="w-full h-full object-cover"
                   />

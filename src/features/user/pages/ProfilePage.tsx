@@ -5,7 +5,6 @@ import { RootState } from "@/core/store/store";
 import { authApi } from "@/features/auth/services/authApi";
 import { logout } from "@/features/auth/slices/authSlice";
 import { Pen, User } from "lucide-react";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,6 +12,8 @@ import { Link } from "react-router-dom";
 interface ProfilePageProps {
   onBackClick?: () => void
 }
+
+const URL = import.meta.env.VITE_API_URL
 
 export default function ProfilePage({ onBackClick }: ProfilePageProps) {
  const dispatch = useDispatch()
@@ -43,7 +44,7 @@ export default function ProfilePage({ onBackClick }: ProfilePageProps) {
             {/* Conditional rendering for image or initials */}
             {user.profilePicture ? (
               <img
-                src={user.profilePicture}
+                src={`${URL}/uploads/${user?.profilePicture}`}
                 alt={`${user.name}'s profile`}
                 className="w-full h-full object-cover"
               />

@@ -5,11 +5,11 @@ interface User {
   name:string
   email: string;
   role: string;
-  profilePicture:string
+  profilePicture?:string
 }
 
 export interface AuthState {
-  user: User | null;
+  user: Partial<User> | null;
   accessToken: string | null;
   loading: boolean;
   error: string | null;

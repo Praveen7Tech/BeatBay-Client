@@ -4,7 +4,6 @@ export function AuthFooter() {
   const location = useLocation();
   const isSignup = location.pathname.toLowerCase().includes("signin");
 
-  console.log("Path:", location.pathname);
 
 
   return (

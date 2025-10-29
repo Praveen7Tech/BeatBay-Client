@@ -10,6 +10,13 @@ import { axiosInstance } from "@/core/api/axios";
 
 interface EditProfileResponse {
   message: string;
+  accessToken: string; 
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
 }
 
 export const userApi ={

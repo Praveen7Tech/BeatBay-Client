@@ -25,6 +25,8 @@ const AppContext : React.FC = ()=> {
 
       } catch (error) {
         console.error("hydration error",error)
+      }finally{
+        
       }
     }
 

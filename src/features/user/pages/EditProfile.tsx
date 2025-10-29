@@ -9,11 +9,14 @@ import z from "zod"
 import { userApi } from "../services/userApi"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { loginSuccess } from "@/features/auth/slices/authSlice"
+
+const imgURL = import.meta.env.VITE_API_URL
 
 const EditSchema = z
   .object({
     name: z.string().min(2, "Name is required").optional(),
-    email: z.string().email("Invalid email").optional(),
     password: z
       .string()
       .transform((val) => (val === "" ? undefined : val)) // Treat empty string as undefined
@@ -43,6 +46,8 @@ export default function EditProfile() {
   const [image, setImage] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
 
   const user = useSelector((state: RootState)=> state.auth.user)
   const {register, handleSubmit, formState:{errors}} = useForm<EditProfile>({
@@ -63,25 +68,25 @@ export default function EditProfile() {
 
   const EditProfileData = async (data: EditProfile) => {
     try {
-      // Check if any actual changes were made
+      // Checking if any actual changes were made
       const hasChanges =
         data.name !== user?.name ||
-        data.email !== user?.email ||
         data.password ||
         image;
 
       if (!hasChanges) {
         console.log("No changes detected, skipping update.");
-        return; // Don't make API call
+        return; 
       }
 
       const formData = new FormData();
       if (data.name && data.name !== user?.name) formData.append("name", data.name);
-      if (data.email && data.email !== user?.email) formData.append("email", data.email);
       if (data.password) formData.append("password", data.password);
       if (image) formData.append("profileImage", image);
 
-      await EditProfile(formData);
+      const res = await EditProfile(formData);
+      dispatch(loginSuccess({user:res.user, accessToken: res.accessToken}))
+      navigate('/profile')
     } catch (error) {
       console.error(error);
     }
@@ -107,7 +112,7 @@ export default function EditProfile() {
               <img src={preview} alt="Profile Preview" className="w-full h-full object-cover" />
             ) : user?.profilePicture ? (
               <img
-                src={user.profilePicture}
+                src={`${imgURL}/uploads/${user?.profilePicture}`}
                 alt={`${user.name}'s profile`}
                 className="w-full h-full object-cover rounded-full"
               />
@@ -151,13 +156,13 @@ export default function EditProfile() {
           <div className="flex items-center gap-3 px-4 py-3 bg-[#2a2a2a] rounded-lg border border-[#3a3a3a] focus-within:border-[#00d084] transition-colors">
             <Mail className="w-5 h-5 text-gray-500" />
             <input
-              {...register('email')}
+              // {...register('email')}
               type="email"
               value={user?.email}
               placeholder="Enter your email"
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
             />
-             {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
+             {/* {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>} */}
           </div>
         </div>
 
