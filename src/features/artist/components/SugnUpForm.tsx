@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApi } from "../../../core/hooks/useApi";
 import { authApiArtist } from "../services/artist-authApi";
+import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -63,6 +64,7 @@ export default function SignupForm() {
         )}
       </div>
 
+      <GoogleAuthButton role={"artist"}/>
       <Button type="submit">Register</Button>
     </form>
   );

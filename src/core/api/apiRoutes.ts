@@ -21,6 +21,8 @@ export const API_ROUTE_ARTIST = {
   RESEND_OTP: '/artist/resend-otp',
   LOGIN: '/artist/login',
   LOGOUT: '/artist/logout',
+  EDIT_PROFILE: '/artist/edit-profile',
+  GOOGLE_SIGNUP: '/artist/google-signup'
 }
 
 export const API_ROUTES_USER ={

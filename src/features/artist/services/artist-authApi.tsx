@@ -41,6 +41,19 @@ interface LoginResponse {
     role: string;
   };
 }
+interface EditProfileResponse {
+  message: string;
+  accessToken: string; 
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+}
+interface googleSignUp {
+  token: string
+}
 
 export const authApiArtist = {
     signUp: async(data:SignupRequest): Promise<SignupResponse>=> {
@@ -67,4 +80,13 @@ export const authApiArtist = {
         const response = await axiosInstance.post(API_ROUTE_ARTIST.LOGOUT);
         return response.data
     },
+    editProfile: async (data: FormData): Promise<EditProfileResponse> => {
+        const response = await axiosInstance.put<EditProfileResponse>(API_ROUTE_ARTIST.EDIT_PROFILE, data);
+        return response.data;
+    },
+    
+    googleSignup: async(data: googleSignUp)=> {
+      const response = await axiosInstance.post(API_ROUTE_ARTIST.GOOGLE_SIGNUP, data)
+      return response.data
+    }    
 }

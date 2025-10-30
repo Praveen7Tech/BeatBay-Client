@@ -67,7 +67,7 @@ export default function SignupForm() {
 
       <Devider/>
       {/* google login button */}
-      <GoogleAuthButton/>
+      <GoogleAuthButton role={"user"}/>
        
       <p className="text-center text-white/70 text-sm mt-6">
         Do You Have An Account?{" "}

@@ -22,6 +22,9 @@ import ProfilePage from '@/features/user/pages/ProfilePage';
 import UserLayout from '@/features/user/pages/layout/layout';
 import HomeContent from '@/features/user/pages/Home';
 import EditProfile from '@/features/user/pages/EditProfile';
+import DashboardLayout from '@/features/artist/pages/layout/DashboardLayout';
+import ProfilePageArtist from '@/features/artist/pages/Profile.artist';
+import { EditArtistProfile } from '@/features/artist/pages/Edit.profile';
 
 const AppRouter: React.FC = () => {
   return (
@@ -51,8 +54,13 @@ const AppRouter: React.FC = () => {
         <Route path="/dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
 
         {/* artist routes */}
-        <Route path="/artist-dashboard" element={<ProtectedRoute requiredRole={ROLES.ARTIST}><ArtistDashboard /></ProtectedRoute>} />
-
+        <Route element={<ProtectedRoute requiredRole={ROLES.ARTIST}><DashboardLayout/></ProtectedRoute>}>
+          <Route path='/artist-dashboard' element={<ArtistDashboard/>}/>
+          <Route path='/artist-profile' element={<ProfilePageArtist/>}/>
+          <Route path='/artist-edit-profile' element={<EditArtistProfile/>}/>
+        </Route>
+   
+        {/* un authorized */}
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>

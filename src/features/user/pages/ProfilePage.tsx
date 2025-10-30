@@ -37,10 +37,10 @@ export default function ProfilePage({ onBackClick }: ProfilePageProps) {
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-[#0f0f0f]">
       {/* Profile Header */}
-      <div className="relative h-52 bg-gradient-to-b from-[#1a4d2e] to-[#0f0f0f] mt-0">
+      <div className="relative h-52 bg-linear-to-b from-[#1a4d2e] to-[#0f0f0f] mt-0">
         <div className="absolute bottom-0 left-0 right-0 flex items-end gap-6 px-8 pb-6">
           {/* Avatar */}
-          <div className="w-32 h-32 rounded-full border-4 border-[#0f0f0f] flex items-center justify-center flex-shrink-0 overflow-hidden">
+          <div className="w-32 h-32 rounded-full border-4 border-[#0f0f0f] flex items-center justify-center shrink-0 overflow-hidden">
             {/* Conditional rendering for image or initials */}
             {user.profilePicture ? (
               <img

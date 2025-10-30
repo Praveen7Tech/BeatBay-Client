@@ -4,11 +4,19 @@ import { authApi } from "../../features/auth/services/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../features/auth/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { authApiArtist } from "@/features/artist/services/artist-authApi";
 
-export function GoogleAuthButton() {
+interface GoogleAuthProps {
+  role: "user" | "artist";
+}
+
+export function GoogleAuthButton({role}:GoogleAuthProps) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { execute: GoogleSignup } = useApi(authApi.googleSignup);
+
+    const selectedApi = role === "user" ? authApi : authApiArtist;
+    console.log("juii ", selectedApi)
+    const { execute: GoogleSignup } = useApi(selectedApi.googleSignup);
 
     const onSuccess = async (credentialResponse:any) => {
         try {
