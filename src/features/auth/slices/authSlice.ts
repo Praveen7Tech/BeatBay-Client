@@ -42,6 +42,9 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.initialHydrationComplete = true
     },
+    update(state, action: PayloadAction<{user:User}>){
+      state.user = action.payload.user
+    },
     logout(state) {
       state.user = null;
       state.accessToken = null;
@@ -69,6 +72,6 @@ const authSlice = createSlice({
 
 });
 
-export const { loginSuccess, loginFailure, logout, setAuthLoading, setAuthFailure, completeInitialHydration, setAccessToken } = authSlice.actions;
+export const { loginSuccess, loginFailure, logout, setAuthLoading, setAuthFailure, completeInitialHydration, setAccessToken, update } = authSlice.actions;
 export default authSlice.reducer;
 

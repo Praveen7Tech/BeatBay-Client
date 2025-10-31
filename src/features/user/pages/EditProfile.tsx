@@ -10,7 +10,7 @@ import { userApi } from "../services/userApi"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { loginSuccess } from "@/features/auth/slices/authSlice"
+import { loginSuccess, update } from "@/features/auth/slices/authSlice"
 
 const imgURL = import.meta.env.VITE_API_URL
 
@@ -85,7 +85,7 @@ export default function EditProfile() {
       if (image) formData.append("profileImage", image);
 
       const res = await EditProfile(formData);
-      dispatch(loginSuccess({user:res.user, accessToken: res.accessToken}))
+      dispatch(update({user: res.user}))
       navigate('/profile')
     } catch (error) {
       console.error(error);

@@ -9,7 +9,7 @@ import z from "zod";
 import { authApiArtist } from "../services/artist-authApi";
 import { useApi } from "@/core/hooks/useApi";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "@/features/auth/slices/authSlice";
+import { update } from "@/features/auth/slices/authSlice";
 
 const EditSchema = z.object({
     name: z.string().min(2, "Name is required").optional(),
@@ -75,7 +75,7 @@ export function EditArtistProfile() {
         if (image) formData.append("profileImage", image);
     
         const res = await EditProfileArtist(formData);
-        dispatch(loginSuccess({user:res.user, accessToken: res.accessToken}))
+        dispatch(update({user:res.user}))
         navigate('/artist-profile')
         } catch (error) {
         console.error(error);
