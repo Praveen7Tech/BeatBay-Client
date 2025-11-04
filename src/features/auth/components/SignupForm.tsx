@@ -6,9 +6,9 @@ import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useSelector } from 'react-redux';
 import { RootState } from "../../../core/store/store";
-import { Button } from "../../../core/components/Button"; 
-import { Input } from "../../../core/components/Input"; 
-import { Devider } from "../../../core/components/Devider.ui";
+import { Button } from "../ui/Button"; 
+import { Input } from "../ui/Input"; 
+import { Devider } from "../ui/Devider.ui";
 import { GoogleAuthButton } from "../../../core/components/GoogleAuthButton";
 
 const signupSchema = z.object({

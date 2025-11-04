@@ -1,8 +1,8 @@
 import z from "zod";
-import { Input } from "../../../core/components/Input";
+import { Input } from "../ui/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../../../core/components/Button";
+import { Button } from "../ui/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../core/store/store"; 
 import { Link, useNavigate } from "react-router-dom";
@@ -10,8 +10,8 @@ import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../slices/authSlice";
-import { Devider } from "../../../core/components/Devider.ui";
-import { GoogleAuthButton } from "../../../core/components/GoogleAuthButton";
+import { Devider } from "../ui/Devider.ui";
+import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
 
 const LoginSchema = z.object({
     email:z.string().email("Invalid email"),
@@ -68,7 +68,7 @@ export default function LoginForm () {
       </div>
       <Devider/>
       {/* google login button */}
-      <GoogleAuthButton/>
+      <GoogleAuthButton role={"user"}/>
 
       <p className="text-center text-white/70 text-sm mt-6">
         Not A Member?{" "}

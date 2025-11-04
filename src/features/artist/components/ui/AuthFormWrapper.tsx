@@ -12,7 +12,7 @@ export function FormWrapper({ title, children }: FormWrapperProps) {
   return (
     <div className="w-full max-w-md">
       <div className="relative p-8 rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 shadow-2xl">
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/30 to-red-500/30 pointer-events-none" />
+        <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-orange-400/30 to-red-500/30 pointer-events-none" />
 
         <div className="relative z-10">
           {/* Header */}

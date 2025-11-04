@@ -1,7 +1,7 @@
 "use client"
-import Navbar from "../../components/Navbar" 
-import Sidebar from "../../components/sidebar" 
-import RightPanel from "../../components/right-sidebar" 
+import Navbar from "../../components/common/Navbar" 
+import Sidebar from "../../components/left sidebar/sidebar" 
+import RightPanel from "../../components/right sidebar/right-sidebar" 
 import { Outlet } from "react-router-dom"
 
 export default function UserLayout() {

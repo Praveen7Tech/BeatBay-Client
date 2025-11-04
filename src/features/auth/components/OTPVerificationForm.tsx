@@ -2,9 +2,9 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { useApi } from "../../../core/hooks/useApi"
 import { authApi } from "../services/authApi"
 import { useState } from "react"
-import { Button } from "../../../core/components/Button"
-import {Timer} from "../../../core/components/Timer"
-import { Devider } from "../../../core/components/Devider.ui"
+import { Button } from "../ui/Button"
+import {Timer} from "../ui/Timer"
+import { Devider } from "../ui/Devider.ui"
 import { showError } from "../../../core/utils/toast.config"
 
 

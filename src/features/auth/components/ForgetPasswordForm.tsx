@@ -1,5 +1,5 @@
-import { Input } from "../../../core/components/Input" 
-import { Button } from "../../../core/components/Button" 
+import { Input } from "../ui/Input" 
+import { Button } from "../ui/Button" 
 import { Link } from "react-router-dom"
 import z from "zod"
 import { useForm } from "react-hook-form"

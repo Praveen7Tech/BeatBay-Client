@@ -1,13 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
 
-// interface EditProfleRequest {
-//   name: string;
-//   email: string;
-//   password: string;
-//   image:FormData
-// }
-
 interface EditProfileResponse {
   message: string;
   accessToken: string; 

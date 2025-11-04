@@ -12,19 +12,19 @@ import PublicOnlyRoute from './Public-route';
 import { ROLES } from '../core/types/roles';
 import NotFound from '../pages/page-notFound';
 import Unauthorized from '../pages/unAutharized-page';
-import AdminLogin from '../features/admin/pages/Login';
-import AdminDashboard from '../features/admin/pages/dashBoard'; 
-import SignupPageArtist from '../features/artist/pages/Signup.artist';
-import VerifyOTPartist from '../features/artist/pages/VerifyOTP.artist';
-import ArtistDashboard from '../features/artist/pages/Dashboard.artist'; 
-import SignInPageArtist from '../features/artist/pages/SignIn.artist';
-import ProfilePage from '@/features/user/pages/ProfilePage';
+import AdminLogin from '../features/admin/pages/auth/Login';
+import AdminDashboard from '../features/admin/pages/dashboard/dashBoard'; 
+import SignupPageArtist from '../features/artist/pages/auth/Signup.artist';
+import VerifyOTPartist from '../features/artist/pages/auth/VerifyOTP.artist';
+import ArtistDashboard from '../features/artist/pages/dashboard/Dashboard.artist'; 
+import SignInPageArtist from '../features/artist/pages/auth/SignIn.artist';
+import ProfilePage from '@/features/user/pages/profile/ProfilePage'; 
 import UserLayout from '@/features/user/pages/layout/layout';
-import HomeContent from '@/features/user/pages/Home';
-import EditProfile from '@/features/user/pages/EditProfile';
+import HomeContent from '@/features/user/pages/home/Home'; 
+import EditProfile from '@/features/user/pages/profile/EditProfile'; 
 import DashboardLayout from '@/features/artist/pages/layout/DashboardLayout';
-import ProfilePageArtist from '@/features/artist/pages/Profile.artist';
-import { EditArtistProfile } from '@/features/artist/pages/Edit.profile';
+import ProfilePageArtist from '@/features/artist/pages/profile/Profile.artist';
+import { EditArtistProfile } from '@/features/artist/pages/profile/Edit.profile'; 
 
 const AppRouter: React.FC = () => {
   return (
@@ -32,12 +32,15 @@ const AppRouter: React.FC = () => {
       <Routes>
         {/* public routes */}
         <Route element={<PublicOnlyRoute />}>
+          {/* User */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<SignupPage />} />
           <Route path="/verify-otp" element={<VerifyOTPPage />} />
           <Route path='/forgot-password' element={<ForgotPassword/>} />
           <Route path='/reset-password' element={<ResetPassword/>} />
+          {/* Admin */}
           <Route path='/admin' element={<AdminLogin/>} />
+          {/* Artist */}
           <Route path='/artist' element={<SignupPageArtist/>} />
           <Route path='/verify-otp-artist' element={<VerifyOTPartist/>} />
           <Route path='/artist-signin' element={<SignInPageArtist/>} />
