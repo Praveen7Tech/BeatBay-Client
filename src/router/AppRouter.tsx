@@ -25,6 +25,8 @@ import EditProfile from '@/features/user/pages/profile/EditProfile';
 import DashboardLayout from '@/features/artist/pages/layout/DashboardLayout';
 import ProfilePageArtist from '@/features/artist/pages/profile/Profile.artist';
 import { EditArtistProfile } from '@/features/artist/pages/profile/Edit.profile'; 
+import ForgotPasswordArtist from '@/features/artist/pages/auth/ForgotPassword.artist';
+import ResetPasswordArtist from '@/features/artist/pages/auth/Reset-password';
 
 const AppRouter: React.FC = () => {
   return (
@@ -44,6 +46,8 @@ const AppRouter: React.FC = () => {
           <Route path='/artist' element={<SignupPageArtist/>} />
           <Route path='/verify-otp-artist' element={<VerifyOTPartist/>} />
           <Route path='/artist-signin' element={<SignInPageArtist/>} />
+          <Route path='/artist-forgot-password' element={<ForgotPasswordArtist/>}/>
+          <Route path='/artist-reset-password' element={<ResetPasswordArtist/>}/>
         </Route>
 
         {/* USER ROUTES WITH PERSISTENT LAYOUT */}

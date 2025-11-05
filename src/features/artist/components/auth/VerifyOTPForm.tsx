@@ -31,7 +31,7 @@ export default function VerifyOTPFormArtist() {
     const code = otp.join("");
     try {
       await verifyOtp({ email, otp: code });
-      navigate("/artist-dashboard");
+      navigate("/artist-signin");
     } catch (error) {
       console.error(error);
     }

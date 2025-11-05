@@ -54,6 +54,14 @@ interface EditProfileResponse {
 interface googleSignUp {
   token: string
 }
+interface VerifyEmailRequest {
+  email: string
+}
+
+interface ResetPassRequest {
+  password: string,
+  token: string
+}
 
 export const authApiArtist = {
     signUp: async(data:SignupRequest): Promise<SignupResponse>=> {
@@ -88,5 +96,15 @@ export const authApiArtist = {
     googleSignup: async(data: googleSignUp)=> {
       const response = await axiosInstance.post(API_ROUTE_ARTIST.GOOGLE_SIGNUP, data)
       return response.data
-    }    
+    },    
+
+    verifyEmail: async(data:VerifyEmailRequest)=> {
+      const response = await axiosInstance.post(API_ROUTE_ARTIST.VERIFY_EMAIL, data)
+      return response.data
+    },
+
+    ResetPassword: async(data: ResetPassRequest)=> {
+      const response = await axiosInstance.put(API_ROUTE_ARTIST.RESET_PASSWORD, data)
+      return response.data
+    },    
 }

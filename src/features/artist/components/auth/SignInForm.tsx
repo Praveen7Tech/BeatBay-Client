@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { InputField } from "../ui/InputField"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useApi } from "@/core/hooks/useApi"; 
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { loginSuccess } from "@/features/auth/slices/authSlice"; 
@@ -53,8 +53,9 @@ export default function SignInForm(){
                 <p className="text-white text-sm mt-1">{errors.password.message}</p>
                 )}
             </div>
-
-
+                <Link to="/artist-forgot-password" className="text-white hover:text-orange-300 font-semibold transition-colors">
+                     Forgot password?
+                </Link>
             <Button type="submit">Sign In</Button>
         </form>
     )

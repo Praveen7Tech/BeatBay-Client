@@ -22,7 +22,9 @@ export const API_ROUTE_ARTIST = {
   LOGIN: '/artist/login',
   LOGOUT: '/artist/logout',
   EDIT_PROFILE: '/artist/edit-profile',
-  GOOGLE_SIGNUP: '/artist/google-signup'
+  GOOGLE_SIGNUP: '/artist/google-signup',
+  VERIFY_EMAIL: '/artist/verify-email',
+  RESET_PASSWORD: '/artist/reset-password'
 }
 
 export const API_ROUTES_USER ={
