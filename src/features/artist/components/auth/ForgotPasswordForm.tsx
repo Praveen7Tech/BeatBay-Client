@@ -7,6 +7,7 @@ import { useApi } from '@/core/hooks/useApi'
 import { authApiArtist } from '../../services/artist-authApi'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 
 const FormData = z.object({
     email: z.string().email("Invalid email format")
@@ -16,6 +17,8 @@ type FormInput = z.infer<typeof FormData>
 
 const ForgotPasswordFormArtist = () => {
 
+    const [submit, setSubmit] = useState(false)
+
     const {handleSubmit, register, formState:{errors}} = useForm<FormInput>({
         resolver: zodResolver(FormData)
     })
@@ -24,17 +27,28 @@ const ForgotPasswordFormArtist = () => {
     const Onsubmit= async(data: FormInput)=>{
         try {
             await VerifyEmail(data)
+            setSubmit(true)
         } catch (error) {
             
         }
     }
   return (
+    <>
+     <p className="text-white/80 text-sm text-center pb-3">Enter your registered email below</p>
     <form onSubmit={handleSubmit(Onsubmit)}>
-        <InputField {...register('email')} placeholder='enter email' icon={Mail}/>
+        <InputField {...register('email')} placeholder='enter email' disabled={submit} icon={Mail}/>
         {errors.email && (<p className="text-white text-sm mt-1">{errors.email.message}</p>)}
 
-        <Button type='submit'>Verify Email</Button>
+        <Button type='submit' disabled={submit}>Verify Email</Button>
+
+        {submit && (
+            <p className="text-white/80 text-sm text-center">
+                Please check your email for create
+                <br />a new password
+            </p>
+        )}
     </form>
+    </>
   )
 }
 

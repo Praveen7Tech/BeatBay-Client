@@ -9,6 +9,7 @@ import { loginSuccess } from "@/features/auth/slices/authSlice";
 import { Lock, Mail } from "lucide-react";
 import { Button } from "../ui/Button"; 
 import z from "zod";
+import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
 
 const LoginSchema = z.object({
     email:z.string().email("Invalid email"),
@@ -57,6 +58,8 @@ export default function SignInForm(){
                      Forgot password?
                 </Link>
             <Button type="submit">Sign In</Button>
+
+            <GoogleAuthButton role={"artist"}/>
         </form>
     )
 }
