@@ -6,10 +6,10 @@ import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useSelector } from 'react-redux';
 import { RootState } from "../../../core/store/store";
-import { Button } from "../ui/Button"; 
 import { Input } from "../ui/Input"; 
 import { Devider } from "../ui/Devider.ui";
 import { GoogleAuthButton } from "../../../core/components/GoogleAuthButton";
+import { Button } from "@/core/components/button/Button";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -60,8 +60,8 @@ export default function SignupForm() {
           {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
         </div>
 
-        <Button type="submit" disabled={false}>
-          {loading ? "Signing Up.." : "Create Account"}
+        <Button theme="user" type="submit" loading={loading}>
+           Create Account
         </Button>
       </div>
 

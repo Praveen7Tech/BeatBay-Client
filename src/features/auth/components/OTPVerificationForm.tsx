@@ -1,9 +1,10 @@
 
 import { authApi } from "../services/authApi"
-import { Button } from "../ui/Button"
+//import { Button } from "../ui/Button"
 import { useOtpVerification } from "@/core/hooks/useOtpVerification"
 import { Timer } from "@/core/components/Timer"
 import { OtpInputs } from "@/core/components/OtpInputField"
+import { Button } from "@/core/components/button/Button"
 
 
 export function OtpVerification() {
@@ -20,14 +21,19 @@ export function OtpVerification() {
       <OtpInputs otp={otp} handleChange={HandleChange} handleKeyDown={HandleKeyDown} variant="user" />
 
       {/* Verify otp button*/}
-      <Button type="button" disabled={verifyLoading} onClick={HandleSubmit} className="mt-4" >
-        {verifyLoading ? "Verifying..." : "Verify"}
+      <Button type="button" theme="user" disabled={verifyLoading} onClick={HandleSubmit}>
+        Verify
       </Button>
 
       {/* timer */}
      {canResend ? (
-        <Button type="button" disabled={resendLoading} onClick={HandleResend}>
-            {resendLoading ? "Re sending Otp.." : "Resend OTP"}
+        <Button
+          type="button"
+          theme="user"
+          loading={resendLoading}
+          onClick={HandleResend}
+        >
+          Resend OTP
         </Button>
       ) : (
         <Timer duration={120} onExpire={() => setCanResend(true)} />

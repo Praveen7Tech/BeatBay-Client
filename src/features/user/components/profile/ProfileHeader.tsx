@@ -7,6 +7,7 @@ import { logout } from "@/features/auth/slices/authSlice";
 import { useApi } from "@/core/hooks/useApi";
 import { authApi } from "@/features/auth/services/authApi";
 import { RootState } from "@/core/store/store";
+import { Button } from "@/core/components/button/Button";
 
 const URL = import.meta.env.VITE_API_URL;
 
@@ -67,12 +68,9 @@ export function ProfileHeader() {
 
         {/* Logout Button */}
         <div className="flex gap-3 pb-2">
-          <button
-            onClick={handleLogout}
-            className="px-6 py-2 border border-white rounded-full hover:bg-white hover:text-black transition-colors font-semibold text-sm"
-          >
-            Log Out →
-          </button>
+          <Button theme="user" variant="dashboard" onClick={handleLogout}>
+             Log Out →
+          </Button>
         </div>
       </div>
     </div>

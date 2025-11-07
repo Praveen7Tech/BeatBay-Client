@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { useApi } from "@/core/hooks/useApi"
 import { RootState } from "@/core/store/store"
 import {  logout } from "@/features/auth/slices/authSlice"
@@ -9,6 +8,7 @@ import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { authApiArtist } from "../../services/artist-authApi"
+import { Button } from "@/core/components/button/Button"
 
 interface ArtistHeaderProps {
   name: string
@@ -73,11 +73,7 @@ export function ArtistHeader({  verified = true,  stats }: ArtistHeaderProps) {
 
             <div className="flex items-center gap-4 mb-6">
               <h1 className="text-5xl font-bold text-white">{user?.name}</h1>
-              <Button
-                variant="outline"
-                className="border-gray-700 bg-blue-900 text-white hover:bg-gray-800"
-                onClick={() => navigate("/artist-edit-profile")}
-              >
+              <Button theme="artist" variant="primary" onClick={() => navigate("/artist-edit-profile")}>
                 Edit
               </Button>
             </div>
@@ -103,12 +99,9 @@ export function ArtistHeader({  verified = true,  stats }: ArtistHeaderProps) {
                 <div className="text-2xl font-bold text-white">{stats.fans.toLocaleString()}</div>
               </div>
               <div>
-                <button onClick={handleLogout}
-                    type="button"
-                    className="px-6 py-2 border border-zinc-700 rounded-lg text-white hover:bg-zinc-800 transition"
-                >
+                <Button theme="artist" variant="primary" onClick={handleLogout} type="button">
                     Logout
-                </button>
+                </Button>
               </div>
             </div>
           </div>

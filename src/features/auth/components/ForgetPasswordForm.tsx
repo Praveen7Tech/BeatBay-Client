@@ -1,5 +1,4 @@
 import { Input } from "../ui/Input" 
-import { Button } from "../ui/Button" 
 import { Link } from "react-router-dom"
 import z from "zod"
 import { useForm } from "react-hook-form"
@@ -7,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useApi } from "../../../core/hooks/useApi"
 import { authApi } from "../services/authApi"
 import { useState } from "react"
+import { Button } from "@/core/components/button/Button"
 
 const EmailSchema = z.object({
   email: z.string().email("invalid email")
@@ -45,8 +45,8 @@ export default function ForgotPasswordForm() {
 
       {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
 
-      <Button type="submit" className="mb-6" disabled={submited}>
-        {loading ? "Verifying email..." : "Submit"}
+      <Button type="submit" theme="user" disabled={submited} loading={loading}>
+        Submit
       </Button>
 
       {submited && (

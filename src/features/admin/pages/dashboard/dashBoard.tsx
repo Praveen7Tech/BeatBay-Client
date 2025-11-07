@@ -1,9 +1,9 @@
 
-import { Button } from '../../../auth/ui/Button'; 
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../auth/slices/authSlice'; 
 import { useApi } from '../../../../core/hooks/useApi'; 
 import { authApiAdmin } from '../../services/admin-AuthApi';
+import { Button } from '@/core/components/button/Button';
 
 const dashBoard = () => {
   const dispatch = useDispatch()
@@ -30,7 +30,7 @@ const dashBoard = () => {
         You are successfully logged in!
       </p>
 
-      <Button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white">
+      <Button theme='artist' variant='dashboard' onClick={handleLogout} >
         Logout
       </Button>
     </div>

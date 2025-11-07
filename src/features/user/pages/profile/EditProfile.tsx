@@ -11,6 +11,8 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { update } from "@/features/auth/slices/authSlice"
+import { InputField } from "@/features/artist/components/ui/InputField"
+import { Button } from "@/core/components/button/Button"
 
 const imgURL = import.meta.env.VITE_API_URL
 
@@ -94,7 +96,7 @@ export default function EditProfile() {
 
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] p-8">
+    <div className=" max-w-3xl mx-auto bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] p-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-2">Edit Profile</h1>
@@ -134,12 +136,9 @@ export default function EditProfile() {
       {/* Form Fields */}
       <div className="space-y-6">
         {/* Name Field */}
-        <div>
           <label className="block text-sm font-semibold text-gray-300 mb-2">Full Name</label>
-          <div className="flex items-center gap-3 px-4 py-3 bg-[#2a2a2a] rounded-lg border border-[#3a3a3a] focus-within:border-[#00d084] transition-colors">
-            <User className="w-5 h-5 text-gray-500" />
-            
-            <input
+            <InputField
+            icon={User}
             {...register('name')}
               type="text"
               defaultValue={user?.name}
@@ -147,66 +146,50 @@ export default function EditProfile() {
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
             />
             {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>}
-          </div>
-        </div>
 
         {/* Email Field */}
-        <div>
           <label className="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
-          <div className="flex items-center gap-3 px-4 py-3 bg-[#2a2a2a] rounded-lg border border-[#3a3a3a] focus-within:border-[#00d084] transition-colors">
-            <Mail className="w-5 h-5 text-gray-500" />
-            <input
-              // {...register('email')}
+          
+            <InputField
+              icon={Mail}
               type="email"
               value={user?.email}
               placeholder="Enter your email"
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
             />
-             {/* {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>} */}
-          </div>
-        </div>
 
         {/* Password Field */}
-        <div>
           <label className="block text-sm font-semibold text-gray-300 mb-2">Password</label>
-          <div className="flex items-center gap-3 px-4 py-3 bg-[#2a2a2a] rounded-lg border border-[#3a3a3a] focus-within:border-[#00d084] transition-colors">
-            <Lock className="w-5 h-5 text-gray-500" />
-            <input
+          
+            <InputField
               {...register("password")}
               type="password"
-              // defaultValue={"password"}
+              icon={Lock}
               placeholder="Enter new password"
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
             />
              {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
-          </div>
-          <p className="text-xs text-gray-500 mt-2">Leave blank to keep current password</p>
-        </div>
 
         {/* Confirm Password Field */}
-        <div>
           <label className="block text-sm font-semibold text-gray-300 mb-2">Confirm Password</label>
-          <div className="flex items-center gap-3 px-4 py-3 bg-[#2a2a2a] rounded-lg border border-[#3a3a3a] focus-within:border-[#00d084] transition-colors">
-            <Lock className="w-5 h-5 text-gray-500" />
-            <input
+            <InputField
               {...register("confirmPassword")}
               type="password"
+              icon={Lock}
               placeholder="Confirm new password"
               className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
             />
              {errors.confirmPassword && <p className="text-red-400 text-sm mt-1">{errors.confirmPassword.message}</p>}
-          </div>
-        </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-3 mt-8 pt-8 border-t border-[#2a2a2a]">
-        <button className="flex-1 px-4 py-3 bg-[#00d084] text-black rounded-lg font-semibold hover:bg-[#00c070] transition-colors">
+      <div className="flex gap-3  pt-8 border-t border-[#2a2a2a]">
+        <Button type="submit" theme="user" variant="primary">
           Save Changes
-        </button>
-        <button type="button" onClick={()=> navigate('/profile')} className="flex-1 px-4 py-3 bg-[#2a2a2a] text-gray-300 rounded-lg font-semibold hover:bg-[#3a3a3a] transition-colors">
+        </Button>
+        <Button type="button" theme="user" variant="dashboard" onClick={()=> navigate('/profile')}>
           Cancel
-        </button>
+        </Button>
       </div>
       </form>
     </div>

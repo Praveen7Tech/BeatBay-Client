@@ -7,6 +7,7 @@ import { authApiAdmin } from '../../services/admin-AuthApi';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../../auth/slices/authSlice';
+import { Button } from '@/core/components/button/Button';
 
 const LoginSchema = z.object({
   email: z.string().email("Invalid email"),
@@ -23,7 +24,7 @@ const AdminLogin: React.FC = () => {
     resolver: zodResolver(LoginSchema)
   })
 
-  const {execute: AdminLogin} = useApi(authApiAdmin.login)
+  const {execute: AdminLogin, loading} = useApi(authApiAdmin.login)
 
   const onSubmit = async(data: LoginInput) => {
     try {
@@ -73,13 +74,10 @@ const AdminLogin: React.FC = () => {
               {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
             </div>
 
-            <button
-              type="submit"
-              className="mt-4 bg-white text-black font-semibold px-6 py-3 rounded-full w-full flex items-center justify-center space-x-2 hover:bg-gray-200 transition-all"
-            >
+            <Button theme='admin' type="submit" loading={loading}>
               <span>SIGN IN</span>
               <span>→</span>
-            </button>
+            </Button>
           </form>
         </div>
       </div>

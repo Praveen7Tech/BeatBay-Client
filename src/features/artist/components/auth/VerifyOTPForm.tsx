@@ -1,8 +1,8 @@
 import { authApiArtist } from "../../services/artist-authApi";
 import { Timer } from "../../../../core/components/Timer";
-import { Button } from "../ui/Button";
 import { useOtpVerification } from "@/core/hooks/useOtpVerification";
 import { OtpInputs } from "@/core/components/OtpInputField";
+import { Button } from "@/core/components/button/Button";
 
 export default function VerifyOTPFormArtist() {
 
@@ -20,15 +20,14 @@ export default function VerifyOTPFormArtist() {
 
       {/* Timer */}
      {canResend ? (
-        <Button type="button" onClick={HandleResend} variant="secondary" disabled={resendLoading} >
-            {resendLoading ? "Re sending Otp.." : "RESEND OTP"}
+        <Button type="button" theme="artist" onClick={HandleResend} variant="secondary" disabled={resendLoading} >RESEND OTP
         </Button>
       ) : (
-         <Timer duration={120} onExpire={() => setCanResend(true)} />
+         <Timer duration={10} onExpire={() => setCanResend(true)} />
       )}
 
       {/* Verify button */}
-      <Button type="submit" variant="primary" disabled={verifyLoading}>
+      <Button type="submit" theme="artist" variant="primary" disabled={verifyLoading}>
         Verify
       </Button>
     </form>

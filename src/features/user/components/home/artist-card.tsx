@@ -27,7 +27,8 @@ export default function ArtistCard() {
             <Play className="w-5 h-5 fill-current" />
             PLAY
           </button>
-          <button className="border border-gray-500 text-white px-8 py-3 rounded-full font-bold hover:border-white transition-colors">
+          <button className="border-2 border-white/40 text-white px-8 py-3 rounded-full font-bold hover:border-white transition-colors flex items-center gap-2">
+            <Play className="w-5 h-5 fill-current" />
             ✓ FOLLOWING
           </button>
         </div>

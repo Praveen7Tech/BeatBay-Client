@@ -7,9 +7,9 @@ import { useApi } from "@/core/hooks/useApi";
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { loginSuccess } from "@/features/auth/slices/authSlice"; 
 import { Lock, Mail } from "lucide-react";
-import { Button } from "../ui/Button"; 
 import z from "zod";
 import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
+import { Button } from "@/core/components/button/Button";
 
 const LoginSchema = z.object({
     email:z.string().email("Invalid email"),
@@ -24,7 +24,7 @@ export default function SignInForm(){
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {execute: login} = useApi(authApiArtist.login)
+    const {execute: login, loading} = useApi(authApiArtist.login)
 
     const onSubmit = async (data: LoginFormInput) =>{
         try {
@@ -57,7 +57,7 @@ export default function SignInForm(){
                 <Link to="/artist-forgot-password" className="text-white hover:text-orange-300 font-semibold transition-colors">
                      Forgot password?
                 </Link>
-            <Button type="submit">Sign In</Button>
+            <Button type="submit" theme="artist" loading={loading}>Sign In</Button>
 
             <GoogleAuthButton role={"artist"}/>
         </form>

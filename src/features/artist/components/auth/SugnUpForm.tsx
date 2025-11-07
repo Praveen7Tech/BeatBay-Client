@@ -4,12 +4,12 @@ import { Mail, Lock, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import z from "zod";
 import { InputField } from "../ui/InputField"; 
-import { Button } from "../ui/Button"; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApi } from "@/core/hooks/useApi"; 
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
+import { Button } from "@/core/components/button/Button";
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -20,12 +20,12 @@ const signUpSchema = z.object({
 type SignupInput = z.infer<typeof signUpSchema>;
 
 export default function SignupForm() {
-  const {register,  handleSubmit, formState: { errors }, } = useForm<SignupInput>({
+  const {register, handleSubmit, formState: { errors },} = useForm<SignupInput>({
     resolver: zodResolver(signUpSchema),
   });
 
   const navigate = useNavigate();
-  const { execute: Signup } = useApi(authApiArtist.signUp);
+  const { execute: Signup, loading } = useApi(authApiArtist.signUp);
 
   const onSubmit = async (data: SignupInput) => {
     try {
@@ -65,7 +65,7 @@ export default function SignupForm() {
       </div>
 
       <GoogleAuthButton role={"artist"}/>
-      <Button type="submit">Register</Button>
+      <Button theme="artist" variant="secondary" type="submit" loading={loading}>Register</Button>
     </form>
   );
 }

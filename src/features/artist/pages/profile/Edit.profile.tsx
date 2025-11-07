@@ -10,6 +10,7 @@ import { authApiArtist } from "../../services/artist-authApi";
 import { useApi } from "@/core/hooks/useApi";
 import { useDispatch } from "react-redux";
 import { update } from "@/features/auth/slices/authSlice";
+import { Button } from "@/core/components/button/Button";
 
 const EditSchema = z.object({
     name: z.string().min(2, "Name is required").optional(),
@@ -183,17 +184,12 @@ export function EditArtistProfile() {
 
         {/* Action Buttons */}
         <div className="flex gap-3 justify-end pt-4 border-t border-zinc-800">
-          <button onClick={()=> navigate('/artist-profile')}
-            type="button"
-            className="px-6 py-2 border border-zinc-700 rounded-lg text-white hover:bg-zinc-800 transition"
-          >
+          <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist-profile')} type="button">
             Cancel
-          </button>
-          <button
-            className="px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-zinc-100 transition"
-          >
+          </Button>
+          <Button theme="artist">
             Save Changes
-          </button>
+          </Button>
         </div>
       </form>
     </div>
