@@ -11,6 +11,7 @@ import { useApi } from "@/core/hooks/useApi";
 import { useDispatch } from "react-redux";
 import { update } from "@/features/auth/slices/authSlice";
 import { Button } from "@/core/components/button/Button";
+import { Input } from "@/core/components/input/Input";
 
 const EditSchema = z.object({
     name: z.string().min(2, "Name is required").optional(),
@@ -113,7 +114,7 @@ export function EditArtistProfile() {
                     className="w-32 h-32 rounded-lg object-cover bg-zinc-800"
                 />) : (<User className="w-12 h-12 text-gray-500"/>)
             }
-              <input
+              <Input placeholder=""
                 type="file"
                 accept="image/*"
                 className="absolute inset-0 opacity-0 cursor-pointer rounded-lg"
@@ -132,13 +133,7 @@ export function EditArtistProfile() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Artist Name
               </label>
-              <input
-                {...register('name')}
-                defaultValue={user?.name}
-                type="text"
-                placeholder="Enter artist name"
-                className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition"
-              />
+              <Input theme="artist" {...register('name')} defaultValue={user?.name} type="text"placeholder="Enter artist name"  />
               {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>}
             </div>
 
@@ -146,12 +141,7 @@ export function EditArtistProfile() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Bio
               </label>
-              <textarea
-                {...register('bio')}
-                placeholder="Enter artist bio"
-                rows={4}
-                className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition resize-none"
-              />
+              <Input theme="artist" {...register('bio')} placeholder="Enter artist bio"/>
               {errors.bio && <p className="text-red-400 text-sm mt-1">{errors.bio.message}</p>}
             </div>
 
@@ -159,24 +149,14 @@ export function EditArtistProfile() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Password
               </label>
-              <input
-                {...register('password')}
-                type="text"
-                placeholder="Enter password"
-                className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition"
-              />
+              <Input theme="artist" {...register('password')} type="text" placeholder="Enter password" />
               {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Confirm Password
               </label>
-              <input
-                {...register('confirmPassword')}
-                type="text"
-                placeholder="confirm password"
-                className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition"
-              />
+              <Input theme="artist" {...register('confirmPassword')} type="text" placeholder="confirm password" />
               {errors.confirmPassword && <p className="text-red-400 text-sm mt-1">{errors.confirmPassword.message}</p>}
             </div>
           </div>

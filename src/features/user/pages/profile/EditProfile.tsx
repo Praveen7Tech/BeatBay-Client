@@ -11,8 +11,8 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { update } from "@/features/auth/slices/authSlice"
-import { InputField } from "@/features/artist/components/ui/InputField"
 import { Button } from "@/core/components/button/Button"
+import { Input } from "@/core/components/input/Input"
 
 const imgURL = import.meta.env.VITE_API_URL
 
@@ -137,7 +137,7 @@ export default function EditProfile() {
       <div className="space-y-6">
         {/* Name Field */}
           <label className="block text-sm font-semibold text-gray-300 mb-2">Full Name</label>
-            <InputField
+            <Input theme="user"
             icon={User}
             {...register('name')}
               type="text"
@@ -150,7 +150,7 @@ export default function EditProfile() {
         {/* Email Field */}
           <label className="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
           
-            <InputField
+            <Input theme="user"
               icon={Mail}
               type="email"
               value={user?.email}
@@ -161,7 +161,7 @@ export default function EditProfile() {
         {/* Password Field */}
           <label className="block text-sm font-semibold text-gray-300 mb-2">Password</label>
           
-            <InputField
+            <Input theme="user"
               {...register("password")}
               type="password"
               icon={Lock}
@@ -172,7 +172,7 @@ export default function EditProfile() {
 
         {/* Confirm Password Field */}
           <label className="block text-sm font-semibold text-gray-300 mb-2">Confirm Password</label>
-            <InputField
+            <Input theme="user"
               {...register("confirmPassword")}
               type="password"
               icon={Lock}

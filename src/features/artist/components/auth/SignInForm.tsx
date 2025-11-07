@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { InputField } from "../ui/InputField"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,8 +7,9 @@ import { authApiArtist } from "../../services/artist-authApi";
 import { loginSuccess } from "@/features/auth/slices/authSlice"; 
 import { Lock, Mail } from "lucide-react";
 import z from "zod";
-import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
+import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
+import { Input } from "@/core/components/input/Input";
 
 const LoginSchema = z.object({
     email:z.string().email("Invalid email"),
@@ -42,14 +42,14 @@ export default function SignInForm(){
     return(
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
              <div>
-                <InputField {...register("email")} placeholder="Email" icon={Mail} />
+                <Input theme="artist" {...register("email")} placeholder="Email" icon={Mail} />
                 {errors.email && (
                 <p className="text-white text-sm mt-1">{errors.email.message}</p>
                 )}
             </div>
 
             <div>
-                <InputField {...register("password")} placeholder="Password" icon={Lock} />
+                <Input theme="artist" {...register("password")} placeholder="Password" icon={Lock} />
                 {errors.password && (
                 <p className="text-white text-sm mt-1">{errors.password.message}</p>
                 )}
@@ -57,7 +57,7 @@ export default function SignInForm(){
                 <Link to="/artist-forgot-password" className="text-white hover:text-orange-300 font-semibold transition-colors">
                      Forgot password?
                 </Link>
-            <Button type="submit" theme="artist" loading={loading}>Sign In</Button>
+            <Button type="submit" theme="artist" variant="secondary" loading={loading}>Sign In</Button>
 
             <GoogleAuthButton role={"artist"}/>
         </form>

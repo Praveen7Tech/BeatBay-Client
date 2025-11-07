@@ -6,10 +6,10 @@ import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useSelector } from 'react-redux';
 import { RootState } from "../../../core/store/store";
-import { Input } from "../ui/Input"; 
 import { Devider } from "../ui/Devider.ui";
-import { GoogleAuthButton } from "../../../core/components/GoogleAuthButton";
+import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton";
 import { Button } from "@/core/components/button/Button";
+import { Input } from "@/core/components/input/Input";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -46,18 +46,15 @@ export default function SignupForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
       <div className="w-full max-w-xs space-y-4">
         <div>
-          <Input {...register("name")} type="text" placeholder="Full Name" />
-          {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>}
+          <Input theme="user" {...register("name")} type="text" placeholder="Full Name" error={errors.name?.message}/>
         </div>
 
         <div>
-          <Input {...register("email")} type="email" placeholder="Enter Email" />
-          {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
+          <Input theme="user" {...register("email")} type="email" placeholder="Enter Email" error={errors.email?.message}/>
         </div>
 
         <div>
-          <Input {...register("password")} type="password" placeholder="Password" />
-          {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
+          <Input theme="user" {...register("password")} type="password" placeholder="Password" error={errors.password?.message} />
         </div>
 
         <Button theme="user" type="submit" loading={loading}>

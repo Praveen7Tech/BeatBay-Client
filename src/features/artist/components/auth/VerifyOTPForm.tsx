@@ -1,7 +1,7 @@
 import { authApiArtist } from "../../services/artist-authApi";
 import { Timer } from "../../../../core/components/Timer";
 import { useOtpVerification } from "@/core/hooks/useOtpVerification";
-import { OtpInputs } from "@/core/components/OtpInputField";
+import { OtpInputs } from "@/core/components/input/OtpInputField";
 import { Button } from "@/core/components/button/Button";
 
 export default function VerifyOTPFormArtist() {

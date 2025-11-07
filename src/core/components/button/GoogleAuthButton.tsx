@@ -1,8 +1,8 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { useApi } from "../hooks/useApi";
-import { authApi } from "../../features/auth/services/authApi";
+import { useApi } from "@/core/hooks/useApi"; 
+import { authApi } from "@/features/auth/services/authApi"; 
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../features/auth/slices/authSlice";
+import { loginSuccess } from "@/features/auth/slices/authSlice"; 
 import { useNavigate } from "react-router-dom";
 import { authApiArtist } from "@/features/artist/services/artist-authApi";
 

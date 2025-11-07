@@ -1,11 +1,11 @@
 import z from "zod";
-import { Input } from "../ui/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/core/components/button/Button";
+import { Input } from "@/core/components/input/Input";
 
 const ResetPassShema = z.object({
     newPassword: z.string().min(6,"password must be atleast 6 charecters"),
@@ -44,9 +44,9 @@ export default function ResetPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 max-w-xs mx-auto">
-      <Input {...register("newPassword")} type="password" placeholder="New Password" />
+      <Input theme="user" {...register("newPassword")} type="password" placeholder="New Password" />
       {errors.newPassword && <p className="text-red-400 text-sm mt-1">{errors.newPassword.message}</p>}
-      <Input {...register("confirmPassword")} type="password" placeholder="Confirm Password" />
+      <Input theme="user" {...register("confirmPassword")} type="password" placeholder="Confirm Password" />
       {errors.confirmPassword && <p className="text-red-400 text-sm">{errors.confirmPassword.message}</p>}
       <Button type="submit" theme="user" loading={loading}>
         Reset Password

@@ -3,7 +3,7 @@ import { authApi } from "../services/authApi"
 //import { Button } from "../ui/Button"
 import { useOtpVerification } from "@/core/hooks/useOtpVerification"
 import { Timer } from "@/core/components/Timer"
-import { OtpInputs } from "@/core/components/OtpInputField"
+import { OtpInputs } from "@/core/components/input/OtpInputField"
 import { Button } from "@/core/components/button/Button"
 
 

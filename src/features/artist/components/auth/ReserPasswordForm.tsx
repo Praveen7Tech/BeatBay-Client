@@ -1,5 +1,4 @@
 
-import { InputField } from '../ui/InputField'
 import { Lock } from 'lucide-react'
 import z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -8,6 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useApi } from '@/core/hooks/useApi'
 import { authApiArtist } from '../../services/artist-authApi'
 import { Button } from '@/core/components/button/Button'
+import { Input } from '@/core/components/input/Input'
 
 const ResetPassShema = z.object({
     newPassword: z.string().min(6,"password must be atleast 6 charecters"),
@@ -47,11 +47,11 @@ const ResetPasswordFormArtist = () => {
   return(
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-            <InputField {...register('newPassword')} placeholder='New password' icon={Lock}/>
+            <Input theme="artist"{...register('newPassword')} placeholder='New password' icon={Lock}/>
             {errors.newPassword && (<p className="text-white text-sm mt-1">{errors.newPassword.message}</p> )}
         </div>
         <div>
-            <InputField {...register('confirmPassword')} placeholder='Confirm password' icon={Lock}/>
+            <Input theme="artist" {...register('confirmPassword')} placeholder='Confirm password' icon={Lock}/>
             {errors.confirmPassword && (<p className="text-white text-sm mt-1">{errors.confirmPassword.message}</p> )}
         </div>
         

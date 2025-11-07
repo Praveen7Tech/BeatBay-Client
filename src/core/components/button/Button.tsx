@@ -45,7 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
     primary:
       "border-2 border-white/40 hover:bg-white/10 hover:border-orange-400/60 ",
     secondary:
-      "border-2 border-white/40 rounded-full hover:bg-white/10 hover:border-orange-400/60",
+      "border-2 border-white/40 rounded-full hover:bg-white/10 hover:border-orange-400/60 mt-6",
     dashboard: "px-6 py-2 border border-zinc-700 rounded-lg text-white hover:bg-zinc-800 transition", 
   };
 

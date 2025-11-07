@@ -1,4 +1,4 @@
-import { Input } from "../ui/Input" 
+
 import { Link } from "react-router-dom"
 import z from "zod"
 import { useForm } from "react-hook-form"
@@ -7,6 +7,7 @@ import { useApi } from "../../../core/hooks/useApi"
 import { authApi } from "../services/authApi"
 import { useState } from "react"
 import { Button } from "@/core/components/button/Button"
+import { Input } from "@/core/components/input/Input"
 
 const EmailSchema = z.object({
   email: z.string().email("invalid email")
@@ -34,7 +35,7 @@ export default function ForgotPasswordForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
     <div className="flex flex-col items-center w-full max-w-xs mx-auto">
-      <Input {...register('email')} disabled={submited} type="email" placeholder="Enter Email" className="mb-4" />
+      <Input theme="user" {...register('email')} disabled={submited} type="email" placeholder="Enter Email" className="mb-4" />
       
       <p className="text-center text-sm text-gray-300 mb-6">
         Remember the password?{" "}

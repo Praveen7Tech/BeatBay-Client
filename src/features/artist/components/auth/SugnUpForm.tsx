@@ -3,13 +3,13 @@
 import { Mail, Lock, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import z from "zod";
-import { InputField } from "../ui/InputField"; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApi } from "@/core/hooks/useApi"; 
 import { authApiArtist } from "../../services/artist-authApi"; 
-import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
+import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
+import { Input } from "@/core/components/input/Input";
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -39,33 +39,25 @@ export default function SignupForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
-        <InputField {...register("name")} placeholder="Artist Name" icon={User} />
-        {errors.name && (
-          <p className="text-white text-sm mt-1">{errors.name.message}</p>
-        )}
+        <Input theme="artist" {...register("name")} placeholder="Artist Name" icon={User} error={errors.name?.message} />
       </div>
 
       <div>
-        <InputField {...register("email")} placeholder="Email" icon={Mail} />
-        {errors.email && (
-          <p className="text-white text-sm mt-1">{errors.email.message}</p>
-        )}
+        <Input theme="artist" {...register("email")} placeholder="Email" icon={Mail} error={errors.email?.message}/>
       </div>
 
       <div>
-        <InputField
+        <Input theme="artist"
           {...register("password")}
           placeholder="Password"
           icon={Lock}
           type="password"
+          error={errors.password?.message}
         />
-        {errors.password && (
-          <p className="text-white text-sm mt-1">{errors.password.message}</p>
-        )}
       </div>
 
       <GoogleAuthButton role={"artist"}/>
-      <Button theme="artist" variant="secondary" type="submit" loading={loading}>Register</Button>
+      <Button theme="artist" variant="primary" type="submit" loading={loading}>Register</Button>
     </form>
   );
 }

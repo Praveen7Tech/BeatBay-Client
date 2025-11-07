@@ -1,5 +1,4 @@
 import z from "zod";
-import { Input } from "../ui/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSelector } from "react-redux";
@@ -10,8 +9,9 @@ import { authApi } from "../services/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../slices/authSlice";
 import { Devider } from "../ui/Devider.ui";
-import { GoogleAuthButton } from "@/core/components/GoogleAuthButton";
+import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
+import { Input } from "@/core/components/input/Input";
 
 const LoginSchema = z.object({
     email:z.string().email("Invalid email"),
@@ -47,12 +47,12 @@ export default function LoginForm () {
          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
       <div className="w-full max-w-xs space-y-4">
         <div>
-          <Input {...register("email")} type="email" placeholder="Enter Username Or Email" />
+          <Input theme="user" {...register("email")} type="email" placeholder="Enter Username Or Email" />
           {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
         </div>
 
         <div>
-          <Input {...register("password")} type="password" placeholder="Password" />
+          <Input theme="user" {...register("password")} type="password" placeholder="Password" />
           {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
         </div>
 
