@@ -24,7 +24,7 @@ export const useEditProfile =(editApi: (data: FormData)=> Promise<any>)=>{
 
     const handleEdit = async (data: Record<string, any>) => {
         try {
-        const hasChanges = data.name !== user?.name || data.password || image || data.bio
+        const hasChanges = data.name !== user?.name || data.password || image || data.bio !== user?.bio
         if (!hasChanges) return
 
         const formData = new FormData()
@@ -34,7 +34,6 @@ export const useEditProfile =(editApi: (data: FormData)=> Promise<any>)=>{
         if (image) formData.append("profileImage", image)
 
         const res = await execute(formData)
-        console.log("form data-", formData)
         dispatch(update({ user: res.user }))
         return res
         } catch (err) {

@@ -76,7 +76,7 @@ export function EditArtistProfile() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Bio
               </label>
-              <Input theme="artist" {...register('bio')} placeholder="Enter artist bio"  
+              <Input theme="artist" {...register('bio')} placeholder="Enter artist bio" defaultValue={user?.bio} 
               error={errors.bio?.message}/>
             </div>
             <div>
@@ -100,7 +100,7 @@ export function EditArtistProfile() {
           <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist-profile')} type="button">
             Cancel
           </Button>
-          <Button theme="artist">
+          <Button theme="artist" type="submit">
             Save Changes
           </Button>
         </div>

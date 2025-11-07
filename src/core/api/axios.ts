@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
     if(!(config.data instanceof FormData)){
       config.headers['Content-Type'] = 'application/json'
     }
-    console.log("config ", config)
+    
     return config;
   },
   (error) => Promise.reject(error)

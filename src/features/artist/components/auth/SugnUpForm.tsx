@@ -29,7 +29,6 @@ export default function SignupForm() {
 
   const onSubmit = async (data: SignupInput) => {
     try {
-      console.log("function trigger")
       await Signup(data);
       navigate(`/verify-otp-artist`, { state: { email: data.email } });
     } catch (err) {
