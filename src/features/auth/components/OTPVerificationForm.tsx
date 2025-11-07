@@ -27,12 +27,7 @@ export function OtpVerification() {
 
       {/* timer */}
      {canResend ? (
-        <Button
-          type="button"
-          theme="user"
-          loading={resendLoading}
-          onClick={HandleResend}
-        >
+        <Button type="button" theme="user" loading={resendLoading} onClick={HandleResend} >
           Resend OTP
         </Button>
       ) : (

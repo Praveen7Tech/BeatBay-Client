@@ -47,13 +47,13 @@ export default function LoginForm () {
          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
       <div className="w-full max-w-xs space-y-4">
         <div>
-          <Input theme="user" {...register("email")} type="email" placeholder="Enter Username Or Email" />
-          {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
+          <Input theme="user" {...register("email")} type="email" placeholder="Enter Username Or Email" 
+          error={errors.email?.message}/>
         </div>
 
         <div>
-          <Input theme="user" {...register("password")} type="password" placeholder="Password" />
-          {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
+          <Input theme="user" {...register("password")} type="password" placeholder="Password" 
+          error={errors.password?.message}/>
         </div>
 
         <div className="text-right">

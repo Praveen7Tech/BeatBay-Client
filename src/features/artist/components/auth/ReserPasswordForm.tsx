@@ -47,12 +47,12 @@ const ResetPasswordFormArtist = () => {
   return(
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-            <Input theme="artist"{...register('newPassword')} placeholder='New password' icon={Lock}/>
-            {errors.newPassword && (<p className="text-white text-sm mt-1">{errors.newPassword.message}</p> )}
+            <Input theme="artist"{...register('newPassword')} placeholder='New password' icon={Lock} 
+             error={errors.newPassword?.message}/>
         </div>
         <div>
-            <Input theme="artist" {...register('confirmPassword')} placeholder='Confirm password' icon={Lock}/>
-            {errors.confirmPassword && (<p className="text-white text-sm mt-1">{errors.confirmPassword.message}</p> )}
+            <Input theme="artist" {...register('confirmPassword')} placeholder='Confirm password' icon={Lock}
+             error={errors.confirmPassword?.message}/>
         </div>
         
         <Button type='submit' theme='artist' variant='primary' loading={loading}>Rest passowrd</Button>

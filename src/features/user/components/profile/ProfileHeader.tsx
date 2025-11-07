@@ -1,6 +1,5 @@
 "use client";
 
-import { Link } from "react-router-dom";
 import { Pen, User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/auth/slices/authSlice";
@@ -10,8 +9,11 @@ import { RootState } from "@/core/store/store";
 import { Button } from "@/core/components/button/Button";
 
 const URL = import.meta.env.VITE_API_URL;
+interface profileHeaderProps {
+  onEditClick: ()=> void
+}
 
-export function ProfileHeader() {
+export function ProfileHeader({onEditClick}: profileHeaderProps) {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const { execute: Logout } = useApi(authApi.logout);
@@ -48,12 +50,12 @@ export function ProfileHeader() {
 
         {/* Profile Info */}
         <div className="flex-1 pb-2">
-          <Link to="/edit-profile">
-            <div className="flex gap-6">
+          {/* <Link to="/edit-profile"> */}
+            <div className="flex gap-6" onClick={onEditClick}>
               <h1 className="text-4xl font-bold mb-2">{user.name}</h1>
               <Pen className="mt-2 text-gray-400 hover:text-white transition-colors" />
             </div>
-          </Link>
+          {/* </Link> */}
           <div className="flex gap-6 text-sm">
             <div>
               <span className="text-[#00d084] font-semibold">25</span>

@@ -143,9 +143,8 @@ export default function EditProfile() {
               type="text"
               defaultValue={user?.name}
               placeholder="Enter your full name"
-              className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
+               error={errors.name?.message}
             />
-            {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>}
 
         {/* Email Field */}
           <label className="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
@@ -155,7 +154,6 @@ export default function EditProfile() {
               type="email"
               value={user?.email}
               placeholder="Enter your email"
-              className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
             />
 
         {/* Password Field */}
@@ -166,9 +164,8 @@ export default function EditProfile() {
               type="password"
               icon={Lock}
               placeholder="Enter new password"
-              className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
+               error={errors.password?.message}
             />
-             {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
 
         {/* Confirm Password Field */}
           <label className="block text-sm font-semibold text-gray-300 mb-2">Confirm Password</label>
@@ -177,9 +174,8 @@ export default function EditProfile() {
               type="password"
               icon={Lock}
               placeholder="Confirm new password"
-              className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
+              error={errors.confirmPassword?.message}
             />
-             {errors.confirmPassword && <p className="text-red-400 text-sm mt-1">{errors.confirmPassword.message}</p>}
       </div>
 
       {/* Action Buttons */}

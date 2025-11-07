@@ -40,7 +40,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ? artistStyle
         : adminStyle;
 
-    const userError = "text-red-500 text-xs mt-1"    
+    const userError = "text-red-400 text-sm mt-1"    
     const artistError = "text-white text-sm mt-1"
     let errorClasses =
         theme === 'user'? userError : artistError

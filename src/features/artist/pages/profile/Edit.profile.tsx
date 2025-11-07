@@ -1,88 +1,28 @@
-import { RootState } from "@/core/store/store";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, X } from "lucide-react"
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
-import z from "zod";
 import { authApiArtist } from "../../services/artist-authApi"; 
-import { useApi } from "@/core/hooks/useApi";
-import { useDispatch } from "react-redux";
-import { update } from "@/features/auth/slices/authSlice";
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
-
-const EditSchema = z.object({
-    name: z.string().min(2, "Name is required").optional(),
-    bio: z.string().min(2, "Bio must be atleast 10 letter length").optional(),
-    password: z.string() .transform((val) => (val === "" ? undefined : val)).optional()
-      .refine((val) => !val || val.length >= 6, {
-        message: "Password must be at least 6 characters",
-      }),
-    confirmPassword: z
-      .string()
-      .transform((val) => (val === "" ? undefined : val)) // same handling
-      .optional(),
-    image: z.any().optional(),
-  })
-  .refine(
-    (data) => !data.password || data.password === data.confirmPassword,
-    {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    }
-  );
-
-type EditProfile = z.infer<typeof EditSchema>
-
+import { useEditProfile } from "@/core/hooks/useEditProfile";
+import { EditProfileData, EditProfileSchema } from "../../schema-validator/EditProfile.Schema";
 const imgURL = import.meta.env.VITE_API_URL
 
 export function EditArtistProfile() {
-    const [image, setImage] = useState<File | null>(null)
-    const [preview, setPreview] = useState<string | null>(null)
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const user = useSelector((state: RootState)=> state.auth.user)
+    // schema validator
+    const {register, handleSubmit, formState:{errors}} = useForm<EditProfileData>({
+        resolver: zodResolver(EditProfileSchema)
+    })  
 
-    const {register, handleSubmit, formState:{errors}} = useForm<EditProfile>({
-        resolver: zodResolver(EditSchema)
-    })
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
-        const file = e.target.files?.[0]
-        if(file){
-            setImage(file)
-            setPreview(URL.createObjectURL(file))
-        }
-    }   
-
-    const {execute: EditProfileArtist}  = useApi(authApiArtist.editProfile)
-    const EditProfileData = async (data: EditProfile) => {
-        try {
-        // Checking if any actual changes were made
-        const hasChanges =
-            data.name !== user?.name ||
-            data.password ||
-            image;
-    
-        if (!hasChanges) {
-            console.log("No changes detected, skipping update.");
-            return; 
-        }
-    
-        const formData = new FormData();
-        if (data.name && data.name !== user?.name) formData.append("name", data.name);
-        if (data.password) formData.append("password", data.password);
-        if (image) formData.append("profileImage", image);
-    
-        const res = await EditProfileArtist(formData);
-        dispatch(update({user:res.user}))
-        navigate('/artist-profile')
-        } catch (error) {
-        console.error(error);
-        }
-    };
+    // handle edit profile
+    const {user, preview, handleEdit, handleImageChange} = useEditProfile(authApiArtist.editProfile)
+    const EditProfileData = async(data: EditProfileData)=>{
+      await handleEdit(data)
+      navigate('/artist-profile')
+    }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white p-6">
@@ -93,7 +33,6 @@ export function EditArtistProfile() {
           <X size={24} />
         </button>
       </div>
-
       {/* Form */}
       <form onSubmit={handleSubmit(EditProfileData)} className="space-y-6 max-w-3xl mx-auto">
         <div className="flex gap-6">
@@ -118,50 +57,44 @@ export function EditArtistProfile() {
                 type="file"
                 accept="image/*"
                 className="absolute inset-0 opacity-0 cursor-pointer rounded-lg"
-                onChange={handleImageChange}
-              />
+                onChange={handleImageChange} />
               <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg opacity-0 hover:opacity-100 transition">
                 <span className="text-white text-sm font-medium">Change Image</span>
               </div>
             </div>
             </label>
           </div>
-
           {/* Form Fields */}
           <div className="flex-1 space-y-4">
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Artist Name
               </label>
-              <Input theme="artist" {...register('name')} defaultValue={user?.name} type="text"placeholder="Enter artist name"  />
-              {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>}
+              <Input theme="artist" {...register('name')} defaultValue={user?.name} type="text"placeholder="Enter artist name"  error={errors.name?.message} />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Bio
               </label>
-              <Input theme="artist" {...register('bio')} placeholder="Enter artist bio"/>
-              {errors.bio && <p className="text-red-400 text-sm mt-1">{errors.bio.message}</p>}
+              <Input theme="artist" {...register('bio')} placeholder="Enter artist bio"  
+              error={errors.bio?.message}/>
             </div>
-
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Password
               </label>
-              <Input theme="artist" {...register('password')} type="text" placeholder="Enter password" />
-              {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
+              <Input theme="artist" {...register('password')} type="text" placeholder="Enter password" 
+               error={errors.password?.message}/>
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Confirm Password
               </label>
-              <Input theme="artist" {...register('confirmPassword')} type="text" placeholder="confirm password" />
-              {errors.confirmPassword && <p className="text-red-400 text-sm mt-1">{errors.confirmPassword.message}</p>}
+              <Input theme="artist" {...register('confirmPassword')} type="text" placeholder="confirm password" 
+               error={errors.confirmPassword?.message}/>
             </div>
           </div>
         </div>
-
         {/* Action Buttons */}
         <div className="flex gap-3 justify-end pt-4 border-t border-zinc-800">
           <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist-profile')} type="button">

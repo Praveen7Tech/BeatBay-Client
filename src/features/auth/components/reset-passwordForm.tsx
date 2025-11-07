@@ -44,10 +44,10 @@ export default function ResetPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 max-w-xs mx-auto">
-      <Input theme="user" {...register("newPassword")} type="password" placeholder="New Password" />
-      {errors.newPassword && <p className="text-red-400 text-sm mt-1">{errors.newPassword.message}</p>}
-      <Input theme="user" {...register("confirmPassword")} type="password" placeholder="Confirm Password" />
-      {errors.confirmPassword && <p className="text-red-400 text-sm">{errors.confirmPassword.message}</p>}
+      <Input theme="user" {...register("newPassword")} type="password" placeholder="New Password" 
+      error={errors.newPassword?.message}/>
+      <Input theme="user" {...register("confirmPassword")} type="password" placeholder="Confirm Password" 
+      error={errors.confirmPassword?.message}/>
       <Button type="submit" theme="user" loading={loading}>
         Reset Password
       </Button>

@@ -42,17 +42,13 @@ export default function SignInForm(){
     return(
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
              <div>
-                <Input theme="artist" {...register("email")} placeholder="Email" icon={Mail} />
-                {errors.email && (
-                <p className="text-white text-sm mt-1">{errors.email.message}</p>
-                )}
+                <Input theme="artist" {...register("email")} placeholder="Email" icon={Mail} 
+                 error={errors.email?.message}/>
             </div>
 
             <div>
-                <Input theme="artist" {...register("password")} placeholder="Password" icon={Lock} />
-                {errors.password && (
-                <p className="text-white text-sm mt-1">{errors.password.message}</p>
-                )}
+                <Input theme="artist" {...register("password")} placeholder="Password" icon={Lock} 
+                 error={errors.password?.message}/>
             </div>
                 <Link to="/artist-forgot-password" className="text-white hover:text-orange-300 font-semibold transition-colors">
                      Forgot password?

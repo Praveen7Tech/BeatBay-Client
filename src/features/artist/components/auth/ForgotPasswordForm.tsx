@@ -36,8 +36,8 @@ const ForgotPasswordFormArtist = () => {
     <>
      <p className="text-white/80 text-sm text-center pb-3">Enter your registered email below</p>
     <form onSubmit={handleSubmit(Onsubmit)}>
-        <Input theme="artist" {...register('email')} placeholder='enter email' disabled={submit} icon={Mail}/>
-        {errors.email && (<p className="text-white text-sm mt-1">{errors.email.message}</p>)}
+        <Input theme="artist" {...register('email')} placeholder='enter email' disabled={submit} icon={Mail} 
+         error={errors.email?.message}/>
 
         <Button type='submit' theme='artist' variant='secondary' disabled={submit} loading={loading}>
             Verify Email

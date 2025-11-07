@@ -47,11 +47,7 @@ export default function SignupForm() {
       </div>
 
       <div>
-        <Input theme="artist"
-          {...register("password")}
-          placeholder="Password"
-          icon={Lock}
-          type="password"
+        <Input theme="artist" {...register("password")} placeholder="Password" icon={Lock} type="password"
           error={errors.password?.message}
         />
       </div>
