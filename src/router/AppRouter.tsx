@@ -21,7 +21,6 @@ import SignInPageArtist from '../features/artist/pages/auth/SignIn.artist';
 import ProfilePage from '@/features/user/pages/profile/ProfilePage'; 
 import UserLayout from '@/features/user/pages/layout/layout';
 import HomeContent from '@/features/user/pages/home/Home'; 
-import EditProfile from '@/features/user/pages/profile/EditProfile'; 
 import DashboardLayout from '@/features/artist/pages/layout/DashboardLayout';
 import ProfilePageArtist from '@/features/artist/pages/profile/Profile.artist';
 import { EditArtistProfile } from '@/features/artist/pages/profile/Edit.profile'; 
@@ -40,8 +39,10 @@ const AppRouter: React.FC = () => {
           <Route path="/verify-otp" element={<VerifyOTPPage />} />
           <Route path='/forgot-password' element={<ForgotPassword/>} />
           <Route path='/reset-password' element={<ResetPassword/>} />
+
           {/* Admin */}
           <Route path='/admin' element={<AdminLogin/>} />
+
           {/* Artist */}
           <Route path='/artist' element={<SignupPageArtist/>} />
           <Route path='/verify-otp-artist' element={<VerifyOTPartist/>} />
@@ -54,7 +55,6 @@ const AppRouter: React.FC = () => {
         <Route element={<ProtectedRoute requiredRole={ROLES.USER}><UserLayout /></ProtectedRoute>}>
           <Route path="/home" element={<HomeContent/>} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path='/edit-profile' element={<EditProfile/>}/>
         </Route>
 
         {/* admin routes */}

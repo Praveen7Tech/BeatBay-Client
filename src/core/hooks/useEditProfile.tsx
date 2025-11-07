@@ -34,6 +34,7 @@ export const useEditProfile =(editApi: (data: FormData)=> Promise<any>)=>{
         if (image) formData.append("profileImage", image)
 
         const res = await execute(formData)
+        console.log("form data-", formData)
         dispatch(update({ user: res.user }))
         return res
         } catch (err) {

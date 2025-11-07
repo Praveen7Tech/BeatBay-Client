@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const state: AuthState = store.getState().auth;
     const accessToken = state.accessToken; 
-    console.log("token ", accessToken)
+    
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
     if(!(config.data instanceof FormData)){
       config.headers['Content-Type'] = 'application/json'
     }
-    
+    console.log("config ", config)
     return config;
   },
   (error) => Promise.reject(error)

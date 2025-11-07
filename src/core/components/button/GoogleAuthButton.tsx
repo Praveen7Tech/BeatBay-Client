@@ -15,7 +15,6 @@ export function GoogleAuthButton({role}:GoogleAuthProps) {
     const navigate = useNavigate();
 
     const selectedApi = role === "user" ? authApi : authApiArtist;
-    console.log("juii ", selectedApi)
     const { execute: GoogleSignup } = useApi(selectedApi.googleSignup);
 
     const onSuccess = async (credentialResponse:any) => {

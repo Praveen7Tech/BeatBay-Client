@@ -6,10 +6,10 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApi } from "@/core/hooks/useApi"; 
-import { authApiArtist } from "../../services/artist-authApi"; 
 import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
+import { authApiArtist } from "../../services/artist-authApi";
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -29,6 +29,7 @@ export default function SignupForm() {
 
   const onSubmit = async (data: SignupInput) => {
     try {
+      console.log("function trigger")
       await Signup(data);
       navigate(`/verify-otp-artist`, { state: { email: data.email } });
     } catch (err) {
@@ -53,7 +54,7 @@ export default function SignupForm() {
       </div>
 
       <GoogleAuthButton role={"artist"}/>
-      <Button theme="artist" variant="primary" type="submit" loading={loading}>Register</Button>
+      <Button type="submit" theme="artist" variant="primary" loading={loading}>Register</Button>
     </form>
   );
 }
