@@ -1,4 +1,4 @@
-import z from "zod";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApi } from "../../../core/hooks/useApi";
@@ -6,17 +6,8 @@ import { authApi } from "../services/authApi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
+import { ResetPassInput, ResetPassShema } from "../schemas/auth.validator";
 
-const ResetPassShema = z.object({
-    newPassword: z.string().min(6,"password must be atleast 6 charecters"),
-    confirmPassword: z.string().min(6, "password must be atleast 6 charecters")
-})
-.refine((data)=> data.newPassword === data.confirmPassword, {
-    message: "Password do not match",
-    path: ["confirmPassword"]
-})
-
-type ResetPassInput = z.infer<typeof ResetPassShema>
 
 export default function ResetPasswordForm() {
 

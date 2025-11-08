@@ -24,3 +24,15 @@ export const EmailSchema = z.object({
 })
 
 export type VerifyEmailInput = z.infer<typeof EmailSchema>
+
+// Reset Password
+export const ResetPassShema = z.object({
+    newPassword: passwordValidator,
+    confirmPassword: passwordValidator
+})
+.refine((data)=> data.newPassword === data.confirmPassword, {
+    message: "Password do not match",
+    path: ["confirmPassword"]
+})
+
+export type ResetPassInput = z.infer<typeof ResetPassShema>
