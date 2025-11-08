@@ -13,7 +13,7 @@ export type SignupFormInputs = z.infer<typeof signupSchema>;
 // Login
 export const LoginSchema = z.object({
     email:nameValidator,
-    password: passwordValidator
+    password: z.string().min(6,"Password must be atleast 6 charecters")
 })
 
 export type LoginFormInput = z.infer<typeof LoginSchema>

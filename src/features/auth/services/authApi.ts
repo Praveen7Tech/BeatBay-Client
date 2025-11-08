@@ -17,7 +17,7 @@ interface VerifyOtpRequest {
   otp: string;
 }
 
-interface VerifyOtpResponse {
+export interface VerifyOtpResponse {
   message: string;
 }
 

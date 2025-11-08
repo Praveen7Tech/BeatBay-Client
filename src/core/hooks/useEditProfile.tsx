@@ -3,9 +3,15 @@ import { useSelector } from "react-redux"
 import { RootState } from "../store/store"
 import { useDispatch } from "react-redux"
 import { useApi } from "./useApi"
-import { update } from "@/features/auth/slices/authSlice"
+import { update, User } from "@/features/auth/slices/authSlice"
+import { EditProfileData } from "@/features/artist/schema-validator/EditProfile.Schema"
 
-export const useEditProfile =(editApi: (data: FormData)=> Promise<any>)=>{
+interface UpdateProfileResponse {
+  message: string
+  user: User
+}
+
+export const useEditProfile =(editApi: (data: FormData)=> Promise<UpdateProfileResponse>)=>{
     const [image, setImage] = useState<File | null>(null)
     const [preview, setPreview] = useState<string | null>(null)
 
@@ -22,9 +28,9 @@ export const useEditProfile =(editApi: (data: FormData)=> Promise<any>)=>{
      }
    }
 
-    const handleEdit = async (data: Record<string, any>) => {
+    const handleEdit = async (data: EditProfileData) => {
         try {
-        const hasChanges = data.name !== user?.name || data.password || image || data.bio !== user?.bio
+        const hasChanges = data.name !== user?.name || data.password  || image || data.bio !== user?.bio
         if (!hasChanges) return
 
         const formData = new FormData()

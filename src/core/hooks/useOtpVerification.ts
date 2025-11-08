@@ -2,10 +2,11 @@ import React, { useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { showError } from "../utils/toast.config"
 import { useApi } from "./useApi"
+import { VerifyOtpResponse } from "@/features/auth/services/authApi"
 
 interface otpVerificationProps {
-    verifyApiEndpoint: (data: {email:string, otp: string})=> Promise<any>
-    resendApiEndpoint: (data: {email: string})=> Promise<any>
+    verifyApiEndpoint: (data: {email:string, otp: string})=> Promise<VerifyOtpResponse>
+    resendApiEndpoint: (data: {email: string})=> Promise<VerifyOtpResponse>
     redirectPath: string
 }
 

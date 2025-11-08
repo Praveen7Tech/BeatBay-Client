@@ -5,7 +5,7 @@ import { showError, showSuccess } from '../utils/toast.config';
 
 
 
-export const useApi = <TData extends { message?: string }, TParams = any>(
+export const useApi = <TData extends { message?: string }, TParams = unknown>(
   apiCall: (params: TParams) => Promise<TData>,
 ) => {
   const [data, setData] = useState<TData | null>(null);

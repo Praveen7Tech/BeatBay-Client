@@ -1,4 +1,4 @@
-import { GoogleLogin } from "@react-oauth/google";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useApi } from "@/core/hooks/useApi"; 
 import { authApi } from "@/features/auth/services/authApi"; 
 import { useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ export function GoogleAuthButton({role}:GoogleAuthProps) {
     const selectedApi = role === "user" ? authApi : authApiArtist;
     const { execute: GoogleSignup } = useApi(selectedApi.googleSignup);
 
-    const onSuccess = async (credentialResponse:any) => {
+    const onSuccess = async (credentialResponse:CredentialResponse) => {
         try {
             const idToken = credentialResponse.credential; 
             if (!idToken) return;
@@ -37,17 +37,20 @@ export function GoogleAuthButton({role}:GoogleAuthProps) {
     };
 
     return (
-        <div className="w-full max-w-xs flex items-center justify-center">
-            <GoogleLogin
-                onSuccess={onSuccess}
-                onError={onError}
-                theme="filled_black"    // 'filled_blue', 'outline', 'filled_black'
-                size="large"           // 'large', 'medium', 'small'
-                text="continue_with"   // 'signin_with', 'signup_with', 'continue_with'
-                shape="circle"           //  'rectangular', 'circle', or 'pill'
-                logo_alignment="center"  // move Google logo to left or center
-                width="10"
-            />
+         <div className="w-full max-w-xs flex items-center justify-center relative">
+            
+            {/* The invisible Google IFrame that captures the click */}
+            <div className="absolute inset-0 opacity-0 cursor-pointer">
+                <GoogleLogin
+                    onSuccess={onSuccess}
+                    onError={onError}
+                    // The component needs to render a certain size for the hack to work
+                    width="400" 
+                />
+            </div>
+            <div>
+                <img src="\logos\g.png" alt="Google Logo" className="w-24"/>
+            </div>
         </div>
     );
 }

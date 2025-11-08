@@ -1,6 +1,5 @@
 
 import { Mail } from 'lucide-react'
-import z from 'zod'
 import { useApi } from '@/core/hooks/useApi'
 import { authApiArtist } from '../../services/artist-authApi'
 import { useForm } from 'react-hook-form'
@@ -8,23 +7,18 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { Button } from '@/core/components/button/Button'
 import { Input } from '@/core/components/input/Input'
-
-const FormData = z.object({
-    email: z.string().email("Invalid email format")
-})
-
-type FormInput = z.infer<typeof FormData>
+import { EmailSchema, VerifyEmailInput } from '@/features/auth/schemas/auth.validator'
 
 const ForgotPasswordFormArtist = () => {
 
     const [submit, setSubmit] = useState(false)
 
-    const {handleSubmit, register, formState:{errors}} = useForm<FormInput>({
-        resolver: zodResolver(FormData)
+    const {handleSubmit, register, formState:{errors}} = useForm<VerifyEmailInput>({
+        resolver: zodResolver(EmailSchema)
     })
     const {execute: VerifyEmail, loading} = useApi(authApiArtist.verifyEmail)
 
-    const Onsubmit= async(data: FormInput)=>{
+    const Onsubmit= async(data: VerifyEmailInput)=>{
         try {
             await VerifyEmail(data)
             setSubmit(true)

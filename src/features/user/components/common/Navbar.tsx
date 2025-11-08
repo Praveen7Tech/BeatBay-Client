@@ -15,17 +15,13 @@ const URL = import.meta.env.VITE_API_URL
 export default function Navbar({ onProfileClick, onBackClick }: NavbarProps) {
   const user = useSelector((state: RootState)=> state.auth.user)
   return (
-    <nav className="fixed top-0 left-0 right-0 h-24 bg-black border-b border-gray-800 z-50">
+    <nav className="fixed top-0 left-0 right-0 h-24 bg-black shadow-lg m-2 border border-b border-gray-800 z-50">
       <div className="flex items-center justify-between h-full px-6 gap-4">
         {/* Left Section - Logo and Back Button */}
         <div className="flex items-center gap-4 min-w-fit">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full border-2 border-green-500 flex items-center justify-center">
-              <div className="w-6 h-6 rounded-full bg-green-500"></div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-white font-bold text-sm">BeatBay</span>
-              <span className="text-gray-400 text-xs">.com</span>
+            <div className="ml-6">
+              <img src='\logos\logo.name-w.png' width={125} alt="" />
             </div>
           </div>
 

@@ -1,11 +1,11 @@
 "use client"
 
-import { Home, Compass, Users, Heart, Plus, Music } from "lucide-react"
+import { Home, Compass, Users, Heart, Plus, Music, LucideIcon } from "lucide-react"
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
-    <div className="w-72 bg-[#1a1a1a] border-r border-[#2a2a2a] flex flex-col overflow-y-auto lg:flex">
+    <div className="w-72 bg-[#131212] border-r border-[#322e2e] flex flex-col overflow-y-auto lg:flex">
 
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2">
@@ -31,11 +31,11 @@ export default function Sidebar() {
   )
 }
 
-function NavItem({ icon: Icon, label, active = false }: { icon: any; label: string; active?: boolean }) {
+function NavItem({ icon: Icon, label, active = false }: { icon: LucideIcon; label: string; active?: boolean }) {
   return (
     <div
       className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors ${
-        active ? "bg-[#00d084] text-black" : "text-gray-300 hover:bg-[#2a2a2a]"
+        active ? "bg-[#0dc682] text-black" : "text-gray-300 hover:bg-[#2a2a2a]"
       }`}
     >
       <Icon className="w-5 h-5" />

@@ -2,16 +2,18 @@ import React, { forwardRef } from "react";
 import { LucideIcon } from "lucide-react";
 
 type ThemeType = "user" | "artist" | "admin";
+type ErrorType = "red" | "while"
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   theme?: ThemeType;
   placeholder: string;
   icon?: LucideIcon;
   error?:string
+  errorTheme?: ErrorType
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ theme = "user", icon: Icon, className = "",error, ...props }, ref) => {
+  ({ theme = "user", icon: Icon, className = "",error, errorTheme, ...props }, ref) => {
     // 🟢 User style
     const userStyle = `
       w-full px-4 py-3 bg-black/20 border border-white/20 rounded-full 
@@ -42,19 +44,26 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const userError = "text-red-400 text-sm mt-1"    
     const artistError = "text-white text-sm mt-1"
-    const errorClasses =
-        theme === 'user'? userError : artistError
+     const errorClasses =
+      errorTheme === "red"
+        ? userError
+        : theme === "user"
+        ? userError
+        : artistError
+
     return (
-      <div className={`relative ${className}`}>
-        {Icon && (
-          <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 pointer-events-none" />
-        )}
-        <input
-          ref={ref}
-          {...props}
-          className={`${themeClasses} ${Icon ? "pl-12" : ""}`}
-        />
-       {error && <p className={errorClasses}>{error}</p>}
+      <div className={`space-y-1 ${className}`}> 
+        <div className="relative">
+          {Icon && (
+            <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 pointer-events-none" />
+          )}
+          <input
+            ref={ref}
+            {...props}
+            className={`${themeClasses} ${Icon ? "pl-12" : ""}`}
+          />
+        </div>
+        <p className={errorClasses}>{error || ""}</p>
       </div>
       
     );

@@ -70,28 +70,28 @@ export function EditArtistProfile() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Artist Name
               </label>
-              <Input theme="artist" {...register('name')} defaultValue={user?.name} type="text"placeholder="Enter artist name"  error={errors.name?.message} />
+              <Input theme="artist" {...register('name')} defaultValue={user?.name} type="text"placeholder="Enter artist name"  error={errors.name?.message} errorTheme="red"/>
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Bio
               </label>
               <Input theme="artist" {...register('bio')} placeholder="Enter artist bio" defaultValue={user?.bio} 
-              error={errors.bio?.message}/>
+              error={errors.bio?.message} errorTheme="red"/>
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Password
               </label>
               <Input theme="artist" {...register('password')} type="text" placeholder="Enter password" 
-               error={errors.password?.message}/>
+               error={errors.password?.message} errorTheme="red"/>
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Confirm Password
               </label>
               <Input theme="artist" {...register('confirmPassword')} type="text" placeholder="confirm password" 
-               error={errors.confirmPassword?.message}/>
+               error={errors.confirmPassword?.message} errorTheme="red"/>
             </div>
           </div>
         </div>
