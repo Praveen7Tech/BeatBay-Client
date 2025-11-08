@@ -32,7 +32,7 @@ export default function SignupForm() {
       await Signup(data);
       navigate(`/verify-otp-artist`, { state: { email: data.email } });
     } catch (err) {
-      
+      console.error(err)
     }
   };
 

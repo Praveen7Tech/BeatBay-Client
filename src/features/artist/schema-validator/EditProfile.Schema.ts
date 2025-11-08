@@ -1,14 +1,15 @@
+import { bio, nameValidator, passwordValidator } from "@/core/validators/validationShemas";
 import z from "zod";
 
 export const EditProfileSchema = z.object({
-    name: z.string().min(2, "Name is required").optional(),
-    bio: z.string().min(2, "Bio must be atleast 10 letter length").optional(),
-    password: z.string() .transform((val) => (val === "" ? undefined : val)).optional()
+    name: nameValidator.optional(),
+    bio: bio.optional(),
+    password: passwordValidator
+    .transform((val) => (val === "" ? undefined : val)).optional()
       .refine((val) => !val || val.length >= 6, {
         message: "Password must be at least 6 characters",
       }),
-    confirmPassword: z
-      .string()
+    confirmPassword: passwordValidator
       .transform((val) => (val === "" ? undefined : val)) 
       .optional(),
     image: z.any().optional(),

@@ -5,7 +5,7 @@ import { useApi } from '../../../../core/hooks/useApi';
 import { authApiAdmin } from '../../services/admin-AuthApi';
 import { Button } from '@/core/components/button/Button';
 
-const dashBoard = () => {
+const DashBoard = () => {
   const dispatch = useDispatch()
 
   const {execute: Logout} = useApi(authApiAdmin.logout)
@@ -37,4 +37,4 @@ const dashBoard = () => {
   );
 }
 
-export default dashBoard
+export default DashBoard

@@ -12,13 +12,8 @@ import { Devider } from "../ui/Devider.ui";
 import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
+import { LoginFormInput, LoginSchema } from "../schemas/auth.validator";
 
-const LoginSchema = z.object({
-    email:z.string().email("Invalid email"),
-    password: z.string().min(6, "password must be atleast 6 charecters")
-})
-
-type LoginFormInput = z.infer<typeof LoginSchema>
 
 export default function LoginForm () {
 

@@ -7,7 +7,7 @@ import { ImagePlus, Lock, Mail, User } from "lucide-react"
 import { useEditProfile } from "@/core/hooks/useEditProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { EditProfileData, EditProfileSchema } from "../../schema-validator/editProfile.Schema"
+import { EditProfileData, EditProfileSchema } from "../../schemas/editProfile.Schema"
 
 interface EditProfileProps {
   onCancel: () => void

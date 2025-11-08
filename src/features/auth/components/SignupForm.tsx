@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import z from "zod";
 import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useSelector } from 'react-redux';
@@ -10,14 +9,7 @@ import { Devider } from "../ui/Devider.ui";
 import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton";
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
-
-const signupSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be at least 6 characters.")
-});
-
-type SignupFormInputs = z.infer<typeof signupSchema>;
+import { SignupFormInputs, signupSchema } from "../schemas/auth.validator";
 
 export default function SignupForm() {
 
@@ -36,6 +28,7 @@ export default function SignupForm() {
       await signup(data);
       navigate(`/verify-otp`, { state: { email: data.email } });
     } catch (err) {
+      console.error(err)
       // Error handling is managed by the useApi hook 
     }
   };

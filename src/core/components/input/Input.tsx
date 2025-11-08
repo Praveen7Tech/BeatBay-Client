@@ -42,7 +42,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const userError = "text-red-400 text-sm mt-1"    
     const artistError = "text-white text-sm mt-1"
-    let errorClasses =
+    const errorClasses =
         theme === 'user'? userError : artistError
     return (
       <div className={`relative ${className}`}>

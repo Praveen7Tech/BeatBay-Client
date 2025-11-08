@@ -38,7 +38,7 @@ export default function ResetPasswordForm() {
             await resetPassword({token, password: data.newPassword})
             navigate("/login")
         } catch (error) {
-            
+            console.error(error)
         }
     }
 

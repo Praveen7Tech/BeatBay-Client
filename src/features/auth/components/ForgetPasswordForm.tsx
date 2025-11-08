@@ -1,6 +1,5 @@
 
 import { Link } from "react-router-dom"
-import z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useApi } from "../../../core/hooks/useApi"
@@ -8,12 +7,7 @@ import { authApi } from "../services/authApi"
 import { useState } from "react"
 import { Button } from "@/core/components/button/Button"
 import { Input } from "@/core/components/input/Input"
-
-const EmailSchema = z.object({
-  email: z.string().email("invalid email")
-})
-
-type VerifyEmailInput = z.infer<typeof EmailSchema>
+import { EmailSchema, VerifyEmailInput } from "../schemas/auth.validator"
 
 export default function ForgotPasswordForm() {
   const {register, handleSubmit, formState: {errors}} = useForm<VerifyEmailInput>({
@@ -28,7 +22,7 @@ export default function ForgotPasswordForm() {
       await verifyEmail(data)
       setSubmitted(true)
     } catch (error) {
-      
+      console.error(error)
     }
   }
 

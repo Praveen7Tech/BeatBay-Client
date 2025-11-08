@@ -29,7 +29,7 @@ const ForgotPasswordFormArtist = () => {
             await VerifyEmail(data)
             setSubmit(true)
         } catch (error) {
-            
+            console.error(error)
         }
     }
   return (
