@@ -1,8 +1,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../core/store/store"; 
 import { Link, useNavigate } from "react-router-dom";
 import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
@@ -23,8 +21,7 @@ export default function LoginForm () {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {loading} = useSelector((state: RootState)=> state.auth);
-    const {execute: login} = useApi(authApi.login)
+    const {execute: login, loading} = useApi(authApi.login)
 
     const onSubmit = async (data: LoginFormInput) =>{
         try {
