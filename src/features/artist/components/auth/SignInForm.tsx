@@ -6,7 +6,6 @@ import { useApi } from "@/core/hooks/useApi";
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { loginSuccess } from "@/features/auth/slices/authSlice"; 
 import { Lock, Mail } from "lucide-react";
-import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { LoginFormInput, LoginSchema } from "@/features/auth/schemas/auth.validator";
@@ -49,8 +48,6 @@ export default function SignInForm(){
                      Forgot password?
                 </Link>
             <Button type="submit" theme="artist" variant="secondary" loading={loading}>Sign In</Button>
-
-            <GoogleAuthButton role={"artist"}/>
         </form>
     )
 }

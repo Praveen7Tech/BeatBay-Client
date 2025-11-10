@@ -1,7 +1,7 @@
 import toast, { ToastOptions } from 'react-hot-toast';
 
 const baseStyle: ToastOptions = {
-  position: 'top-right',
+  position: 'top-center',
   duration: 4000,
   style: {
     minWidth: '340px',
