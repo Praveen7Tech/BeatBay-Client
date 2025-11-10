@@ -30,9 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     // ⚪ Admin style
     const adminStyle = `
-      w-full px-4 py-3 border border-gray-300 rounded-md 
-      text-gray-900 placeholder-gray-400 
-      focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all
+      w-full bg-black/40 border border-gray-700 rounded-md px-4 py-3 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition
     `;
 
     const themeClasses =

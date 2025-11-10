@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApi } from "@/core/hooks/useApi"; 
-import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { authApiArtist } from "../../services/artist-authApi";
@@ -44,8 +43,6 @@ export default function SignupForm() {
           error={errors.password?.message}
         />
       </div>
-
-      <GoogleAuthButton role={"artist"}/>
       <Button type="submit" theme="artist" variant="primary" loading={loading}>Register</Button>
     </form>
   );

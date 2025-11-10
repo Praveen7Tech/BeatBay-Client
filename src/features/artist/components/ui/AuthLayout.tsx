@@ -9,8 +9,15 @@ interface AuthLayoutProps {
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <main className="relative min-h-screen w-full overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-linear-to-br from-red-500 via-orange-500 to-red-700" />
+      {/* Fullscreen Background Image */}
+      <img
+        src="/logos/bg1.jpg"
+        alt="Background"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Optional overlay gradients */}
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-red-500/40 via-orange-500/30 to-red-700/40" /> */}
       <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
 
       {/* Logo */}

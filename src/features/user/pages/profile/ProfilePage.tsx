@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FollowingSection } from "../../components/profile/FollowingSection";
-import { MyPlaylists } from "../../components/profile/MyPlaylist";
+// import { FollowingSection } from "../../components/profile/FollowingSection";
+// import { MyPlaylists } from "../../components/profile/MyPlaylist";
 import { ProfileHeader } from "../../components/profile/ProfileHeader";
 import { EditProfileForm } from "../../components/profile/EditProfileForm";
 
@@ -17,8 +17,8 @@ export default function ProfilePage() {
           <EditProfileForm onCancel={()=> setIsEditing(false)}/>
         ):(
           <>
-            <MyPlaylists />
-            <FollowingSection />
+            {/* <MyPlaylists />
+            <FollowingSection /> */}
           </>
         )}
         
