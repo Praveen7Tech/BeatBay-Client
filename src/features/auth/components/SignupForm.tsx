@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
-import { useSelector } from 'react-redux';
-import { RootState } from "../../../core/store/store";
 import { Devider } from "../ui/Devider.ui";
 import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton";
 import { Button } from "@/core/components/button/Button";
@@ -19,8 +17,7 @@ export default function SignupForm() {
   });
 
   const navigate = useNavigate();
-  const { loading } = useSelector((state: RootState) => state.auth);
-  const { execute: signup } = useApi(authApi.signup);
+  const { execute: signup, loading } = useApi(authApi.signup);
 
   const onSubmit = async (data: SignupFormInputs) => {
     try {

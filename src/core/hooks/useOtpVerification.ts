@@ -52,7 +52,7 @@ export const useOtpVerification= ({verifyApiEndpoint, resendApiEndpoint, redirec
         }
         try {
            await VerifyOTP({email, otp:code})
-           navigate(redirectPath)
+           navigate(redirectPath, {replace: true})
         } catch (error) {
              console.error("error in verify otp",error)
         }
