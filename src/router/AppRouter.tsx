@@ -26,6 +26,7 @@ import ProfilePageArtist from '@/features/artist/pages/profile/Profile.artist';
 import { EditArtistProfile } from '@/features/artist/pages/profile/Edit.profile'; 
 import ForgotPasswordArtist from '@/features/artist/pages/auth/ForgotPassword.artist';
 import ResetPasswordArtist from '@/features/artist/pages/auth/Reset-password';
+import LandingPage from '@/features/artist/pages/landing page/LandingPage';
 
 const AppRouter: React.FC = () => {
   return (
@@ -49,6 +50,8 @@ const AppRouter: React.FC = () => {
           <Route path='/artist-signin' element={<SignInPageArtist/>} />
           <Route path='/artist-forgot-password' element={<ForgotPasswordArtist/>}/>
           <Route path='/artist-reset-password' element={<ResetPasswordArtist/>}/>
+
+          <Route path='/artist-landingpage' element={<LandingPage/>}/>
         </Route>
 
         {/* USER ROUTES WITH PERSISTENT LAYOUT */}

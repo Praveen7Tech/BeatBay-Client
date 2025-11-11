@@ -23,7 +23,7 @@ export default function VerifyOTPFormArtist() {
         <Button type="button" theme="artist" onClick={HandleResend} variant="secondary" disabled={resendLoading} >RESEND OTP
         </Button>
       ) : (
-         <Timer duration={10} onExpire={() => setCanResend(true)} />
+         <Timer duration={120} onExpire={() => setCanResend(true)} />
       )}
 
       {/* Verify button */}
