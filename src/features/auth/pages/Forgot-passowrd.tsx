@@ -1,5 +1,5 @@
 
-import AuthLayout from "@/features/artist/components/ui/AuthLayout";
+import AuthLayout from "@/core/components/Layout/AuthLayout";
 import ForgotPasswordForm from "../components/ForgetPasswordForm";
 
 

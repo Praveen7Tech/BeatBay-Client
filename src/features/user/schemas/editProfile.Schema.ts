@@ -1,22 +1,11 @@
-import { nameValidator, passwordValidator } from "@/core/validators/validationShemas"
-import z from "zod"
 
+import { nameValidator } from "@/core/validators/validationShemas";
+import z from "zod";
 
-export const EditProfileSchema = z.object({
+export const ProfileDetailsSchema = z.object({
     name: nameValidator.optional(),
-    password: z.string()
-    .optional()
-      .transform((val) => (val === "" ? undefined : val))
-      .pipe(passwordValidator.optional()),
-    confirmPassword: z.string()
-      .transform((val) => (val === "" ? undefined : val))
-      .optional(),
-      image: z.instanceof(File, {message: "Invalid file format"}).optional(),
-  })
-  .refine((data) => !data.password || data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  })
-  
+    bio: z.string().optional(),
+    image: z.instanceof(File, { message: "Invalid file format" }).optional(),
+});
 
-export type EditProfileData = z.infer<typeof EditProfileSchema>
+export type ProfileDetailsData = z.infer<typeof ProfileDetailsSchema>;

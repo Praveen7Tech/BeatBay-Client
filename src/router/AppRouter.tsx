@@ -27,6 +27,7 @@ import { EditArtistProfile } from '@/features/artist/pages/profile/Edit.profile'
 import ForgotPasswordArtist from '@/features/artist/pages/auth/ForgotPassword.artist';
 import ResetPasswordArtist from '@/features/artist/pages/auth/Reset-password';
 import LandingPage from '@/features/artist/pages/landing page/LandingPage';
+import { EditPassword } from '@/features/artist/pages/profile/Change.password';
 
 const AppRouter: React.FC = () => {
   return (
@@ -68,6 +69,7 @@ const AppRouter: React.FC = () => {
           <Route path='/artist-dashboard' element={<ArtistDashboard/>}/>
           <Route path='/artist-profile' element={<ProfilePageArtist/>}/>
           <Route path='/artist-edit-profile' element={<EditArtistProfile/>}/>
+          <Route path='/artist-change-password' element={<EditPassword/>}/>
         </Route>
    
         {/* un authorized */}

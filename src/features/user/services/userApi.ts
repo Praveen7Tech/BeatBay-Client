@@ -11,10 +11,23 @@ interface EditProfileResponse {
     role: string;
   };
 }
+interface Data{
+  currentPassword: string;
+  newPassword: string
+}
+
+interface EditPassResponse{
+  message: string
+}
 
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
         const response = await axiosInstance.put<EditProfileResponse>(API_ROUTES_USER.EDIT_PROFILE, data);
         return response.data;
       },
+     
+    changePassword: async(data: Data): Promise<EditPassResponse >=> {
+       const response = await axiosInstance.put(API_ROUTES_USER.CHANGE_PASSWORD, data)
+       return response.data
+    } 
 }

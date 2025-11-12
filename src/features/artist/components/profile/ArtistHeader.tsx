@@ -110,7 +110,10 @@ export function ArtistHeader({ verified = true, stats }: ArtistHeaderProps) {
               Logout
             </Button>
             <Button theme="artist"  variant="primary"  onClick={() => navigate("/artist-edit-profile")}  >
-              Edit
+              Edit Profile
+            </Button>
+            <Button theme="artist"  variant="primary"  onClick={() => navigate("/artist-change-password")}  >
+              Change Password
             </Button>
           </div>
         </div>

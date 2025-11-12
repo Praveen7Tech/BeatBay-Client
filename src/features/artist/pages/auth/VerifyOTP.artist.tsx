@@ -2,7 +2,7 @@
 import { useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import VerifyOTPFormArtist from "../../components/auth/VerifyOTPForm"
-import AuthLayout from "../../components/ui/AuthLayout"
+import AuthLayout from "../../../../core/components/Layout/AuthLayout"
 
 export default function VerifyOTPArtist() {
     const location = useLocation()
