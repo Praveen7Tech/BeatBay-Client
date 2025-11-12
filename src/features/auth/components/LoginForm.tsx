@@ -6,8 +6,6 @@ import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../slices/authSlice";
-import { Devider } from "../ui/Devider.ui";
-import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { LoginFormInput, LoginSchema } from "../schemas/auth.validator";
@@ -57,16 +55,6 @@ export default function LoginForm () {
               Log in
         </Button>
       </div>
-      <Devider/>
-      {/* google login button */}
-      <GoogleAuthButton role={"user"}/>
-
-      <p className="text-center text-white/70 text-sm mt-6">
-        Not A Member?{" "}
-        <Link to={"/"} className="text-green-400 hover:text-green-300 font-semibold">
-          Register Now
-        </Link>
-      </p>
     </form>
     )
 }

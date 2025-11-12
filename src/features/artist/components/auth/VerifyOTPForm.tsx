@@ -16,18 +16,18 @@ export default function VerifyOTPFormArtist() {
   return (
     <form onSubmit={HandleSubmit} className="space-y-6 text-center">
       {/* OTP Inputs */}
-      <OtpInputs otp={otp} handleChange={HandleChange} handleKeyDown={HandleKeyDown} variant="artist" />
+      <OtpInputs otp={otp} handleChange={HandleChange} handleKeyDown={HandleKeyDown} variant="user" />
 
       {/* Timer */}
      {canResend ? (
-        <Button type="button" theme="artist" onClick={HandleResend} variant="secondary" disabled={resendLoading} >RESEND OTP
+        <Button type="button" theme="user" onClick={HandleResend} variant="secondary" disabled={resendLoading} >RESEND OTP
         </Button>
       ) : (
          <Timer duration={120} onExpire={() => setCanResend(true)} />
       )}
 
       {/* Verify button */}
-      <Button type="submit" theme="artist" variant="primary" disabled={verifyLoading}>
+      <Button type="submit" theme="user" variant="secondary" disabled={verifyLoading}>
         Verify
       </Button>
     </form>

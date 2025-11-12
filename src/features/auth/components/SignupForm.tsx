@@ -1,13 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
 import { useApi } from "../../../core/hooks/useApi";
 import { authApi } from "../services/authApi";
-import { Devider } from "../ui/Devider.ui";
-import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton";
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { SignupFormInputs, signupSchema } from "../schemas/auth.validator";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
 
@@ -33,8 +31,7 @@ export default function SignupForm() {
  
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
-      <div className="w-full max-w-xs space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
           <Input theme="user" {...register("name")} type="text" placeholder="Full Name" error={errors.name?.message}/>
         </div>
@@ -50,18 +47,7 @@ export default function SignupForm() {
         <Button theme="user" type="submit" loading={loading}>
            Create Account
         </Button>
-      </div>
-
-      <Devider/>
-      {/* google login button */}
-      <GoogleAuthButton role={"user"}/>
-       
-      <p className="text-center text-white/70 text-sm mt-6">
-        Do You Have An Account?{" "}
-        <Link to={'/login'} className="text-green-400 hover:text-green-300 font-semibold">
-          Sign In
-        </Link>
-      </p>
+      
     </form>
   )
 }

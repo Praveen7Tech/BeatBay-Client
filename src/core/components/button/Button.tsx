@@ -28,7 +28,7 @@ export const Button: React.FC<ButtonProps> = ({
   // User variants
   const userVariants: Record<VariantType, string> = {
     primary: "bg-green-700 hover:bg-green-800 text-white",
-    secondary: "bg-green-600 hover:bg-green-700 text-white",
+    secondary: "bg-green-600 hover:bg-green-700 text-white ",
     dashboard: `
       border-2 border-white/40 text-white px-8 py-3 rounded-full font-bold 
       hover:border-white transition-colors flex items-center gap-2 justify-center
