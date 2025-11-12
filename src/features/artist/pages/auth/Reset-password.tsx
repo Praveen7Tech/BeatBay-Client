@@ -1,12 +1,11 @@
+
+import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import ResetPasswordFormArtist from "../../components/auth/ReserPasswordForm"
-import { FormWrapper } from "../../components/ui/AuthFormWrapper"
 import AuthLayout from "../../components/ui/AuthLayout"
-import { useEffect } from "react"
 
-
-const ResetPasswordArtist = () => {
-  const [queryParams] = useSearchParams()
+export default function ResetPasswordArtist() {
+const [queryParams] = useSearchParams()
   const navigate = useNavigate()
   const token = queryParams.get('token')
   const tokenValid = !!token
@@ -21,12 +20,8 @@ const ResetPasswordArtist = () => {
     return null
   }
   return (
-    <AuthLayout>
-        <FormWrapper title="Rest Password">
-            <ResetPasswordFormArtist/>
-        </FormWrapper>
+    <AuthLayout title="Reset Password" subtitle="Create a new password">
+        <ResetPasswordFormArtist/>
     </AuthLayout>
   )
 }
-
-export default ResetPasswordArtist

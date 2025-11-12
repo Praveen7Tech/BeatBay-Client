@@ -1,16 +1,11 @@
 
-import AuthLayout from '../../components/ui/AuthLayout'
-import { FormWrapper } from '../../components/ui/AuthFormWrapper'
-import ForgotPasswordFormArtist from '../../components/auth/ForgotPasswordForm'
+import ForgotPasswordFormArtist from "../../components/auth/ForgotPasswordForm";
+import AuthLayout from "../../components/ui/AuthLayout";
 
-const ForgotPasswordArtist = () => {
+export default function ForgetPasswordArtist() {
   return (
-    <AuthLayout>
-        <FormWrapper title='Forget Password'>
-            <ForgotPasswordFormArtist/>
-        </FormWrapper>
+    <AuthLayout title="Forget Password" subtitle="Enter your registered email below">
+        <ForgotPasswordFormArtist/>
     </AuthLayout>
   )
 }
-
-export default ForgotPasswordArtist

@@ -27,13 +27,12 @@ const ForgotPasswordFormArtist = () => {
         }
     }
   return (
-    <>
-     <p className="text-white/80 text-sm text-center pb-3">Enter your registered email below</p>
     <form onSubmit={handleSubmit(Onsubmit)}>
-        <Input theme="artist" {...register('email')} placeholder='enter email' disabled={submit} icon={Mail} 
-         error={errors.email?.message}/>
-
-        <Button type='submit' theme='artist' variant='secondary' disabled={submit} loading={loading}>
+        <div>
+            <Input theme="artist" {...register('email')} placeholder='enter email' disabled={submit} icon={Mail}  error={errors.email?.message} errorTheme='red'/>
+        </div>
+        
+        <Button type='submit' theme='user' variant='secondary' disabled={submit} loading={loading}>
             Verify Email
         </Button>
 
@@ -44,7 +43,6 @@ const ForgotPasswordFormArtist = () => {
             </p>
         )}
     </form>
-    </>
   )
 }
 

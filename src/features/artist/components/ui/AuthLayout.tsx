@@ -1,40 +1,49 @@
-"use client";
+"use client"
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react"
+import { AuthFooter } from "../ui/AuthFooter"
+import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"
+import { Devider } from "@/features/auth/ui/Devider.ui"
+import { AppLogo } from "@/features/auth/ui/Logo"
 
-interface AuthLayoutProps {
-  children: ReactNode;
+interface SpotifyAuthLayoutProps {
+  children: ReactNode
+  title: string
+  subtitle?: string
 }
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export default function AuthLayout({ children, title, subtitle }: SpotifyAuthLayoutProps) {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden">
-      {/* Fullscreen Background Image */}
-      <img
-        src="/logos/bg1.jpg"
-        alt="Background"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+    <main className="min-h-screen w-full bg-black flex items-center justify-center px-4">
+      
+      {/* Form Wrapper - Plain black, no shadow, no background blur */}
+      <div className="sc-3b284ce5-0 bWLMep">
+        <AppLogo/>
+        <div className="text-center mb-10">
+          <h1 className="text-5xl font-black text-white mb-3 tracking-tight">{title}</h1>
+          {subtitle && <p className="text-white/70 text-base font-light leading-relaxed">{subtitle}</p>}
+        </div>
 
-      {/* Optional overlay gradients */}
-      {/* <div className="absolute inset-0 bg-gradient-to-br from-red-500/40 via-orange-500/30 to-red-700/40" /> */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
-
-      {/* Logo */}
-      <div className="absolute top-6 left-6 z-20">
-        <img
-          src="/logos/logo.name-w.png"
-          alt="Logo"
-          width={200}
-          height={80}
-          className="object-contain"
-        />
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-        {children}
+        {/* Form Content */}
+        <div className="space-y-6">
+          {children}
+        </div>
+        {/* Devider */}
+        <Devider/>
+        {/* Google Button */}
+          <button type="button"
+              className="w-full py-3 border border-white/20 rounded-full text-white font-semibold hover:bg-white/10 transition-colors">
+              Sign up with Google
+          </button>
+        <div className="px-8 pt-6">
+            <GoogleAuthButton role={"artist"}/>
+        </div>
+      
+        {/* Footer */}
+        <div className="mt-10">
+          <AuthFooter/>
+        </div>
       </div>
     </main>
-  );
+  )
 }

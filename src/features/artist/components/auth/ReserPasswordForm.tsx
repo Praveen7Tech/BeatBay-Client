@@ -37,14 +37,14 @@ const ResetPasswordFormArtist = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
             <Input theme="artist"{...register('newPassword')} placeholder='New password' icon={Lock} 
-             error={errors.newPassword?.message}/>
+             error={errors.newPassword?.message} errorTheme='red'/>
         </div>
         <div>
             <Input theme="artist" {...register('confirmPassword')} placeholder='Confirm password' icon={Lock}
-             error={errors.confirmPassword?.message}/>
+             error={errors.confirmPassword?.message} errorTheme='red'/>
         </div>
         
-        <Button type='submit' theme='artist' variant='primary' loading={loading}>Rest passowrd</Button>
+        <Button type='submit' theme='user' variant='secondary' loading={loading}>Rest passowrd</Button>
     </form>
   )
 }

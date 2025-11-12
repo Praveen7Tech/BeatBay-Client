@@ -1,10 +1,11 @@
-import AuthLayout from "../components/AuthLayout";
+
+import AuthLayout from "@/features/artist/components/ui/AuthLayout";
 import ForgotPasswordForm from "../components/ForgetPasswordForm";
 
 
 export default function ForgotPassword() {
     return (
-    <AuthLayout title="Forget Password" subTitle="Enter your registerd email below!">
+    <AuthLayout title="Forget Password" subtitle="Enter your registerd email below!">
       <ForgotPasswordForm/>
     </AuthLayout>
   )

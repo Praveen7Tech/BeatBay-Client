@@ -1,10 +1,10 @@
-import { FormWrapper } from "../../components/ui/AuthFormWrapper";
-import AuthLayout from "../../components/ui/AuthLayout";
-import VerifyOTPFormArtist from "../../components/auth/VerifyOTPForm"; 
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
-export default function VerifyOTPartist(){
+import { useEffect } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import VerifyOTPFormArtist from "../../components/auth/VerifyOTPForm"
+import AuthLayout from "../../components/ui/AuthLayout"
+
+export default function VerifyOTPArtist() {
     const location = useLocation()
     const navigate = useNavigate()
     const email = location.state?.email
@@ -18,12 +18,10 @@ export default function VerifyOTPartist(){
 
     if(!isAunteticated){
         return null
-    }
-    return(
-        <AuthLayout>
-            <FormWrapper title="Verify OTP">
-                <VerifyOTPFormArtist/>
-            </FormWrapper>
-        </AuthLayout>
-    )
+    }    
+  return (
+    <AuthLayout title="Verify OTP" subtitle="Enter your otp to verify">
+        <VerifyOTPFormArtist/>
+    </AuthLayout>
+  )
 }

@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import AuthLayout from "../components/AuthLayout";
 import ResetPasswordForm from "../components/reset-passwordForm";
 import { useEffect } from "react";
+import AuthLayout from "@/features/artist/components/ui/AuthLayout";
 
 export default function ResetPassword() {
   const [queryParams] = useSearchParams()
@@ -19,7 +19,7 @@ export default function ResetPassword() {
     return null
   }
     return(
-     <AuthLayout title="Change Password" subTitle="Enter a different password with the previous">
+     <AuthLayout title="Change Password" subtitle="Enter a different password with the previous">
       <ResetPasswordForm />
     </AuthLayout>
     )

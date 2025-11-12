@@ -16,16 +16,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ theme = "user", icon: Icon, className = "",error, errorTheme, ...props }, ref) => {
     // 🟢 User style
     const userStyle = `
-      w-full px-4 py-3 bg-black/20 border border-white/20 rounded-full 
+      w-80 px-4 py-3 bg-black/20 border border-white/50 rounded-full 
       placeholder-gray-300 text-white 
-      focus:outline-none focus:border-white/40 transition-colors
+      focus:outline-none focus:border-white/80 transition-colors
     `;
 
     // 🟣 Artist style
     const artistStyle = `
-      w-full px-4 py-3 pl-12 bg-white/10 border border-white/20 rounded-lg 
-      text-white placeholder-white/60 
-      focus:outline-none focus:border-orange-400/50 focus:bg-white/15 transition-all
+      w-full px-4 py-3 pl-12 border border-white/50 rounded-sm 
+      text-white placeholder-white/60 focus:outline-none focus:border-white transition-all
     `;
 
     // ⚪ Admin style

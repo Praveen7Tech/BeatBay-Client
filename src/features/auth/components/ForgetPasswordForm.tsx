@@ -1,5 +1,4 @@
 
-import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useApi } from "../../../core/hooks/useApi"
@@ -30,13 +29,7 @@ export default function ForgotPasswordForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
     <div className="flex flex-col items-center w-full max-w-xs mx-auto">
       <Input theme="user" {...register('email')} disabled={submited} type="email" placeholder="Enter Email" className="mb-4" error={errors.email?.message}/>
-      
-      <p className="text-center text-sm text-gray-300 mb-6">
-        Remember the password?{" "}
-        <Link to={'/login'} className="text-green-500 hover:text-green-400">
-          Sign in
-        </Link>
-      </p>
+
       <Button type="submit" theme="user" disabled={submited} loading={loading}>
         Submit
       </Button>

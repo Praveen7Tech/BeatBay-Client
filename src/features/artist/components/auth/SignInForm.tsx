@@ -6,12 +6,12 @@ import { useApi } from "@/core/hooks/useApi";
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { loginSuccess } from "@/features/auth/slices/authSlice"; 
 import { Lock, Mail } from "lucide-react";
-import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { LoginFormInput, LoginSchema } from "@/features/auth/schemas/auth.validator";
+import { Button } from "@/core/components/button/Button";
 
 
-export default function SignInForm(){
+export default function LoginForm(){
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormInput>({
         resolver: zodResolver(LoginSchema)
     })
@@ -37,17 +37,18 @@ export default function SignInForm(){
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
              <div>
                 <Input theme="artist" {...register("email")} placeholder="Email" icon={Mail} 
-                 error={errors.email?.message}/>
+                 error={errors.email?.message} errorTheme="red"/>
             </div>
 
             <div>
                 <Input theme="artist" {...register("password")} placeholder="Password" icon={Lock} 
-                 error={errors.password?.message}/>
+                 error={errors.password?.message} errorTheme="red"/>
             </div>
-                <Link to="/artist-forgot-password" className="text-white hover:text-orange-300 font-semibold transition-colors">
+                <Link to="/artist-forgot-password" className="text-white hover:text-green-500 font-semibold transition-colors">
                      Forgot password?
                 </Link>
-            <Button type="submit" theme="artist" variant="secondary" loading={loading}>Sign In</Button>
+            <Button type="submit" theme="user" variant="secondary" loading={loading}
+            className="mt-8 bg-green-600 hover:bg-green-700 text-white border-0 rounded-full py-3">Sign In</Button>
         </form>
     )
 }
