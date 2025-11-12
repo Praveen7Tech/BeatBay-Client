@@ -1,25 +1,25 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User, X } from "lucide-react"
+import { Biohazard, User, User2, X } from "lucide-react"
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom"
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
-import { useEditProfile } from "@/core/hooks/useEditProfile";
-import { EditProfileData, EditProfileSchema } from "../../schema-validator/EditProfile.Schema";
+import { useProfileEdit } from "@/core/hooks/useEditProfile";
+import { ProfileDetailsData, ProfileDetailsSchema } from "../../schema-validator/EditProfile.Schema";
 const imgURL = import.meta.env.VITE_API_URL
 
 export function EditArtistProfile() {
     const navigate = useNavigate()
     // schema validator
-    const {register, handleSubmit, formState:{errors}} = useForm<EditProfileData>({
-        resolver: zodResolver(EditProfileSchema)
+    const {register, handleSubmit, formState:{errors}} = useForm<ProfileDetailsData>({
+        resolver: zodResolver(ProfileDetailsSchema)
     })  
 
     // handle edit profile
-    const {user, preview, handleEdit, handleImageChange} = useEditProfile(authApiArtist.editProfile)
-    const EditProfileData = async(data: EditProfileData)=>{
+    const {user, preview, handleEdit, handleImageChange} = useProfileEdit(authApiArtist.editProfile)
+    const EditProfileData = async(data: ProfileDetailsData)=>{
       await handleEdit(data)
       navigate('/artist-profile')
     }
@@ -70,28 +70,14 @@ export function EditArtistProfile() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Artist Name
               </label>
-              <Input theme="artist" {...register('name')} defaultValue={user?.name} type="text"placeholder="Enter artist name"  error={errors.name?.message} errorTheme="red"/>
+              <Input theme="artist" icon={User2} {...register('name')} defaultValue={user?.name} type="text"placeholder="Enter artist name"  error={errors.name?.message} errorTheme="red"/>
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Bio
               </label>
-              <Input theme="artist" {...register('bio')} placeholder="Enter artist bio" defaultValue={user?.bio} 
+              <Input theme="artist" icon={Biohazard} {...register('bio')} placeholder="Enter artist bio" defaultValue={user?.bio} 
               error={errors.bio?.message} errorTheme="red"/>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
-                Password
-              </label>
-              <Input theme="artist" {...register('password')} type="text" placeholder="Enter password" 
-               error={errors.password?.message} errorTheme="red"/>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
-                Confirm Password
-              </label>
-              <Input theme="artist" {...register('confirmPassword')} type="text" placeholder="confirm password" 
-               error={errors.confirmPassword?.message} errorTheme="red"/>
             </div>
           </div>
         </div>

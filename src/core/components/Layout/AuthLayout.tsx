@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { AuthFooter } from "../ui/AuthFooter"
+import { AuthFooter } from "./AuthFooter"
 import { GoogleAuthButton } from "@/core/components/button/GoogleAuthButton"
 import { Devider } from "@/features/auth/ui/Devider.ui"
 import { AppLogo } from "@/features/auth/ui/Logo"
@@ -10,9 +10,10 @@ interface SpotifyAuthLayoutProps {
   children: ReactNode
   title: string
   subtitle?: string
+  googleRole?: "user" | "artist"
 }
 
-export default function AuthLayout({ children, title, subtitle }: SpotifyAuthLayoutProps) {
+export default function AuthLayout({ children, title, subtitle, googleRole }: SpotifyAuthLayoutProps) {
   return (
     <main className="min-h-screen w-full bg-black flex items-center justify-center px-4">
       
@@ -35,9 +36,11 @@ export default function AuthLayout({ children, title, subtitle }: SpotifyAuthLay
               className="w-full py-3 border border-white/20 rounded-full text-white font-semibold hover:bg-white/10 transition-colors">
               Sign up with Google
           </button>
+        {googleRole ?
         <div className="px-8 pt-6">
-            <GoogleAuthButton role={"artist"}/>
+            <GoogleAuthButton role={googleRole}/>
         </div>
+        : ""}
       
         {/* Footer */}
         <div className="mt-10">

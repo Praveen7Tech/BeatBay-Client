@@ -34,7 +34,10 @@ export const useApi = <TData extends { message?: string }, TParams = unknown>(
         const errorMessage = err.response?.data?.message || err.message || 'An error occurred';
         setMessage(errorMessage);
         dispatch(setAuthFailure(errorMessage));
-        showError(errorMessage);
+        if(errorMessage !== "incorrect"){
+          showError(errorMessage);
+        }
+        
         throw err;
       } finally {
         setLoading(false);

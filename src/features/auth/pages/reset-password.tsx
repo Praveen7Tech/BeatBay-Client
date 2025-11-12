@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ResetPasswordForm from "../components/reset-passwordForm";
 import { useEffect } from "react";
-import AuthLayout from "@/features/artist/components/ui/AuthLayout";
+import AuthLayout from "@/core/components/Layout/AuthLayout";
 
 export default function ResetPassword() {
   const [queryParams] = useSearchParams()

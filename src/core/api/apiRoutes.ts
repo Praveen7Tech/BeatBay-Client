@@ -24,9 +24,11 @@ export const API_ROUTE_ARTIST = {
   EDIT_PROFILE: '/artist/edit-profile',
   GOOGLE_SIGNUP: '/artist/google-signup',
   VERIFY_EMAIL: '/artist/verify-email',
-  RESET_PASSWORD: '/artist/reset-password'
+  RESET_PASSWORD: '/artist/reset-password',
+  CHANGE_PASSWORD: '/artist/change-password'
 }
 
 export const API_ROUTES_USER ={
-  EDIT_PROFILE: '/user/edit-profile'
+  EDIT_PROFILE: '/user/edit-profile',
+  CHANGE_PASSWORD: '/user/change-password'
 }

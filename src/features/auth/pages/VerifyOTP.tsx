@@ -2,7 +2,7 @@
 import { OtpVerification } from "../components/OTPVerificationForm";
 import { useLocation, useNavigate } from "react-router-dom"; 
 import { useEffect } from 'react'; 
-import AuthLayout from "@/features/artist/components/ui/AuthLayout";
+import AuthLayout from "@/core/components/Layout/AuthLayout";
 
 export default function VerifyOTPPage() {
   const location = useLocation();
