@@ -25,7 +25,7 @@ export function Navbar() {
           <Link to="/artist-dashboard" className={`text-lg font-semibold ${getActive("dashboard")}`}>
             Dashboard
           </Link>
-          <Link to="/artist-songs" className={`text-lg font-semibold ${getActive("songs")}`}>
+          <Link to="/artist-uploadTrack" className={`text-lg font-semibold ${getActive("songs")}`}>
             Songs
           </Link>
           <Link to="/artist-albums" className={`text-lg font-semibold ${getActive("albums")}`}>

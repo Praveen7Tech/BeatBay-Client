@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
     if(!(config.data instanceof FormData)){
       config.headers['Content-Type'] = 'application/json'
     }
-    
+    console.log("req interceptor", config.data instanceof FormData)
     return config;
   },
   (error) => Promise.reject(error)
@@ -39,6 +39,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log("res interceptor", error)
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (originalRequest.url?.includes('/auth-status')) {
