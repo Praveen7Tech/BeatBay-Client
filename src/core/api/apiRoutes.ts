@@ -25,7 +25,9 @@ export const API_ROUTE_ARTIST = {
   GOOGLE_SIGNUP: '/artist/google-signup',
   VERIFY_EMAIL: '/artist/verify-email',
   RESET_PASSWORD: '/artist/reset-password',
-  CHANGE_PASSWORD: '/artist/change-password'
+  CHANGE_PASSWORD: '/artist/change-password',
+
+  UPLOAD_SONG: '/artist/upload-song'
 }
 
 export const API_ROUTES_USER ={
