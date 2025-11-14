@@ -3,12 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useApi } from "../useApi";
+import { useNavigate } from "react-router-dom";
 
 interface UploadResponse {
   message: string
 }
 
 export const useSongUpload = (uploadApi: (data: FormData)=> Promise<UploadResponse>)=>{
+      const navigate = useNavigate()
       const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<SongUploadData>({
         resolver: zodResolver(UploadSongSchema),
         defaultValues: {
@@ -68,7 +70,7 @@ export const useSongUpload = (uploadApi: (data: FormData)=> Promise<UploadRespon
     }
         try {
           const res = await execute(formData)
-          return res
+          navigate('/artist-songs')
         } catch (error) {
           console.error("error in upload song", error);
         }

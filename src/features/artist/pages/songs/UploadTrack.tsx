@@ -1,9 +1,11 @@
 
 "use client";
 
-import { Music, FileText, Upload } from "lucide-react";
+import { Music, FileText} from "lucide-react";
 import { artistApi } from "../../services/artist.api"; 
 import { useSongUpload } from "@/core/hooks/artist/useSongUpload";
+import { Input } from "@/core/components/input/Input";
+import { Button } from "@/core/components/button/Button";
 
 export default function UploadTrack() {
   
@@ -11,7 +13,7 @@ export default function UploadTrack() {
 
 
   return (
-    <main className="min-h-screen bg-black p-8">
+    <main className="min-h-screen bg-linear-to-b from-gray-900 to-black p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-12">Upload New Track</h1>
 
@@ -20,7 +22,7 @@ export default function UploadTrack() {
           <div className="flex flex-col items-center gap-4">
             <label htmlFor="coverUpload" className="cursor-pointer">
               <div
-                className="w-48 h-48 rounded-lg bg-linear-to-br from-gray-700 to-gray-900 flex items-center justify-center border-2 border-gray-600 hover:border-green-500 transition-colors overflow-hidden"
+                className="w-48 h-48 rounded-lg flex items-center justify-center border-2 border-gray-600 hover:border-green-500 transition-colors overflow-hidden"
                 style={{
                   backgroundImage: coverPreview ? `url(${coverPreview})` : undefined,
                   backgroundSize: "cover",
@@ -35,7 +37,7 @@ export default function UploadTrack() {
                 )}
               </div>
             </label>
-            <input
+            <Input 
               ref={fileInputRef}
               id="coverUpload"
               type="file"
@@ -49,72 +51,30 @@ export default function UploadTrack() {
 
           {/* Form Fields */}
           <div className="flex-1">
-            <div className="mb-6">
-              <label className="text-gray-400 text-sm mb-2 block">Track File</label>
-              <div
-                onClick={() => trackInputRef.current?.click()}
-                className="w-full px-4 py-3 rounded-full bg-gray-800 text-white border border-gray-700 hover:border-green-500 transition-colors cursor-pointer flex items-center gap-3"
-              >
-                <Music size={18} className="text-green-500" />
-                <span className="truncate">{trackFileName || "Select audio file (MP3, WAV, FLAC)"}</span>
-              </div>
-              <input ref={trackInputRef} type="file" accept="audio/*"
-               onChange={(e)=> handleFileChange("trackFile", e.target.files)} className="hidden" />
-               {errors.trackFile && <p className="text-red-500 text-xs mt-1">{errors.trackFile.message}</p>}
-            </div>
-
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            <h2 style={{ color: '#ffffff', fontSize: '1.125rem', fontWeight: '600', marginBottom: '1.5rem' }}>
+                  Track Details
+            </h2>
+          
+            <div className="grid gap-6 mb-6">
               {/* Title */}
               <div>
                 <label className="text-gray-400 text-sm mb-2 block">Title</label>
-                <input
+                <Input theme="artist"
                   {...register('title')}
                   type="text"
-                  placeholder="Title"
-                  className="w-full px-4 py-3 rounded-full bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
+                  placeholder="Title" error={errors.title?.message} errorTheme="red"
                 />
-                {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>}
               </div>
 
               {/* Description */}
               <div>
                 <label className="text-gray-400 text-sm mb-2 block">Description</label>
-                <input
+                <Input theme="artist"
                   {...register('description')}
                   type="text"
-                  placeholder="Description"
-                  className="w-full px-4 py-3 rounded-full bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
+                  placeholder="Description" error={errors.description?.message} errorTheme="red"
                 />
-                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description.message}</p>}
               </div>
-            </div>
-
-            {/* Lyrics */}
-            <div className="mb-6">
-              <label className="text-gray-400 text-sm mb-2 block">Lyrics</label>
-              <textarea
-                {...register('lyrics')}
-                placeholder="Lyrics"
-                rows={5}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors resize-none"
-              />
-              {errors.lyrics && <p className="text-red-500 text-xs mt-1">{errors.lyrics.message}</p>}
-            </div>
-
-            {/* Synced Lyrics (LRC) */}
-            <div className="mb-6">
-              <label className="text-gray-400 text-sm mb-2 block">Synced Lyrics (LRC)</label>
-              <div
-                onClick={() => lrcInputRef.current?.click()}
-                className="w-full px-4 py-3 rounded-full bg-gray-800 text-white border border-gray-700 hover:border-green-500 transition-colors cursor-pointer flex items-center gap-3"
-              >
-                <FileText size={18} className="text-green-500" />
-                <span className="truncate">{lrcFileName || "Select .lrc file (optional)"}</span>
-              </div>
-              <input ref={lrcInputRef} type="file" accept=".txt" 
-              onChange={(e)=> handleFileChange("lrcFile", e.target.files)} className="hidden" />
-              <p className="text-gray-500 text-xs mt-2">LRC format enables time-synced lyrics on streaming platforms</p>
-              {errors.lrcFile && <p className="text-red-500 text-xs mt-1">{errors.lrcFile.message}</p>}
             </div>
 
             {/* Album & Genre */}
@@ -124,18 +84,13 @@ export default function UploadTrack() {
                 <div className="flex gap-2">
                   <select
                     {...register('album')}
-                    className="flex-1 px-4 py-3 rounded-full bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
+                    className="flex-1 px-4 py-3 rounded-sm bg-black text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
                   >
                     <option value="">Select Album</option>
                     <option value="album1">Album 1</option>
                     <option value="album2">Album 2</option>
                   </select>
-                  <button
-                    type="button"
-                    className="px-4 py-3 rounded-full bg-gray-800 text-white border border-gray-700 hover:border-green-500 transition-colors"
-                  >
-                    +
-                  </button>
+                  
                   {errors.album && <p className="text-red-500 text-xs mt-1">{errors.album.message}</p>}
                 </div>
               </div>
@@ -144,7 +99,7 @@ export default function UploadTrack() {
                 <label className="text-gray-400 text-sm mb-2 block">Genre</label>
                 <select
                   {...register('genre')}
-                  className="w-full px-4 py-3 rounded-full bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-sm bg-black text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
                 >
                   <option value="">Genre</option>
                   <option value="hip-hop">Hip-Hop</option>
@@ -159,49 +114,80 @@ export default function UploadTrack() {
             {/* Tags */}
             <div className="mb-6">
               <label className="text-gray-400 text-sm mb-2 block">Tags (comma separated)</label>
-              <input
+              <Input theme="artist"
                 {...register('tags')}
                 type="text"
                 placeholder="Tags, comma, separated"
-                className="w-full px-4 py-3 rounded-full bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
               />
               {errors.tags && <p className="text-red-500 text-xs mt-1">{errors.tags.message}</p>}
             </div>
 
+             {/* Track file and Lyrics (LRC) */}
+            <div className="grid gap-6 mb-6">
+               <h2 style={{ color: '#ffffff', fontSize: '1.125rem', fontWeight: '600', marginBottom: '1rem' }}>
+                  Audio Files
+                </h2>
+              <div>
+                <label className="text-gray-400 text-sm mb-2 block">Track File</label>
+              <div
+                onClick={() => trackInputRef.current?.click()}
+                className="w-full px-4 py-3  text-white border border-gray-700 hover:border-green-500 transition-colors cursor-pointer flex items-center gap-3 rounded-sm"
+              >
+                <Music size={18} className="text-green-500" />
+                <span className="truncate">{trackFileName || "Select audio file (MP3, WAV, FLAC)"}</span>
+              </div>
+              <Input ref={trackInputRef} type="file" accept="audio/*"
+               onChange={(e)=> handleFileChange("trackFile", e.target.files)} className="hidden" placeholder="" theme="artist"/>
+               {errors.trackFile && <p className="text-red-500 text-xs mt-1">{errors.trackFile.message}</p>}
+              </div>
+              <div>
+                <label className="text-gray-400 text-sm mb-2 block">Synced Lyrics (LRC)</label>
+              <div
+                onClick={() => lrcInputRef.current?.click()}
+                className="w-full px-4 py-3 rounded-sm text-white border border-gray-700 hover:border-green-500 transition-colors cursor-pointer flex items-center gap-3"
+              >
+                <FileText size={18} className="text-green-500" />
+                <span className="truncate">{lrcFileName || "Select .lrc file"}</span>
+              </div>
+              <Input ref={lrcInputRef} type="file" accept=".txt" 
+              onChange={(e)=> handleFileChange("lrcFile", e.target.files)} className="hidden" />
+              <p className="text-gray-500 text-xs mt-2">LRC format enables time-synced lyrics on streaming platforms</p>
+              {errors.lrcFile && <p className="text-red-500 text-xs mt-1">{errors.lrcFile.message}</p>}
+              </div>
+              
+            </div>
+
+            
             <div className="grid grid-cols-2 gap-6 mb-8">
               <div>
                 <label className="text-gray-400 text-sm mb-2 block">Release Date</label>
-                <input
+                <Input theme="artist"
                   {...register('releaseDate')} // Corrected name to 'releaseDate'
-                  type="date"
-                  className="w-full px-4 py-3 rounded-full bg-gray-800 text-white border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
+                  type="date" placeholder=""
                 />
                 {errors.releaseDate && <p className="text-red-500 text-xs mt-1">{errors.releaseDate.message}</p>}
               </div>
-
-              {/* <div className="flex items-end">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    {...register('isExplicit')} // Register the checkbox
-                    type="checkbox"
-                    className="w-4 h-4 accent-green-500"
-                  />
-                  <span className="text-gray-400 text-sm">Mark as Explicit</span>
-                </label>
-              </div> */}
             </div>
 
             {/* Upload Button */}
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-white hover:text-black transition-colors flex items-center gap-2"
+            <div className="flex justify-center gap-6 mt-10">
+              {/* Cancel Button */}
+              <Button theme="artist"
+                type="button"
+                className="px-8 py-3 rounded-full border-2 border-gray-500 text-gray-300 font-semibold hover:bg-gray-700 hover:text-white transition-colors"
+                onClick={() => window.history.back()}
               >
-                <Upload size={18} />
+                CANCEL
+              </Button>
+
+              {/* Upload Button */}
+              <Button theme="artist" type="submit" >
+                {/* <Upload size={18} /> */}
                 UPLOAD
-              </button>
+              </Button>
             </div>
           </div>
+          
         </form>
       </div>
     </main>

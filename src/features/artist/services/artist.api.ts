@@ -13,6 +13,12 @@ interface UploadResponse {
   message: string
 }
 
+interface SongData {
+    [x: string]: any;
+    id: string;
+    title: string;
+}
+
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
@@ -22,5 +28,10 @@ export const artistApi ={
     uploadSong: async(data: FormData): Promise<UploadResponse>=>{
        const response = await axiosInstance.post(API_ROUTE_ARTIST.UPLOAD_SONG, data)
        return response.data
+    },
+
+    fetchSongs: async(): Promise<SongData> =>{
+      const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_SONGS,)
+      return response.data
     }
 }

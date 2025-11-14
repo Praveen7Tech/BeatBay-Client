@@ -19,6 +19,11 @@ interface Data{
 interface EditPassResponse{
   message: string
 }
+interface SongData {
+    [x: string]: any;
+    id: string;
+    title: string;
+}
 
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
@@ -29,5 +34,10 @@ export const userApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
        const response = await axiosInstance.put(API_ROUTES_USER.CHANGE_PASSWORD, data)
        return response.data
-    } 
+    },
+    
+    fetchSong: async():Promise<SongData> =>{
+      const response = await axiosInstance.get(API_ROUTES_USER.FETCH_SONGS)
+      return response.data
+    }
 }
