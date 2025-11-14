@@ -27,10 +27,12 @@ export const API_ROUTE_ARTIST = {
   RESET_PASSWORD: '/artist/reset-password',
   CHANGE_PASSWORD: '/artist/change-password',
 
-  UPLOAD_SONG: '/artist/upload-song'
+  UPLOAD_SONG: '/artist/upload-song',
+  FETCH_SONGS: '/artist/fetch-songs'
 }
 
 export const API_ROUTES_USER ={
   EDIT_PROFILE: '/user/edit-profile',
-  CHANGE_PASSWORD: '/user/change-password'
+  CHANGE_PASSWORD: '/user/change-password',
+  FETCH_SONGS: '/user/fetch-songs'
 }
