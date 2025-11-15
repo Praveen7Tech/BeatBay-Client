@@ -1,16 +1,11 @@
 import { AlbumHeader } from "../../components/album/albumHeader"; 
 import { AlbumCard } from "../../components/album/albumCard"; 
 import { SearchBar } from "../../components/song/SearchBar"; 
-import { useQuery } from "@tanstack/react-query";
-import { artistApi } from "../../services/artist.api";
+import { useArtistAlbums } from "@/core/hooks/useFetchHooks";
 
 export default function Albums() {
  
-  const {data: albums, isLoading, isError, error} = useQuery({
-    queryKey:["artistAlbums"],
-    queryFn: ()=> artistApi.fetchAlbums()
-  })
-
+  const {data: albums, isLoading, isError, error} = useArtistAlbums()
 
   if(isLoading){
     return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;

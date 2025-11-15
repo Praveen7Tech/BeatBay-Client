@@ -60,16 +60,16 @@ export const useSongUpload = (uploadApi: (data: FormData)=> Promise<UploadRespon
         formData.append('trackFile', data.trackFile);
         formData.append('lrcFile', data.lrcFile);
     
-        console.log("data ",formData)
-         for (const [key, value] of formData.entries()) {
-            if (value instanceof File) {
-                console.log(`${key}: File Name: ${value.name}, Size: ${value.size} bytes, Type: ${value.type}`);
-            } else {
-                console.log(`${key}: ${value}`);
-        }
-    }
+    //     console.log("data ",formData)
+    //      for (const [key, value] of formData.entries()) {
+    //         if (value instanceof File) {
+    //             console.log(`${key}: File Name: ${value.name}, Size: ${value.size} bytes, Type: ${value.type}`);
+    //         } else {
+    //             console.log(`${key}: ${value}`);
+    //     }
+    // }
         try {
-          const res = await execute(formData)
+          await execute(formData)
           navigate('/artist-songs')
         } catch (error) {
           console.error("error in upload song", error);

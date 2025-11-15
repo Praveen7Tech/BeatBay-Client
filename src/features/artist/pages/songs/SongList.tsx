@@ -1,15 +1,11 @@
 import { SongCard } from "../../components/song/SongCard"; 
 import { ArtistHeader } from "../../components/song/ArtistHeader"; 
 import { SearchBar } from "../../components/song/SearchBar";
-import {useQuery} from "@tanstack/react-query"
-import { artistApi } from "../../services/artist.api";
+import { useArtistSongs } from "@/core/hooks/useFetchHooks";
 
 const SongList = () => {
 
-    const {data: songs, isLoading, isError, error}= useQuery({
-        queryKey: ["artistSongs"],
-        queryFn: ()=> artistApi.fetchSongs()
-    })
+    const {data: songs, isLoading, isError, error}= useArtistSongs()
 
     if (isLoading) {
         return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
