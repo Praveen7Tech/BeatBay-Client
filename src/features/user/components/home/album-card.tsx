@@ -2,7 +2,7 @@
 
 type CardType = 'song' | 'album';
 interface SongCardProps {
-  id: string;
+  _id: string;
   title: string;
   album: string;
   coverImageUrl: string;

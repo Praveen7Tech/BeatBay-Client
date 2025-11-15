@@ -1,83 +1,25 @@
-import { useState } from 'react';
 import { Upload, X, Plus, Trash2, Music } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { artistApi } from '../../services/artist.api';
 import { Input } from '@/core/components/input/Input';
 import { Button } from '@/core/components/button/Button';
-import { useForm } from 'react-hook-form';
-import { CreateAlbumData, CreateAlbumSchema } from '../../schema-validator/createAlbum.Schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useApi } from '@/core/hooks/useApi';
-import { useNavigate } from 'react-router-dom';
+import { useCreateAlbum } from '@/core/hooks/artist/useCreateAlbum';
 
 export default function CreateAlbumRaw() {
 
-  const Navigate = useNavigate()
-  const [coverImage, setCoverImage] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [showSongSearch, setShowSongSearch] = useState(false);
-  const [selectedSongs, setSelectedSongs] = useState<string[]>([]);
-  const [searchValue, setSearchValue] = useState("")
-
-  const {register, handleSubmit,setValue,  formState:{errors}} = useForm<CreateAlbumData>({
-        resolver: zodResolver(CreateAlbumSchema)
-  }) 
-  const {execute : CreateAlbum} = useApi(artistApi.createAlbum)
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setCoverImage(file)
-      setPreviewUrl(URL.createObjectURL(file));
-      setValue("image", file, { shouldValidate: true });
-    } else {
-      setPreviewUrl('');
-    }
-  };
-
-  const handleAddSong = (id: string) => {
-    setSelectedSongs([...selectedSongs, id]);
-  };
-
-  const handleRemoveSong = (id: string) => {
-    setSelectedSongs(selectedSongs.filter(s => s !== id));
-  };
-
-  const {data: songs} = useQuery({
-    queryKey: ["artistSongs"],
-    queryFn: ()=> artistApi.fetchSongs()
-  })
-
- let filteredSong = songs?.filter(song =>
-  song.title.toLowerCase().includes(searchValue.toLowerCase())
-);
-
-const songList = searchValue.trim() ? filteredSong : songs;
-
-
-
-const HandleUpload = async (data: CreateAlbumData) => {
-  console.log("api start")
-  try {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-
-    if (coverImage) {
-      formData.append("coverImageUrl", coverImage);
-    }
-
-    selectedSongs.forEach(songId => {
-      formData.append("songId", songId);
-    });
-
-    await CreateAlbum(formData);
-    Navigate("/artist-albums");
-  } catch (error) {
-    console.error(error);
-  }
-};
-
+ const {previewUrl,
+        showSongSearch,
+        setShowSongSearch,
+        setSearchValue,
+        register,
+        handleSubmit,
+        errors,
+        handleImageUpload,
+        handleAddSong,
+        handleRemoveSong,
+        songList,
+        HandleUpload,
+        selectedSongs,
+        searchValue,
+        songs} = useCreateAlbum()
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
@@ -157,10 +99,10 @@ const HandleUpload = async (data: CreateAlbumData) => {
 
                 {showSongSearch && (
                   <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-900 border border-zinc-800 rounded-lg z-10 shadow-lg max-h-64 overflow-y-auto">
-                    {songList.map(song => (
+                    {songList?.map(song => (
                       !selectedSongs.includes(song._id) && (
                         <button
-                          key={song.id}
+                          key={song._id}
                           type="button"
                           onClick={() => handleAddSong(song._id)}
                           className="w-full text-left px-3 py-2 hover:bg-zinc-800 rounded text-sm text-zinc-300 hover:text-white transition"
@@ -191,7 +133,7 @@ const HandleUpload = async (data: CreateAlbumData) => {
                   .filter(song => selectedSongs.includes(song._id))
                   .map(song => (
                     <div
-                      key={song.id}
+                      key={song._id}
                       className="relative group bg-zinc-900 border border-zinc-700 rounded-lg overflow-hidden"
                     >
                       <div className="aspect-square bg-zinc-900 flex items-center justify-center text-zinc-600">

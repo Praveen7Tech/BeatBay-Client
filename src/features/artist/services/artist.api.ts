@@ -14,9 +14,18 @@ interface UploadResponse {
 }
 
 interface SongData {
-    [x: string]: any;
-    id: string;
-    title: string;
+  _id: string; 
+  title: string;
+  album: string;
+  artistId: string;
+  audioUrl: string;
+  coverImageUrl: string;
+  description?: string; 
+  genre: string;
+  tags?: string; 
+  releaseDate: string; 
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const artistApi ={
@@ -30,8 +39,9 @@ export const artistApi ={
        return response.data
     },
 
-    fetchSongs: async(): Promise<SongData> =>{
+    fetchSongs: async(): Promise<SongData[]> =>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_SONGS,)
+      console.log("juii ", response)
       return response.data
     },
 
@@ -40,7 +50,7 @@ export const artistApi ={
       return response.data
     },
 
-    fetchAlbums: async(): Promise<SongData> =>{
+    fetchAlbums: async(): Promise<SongData[]> =>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_ALBUMS)
       return response.data
     }

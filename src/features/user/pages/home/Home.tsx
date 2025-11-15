@@ -1,30 +1,19 @@
 
-import { useQuery } from "@tanstack/react-query"
 import AlbumCard from "../../components/home/album-card" 
 import ArtistCard from "../../components/home/artist-card" 
-import { userApi } from "../../services/userApi"
+import { useUserAlbums, useUserSongs } from "@/core/hooks/useFetchHooks"
 export default function HomeContent() {
  
-  const {data: songs, isLoading, isError, error} = useQuery({
-    queryKey:["songs"],
-    queryFn: ()=> userApi.fetchSong(),
+  const {data: songs, isLoading: songsLoading, isError: songsError, error: songMessage} = useUserSongs()
+  const {data: albums, isLoading: albumsLoading, isError: albumsError, error: albumMessage} = useUserAlbums()
 
-  })
-
-  const {data: albums, isLoading:albumIsloading, isError:albumIsError, error: albumError} = useQuery({
-    queryKey:["albums"],
-    queryFn: ()=> userApi.fetchAlbums()
-  })
-
-    if (isLoading || albumIsloading) {
+    if (songsLoading || albumsLoading) {
         return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
     }
 
-    if (isError || albumIsError) {
-        return <div className="min-h-screen bg-black text-red-500 p-8">Error: {error?.message}</div>;
+    if (songsError || albumsError) {
+        return <div>Error: {songMessage?.message || albumMessage?.message}</div>;
     }
-
-  console.log("home song --", albums)
 
   return (
     <div className="flex-1 flex flex-col bg-[#0f0f0f] overflow-hidden">
@@ -44,7 +33,7 @@ export default function HomeContent() {
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {songs && songs.length > 0 ? (
-              songs.map((song:any) => (
+              songs.map((song) => (
               <AlbumCard key={song._id} {...song} type="song"/>
             ))
             ):(

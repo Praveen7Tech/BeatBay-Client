@@ -20,9 +20,18 @@ interface EditPassResponse{
   message: string
 }
 interface SongData {
-    [x: string]: any;
-    id: string;
-    title: string;
+  _id: string; 
+  title: string;
+  album: string;
+  artistId: string;
+  audioUrl: string;
+  coverImageUrl: string;
+  description?: string; 
+  genre: string;
+  tags?: string; 
+  releaseDate: string; 
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const userApi ={
@@ -36,12 +45,12 @@ export const userApi ={
        return response.data
     },
     
-    fetchSong: async():Promise<SongData> =>{
+    fetchSong: async():Promise<SongData[]> =>{
       const response = await axiosInstance.get(API_ROUTES_USER.FETCH_SONGS)
       return response.data
     },
 
-    fetchAlbums: async():Promise<SongData> =>{
+    fetchAlbums: async():Promise<SongData[]> =>{
       const response = await axiosInstance.get(API_ROUTES_USER.FETCH_ALBUMS)
       return response.data
     },
