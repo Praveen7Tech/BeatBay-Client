@@ -33,5 +33,15 @@ export const artistApi ={
     fetchSongs: async(): Promise<SongData> =>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_SONGS,)
       return response.data
+    },
+
+    createAlbum: async(data: FormData): Promise<UploadResponse>=>{
+      const response = await axiosInstance.post(API_ROUTE_ARTIST.CREATE_ALBUM, data)
+      return response.data
+    },
+
+    fetchAlbums: async(): Promise<SongData> =>{
+      const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_ALBUMS)
+      return response.data
     }
 }

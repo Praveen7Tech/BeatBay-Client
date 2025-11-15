@@ -53,9 +53,7 @@ export function EditArtistProfile() {
                     className="w-32 h-32 rounded-lg object-cover bg-zinc-800"
                 />) : (<User className="w-12 h-12 text-gray-500"/>)
             }
-              <Input placeholder=""
-                type="file"
-                accept="image/*"
+              <Input  type="file" accept="image/*"
                 className="absolute inset-0 opacity-0 cursor-pointer rounded-lg"
                 onChange={handleImageChange} />
               <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg opacity-0 hover:opacity-100 transition">

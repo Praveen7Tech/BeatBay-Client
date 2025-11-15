@@ -30,6 +30,8 @@ import LandingPage from '@/features/artist/pages/landing page/LandingPage';
 import { EditPassword } from '@/features/artist/pages/profile/Change.password';
 import UploadTrack from '@/features/artist/pages/songs/UploadTrack';
 import SongList from '@/features/artist/pages/songs/SongList';
+import CreateAlbumRaw from '@/features/artist/pages/albums/createAlbum';
+import Albums from '@/features/artist/pages/albums/albumListing';
 
 const AppRouter: React.FC = () => {
   return (
@@ -72,8 +74,12 @@ const AppRouter: React.FC = () => {
           <Route path='/artist-profile' element={<ProfilePageArtist/>}/>
           <Route path='/artist-edit-profile' element={<EditArtistProfile/>}/>
           <Route path='/artist-change-password' element={<EditPassword/>}/>
+          
           <Route path='/artist-uploadTrack' element={<UploadTrack/>}/>
           <Route path='/artist-songs' element={<SongList/>}/>
+
+          <Route path='/artist-createAlbum' element={<CreateAlbumRaw/>}/>
+          <Route path='/artist-albums' element={<Albums/>}/>
         </Route>
    
         {/* un authorized */}
