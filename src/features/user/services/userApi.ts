@@ -39,5 +39,10 @@ export const userApi ={
     fetchSong: async():Promise<SongData> =>{
       const response = await axiosInstance.get(API_ROUTES_USER.FETCH_SONGS)
       return response.data
-    }
+    },
+
+    fetchAlbums: async():Promise<SongData> =>{
+      const response = await axiosInstance.get(API_ROUTES_USER.FETCH_ALBUMS)
+      return response.data
+    },
 }

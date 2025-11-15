@@ -1,6 +1,7 @@
-import { Play, Shuffle } from "lucide-react";
+import { Play, Plus, Shuffle } from "lucide-react";
 import { Button } from "./Button"; 
 import artistProfile from "/src/assets/bg.png";
+import { Link } from "react-router-dom";
 
 export const ArtistHeader = () => {
   return (
@@ -33,14 +34,33 @@ export const ArtistHeader = () => {
           Play
         </Button>
         
-        <Button 
-          variant="outline" 
-          size="lg"
-          className="rounded-full h-14 px-8 border-border hover:border-primary transition-all"
+        <Link to={'/artist-uploadTrack'}>
+        <button
+          style={{
+            borderRadius: "9999px",
+            height: "56px",
+            padding: "0 2rem",
+            backgroundColor: "transparent",
+            border: "1px solid #b3b3b3",
+            color: "#ffffff",
+            fontWeight: "600",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            transition: "all 0.3s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = "#1DB954";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = "#b3b3b3";
+          }}
         >
-          <Shuffle className="h-5 w-5 mr-2" />
-          Shuffle
-        </Button>
+          <Plus size={20} />
+          New Song
+        </button>
+        </Link>
       </div>
     </div>
   );

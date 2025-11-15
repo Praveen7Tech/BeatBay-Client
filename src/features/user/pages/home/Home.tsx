@@ -7,18 +7,24 @@ export default function HomeContent() {
  
   const {data: songs, isLoading, isError, error} = useQuery({
     queryKey:["songs"],
-    queryFn: ()=> userApi.fetchSong()
+    queryFn: ()=> userApi.fetchSong(),
+
   })
 
-    if (isLoading) {
+  const {data: albums, isLoading:albumIsloading, isError:albumIsError, error: albumError} = useQuery({
+    queryKey:["albums"],
+    queryFn: ()=> userApi.fetchAlbums()
+  })
+
+    if (isLoading || albumIsloading) {
         return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
     }
 
-    if (isError) {
-        return <div className="min-h-screen bg-black text-red-500 p-8">Error: {error.message}</div>;
+    if (isError || albumIsError) {
+        return <div className="min-h-screen bg-black text-red-500 p-8">Error: {error?.message}</div>;
     }
 
-  console.log("home song --", songs)
+  console.log("home song --", albums)
 
   return (
     <div className="flex-1 flex flex-col bg-[#0f0f0f] overflow-hidden">
@@ -39,7 +45,7 @@ export default function HomeContent() {
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {songs && songs.length > 0 ? (
               songs.map((song:any) => (
-              <AlbumCard key={song._id} {...song} />
+              <AlbumCard key={song._id} {...song} type="song"/>
             ))
             ):(
               <p className="p-4 text-gray-500">Oops no songs found.</p>
@@ -57,9 +63,15 @@ export default function HomeContent() {
             </a>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-            {/* {[1, 2, 3, 4, 5, 6].map((i) => (
-              <AlbumCard key={i} index={i} trending />
-            ))} */}
+            { albums && albums.length > 0 ? (
+              albums.map((album:any)=>(
+                <AlbumCard key={album._id} {...album} type="album"/>
+              ))
+            ):(
+              <p className="p-4 text-gray-500">Oops no albums found.</p>
+            )}
+              
+           
           </div>
         </div>
       </div>
