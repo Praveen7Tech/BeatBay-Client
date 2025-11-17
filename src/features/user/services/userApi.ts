@@ -34,6 +34,30 @@ interface SongData {
   updatedAt: string;
 }
 
+export interface ArtistInfo {
+  _id: string;
+  name: string;
+  profilePicture: string;
+}
+
+export interface SongResponse {
+  _id: string;
+  artistId: ArtistInfo;
+  title: string;
+  genre: string;
+  audioUrl: string;
+  lyricsUrl: string
+  coverImageUrl: string;
+  description: string;
+  album: string;
+  releaseDate: string;     
+  tags: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
         const response = await axiosInstance.put<EditProfileResponse>(API_ROUTES_USER.EDIT_PROFILE, data);
@@ -54,4 +78,10 @@ export const userApi ={
       const response = await axiosInstance.get(API_ROUTES_USER.FETCH_ALBUMS)
       return response.data
     },
+
+    SongDetail: async(songId:string): Promise<SongResponse>=>{
+      console.log("juii ", songId)
+      const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
+      return response.data
+    }
 }

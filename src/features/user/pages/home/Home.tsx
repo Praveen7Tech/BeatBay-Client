@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom"
 import AlbumCard from "../../components/home/album-card" 
 import ArtistCard from "../../components/home/artist-card" 
 import { useUserAlbums, useUserSongs } from "@/core/hooks/useFetchHooks"
@@ -34,7 +35,9 @@ export default function HomeContent() {
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {songs && songs.length > 0 ? (
               songs.map((song) => (
+              <Link to={`/song/${song._id}`}>
               <AlbumCard key={song._id} {...song} type="song"/>
+              </Link>
             ))
             ):(
               <p className="p-4 text-gray-500">Oops no songs found.</p>
@@ -54,7 +57,9 @@ export default function HomeContent() {
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             { albums && albums.length > 0 ? (
               albums.map((album:any)=>(
+              <Link to={'/album'}>  
                 <AlbumCard key={album._id} {...album} type="album"/>
+              </Link>  
               ))
             ):(
               <p className="p-4 text-gray-500">Oops no albums found.</p>

@@ -1,4 +1,4 @@
-import { Upload, X, Plus, Trash2, Music } from 'lucide-react';
+import { Upload, X, Plus, Trash2 } from 'lucide-react';
 import { Input } from '@/core/components/input/Input';
 import { Button } from '@/core/components/button/Button';
 import { useCreateAlbum } from '@/core/hooks/artist/useCreateAlbum';
@@ -20,6 +20,8 @@ export default function CreateAlbumRaw() {
         selectedSongs,
         searchValue,
         songs} = useCreateAlbum()
+  
+  const URL = import.meta.env.VITE_API_URL   
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
@@ -128,7 +130,7 @@ export default function CreateAlbumRaw() {
           {selectedSongs.length > 0 && (
             <div>
               <h3 className="text-sm font-medium mb-4 uppercase tracking-wide">Selected Tracks</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 ">
                 {songs && songs
                   .filter(song => selectedSongs.includes(song._id))
                   .map(song => (
@@ -136,8 +138,12 @@ export default function CreateAlbumRaw() {
                       key={song._id}
                       className="relative group bg-zinc-900 border border-zinc-700 rounded-lg overflow-hidden"
                     >
-                      <div className="aspect-square bg-zinc-900 flex items-center justify-center text-zinc-600">
-                        <Music size={32} />
+                     <div className="aspect-square w-full overflow-hidden bg-zinc-800 flex items-center justify-center">
+                        <img
+                          src={`${URL}/songs/${song.coverImageUrl}`}
+                          alt={song.title}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
 
                       <div className="p-3">
