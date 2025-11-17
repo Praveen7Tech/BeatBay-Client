@@ -32,6 +32,8 @@ import UploadTrack from '@/features/artist/pages/songs/UploadTrack';
 import SongList from '@/features/artist/pages/songs/SongList';
 import CreateAlbumRaw from '@/features/artist/pages/albums/createAlbum';
 import Albums from '@/features/artist/pages/albums/albumListing';
+import SongDetail from '@/features/user/pages/song/songDetails';
+import AlbumDetail from '@/features/user/pages/album/albumDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -63,6 +65,9 @@ const AppRouter: React.FC = () => {
         <Route element={<ProtectedRoute requiredRole={ROLES.USER}><UserLayout /></ProtectedRoute>}>
           <Route path="/home" element={<HomeContent/>} />
           <Route path="/profile" element={<ProfilePage />} />
+
+          <Route path='/song/:songId' element={<SongDetail/>}/>
+          <Route path='/album' element={<AlbumDetail/>}/>
         </Route>
 
         {/* admin routes */}

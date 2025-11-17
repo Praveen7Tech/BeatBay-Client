@@ -37,5 +37,6 @@ export const API_ROUTES_USER ={
   EDIT_PROFILE: '/user/edit-profile',
   CHANGE_PASSWORD: '/user/change-password',
   FETCH_SONGS: '/user/fetch-songs',
-  FETCH_ALBUMS: '/user/fetch-albums'
+  FETCH_ALBUMS: '/user/fetch-albums',
+  SONG_DETAILS: '/user/song-details'
 }
