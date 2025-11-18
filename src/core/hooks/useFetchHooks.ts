@@ -1,3 +1,4 @@
+import { artistApi } from "@/features/artist/services/artist.api"
 import { userApi } from "@/features/user/services/userApi"
 import { useQuery } from "@tanstack/react-query"
 
@@ -18,13 +19,13 @@ export const useUserAlbums = () =>{
 export const useArtistSongs = ()=>{
     return useQuery({
         queryKey: ["songs"],
-        queryFn: userApi.fetchSong
+        queryFn: artistApi.fetchSongs
     })
 }
 
 export const useArtistAlbums = () =>{
     return useQuery({
         queryKey: ["albums"],
-        queryFn: userApi.fetchAlbums
+        queryFn: artistApi.fetchAlbums
     })
 }

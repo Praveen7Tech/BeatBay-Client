@@ -14,11 +14,11 @@ export const LyricsSection = ({ lyricsUrl, currentTime }: LyricsSectionProps) =>
  const [lyrics, setLyrics] = useState<LyricLine[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState(-1);
   const URL = import.meta.env.VITE_API_URL;
-  console.log("lrc--", lyrics)
+  
   // Fetch the lyrics file content
   useEffect(() => {
     if (lyricsUrl) {
-      fetch(`${URL}/songs/${lyricsUrl}`) // Assume /api/lyrics endpoint
+      fetch(`${URL}/songs/${lyricsUrl}`) 
         .then(res => res.text())
         .then(text => setLyrics(parseLrc(text)))
         .catch(err => console.error("Failed to load lyrics", err));

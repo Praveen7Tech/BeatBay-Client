@@ -41,7 +41,6 @@ export const artistApi ={
 
     fetchSongs: async(): Promise<SongData[]> =>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_SONGS,)
-      console.log("juii ", response)
       return response.data
     },
 
