@@ -1,9 +1,9 @@
-import { Play, Shuffle } from "lucide-react";
+import { Play } from "lucide-react";
 
 interface AlbumDetailHeaderProps {
   title: string;
   artist: string;
-  coverImage: string;
+  coverImageUrl: string;
   releaseYear: string;
   totalTracks: number;
   totalDuration: string;
@@ -12,16 +12,18 @@ interface AlbumDetailHeaderProps {
 export const AlbumDetailHeader = ({
   title,
   artist,
-  coverImage,
-  releaseYear,
+  coverImageUrl,
   totalTracks,
   totalDuration,
 }: AlbumDetailHeaderProps) => {
+
+  const URL = import.meta.env.VITE_API_URL
+  const baseURL = `${URL}/albums/${coverImageUrl}`
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-8 items-end">
         <img
-          src={coverImage}
+          src={baseURL}
           alt={title}
           className="w-48 h-48 rounded-lg shadow-2xl object-cover"
         />

@@ -1,20 +1,19 @@
 import { Play, Plus, Clock } from "lucide-react";
 import { useState } from "react";
-
-interface Song {
-  id: number;
-  title: string;
-  duration: string;
-  coverImage: string;
-  isPlaying?: boolean;
-}
+import { SongData } from "../../services/userApi";
+import { Link } from "react-router-dom";
 
 interface AlbumSongListProps {
-  songs: Song[];
+  songs: SongData[];
 }
 
-export const AlbumSongList = ({ songs }: AlbumSongListProps) => {
+export const AlbumSongList = ({ songs} : AlbumSongListProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+
+  console.log("jjj", songs)
+  const URL = import.meta.env.VITE_API_URL
+  const baseURL = `${URL}/songs/`
+  const isPlaying = true
 
   return (
     <div className="bg-[#121212] rounded-lg mt-8">
@@ -32,13 +31,13 @@ export const AlbumSongList = ({ songs }: AlbumSongListProps) => {
         <tbody>
           {songs.map((song, index) => (
             <tr
-              key={song.id}
+              key={song._id}
               className="border-b border-[#282828] hover:bg-[#282828] transition-colors group"
               onMouseEnter={() => setHoveredRow(index)}
               onMouseLeave={() => setHoveredRow(null)}
             >
               <td className="px-6 py-4">
-                {song.isPlaying ? (
+                {isPlaying ? (
                   <div className="flex gap-0.5 items-end h-4 w-4">
                     <div className="w-1 bg-[#1DB954] rounded-full animate-[wave_1s_ease-in-out_infinite]" style={{ height: "60%", animationDelay: "0s" }}></div>
                     <div className="w-1 bg-[#1DB954] rounded-full animate-[wave_1s_ease-in-out_infinite]" style={{ height: "100%", animationDelay: "0.2s" }}></div>
@@ -49,18 +48,20 @@ export const AlbumSongList = ({ songs }: AlbumSongListProps) => {
                     <Play className="h-4 w-4 fill-current" />
                   </button>
                 ) : (
-                  <span className={song.isPlaying ? "text-[#1DB954] text-sm font-medium" : "text-[#b3b3b3] text-sm"}>{index + 1}</span>
+                  <span className={isPlaying ? "text-[#1DB954] text-sm font-medium" : "text-[#b3b3b3] text-sm"}>{index + 1}</span>
                 )}
               </td>
               <td className="px-4 py-4">
+                <Link to={`/song/${song._id}`}>
                 <div className="flex items-center gap-4">
                   <img
-                    src={song.coverImage}
+                    src={`${baseURL}${song.coverImageUrl}`}
                     alt={song.title}
                     className="w-10 h-10 rounded object-cover"
                   />
-                  <span className={song.isPlaying ? "text-[#1DB954] font-medium" : "text-white font-normal"}>{song.title}</span>
+                  <span className={isPlaying ? "text-[#1DB954] font-medium" : "text-white font-normal"}>{song.title}</span>
                 </div>
+                </Link>
               </td>
               <td className="px-6 py-4 text-right">
                 <span className="text-[#b3b3b3] text-sm">{song.duration}</span>
