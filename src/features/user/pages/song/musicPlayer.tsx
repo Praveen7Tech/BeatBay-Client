@@ -15,13 +15,16 @@ type SliderProps = React.ComponentProps<typeof Slider>
 
 export const MusicPlayer = ({ className, ...props }: SliderProps) => {
 
-  const {currentSong, currentTime, isPlaying, playPause, volume, setVolume, seekTime} = useAudioContext()
+  const {currentSong, currentTime, isPlaying, playPause, volume, setVolume, seekTime,
+    skipForward, skipBackward
+  } = useAudioContext()
 
   // music progress bar changing
   const HandleProgressChange = (value: number[])=>{
     if(!currentSong) return;
     const newPercentage = value[0]
-    const newTime = (newPercentage / 100) * Number(currentSong.duration )
+    const Duration = Number(currentSong?.duration)
+    const newTime = (newPercentage / 100) * Duration
     seekTime(newTime)
   }
 
@@ -64,7 +67,8 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
         <div className="flex flex-col items-center gap-2 flex-1 max-w-[722px]">
 
           <div className="flex items-center gap-4">
-            <button className="text-[#b3b3b3] hover:text-white transition-colors">
+            <button className="text-[#b3b3b3] hover:text-white transition-colors"
+            onClick={skipBackward}>
               <SkipBack size={20} />
             </button>
 
@@ -76,7 +80,8 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
               }
             </button>
 
-            <button className="text-[#b3b3b3] hover:text-white transition-colors">
+            <button className="text-[#b3b3b3] hover:text-white transition-colors"
+            onClick={skipForward}>
               <SkipForward size={20} />
             </button>
           </div>

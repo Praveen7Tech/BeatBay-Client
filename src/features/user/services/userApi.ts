@@ -19,7 +19,7 @@ interface Data{
 interface EditPassResponse{
   message: string
 }
-interface SongData {
+export interface SongData {
   _id: string; 
   title: string;
   album: string;
@@ -59,6 +59,22 @@ export interface SongResponse {
   __v: number;
 }
 
+interface SongPageResponse{
+  songs: SongResponse
+  recomentations: SongData[]
+}
+
+
+interface AlbumResponse {
+   _id: string;
+   title: string;
+   artistId: ArtistInfo;
+   coverImageUrl: string;
+   createdAt: string;
+   description: string;
+   songs: SongData[]
+}
+
 
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
@@ -81,9 +97,14 @@ export const userApi ={
       return response.data
     },
 
-    SongDetail: async(songId:string): Promise<SongResponse>=>{
-     
+    SongDetail: async(songId:string): Promise<SongPageResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
       return response.data
-    }
+    },
+
+    AlbumDetails: async(albumId:string): Promise<AlbumResponse>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.ALBUM_DETAILS}/${albumId}`)
+      console.log("album--", response.data)
+      return response.data
+    } 
 }

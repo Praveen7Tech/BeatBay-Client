@@ -67,7 +67,7 @@ const AppRouter: React.FC = () => {
           <Route path="/profile" element={<ProfilePage />} />
 
           <Route path='/song/:songId' element={<SongDetail/>}/>
-          <Route path='/album' element={<AlbumDetail/>}/>
+          <Route path='/album/:albumId' element={<AlbumDetail/>}/>
         </Route>
 
         {/* admin routes */}

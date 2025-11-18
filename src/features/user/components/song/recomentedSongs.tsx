@@ -1,24 +1,23 @@
 import { Play, Plus } from "lucide-react";
 import { useState } from "react";
+import { SongData } from "../../services/userApi";
+import { Link } from "react-router-dom";
 
-interface Song {
-  id: number;
-  title: string;
-  album: string;
-  coverImage: string;
-  duration: string;
-}
+
 
 interface RecommendedSongsProps {
-  songs: Song[];
+  songs: SongData[]
 }
 
 export const RecommendedSongs = ({ songs }: RecommendedSongsProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
+  const URL = import.meta.env.VITE_API_URL
+  const baseURL = `${URL}/songs/`
+
   return (
     <div className="mt-16">
-      <h2 className="text-2xl font-bold mb-6 text-white">Recommended</h2>
+      <h2 className="text-2xl font-bold mb-6 text-white">Recommended Songs</h2>
       
       <div className="bg-[#121212] rounded-lg overflow-hidden">
         <table className="w-full">
@@ -38,7 +37,7 @@ export const RecommendedSongs = ({ songs }: RecommendedSongsProps) => {
           <tbody>
             {songs.map((song, index) => (
               <tr
-                key={song.id}
+                key={song._id}
                 className="border-b border-[#282828] hover:bg-[#282828] transition-colors group"
                 onMouseEnter={() => setHoveredRow(index)}
                 onMouseLeave={() => setHoveredRow(null)}
@@ -46,21 +45,23 @@ export const RecommendedSongs = ({ songs }: RecommendedSongsProps) => {
                 <td className="px-4 py-3">
                   {hoveredRow === index ? (
                     <button className="text-white hover:scale-110 transition-transform">
-                      <Play className="h-4 w-4 fill-current" />
+                      <Play className="h-4 w-4 fill-current text-green-500" />
                     </button>
                   ) : (
                     <span className="text-[#b3b3b3] text-sm">{index + 1}</span>
                   )}
                 </td>
                 <td className="px-4 py-3">
+                  <Link to={`/song/${song._id}`}>
                   <div className="flex items-center gap-3">
                     <img
-                      src={song.coverImage}
+                      src={`${baseURL}${song?.coverImageUrl}`}
                       alt={song.title}
                       className="w-10 h-10 rounded object-cover"
                     />
-                    <span className="text-white font-medium">{song.title}</span>
+                    <span className="text-white font-medium hover:text-green-500">{song.title}</span>
                   </div>
+                  </Link>
                 </td>
                 <td className="px-4 py-3">
                   <span className="text-[#b3b3b3] text-sm">{song.album}</span>
