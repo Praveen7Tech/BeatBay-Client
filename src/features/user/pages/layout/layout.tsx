@@ -4,7 +4,7 @@ import Sidebar from "../../components/left sidebar/sidebar"
 import RightPanel from "../../components/right sidebar/right-sidebar" 
 import { Outlet } from "react-router-dom"
 import { MusicPlayer } from "../song/musicPlayer"
-import { AudioPlayerProvider } from "@/core/context/AudioPlayerContext"
+import { AudioPlayerProvider } from "@/core/context/useAudioContext" 
 
 export default function UserLayout() {
   return (
@@ -18,7 +18,7 @@ export default function UserLayout() {
           </div>
           <RightPanel />
         </div>
-          <MusicPlayer/>      
+          <MusicPlayer defaultValue={[33]} max={100} step={1}/>      
       </div>
     </AudioPlayerProvider>
   )

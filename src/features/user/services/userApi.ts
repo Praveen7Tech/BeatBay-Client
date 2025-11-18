@@ -27,6 +27,7 @@ interface SongData {
   audioUrl: string;
   coverImageUrl: string;
   description?: string; 
+  duration?:string
   genre: string;
   tags?: string; 
   releaseDate: string; 
@@ -50,7 +51,8 @@ export interface SongResponse {
   coverImageUrl: string;
   description: string;
   album: string;
-  releaseDate: string;     
+  releaseDate: string;    
+  duration:string 
   tags: string;
   createdAt: string;
   updatedAt: string;
@@ -80,7 +82,7 @@ export const userApi ={
     },
 
     SongDetail: async(songId:string): Promise<SongResponse>=>{
-      console.log("juii ", songId)
+     
       const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
       return response.data
     }

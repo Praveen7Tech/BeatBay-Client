@@ -5,7 +5,7 @@ import album2 from "/src/assets/bg.png";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { userApi } from "../../services/userApi";
-import { useAudioPlayer } from "@/core/hooks/user/useAudioPlayer";
+import { useAudioContext } from "@/core/context/useAudioContext"; 
   const recommendedSongs = [
     {
       id: 1,
@@ -31,17 +31,27 @@ import { useAudioPlayer } from "@/core/hooks/user/useAudioPlayer";
   ];
 export default function SongDetail() {
 
-  const { songId } = useParams();
+ const { songId } = useParams();
     const { data: song, isLoading, isError, error } = useQuery({
-    queryKey: ["songDetails", songId], 
-    queryFn: () => userApi.SongDetail(songId!), 
-    enabled: !!songId, 
+    queryKey: ["songDetails", songId],
+    queryFn: () => userApi.SongDetail(songId!),
+    enabled: !!songId,
   });
 
-  const URL = import.meta.env.VITE_API_URL;
-  const fullAudioUrl = `${URL}/songs/${song?.audioUrl}`; 
-  
-  const { isPlaying, currentTime, playPause } = useAudioPlayer(fullAudioUrl);
+  const { playSong, currentSong, isPlaying , playPause, currentTime} = useAudioContext();
+
+  const isCurrentSongPlaying = isPlaying && currentSong?._id === song?._id;
+
+
+  const handlePlayPause = () => {
+    if (song) {
+        if (currentSong?._id === song._id) {
+            playPause(); 
+        } else {
+            playSong(song);
+        }
+    }
+  };
 
   if(isLoading){
     return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
@@ -64,8 +74,8 @@ export default function SongDetail() {
             coverImageUrl={song?.coverImageUrl}
             artistId={song?.artistId}
 
-            isPlaying={isPlaying} 
-            onPlayPause={playPause}
+            isPlaying={isCurrentSongPlaying} 
+            onPlayPause={handlePlayPause}
         />
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
