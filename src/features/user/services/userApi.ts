@@ -27,7 +27,7 @@ export interface SongData {
   audioUrl: string;
   coverImageUrl: string;
   description?: string; 
-  duration?:string
+  duration:string
   genre: string;
   tags?: string; 
   releaseDate: string; 
@@ -43,7 +43,7 @@ export interface ArtistInfo {
 
 export interface SongResponse {
   _id: string;
-  artistId: ArtistInfo;
+  artistId:any
   title: string;
   genre: string;
   audioUrl: string;
@@ -61,7 +61,7 @@ export interface SongResponse {
 
 interface SongPageResponse{
   songs: SongResponse
-  recomentations: SongData[]
+  recomentations: SongResponse[]
 }
 
 

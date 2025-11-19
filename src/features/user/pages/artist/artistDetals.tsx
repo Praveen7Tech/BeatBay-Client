@@ -22,6 +22,9 @@ export default function ArtistDetail() {
     if (isError) {
         return <div>Error: {error?.message }</div>;
     }
+     if (!artistData ) {
+      return <div className="min-h-screen bg-black text-white p-8">Song details not available.</div>;
+    }
   const songs = artistData?.songs
   const albums = artistData?.albums 
 

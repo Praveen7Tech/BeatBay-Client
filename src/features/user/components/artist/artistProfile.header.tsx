@@ -1,6 +1,5 @@
 import { Play, UserCheck, UserPlus, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { useFollowStatus } from "@/core/hooks/useFollowStatus";
 
 interface ArtistProfileHeaderProps {
@@ -10,15 +9,12 @@ interface ArtistProfileHeaderProps {
 }
 
 export const ArtistProfileHeader = ({_id,  name,  profilePicture,}: ArtistProfileHeaderProps) => {
-  // const [isFollowing, setIsFollowing] = useState(false);
+
   let verified=true
 
   const { isFollowing, toggleFollow, } = useFollowStatus(_id)
   console.log("is follow ", isFollowing)
 
-  // const handleFollowToggle = () => {
-  //   setIsFollowing(!isFollowing);
-  // };
   const URL = import.meta.env.VITE_API_URL
   const baseURL = `${URL}/uploads/${profilePicture}`
 
