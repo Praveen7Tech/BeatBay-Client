@@ -16,7 +16,7 @@ export const RecommendedSongs = ({ songs }: RecommendedSongsProps) => {
   const baseURL = `${URL}/songs/`
 
   return (
-    <div className="mt-16">
+    <div >
       <h2 className="text-2xl font-bold mb-6 text-white">Recommended Songs</h2>
       
       <div className="bg-[#121212] rounded-lg overflow-hidden">

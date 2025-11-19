@@ -75,6 +75,21 @@ interface AlbumResponse {
    songs: SongData[]
 }
 
+export interface ArtistDetailsResponse {
+  _id: string;
+  name: string;
+  email: string;
+  googleId?: string;
+  role: string
+  bio: string;
+  profilePicture: string;
+  albums: AlbumResponse[];
+  songs: SongData[];
+  status: boolean;
+  createdAt: string;     
+  updatedAt: string; 
+}
+
 
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
@@ -106,5 +121,25 @@ export const userApi ={
       const response = await axiosInstance.get(`${API_ROUTES_USER.ALBUM_DETAILS}/${albumId}`)
       console.log("album--", response.data)
       return response.data
-    } 
+    },
+    
+    artistDetails:async(artistId:string): Promise<ArtistDetailsResponse>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.ARTIST_DETAILS}/${artistId}`)
+      return response.data
+    }, 
+
+    checkFollowStatus: async(artistId: string): Promise<{isFollowing: boolean}>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.IS_FOLLOWING}/${artistId}`)
+      return response.data
+    },
+
+    followArtist:async(artistId: string): Promise<{message: string}>=>{
+      const response = await axiosInstance.post(`${API_ROUTES_USER.FOLLOW}/${artistId}`)
+      return response.data
+    },
+
+    unfollowArtist: async(artistId: string): Promise<{message: string}>=>{
+      const response = await axiosInstance.delete(`${API_ROUTES_USER.FOLLOW}/${artistId}`)
+      return response.data
+    },
 }

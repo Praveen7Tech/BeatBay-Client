@@ -1,10 +1,11 @@
 import { SongHeader } from "../../components/song/songHeader"; 
 import { LyricsSection } from "../../components/song/lyricSection"; 
 import { RecommendedSongs } from "../../components/song/recomentedSongs"; 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { userApi } from "../../services/userApi";
 import { useAudioContext } from "@/core/context/useAudioContext"; 
+import { ArtistSection } from "../../components/song/artistSection";
   
 export default function SongDetail() {
 
@@ -49,19 +50,23 @@ export default function SongDetail() {
         <SongHeader 
             title={song?.title} 
             coverImageUrl={song?.coverImageUrl}
-            artistId={song?.artistId}
 
             isPlaying={isCurrentSongPlaying} 
             onPlayPause={handlePlayPause}
         />
-
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <LyricsSection 
+         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <Link to={`/artist-details/${song.artistId?._id}`}>
+              <ArtistSection artistId={song?.artistId} />
+            </Link>
+          </div> 
+          <div>
+            <LyricsSection 
               lyricsUrl={song?.lyricsUrl} 
               currentTime={currentTime} 
           />
-        </div>
-        
+          </div>
+        </div>       
         <RecommendedSongs songs={recomentedSongs} />
       </div>
     </div>

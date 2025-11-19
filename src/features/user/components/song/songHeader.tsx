@@ -1,9 +1,7 @@
 import { Play, Heart, Plus, Pause } from "lucide-react";
-import { ArtistInfo } from "../../services/userApi";
 
 interface SongHeaderProps {
   title: string;
-  artistId: ArtistInfo;
   coverImageUrl: string;
 
   isPlaying: boolean;
@@ -12,7 +10,6 @@ interface SongHeaderProps {
 
 export const SongHeader = ({
   title,
-  artistId,
   coverImageUrl,
   isPlaying,
   onPlayPause
@@ -21,7 +18,6 @@ export const SongHeader = ({
   const URL = import.meta.env.VITE_API_URL
   const baseURL = `${URL}/songs/${coverImageUrl}`
 
-  const artistProfilepicture = `${URL}/uploads/${artistId.profilePicture}`
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
       {/* Song Cover */}
@@ -62,7 +58,7 @@ export const SongHeader = ({
       </div>
 
       {/* Song Info */}
-      <div className="flex-1">
+      <div className="flex-1 pt-20">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-5 h-5 rounded-sm bg-[#282828] flex items-center justify-center">
             <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
@@ -80,18 +76,6 @@ export const SongHeader = ({
           <span className="text-[#b3b3b3]">{  "3.04"}</span>
         </div>
 
-        {/* Artist Section */}
-        <div className="items-center gap-4 mt-6 p-3 bg-transparent rounded-lg hover:bg-[#282828] transition-colors cursor-pointer inline-flex">
-          <img
-            src={artistProfilepicture}
-            alt={"artist profile"}
-            className="w-12 h-12 rounded-full object-cover"
-          />
-          <div>
-            <p className="text-xs text-[#b3b3b3] mb-1">Artist</p>
-            <p className="text-sm font-medium text-white">{artistId?.name}</p>
-          </div>
-        </div>
       </div>
     </div>
   );
