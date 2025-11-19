@@ -1,7 +1,6 @@
-// src/utils/lyricsParser.ts
 
 interface LyricLine {
-  time: number; // Time in seconds
+  time: number; 
   text: string;
 }
 
