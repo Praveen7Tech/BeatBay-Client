@@ -39,5 +39,8 @@ export const API_ROUTES_USER ={
   FETCH_SONGS: '/user/fetch-songs',
   FETCH_ALBUMS: '/user/fetch-albums',
   SONG_DETAILS: '/user/song-details',
-  ALBUM_DETAILS: '/user/album-details'
+  ALBUM_DETAILS: '/user/album-details',
+  ARTIST_DETAILS: '/user/artist-details',
+  IS_FOLLOWING: '/user/is-following',
+  FOLLOW: '/user/follow'
 }

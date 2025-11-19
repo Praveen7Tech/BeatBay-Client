@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Compass, Users, Heart, Plus, Music, LucideIcon } from "lucide-react"
+import { Home, Compass, Users, Heart, Plus, Music, LucideIcon, PlusSquare } from "lucide-react"
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -12,7 +12,8 @@ export default function Sidebar() {
         <Link to={'/home'}><NavItem icon={Home} label="Home" active /></Link>
         <NavItem icon={Compass} label="Discover" />
         <NavItem icon={Users} label="Artists" />
-        <NavItem icon={Heart} label="Favourites" />
+        <NavItem icon={Heart} label="Liked Songs" />
+        <NavItem icon={PlusSquare} label="Create PlayList" />
       </nav>
 
       {/* Playlist Section */}

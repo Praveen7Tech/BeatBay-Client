@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 
 
-export const useAudioPlayer = (audioUrl: string) =>{
+export const useAudioPlayer = (audioUrl: string, onEnded?: ()=> void) =>{
     const audioRef = useRef<HTMLAudioElement | null>(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
@@ -13,10 +13,15 @@ export const useAudioPlayer = (audioUrl: string) =>{
         const audio = audioRef.current
 
         const handleTimeUpdat = ()=> setCurrentTime(audio.currentTime)
-        const handleEnded = ()=> setIsPlaying(false)
-
+        const handleEnded = ()=> {
+            setIsPlaying(false)
+            // use the skipForwad callback fn to automatically play next song if ended
+            if(onEnded){
+                onEnded()
+            }
+        }
         audio.addEventListener("timeupdate", handleTimeUpdat)
-        audio.addEventListener("ended", handleEnded)
+        audio.addEventListener("ended", handleEnded)      
 
         // cleanup the event listners when component unmount
         return ()=>{
@@ -25,7 +30,7 @@ export const useAudioPlayer = (audioUrl: string) =>{
             audio.pause()
             audioRef.current = null
         }
-    },[])
+    },[onEnded])
 
 
     // handle the new song change 

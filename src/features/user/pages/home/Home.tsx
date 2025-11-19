@@ -56,7 +56,7 @@ export default function HomeContent() {
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             { albums && albums.length > 0 ? (
-              albums.map((album:any)=>(
+              albums.map((album)=>(
               <Link to={`/album/${album._id}`}>  
                 <AlbumCard key={album._id} {...album} type="album"/>
               </Link>  

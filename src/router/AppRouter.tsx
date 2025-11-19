@@ -34,6 +34,7 @@ import CreateAlbumRaw from '@/features/artist/pages/albums/createAlbum';
 import Albums from '@/features/artist/pages/albums/albumListing';
 import SongDetail from '@/features/user/pages/song/songDetails';
 import AlbumDetail from '@/features/user/pages/album/albumDetails';
+import ArtistDetail from '@/features/user/pages/artist/artistDetals';
 
 const AppRouter: React.FC = () => {
   return (
@@ -68,6 +69,8 @@ const AppRouter: React.FC = () => {
 
           <Route path='/song/:songId' element={<SongDetail/>}/>
           <Route path='/album/:albumId' element={<AlbumDetail/>}/>
+
+          <Route path='/artist-details/:artistId' element={<ArtistDetail/>}/>
         </Route>
 
         {/* admin routes */}

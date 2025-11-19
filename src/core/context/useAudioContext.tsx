@@ -30,26 +30,31 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
     const URL = import.meta.env.VITE_API_URL
     const audioUrl = `${URL}/songs/${currentSong?.audioUrl}`
 
-    const {isPlaying, currentTime, playPause, seekTime, setVolume} = useAudioPlayer(audioUrl)
-
-    const setPlaylistAndPlay = useCallback((songs: SongResponse[], index = 0)=>{
-        setPlayList(songs)
-        setCurrentIndex(index)
-    },[])
-
-    const handleSetVolume =  (value: number[])=>{
-        const newVolume = value[0]
-        setVolumeState(newVolume)
-        setVolume(newVolume)
-    }
-
-    const skipForward = useCallback(()=>{
+    // Skip forwad song
+     const skipForward = useCallback(()=>{
         if(playList.length === 0) return
 
         const nextIndex = (currentIndex + 1) % playList.length
         setCurrentIndex(nextIndex)
     },[currentIndex, playList.length])
 
+    const {isPlaying, currentTime, playPause, seekTime, setVolume} = useAudioPlayer(audioUrl, skipForward)
+
+    // seting playlist and play first song
+    const setPlaylistAndPlay = useCallback((songs: SongResponse[], index = 0)=>{
+        setPlayList(songs)
+        setCurrentIndex(index)
+    },[])
+
+    // voolume adjustment
+    const handleSetVolume =  (value: number[])=>{
+        const newVolume = value[0]
+        setVolumeState(newVolume)
+        setVolume(newVolume)
+    }
+
+
+    // skip song to backward
     const skipBackward = useCallback(()=>{
         if(playList.length === 0) return;
 
