@@ -29,6 +29,7 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
   }
 
   if (!user) return <div>Loading user data...</div>
+  console.log("user details", user)
 
   return (
     <div className="relative min-h-80 bg-linear-to-b from-[#1a4d2e] to-[#0f0f0f] mt-0">
@@ -59,7 +60,7 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
             {/* </Link> */}
             <div className="flex gap-6 text-sm">
               <div>
-                <span className="text-[#00d084] font-semibold">25</span>
+                <span className="text-[#00d084] font-semibold">{user.followingCount}</span>
                 <span className="text-gray-400 ml-2">Following</span>
               </div>
               <div>
