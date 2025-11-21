@@ -1,0 +1,81 @@
+import { Search, X } from "lucide-react";
+import { Input } from "@/features/artist/components/song/Input"; 
+import { SongResponse } from "../../services/userApi";
+import { useRef } from "react";
+
+
+interface PlaylistSearchSectionProps {
+  songs: SongResponse[]
+  isOpen : boolean
+  onClose: ()=> void
+  addSong: (song: string)=> void
+}
+
+export const PlaylistSearchSection = ({songs, isOpen, onClose, addSong}: PlaylistSearchSectionProps) => {
+    const serachQuryRef = useRef<HTMLInputElement>(null)
+
+    if (!isOpen) return null;
+    const URL = import.meta.env.VITE_API_URL
+
+  return (
+    <div className="mt-8 mb-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-white">Let's find something for your playlist</h2>
+        <button
+          onClick={onClose}
+          className="w-10 h-10 rounded-full hover:bg-[#282828] flex items-center justify-center transition-colors"
+        >
+          <X className="h-6 w-6 text-[#b3b3b3]" />
+        </button>
+      </div>
+
+      <div className="relative mb-6">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#b3b3b3]" />
+        <Input
+          ref={serachQuryRef}
+          type="text"
+          placeholder="Search for songs or artists..."
+          className="pl-12 h-12 bg-[#242424] border-none text-white placeholder:text-[#b3b3b3] focus-visible:ring-0 focus-visible:ring-offset-0"
+        />
+        {serachQuryRef && (
+          <button
+            // onClick={() => serachQuryRef("")}
+            className="absolute right-4 top-1/2 -translate-y-1/2"
+          >
+            <X className="h-5 w-5 text-[#b3b3b3] hover:text-white" />
+          </button>
+        )}
+      </div>
+
+      {/* Search Results */}
+      <div className="space-y-2">
+        {songs.map((song) => (
+          <div
+            key={song._id}
+            className="flex items-center gap-4 p-2 rounded hover:bg-[#282828] transition-colors group"
+          >
+            <img
+              src={`${URL}/songs/${song.coverImageUrl}`}
+              alt={song.title}
+              className="w-12 h-12 rounded object-cover"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-white font-normal truncate">{song.title}</p>
+              <p className="text-[#b3b3b3] text-sm truncate">{song.artistId}</p>
+            </div>
+            <div className="flex-1 min-w-0 hidden md:block">
+              <p className="text-[#b3b3b3] text-sm truncate">{song.album}</p>
+            </div>
+            <span className="text-[#b3b3b3] text-sm mr-4">{song.duration}</span>
+            <button
+              onClick={() => addSong(song._id)}
+              className="px-6 py-1.5 rounded-full border border-[#535353] text-white text-sm font-medium hover:border-white hover:scale-105 transition-all opacity-0 group-hover:opacity-100"
+            >
+              Add
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
