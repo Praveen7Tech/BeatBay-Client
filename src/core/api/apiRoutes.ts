@@ -42,5 +42,6 @@ export const API_ROUTES_USER ={
   ALBUM_DETAILS: '/user/album-details',
   ARTIST_DETAILS: '/user/artist-details',
   IS_FOLLOWING: '/user/is-following',
-  FOLLOW: '/user/follow'
+  FOLLOW: '/user/follow',
+  FOLLOWING: '/user/following',
 }

@@ -12,14 +12,14 @@ export const useFollowStatus = (artistId: string) =>{
         enabled: !!artistId
     })
 
-    console.log("data ",data)
     const isFollowing = data
 
     // handle Following
     const follow = useMutation({
         mutationFn: userApi.followArtist,
         onSuccess: ()=>{
-            queryClient.invalidateQueries({queryKey:["followStatus", artistId]}),
+            queryClient.invalidateQueries({queryKey:["followStatus", artistId]})
+            queryClient.invalidateQueries({queryKey:["followingList"]})
             showSuccess("following")
         }
         
@@ -29,7 +29,8 @@ export const useFollowStatus = (artistId: string) =>{
     const unfollow = useMutation({
         mutationFn: userApi.unfollowArtist,
         onSuccess: ()=>{
-            queryClient.invalidateQueries({queryKey:["followStatus", artistId]}),
+            queryClient.invalidateQueries({queryKey:["followStatus", artistId]})
+            queryClient.invalidateQueries({queryKey:["followingList"]})
             showSuccess("un followed")
         }
     })

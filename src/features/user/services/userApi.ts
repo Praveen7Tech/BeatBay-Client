@@ -90,6 +90,13 @@ export interface ArtistDetailsResponse {
   updatedAt: string; 
 }
 
+export interface FollowingResponse {
+  id: string;
+  name: string;
+  role: string
+  profilePicture: string;
+}
+
 
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
@@ -142,4 +149,9 @@ export const userApi ={
       const response = await axiosInstance.delete(`${API_ROUTES_USER.FOLLOW}/${artistId}`)
       return response.data
     },
+
+    following : async(): Promise<FollowingResponse[]>=>{
+      const response = await axiosInstance.get(API_ROUTES_USER.FOLLOWING)
+      return response.data
+    }
 }
