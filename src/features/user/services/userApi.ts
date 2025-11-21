@@ -98,6 +98,17 @@ export interface FollowingResponse {
 }
 
 
+export interface NewPlayListResponse{
+  id: string
+  name: string
+}
+
+interface PlayList{
+  _id: string
+  name: string
+  songs: SongData[]
+}
+
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
         const response = await axiosInstance.put<EditProfileResponse>(API_ROUTES_USER.EDIT_PROFILE, data);
@@ -152,6 +163,23 @@ export const userApi ={
 
     following : async(): Promise<FollowingResponse[]>=>{
       const response = await axiosInstance.get(API_ROUTES_USER.FOLLOWING)
+      return response.data
+    },
+
+    createPlaylist: async(): Promise<NewPlayListResponse>=>{
+      const response = await axiosInstance.post(API_ROUTES_USER.CREATE_PLAYLIST)
+      console.log("playlist", response.data)
+      return response.data
+    },
+
+    fetchPlayList: async(playlistId: string): Promise<PlayList>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.FETCH_PLAYLIST}/${playlistId}`)
+      return response.data
+    },
+
+    addToPlayList: async(playListId: string, songId: string): Promise<{message: string}>=>{
+      const response = await axiosInstance.put(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playListId}`, songId)
+      console.log("add to ", response.data)
       return response.data
     }
 }
