@@ -32,6 +32,8 @@ export default function PlaylistDetail() {
      
     const currentPlaylistSongs = playList?.songs || []; 
 
+    console.log("list--", playList)
+
   return (
     <div className="min-h-screen bg-linear-to-b from-[#121212] to-[#000000] text-white">
       <div className="max-w-7xl mx-auto p-8">
