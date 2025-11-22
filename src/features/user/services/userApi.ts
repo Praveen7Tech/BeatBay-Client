@@ -109,6 +109,10 @@ interface PlayList{
   songs: SongData[]
 }
 
+interface AddToListData{
+  songId: string
+}
+
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
         const response = await axiosInstance.put<EditProfileResponse>(API_ROUTES_USER.EDIT_PROFILE, data);
@@ -177,9 +181,14 @@ export const userApi ={
       return response.data
     },
 
-    addToPlayList: async(playListId: string, songId: string): Promise<{message: string}>=>{
-      const response = await axiosInstance.put(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playListId}`, songId)
+    addToPlayList: async(playListId: string, data: string): Promise<{message: string}>=>{
+      const response = await axiosInstance.post(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playListId}`, data)
       console.log("add to ", response.data)
+      return response.data
+    },
+
+    getPlayLits: async(): Promise<PlayList>=>{
+      const response = await axiosInstance.get(API_ROUTES_USER.GET_PLAYLIST)
       return response.data
     }
 }
