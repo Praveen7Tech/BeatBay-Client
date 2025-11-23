@@ -10,7 +10,6 @@ interface AlbumSongListProps {
 export const AlbumSongList = ({ songs} : AlbumSongListProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
-  console.log("jjj", songs)
   const URL = import.meta.env.VITE_API_URL
   const baseURL = `${URL}/songs/`
   const isPlaying = true

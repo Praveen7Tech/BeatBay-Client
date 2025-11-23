@@ -1,26 +1,56 @@
 import { Search, X } from "lucide-react";
-import { Input } from "@/features/artist/components/song/Input"; 
-import { SongResponse } from "../../services/userApi";
-import { useRef } from "react";
-
+import { Input } from "@/features/artist/components/song/Input";
+import { SongData } from "../../services/userApi";
+import { useRef, useState, KeyboardEvent } from "react";
 
 interface PlaylistSearchSectionProps {
-  songs: SongResponse[]
-  isOpen : boolean
-  onClose: ()=> void
-  addSong: (song: string)=> void
+  songs: SongData[];
+  isOpen: boolean;
+  onClose: () => void;
+  onSearch: (query: string) => void;
+  addSong: (songId: string) => void;
+  isAddingSong?: boolean;
 }
 
-export const PlaylistSearchSection = ({songs, isOpen, onClose, addSong}: PlaylistSearchSectionProps) => {
-    const serachQuryRef = useRef<HTMLInputElement>(null)
+export const PlaylistSearchSection = ({
+  songs,
+  isOpen,
+  onClose,
+  onSearch,
+  addSong,
+  isAddingSong,
+}: PlaylistSearchSectionProps) => {
+  const searchQueryRef = useRef<HTMLInputElement>(null);
+  const [localQuery, setLocalQuery] = useState("");
+  const URL = import.meta.env.VITE_API_URL;
 
-    if (!isOpen) return null;
-    const URL = import.meta.env.VITE_API_URL
+  if (!isOpen) return null;
+
+  const handleSearch = () => {
+    onSearch(localQuery);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleClear = () => {
+    setLocalQuery("");
+    if (searchQueryRef.current) {
+      searchQueryRef.current.value = "";
+      searchQueryRef.current.focus();
+    }
+    onSearch("");
+  };
 
   return (
     <div className="mt-8 mb-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-white">Let's find something for your playlist</h2>
+        <h2 className="text-2xl font-bold text-white">
+          Let's find something for your playlist
+        </h2>
         <button
           onClick={onClose}
           className="w-10 h-10 rounded-full hover:bg-[#282828] flex items-center justify-center transition-colors"
@@ -32,14 +62,17 @@ export const PlaylistSearchSection = ({songs, isOpen, onClose, addSong}: Playlis
       <div className="relative mb-6">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#b3b3b3]" />
         <Input
-          ref={serachQuryRef}
+          ref={searchQueryRef}
           type="text"
           placeholder="Search for songs or artists..."
           className="pl-12 h-12 bg-[#242424] border-none text-white placeholder:text-[#b3b3b3] focus-visible:ring-0 focus-visible:ring-offset-0"
+          value={localQuery}
+          onChange={(e) => setLocalQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
-        {serachQuryRef && (
+        {localQuery && (
           <button
-            // onClick={() => serachQuryRef("")}
+            onClick={handleClear}
             className="absolute right-4 top-1/2 -translate-y-1/2"
           >
             <X className="h-5 w-5 text-[#b3b3b3] hover:text-white" />
@@ -61,7 +94,9 @@ export const PlaylistSearchSection = ({songs, isOpen, onClose, addSong}: Playlis
             />
             <div className="flex-1 min-w-0">
               <p className="text-white font-normal truncate">{song.title}</p>
-              <p className="text-[#b3b3b3] text-sm truncate">{song.artistId}</p>
+              <p className="text-[#b3b3b3] text-sm truncate">
+                {"song.artistName ?? song.artistId"}
+              </p>
             </div>
             <div className="flex-1 min-w-0 hidden md:block">
               <p className="text-[#b3b3b3] text-sm truncate">{song.album}</p>
@@ -69,12 +104,17 @@ export const PlaylistSearchSection = ({songs, isOpen, onClose, addSong}: Playlis
             <span className="text-[#b3b3b3] text-sm mr-4">{song.duration}</span>
             <button
               onClick={() => addSong(song._id)}
-              className="px-6 py-1.5 rounded-full border border-[#535353] text-white text-sm font-medium hover:border-white hover:scale-105 transition-all opacity-0 group-hover:opacity-100"
+              disabled={isAddingSong}
+              className="px-6 py-1.5 rounded-full border border-[#535353] text-white text-sm font-medium hover:border-white hover:scale-105 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Add
+              {isAddingSong ? "Adding..." : "Add"}
             </button>
           </div>
         ))}
+
+        {songs.length === 0 && localQuery && (
+          <p className="text-[#b3b3b3] text-sm">No songs found.</p>
+        )}
       </div>
     </div>
   );

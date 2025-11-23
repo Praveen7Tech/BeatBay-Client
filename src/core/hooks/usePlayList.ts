@@ -1,82 +1,64 @@
-// src/core/hooks/usePlayList.ts
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { PlaylistDetailsResponse, SongData, userApi } from "@/features/user/services/userApi"; 
 
-import { userApi, SongResponse, PlaylistDetailResponse } from "@/features/user/services/userApi"; 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState, useCallback } from "react"; 
-import { useUserSongs } from "./useFetchHooks"; 
-import { queryClient } from "./artist/queryClientSetup";
-import { showSuccess } from "../utils/toast.config"; 
+const playlistKey = (id: string) => ["playlist", id] as const;
+const searchSongsKey = (query: string) => ["search-songs", query] as const;
 
-// Define the shape of the variables passed to the mutate function
-interface AddToPlaylistMutationVars {
-    songId: string;
-    playListId: string; // The ID is known inside the hook scope now
-}
-
-interface UsePlayListReturn {
-  playList: PlaylistDetailResponse | undefined; // Use specific types
-  songs: SongResponse[] | undefined;    
-  songIsLoading: boolean;
-  playlistLoading: boolean;
-  playlisterror: boolean;
-  songIsError: boolean;
-  error: Error | null;
-  onAddSongClick: boolean;
-  setOnAddSongClick: React.Dispatch<React.SetStateAction<boolean>>;
-  // FIX: This function signature now accepts only the songId
-  AddSongs: (songId: string) => void; 
-}
-
-export const usePlayList = (playListId: string | undefined): UsePlayListReturn => {
-  
-  const [onAddSongClick, setOnAddSongClick] = useState(false);
-
-  // Fetch playlist data
-  const { data: playList, isLoading: playlistLoading, isError: playlisterror, error: playlistError } = useQuery({
-    queryKey: ["playListId", playListId],
-    queryFn: () => userApi.fetchPlayList(playListId!),
-    enabled: !!playListId,
+// playlist details
+export const usePlaylistDetails = (playlistId: string) => {
+  return useQuery<PlaylistDetailsResponse>({
+    queryKey: playlistKey(playlistId),
+    queryFn: () => userApi.getPlaylistById(playlistId),
+    enabled: !!playlistId,
   });
+};
 
-  // Fetch all available songs
-  const { data: songs, isLoading: songIsLoading, isError: songIsError, error: songsError } = useUserSongs();
+// search songs
+export const useSearchSongs = (query: string) => {
+  return useQuery<SongData[]>({
+    queryKey: searchSongsKey(query),
+    queryFn: () => userApi.searchSongs(query),
+    enabled: !!query, 
+    staleTime: 60_000,
+  });
+};
 
-  const addToListMutation = useMutation<
-    { message: string },       
-    Error,                     
-    string                    
-  >({
-    mutationFn: (songId) => {
-        if (!playListId) throw new Error("Playlist ID is missing");
-        return userApi.addToPlayList(playListId, songId);
+// add song to playlist
+export const useAddSongToPlaylist = (playlistId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (songId: string) => userApi.addToPlayList(playlistId, songId),
+
+    onMutate: async (songId) => {
+      await queryClient.cancelQueries({ queryKey: playlistKey(playlistId) });
+
+      const prev = queryClient.getQueryData<PlaylistDetailsResponse>(
+        playlistKey(playlistId)
+      );
+
+      queryClient.setQueryData<PlaylistDetailsResponse>(
+        playlistKey(playlistId),
+        (old) => {
+          if (!old) return old;
+          const exists = old.songs.some((s) => s._id === songId);
+          if (exists) return old;
+
+          return old;
+        }
+      );
+
+      return { prev };
     },
-    onSuccess: () => {
-      // Invalidate the playlist query key to refetch the updated list
-      queryClient.invalidateQueries({ queryKey: ["playListId", playListId] });
-      showSuccess("Song added to play list");
-      // Optional: Close search section on success
-      setOnAddSongClick(false);
-    }
+
+    onError: (_err, _songId, context) => {
+      if (context?.prev) {
+        queryClient.setQueryData(playlistKey(playlistId), context.prev);
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: playlistKey(playlistId) });
+    },
   });
-
-  // FIX 3: Create the AddSongs callback function that calls the mutation's mutate function
-  const AddSongs = useCallback((songId: string) => {
-    console.log("fuckked", songId)
-    // We call the 'mutate' function provided by the hook, passing only the songId
-    addToListMutation.mutate(songId);
-  }, [addToListMutation]); // Dependency ensures the latest mutate function is used
-
-
-  return {
-    playList,
-    songs,
-    songIsLoading,
-    playlistLoading,
-    playlisterror,
-    songIsError,
-    error: playlistError || songsError, 
-    onAddSongClick,
-    setOnAddSongClick,
-    AddSongs, // Return the actual function we defined above
-  };
 };

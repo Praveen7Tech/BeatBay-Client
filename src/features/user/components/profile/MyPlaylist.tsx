@@ -8,7 +8,7 @@ export function MyPlaylists() {
 
   const {data: playlists, isLoading, isError, error} = useQuery({
     queryKey: ["allplayLists"],
-    queryFn: ()=> userApi.getPlayLits()
+    queryFn: ()=> userApi.getUserPlayLits()
   })
 
   if(isLoading){
@@ -17,7 +17,6 @@ export function MyPlaylists() {
   if(isError){
     return <p>{error.message}</p>
   }
-  console.log("ply,,", playlists)
 
   return (
     <div className="px-8 py-8">
@@ -38,8 +37,7 @@ export function MyPlaylists() {
           </Link>
         ))
          ) : (
-          // Fallback when no followers exist
-          <p className="p-4 text-gray-500">Oops, no following found.</p>
+          <p className="p-4 text-gray-500">Oops, no plalist found.</p>
         )}
       </div>
     </div>

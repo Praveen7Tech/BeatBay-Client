@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 interface SongCardProps {
   _id: string;
   title: string;
-  album: string;
+  // album: string;
   coverImageUrl: string;
   duration: string
 }

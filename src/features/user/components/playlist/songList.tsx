@@ -1,17 +1,8 @@
 import { Clock } from "lucide-react";
-
-interface Song {
-  id: number;
-  title: string;
-  artist: string;
-  album: string;
-  duration: string;
-  coverImageUrl: string;
-  dateAdded?: string;
-}
+import { SongData } from "../../services/userApi";
 
 interface PlaylistSongTableProps {
-  songs: Song[];
+  songs: SongData[];
 }
 
 export const PlaylistSongTable = ({ songs }: PlaylistSongTableProps) => {
@@ -33,7 +24,7 @@ export const PlaylistSongTable = ({ songs }: PlaylistSongTableProps) => {
         <tbody>
           {songs.map((song, index) => (
             <tr
-              key={song.id}
+              key={song._id}
               className="border-b border-[#282828] hover:bg-[#282828] transition-colors group"
             >
               <td className="px-6 py-4">
@@ -48,7 +39,7 @@ export const PlaylistSongTable = ({ songs }: PlaylistSongTableProps) => {
                   />
                   <div>
                     <p className="text-white font-normal">{song.title}</p>
-                    <p className="text-[#b3b3b3] text-sm">{song.artist}</p>
+                    <p className="text-[#b3b3b3] text-sm">{"song.artist"}</p>
                   </div>
                 </div>
               </td>
@@ -56,7 +47,7 @@ export const PlaylistSongTable = ({ songs }: PlaylistSongTableProps) => {
                 <span className="text-[#b3b3b3] text-sm">{song.album}</span>
               </td>
               <td className="px-4 py-4 hidden lg:table-cell">
-                <span className="text-[#b3b3b3] text-sm">{song.dateAdded}</span>
+                <span className="text-[#b3b3b3] text-sm">{"song.dateAdded"}</span>
               </td>
               <td className="px-6 py-4 text-right">
                 <span className="text-[#b3b3b3] text-sm">{song.duration}</span>

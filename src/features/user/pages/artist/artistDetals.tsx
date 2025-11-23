@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function ArtistDetail() {
   const { artistId } = useParams();
-  console.log("iddu", artistId)
 
   const { data: artistData, isLoading, isError, error } = useQuery({
     queryKey: ["artistData", artistId],
