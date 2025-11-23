@@ -1,15 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { userApi } from "../../services/userApi";
 import { Link } from "react-router-dom";
+import { useUserPlayLists } from "@/core/hooks/useFetchHooks";
 
 export function MyPlaylists() {
 
-  const {data: playlists, isLoading, isError, error} = useQuery({
-    queryKey: ["allplayLists"],
-    queryFn: ()=> userApi.getUserPlayLits()
-  })
+  const {data: playlists, isLoading, isError, error} = useUserPlayLists()
 
   if(isLoading){
     return <h1>Loading....</h1>

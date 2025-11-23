@@ -1,10 +1,10 @@
 "use client"
 import Navbar from "../../components/common/Navbar" 
-import Sidebar from "../../components/left sidebar/sidebar" 
 import RightPanel from "../../components/right sidebar/right-sidebar" 
 import { Outlet } from "react-router-dom"
 import { MusicPlayer } from "../song/musicPlayer"
 import { AudioPlayerProvider } from "@/core/context/useAudioContext" 
+import { Sidebar } from "../../components/left sidebar/sidebar"
 
 export default function UserLayout() {
   return (

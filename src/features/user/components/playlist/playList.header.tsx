@@ -1,4 +1,6 @@
 import { Play, Plus } from "lucide-react";
+import { useState } from "react";
+import { PlaylistEditDialog } from "../../pages/playlist/editPlayList";
 
 interface PlaylistHeaderProps {
   playListName: string
@@ -6,6 +8,7 @@ interface PlaylistHeaderProps {
 }
 
 export const PlaylistHeader = ({ playListName, onAddSongClick}: PlaylistHeaderProps) => {
+  const [isEdit, setIsEdit] = useState<boolean>(false)
   
   return (
     <>
@@ -15,8 +18,8 @@ export const PlaylistHeader = ({ playListName, onAddSongClick}: PlaylistHeaderPr
           alt={"title"}
           className="w-56 h-56 rounded-lg shadow-2xl object-cover"
         />
-        <div className="flex flex-col justify-end gap-6">
-          <div>
+        <div className="flex flex-col justify-end gap-6 cursor-pointer">
+          <div onClick={()=> setIsEdit(!isEdit)}>
             <p className="text-sm font-medium text-white uppercase tracking-wider mb-2">
               Playlist
             </p>
@@ -50,6 +53,19 @@ export const PlaylistHeader = ({ playListName, onAddSongClick}: PlaylistHeaderPr
           Add Song
         </button>
       </div>
+       <PlaylistEditDialog
+        isOpen={isEdit}
+        onClose={() => setIsEdit(false)}
+        onSave={(data) => {
+          console.log("SAVE RESULT:", data);
+        }}
+        initialData={{
+          name: playListName,
+          description: "",
+          image: ""
+        }}
+      />
     </>
+    
   );
 };

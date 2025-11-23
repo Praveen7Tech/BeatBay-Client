@@ -19,6 +19,7 @@
   }
 }
 
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -94,6 +95,22 @@
 
     --surface: 0 0% 12%;
     --surface-hover: 0 0% 16%;
+   
+  --sidebar: #000000;
+  --sidebar-foreground: #b3b3b3;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #282828;
+
+  --background: #121212;
+  --foreground: #ffffff;
+
+  --primary: #1db954;
+  --primary-foreground: #000000;
+
+  --border: #282828;
+  --card: #181818;
+  --card-foreground: #ffffff;  
 }
 
 .dark {
@@ -138,3 +155,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide scrollbar but keep scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+

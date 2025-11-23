@@ -1,22 +1,18 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { userApi } from "../../services/userApi";
 import { Link } from "react-router-dom";
+import { useUserFollowing } from "@/core/hooks/useFetchHooks";
 
 export function FollowingSection() {
 
-  const { data: followers, isLoading, isError, error } = useQuery({
-    queryKey: ["followingList"],
-    queryFn: () => userApi.following()
-  });
+  const { data: followers, isLoading, isError, error } = useUserFollowing()
 
   if (isLoading) {
     return <div className="min-h-screen bg-black text-white p-8">Loading...</div>;
   }
 
   if (isError) {
-    return <div className="min-h-screen bg-black text-red-600 p-8">{error.message}</div>;
+    return <div className="min-h-screen bg-black text-red-600 p-8">{error?.message}</div>;
   }
 
   const URL = import.meta.env.VITE_API_URL;
