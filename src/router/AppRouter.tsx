@@ -72,7 +72,7 @@ const AppRouter: React.FC = () => {
           <Route path='/album/:albumId' element={<AlbumDetail/>}/>
 
           <Route path='/artist-details/:artistId' element={<ArtistDetail/>}/>
-          <Route path='/playList/:playListId' element={<PlaylistDetail/>}/>
+          <Route path='/playList/:playlistId' element={<PlaylistDetail/>}/>
         </Route>
 
         {/* admin routes */}

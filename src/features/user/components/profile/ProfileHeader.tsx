@@ -29,7 +29,6 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
   }
 
   if (!user) return <div>Loading user data...</div>
-  console.log("user details", user)
 
   return (
     <div className="relative min-h-80 bg-linear-to-b from-[#1a4d2e] to-[#0f0f0f] mt-0">

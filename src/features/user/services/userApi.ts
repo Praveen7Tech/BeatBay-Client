@@ -22,7 +22,7 @@ interface EditPassResponse{
 export interface SongData {
   _id: string; 
   title: string;
-  album: string;
+  album?: string;
   artistId: string;
   audioUrl: string;
   coverImageUrl: string;
@@ -109,8 +109,22 @@ interface PlayList{
   songs: SongData[]
 }
 
-interface AddToListData{
-  songId: string
+export interface PlaylistSong {
+  _id: string;
+  title: string;
+  artistName: string;
+  album: string;
+  duration: string;
+  coverImageUrl: string;
+  dateAdded?: string;
+}
+
+export interface PlaylistDetailsResponse {
+  _id: string;
+  name: string;
+  description?: string;
+  coverImageUrl?: string;
+  songs: SongData[];
 }
 
 export const userApi ={
@@ -141,7 +155,6 @@ export const userApi ={
 
     AlbumDetails: async(albumId:string): Promise<AlbumResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.ALBUM_DETAILS}/${albumId}`)
-      console.log("album--", response.data)
       return response.data
     },
     
@@ -172,23 +185,29 @@ export const userApi ={
 
     createPlaylist: async(): Promise<NewPlayListResponse>=>{
       const response = await axiosInstance.post(API_ROUTES_USER.CREATE_PLAYLIST)
-      console.log("playlist", response.data)
       return response.data
     },
 
-    fetchPlayList: async(playlistId: string): Promise<PlayList>=>{
-      const response = await axiosInstance.get(`${API_ROUTES_USER.FETCH_PLAYLIST}/${playlistId}`)
+    getUserPlayLits: async(): Promise<PlayList[]>=>{
+      const response = await axiosInstance.get(API_ROUTES_USER.GET_USER_PLAYLIST)
       return response.data
     },
 
-    addToPlayList: async(playListId: string, data: string): Promise<{message: string}>=>{
-      const response = await axiosInstance.post(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playListId}`, data)
-      console.log("add to ", response.data)
-      return response.data
+    getPlaylistById: async (playlistId: string): Promise<PlaylistDetailsResponse> => {
+      const response = await axiosInstance.get(`${API_ROUTES_USER.GET_PLAYLIST_BY_ID}/${playlistId}`);
+      return response.data;
     },
 
-    getPlayLits: async(): Promise<PlayList>=>{
-      const response = await axiosInstance.get(API_ROUTES_USER.GET_PLAYLIST)
-      return response.data
-    }
+    searchSongs: async (query: string): Promise<SongData[]> => {
+      const response = await axiosInstance.get(API_ROUTES_USER.SEARCH_SONGS, {
+        params: { q: query },
+      });
+      console.log("playlist by id-", response.data)
+      return response.data;
+    },
+
+    addToPlayList: async (  playListId: string,  data: string ): Promise<{ message: string }> => {
+      const response = await axiosInstance.post(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playListId}`,{ songId:data });
+      return response.data;
+    },
 }

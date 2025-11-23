@@ -45,7 +45,8 @@ export const API_ROUTES_USER ={
   FOLLOW: '/user/follow',
   FOLLOWING: '/user/following',
   CREATE_PLAYLIST: '/user/create-playlist',
-  FETCH_PLAYLIST: '/user/playList-details',
   ADD_TO_PLAYLIST: '/user/addTo-playList',
-  GET_PLAYLIST: '/user/get-playlist'
+  GET_PLAYLIST_BY_ID: '/user/get-playlist',
+  GET_USER_PLAYLIST: '/user/get-user-playlist',
+  SEARCH_SONGS: '/user/searchSong'
 }

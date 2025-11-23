@@ -13,7 +13,6 @@ export const ArtistProfileHeader = ({_id,  name,  profilePicture,}: ArtistProfil
   let verified=true
 
   const { isFollowing, toggleFollow, } = useFollowStatus(_id)
-  console.log("is follow ", isFollowing)
 
   const URL = import.meta.env.VITE_API_URL
   const baseURL = `${URL}/uploads/${profilePicture}`
