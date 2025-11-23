@@ -6,9 +6,9 @@ import FriendsActivityCard from "./friends-activity"
 
 export default function RightPanel() {
   return (
-    <div className="w-80 bg-[#1a1a1a] border-l border-[#2a2a2a] flex-col overflow-hidden hidden xl:flex">
+    <div className="w-80 bg-[#1a1a1a] border-l border-[#2a2a2a] flex-col overflow-hidden hidden xl:flex ">
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-transparent">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-transparent scrollbar-hide">
         {/* Now Playing */}
         <div className="p-6 border-b border-[#2a2a2a]">
           <h2 className="text-lg font-bold mb-4 flex items-center gap-2">

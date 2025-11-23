@@ -29,3 +29,17 @@ export const useArtistAlbums = () =>{
         queryFn: artistApi.fetchAlbums
     })
 }
+
+export const useUserPlayLists = ()=>{
+    return useQuery({
+        queryKey: ["userPlayLists"],
+        queryFn: ()=> userApi.getUserPlayLits()
+    })
+}
+
+export const useUserFollowing = () =>{
+    return useQuery({
+        queryKey: ["followingList"],
+        queryFn: () => userApi.following()
+    })
+}
