@@ -1,4 +1,4 @@
-import { Pause, Play, SkipBack, SkipForward, Volume2 } from "lucide-react";
+import { Music, Pause, Play, SkipBack, SkipForward, Volume2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import React from "react";
@@ -48,11 +48,20 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
       <div className="max-w-screen-2xl mx-auto flex items-center justify-between gap-4">
         {/* Left: Song Info */}
         <div className="flex items-center gap-3 min-w-[180px] w-[30%]">
-          <img
-            src={coverImage}
-            alt={"coverImage"}
-            className="w-14 h-14 rounded"
-          />
+         <div className="w-14 h-14 rounded overflow-hidden bg-[#222] flex items-center justify-center">
+            {currentSong?.coverImageUrl ? (
+              <img
+                src={coverImage}
+                alt="cover"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none"; 
+                }}
+              />
+            ) : (
+              <Music className="text-gray-400 w-7 h-7" />
+            )}
+          </div>
           <div className="flex flex-col overflow-hidden">
             <span className="text-sm text-white font-medium truncate">
               {currentSong?.title }

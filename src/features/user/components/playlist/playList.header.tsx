@@ -12,15 +12,23 @@ const URL = import.meta.env.VITE_API_URL
 export const PlaylistHeader = ({ playListData, onAddSongClick}: PlaylistHeaderProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   
-  const coverImage = `${URL}/playList/${playListData.coverImageUrl}`
   return (
     <>
       <div className="flex flex-col md:flex-row gap-6 mb-8">
-        <img
-          src={`${coverImage}`}
-          alt={"title"}
-          className="w-56 h-56 rounded-lg shadow-2xl object-cover"
-        />
+        <div className="w-56 h-56 rounded-lg shadow-2xl overflow-hidden bg-[#1f1f1f] flex items-center justify-center">
+        {playListData.coverImageUrl ? (
+          <img
+            src={`${URL}/playList/${playListData.coverImageUrl}`}
+            alt={playListData.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center text-gray-400">
+            <Play className="h-12 w-12 opacity-70 mb-2" />
+            <span className="text-sm">No Cover</span>
+          </div>
+        )}
+      </div>
         <div className="flex flex-col justify-end gap-6 cursor-pointer">
           <div onClick={()=> setIsEdit(!isEdit)}>
             <p className="text-sm font-medium text-white uppercase tracking-wider mb-2">

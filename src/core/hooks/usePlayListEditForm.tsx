@@ -25,6 +25,7 @@ export const usePlaylistEditForm = ({ playlistId, initialData, onClose }: UsePla
         mutationFn: (data: FormData) => userApi.updatePlaylistDetails(playlistId!, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["playlist", playlistId] });
+            queryClient.invalidateQueries({queryKey: ["userPlayLists"]})
             showSuccess("Playlist updated successfully!");
             onClose(); 
         },
