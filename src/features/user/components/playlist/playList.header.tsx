@@ -1,20 +1,23 @@
 import { Play, Plus } from "lucide-react";
 import { useState } from "react";
 import { PlaylistEditDialog } from "../../pages/playlist/editPlayList";
+import { PlaylistDetailsResponse } from "../../services/userApi";
 
 interface PlaylistHeaderProps {
-  playListName: string
+  playListData: PlaylistDetailsResponse
   onAddSongClick: () => void;
 }
+const URL = import.meta.env.VITE_API_URL
 
-export const PlaylistHeader = ({ playListName, onAddSongClick}: PlaylistHeaderProps) => {
+export const PlaylistHeader = ({ playListData, onAddSongClick}: PlaylistHeaderProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   
+  const coverImage = `${URL}/playList/${playListData.coverImageUrl}`
   return (
     <>
       <div className="flex flex-col md:flex-row gap-6 mb-8">
         <img
-          src={"coverImage"}
+          src={`${coverImage}`}
           alt={"title"}
           className="w-56 h-56 rounded-lg shadow-2xl object-cover"
         />
@@ -24,9 +27,9 @@ export const PlaylistHeader = ({ playListName, onAddSongClick}: PlaylistHeaderPr
               Playlist
             </p>
             <h1 className="text-7xl font-bold text-white mb-6 leading-tight">
-              {playListName}
+              {playListData.name}
             </h1>
-            <p className="text-[#b3b3b3] mb-4">{"description"}</p>
+            <p className="text-[#b3b3b3] mb-4">{playListData.description}</p>
             <div className="flex items-center gap-2 text-sm">
               <span className="text-white font-medium">{"owner"}</span>
               <span className="text-[#b3b3b3]">•</span>
@@ -56,11 +59,9 @@ export const PlaylistHeader = ({ playListName, onAddSongClick}: PlaylistHeaderPr
        <PlaylistEditDialog
         isOpen={isEdit}
         onClose={() => setIsEdit(false)}
-        onSave={(data) => {
-          console.log("SAVE RESULT:", data);
-        }}
+        playlistId={playListData._id}
         initialData={{
-          name: playListName,
+          name: playListData.name,
           description: "",
           image: ""
         }}

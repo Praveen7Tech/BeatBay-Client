@@ -1,29 +1,37 @@
-
 import z from "zod";
 
-// Helper schema for required file inputs with constraints
+// Required schemas for upload mode
 const requiredAudioFileSchema = z.instanceof(File, { message: "Audio file is required" })
   .refine(file => file.type.startsWith("audio/"), "Invalid audio format");
 
 const requiredImageFileSchema = z.instanceof(File, { message: "Cover image is required" })
   .refine(file => file.type.startsWith("image/"), "Invalid image format");
 
-const optionalFileSchema = z.instanceof(File, { message: "Lyrics file is required" })
+const requiredLrcFileSchema = z
+  .instanceof(File, { message: "Lyrics file is required" })
+  .refine(
+    (file) => file.type === "text/plain" && file.name.endsWith(".txt"),
+    { message: "Only .txt lyrics files are allowed" }
+  );
 
-export const UploadSongSchema = z.object({
-    title: z.string().min(2, "Title must have at least 2 characters"),
-    genre: z.string().min(1, "Genre is required"),
-    releaseDate: z.string().min(1, "Release date is required"), 
+// This is the critical fix
+const optionalFileOrString = z.union([
+  z.string().min(1),       // existing URL
+  z.instanceof(File)       // newly uploaded file
+]).optional();
 
-    description: z.string().min(5, "brief about your track"),
-    tags: z.string().min(1, "atleast 1 tag required"),
-    album: z.string(),
-    lyrics: z.string(),
+export const UploadSongSchema = (isEdit: boolean) => z.object({
+  title: z.string().min(2),
+  genre: z.string().min(1),
+  //releaseDate: z.string().min(1),
+  description: z.string().min(5),
+  tags: z.string().min(1),
+  album: z.string().optional(),
+  lyrics: z.string().optional(),
 
-    // --- File Fields ---
-    trackFile: requiredAudioFileSchema,
-    coverImage: requiredImageFileSchema,
-    lrcFile: optionalFileSchema,
+  trackFile: isEdit ? optionalFileOrString : requiredAudioFileSchema,
+  coverImage: isEdit ? optionalFileOrString : requiredImageFileSchema,
+  lrcFile: isEdit ? optionalFileOrString : requiredLrcFileSchema,
 });
 
-export type SongUploadData = z.infer<typeof UploadSongSchema>;
+export type SongUploadData = z.infer<ReturnType<typeof UploadSongSchema>>;

@@ -55,7 +55,7 @@ export default function PlaylistDetail() {
     <div className="min-h-screen bg-linear-to-b from-[#121212] to-[#000000] text-white">
       <div className="max-w-7xl mx-auto p-8">
         <PlaylistHeader
-          playListName={playlist.name}
+          playListData={playlist}
           onAddSongClick={() => setIsSearchOpen(true)}
         />
 

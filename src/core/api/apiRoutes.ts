@@ -30,7 +30,9 @@ export const API_ROUTE_ARTIST = {
   UPLOAD_SONG: '/artist/upload-song',
   FETCH_SONGS: '/artist/fetch-songs',
   CREATE_ALBUM: '/artist/create-album',
-  FETCH_ALBUMS: '/artist/fetch-albums'
+  FETCH_ALBUMS: '/artist/fetch-albums',
+  EDIT_SONG: '/artist/edit-song',
+  GET_SONG_BY_ID: '/artist/get-song'
 }
 
 export const API_ROUTES_USER ={
@@ -48,5 +50,6 @@ export const API_ROUTES_USER ={
   ADD_TO_PLAYLIST: '/user/addTo-playList',
   GET_PLAYLIST_BY_ID: '/user/get-playlist',
   GET_USER_PLAYLIST: '/user/get-user-playlist',
-  SEARCH_SONGS: '/user/searchSong'
+  SEARCH_SONGS: '/user/searchSong',
+  EDIT_PLAYLIST: '/user/edit-playList'
 }

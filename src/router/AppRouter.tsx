@@ -87,6 +87,7 @@ const AppRouter: React.FC = () => {
           
           <Route path='/artist-uploadTrack' element={<UploadTrack/>}/>
           <Route path='/artist-songs' element={<SongList/>}/>
+          <Route path='/edit-song/:songId' element={<UploadTrack/>}/>
 
           <Route path='/artist-createAlbum' element={<CreateAlbumRaw/>}/>
           <Route path='/artist-albums' element={<Albums/>}/>
