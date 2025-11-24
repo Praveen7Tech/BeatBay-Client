@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, Search, Library, Plus, Heart, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Home, Search, Library, Plus, Heart, ChevronLeft, ChevronRight, Play, Music, User } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useUserFollowing, useUserPlayLists } from "@/core/hooks/useFetchHooks";
 import { useCreatePlayList } from "@/core/hooks/usePlayList";
@@ -7,7 +7,7 @@ import { useCreatePlayList } from "@/core/hooks/usePlayList";
 const mainItems = [
   { title: "Home", url: "/home", icon: Home },
   { title: "Search", url: "/search", icon: Search },
-  { title: "Your Library", url: "/library", icon: Library },
+  // { title: "Your Library", url: "/library", icon: Library },
 ];
 
 export function Sidebar() {
@@ -63,6 +63,19 @@ export function Sidebar() {
 
       {/* Library */}
       <div className="px-4 space-y-3 overflow-hidden">
+
+         {/* Liked Songs */}
+        <NavLink
+          to="/liked-songs"
+          className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
+          activeClassName="bg-sidebar-accent text-white"
+        >
+          <div className="h-10 w-10 rounded bg-linear-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
+            <Heart className="h-4 w-4 fill-white text-white" />
+          </div>
+          {isOpen && <span className="text-sm">Liked Songs</span>}
+        </NavLink>
+
         {/* Create Playlist */}
         <div
         onClick={HandleCreatePlayList}
@@ -76,20 +89,9 @@ export function Sidebar() {
           {isOpen && <span className="text-sm text-sidebar-foreground">Create Playlist</span>}
         </div>
 
-        {/* Liked Songs */}
-        <NavLink
-          to="/liked-songs"
-          className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
-          activeClassName="bg-sidebar-accent text-white"
-        >
-          <div className="h-10 w-10 rounded bg-linear-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
-            <Heart className="h-4 w-4 fill-white text-white" />
-          </div>
-          {isOpen && <span className="text-sm">Liked Songs</span>}
-        </NavLink>
-
+       
         {/* Scrollable Playlists */}
-        <div className="overflow-y-auto h-[30vh] pr-2 space-y-1 scrollbar-hide">
+        <div className="overflow-y-auto h-[25vh] pr-2 space-y-1 scrollbar-hide">
           {playlists?.map((p) => (
             <NavLink
               key={p._id}
@@ -97,8 +99,17 @@ export function Sidebar() {
               className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
               activeClassName="bg-sidebar-accent text-white"
             >
-              <div className="relative">
-                <img src={`${URL}/playList/${p.coverImageUrl}`} className="h-10 w-10 rounded object-cover" />
+              <div className="relative h-10 w-10 rounded overflow-hidden bg-sidebar-accent flex items-center justify-center">
+                {p.coverImageUrl ? (
+                  <img
+                    src={`${URL}/playList/${p.coverImageUrl}`}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <Music className="h-5 w-5 text-white opacity-70" />
+                )}
+
+                {/* Hover Play Icon Overlay */}
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                   <Play className="h-5 w-5 text-white fill-white" />
                 </div>
@@ -118,12 +129,21 @@ export function Sidebar() {
               className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
               activeClassName="bg-sidebar-accent text-white"
             >
-              <div className="relative">
-                <img src={`${URL}/uploads/${artist?.profilePicture}`} className="h-10 w-10 rounded-full object-cover" />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-full">
-                  <Play className="h-5 w-5 text-white fill-white" />
-                </div>
+             <div className="relative h-10 w-10 rounded-full overflow-hidden bg-sidebar-accent flex items-center justify-center">
+              {artist.profilePicture ? (
+                <img
+                  src={`${URL}/uploads/${artist.profilePicture}`}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <User className="h-5 w-5 text-white opacity-70" />
+              )}
+
+              {/* Hover Play Overlay */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-full">
+                <Play className="h-5 w-5 text-white fill-white" />
               </div>
+            </div>
               {isOpen && <span className="text-sm text-sidebar-foreground">{artist.name}</span>}
             </NavLink>
           ))}

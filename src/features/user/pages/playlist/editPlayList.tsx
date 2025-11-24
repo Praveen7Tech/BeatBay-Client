@@ -27,7 +27,7 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
         defaultValues: initialData 
     });
 
-    const { preview, handleEdit, handleImageChange, isSaving } = usePlaylistEditForm({ 
+    const { preview, handleEdit, handleImageChange } = usePlaylistEditForm({ 
         playlistId, 
         initialData, 
         onClose 
@@ -91,11 +91,9 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
 
                     <div className="flex justify-end">
                         <button 
-                            type="submit" // Triggers RHF and subsequent API call
-                            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform"
-                            disabled={isSaving} // Disable button while loading
-                        >
-                            {isSaving ? 'Saving...' : 'Save'}
+                            type="submit" 
+                            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform" >
+                            Save
                         </button>
                     </div>
                 </form> 

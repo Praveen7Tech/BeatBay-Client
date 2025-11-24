@@ -1,39 +1,56 @@
-import { Play, UserCheck, UserPlus, MoreHorizontal } from "lucide-react";
+import { Play, UserCheck, UserPlus, MoreHorizontal, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFollowStatus } from "@/core/hooks/useFollowStatus";
+import { useState } from "react";
 
 interface ArtistProfileHeaderProps {
-  _id: string
+  _id: string;
   name: string;
   profilePicture: string;
 }
 
-export const ArtistProfileHeader = ({_id,  name,  profilePicture,}: ArtistProfileHeaderProps) => {
+export const ArtistProfileHeader = ({
+  _id,
+  name,
+  profilePicture,
+}: ArtistProfileHeaderProps) => {
 
-  let verified=true
+  let verified = true;
 
-  const { isFollowing, toggleFollow, } = useFollowStatus(_id)
+  const { isFollowing, toggleFollow } = useFollowStatus(_id);
 
-  const URL = import.meta.env.VITE_API_URL
-  const baseURL = `${URL}/uploads/${profilePicture}`
+  const URL = import.meta.env.VITE_API_URL;
+  const baseURL = `${URL}/uploads/${profilePicture}`;
+  const hasImage = !!profilePicture;
+
+  const [imageError, setImageError] = useState(false);
 
   return (
     <div className="relative w-full">
-      {/* Top Gradient Background */}
+      {/* Background */}
       <div className="w-full h-80 bg-linear-to-b from-primary/40 to-transparent" />
 
-      {/* Artist Information (Overlays Gradient) */}
+      {/* Header */}
       <div className="absolute top-0 left-0 w-full h-80 flex items-end px-8 pb-8">
         <div className="flex items-end gap-8">
-          {/* Artist Image */}
-          <img
-            src={baseURL}
-            alt={name}
-            className="w-56 h-56 rounded-full shadow-2xl object-cover"
-          />
 
-          {/* Artist Details */}
+          {/* Artist Image / Fallback */}
+          <div className="w-56 h-56 rounded-full shadow-2xl overflow-hidden bg-[#2a2a2a] flex items-center justify-center">
+            {hasImage && !imageError ? (
+              <img
+                src={baseURL}
+                alt={name}
+                className="w-full h-full object-cover"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <User className="text-white/60 w-24 h-24" />
+            )}
+          </div>
+
+          {/* Artist Info */}
           <div className="flex flex-col mb-4">
+
             {verified && (
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
@@ -64,7 +81,7 @@ export const ArtistProfileHeader = ({_id,  name,  profilePicture,}: ArtistProfil
         </div>
       </div>
 
-      {/* Action Buttons Section */}
+      {/* Buttons */}
       <div className="mt-6 px-8 flex items-center gap-4">
         <Button
           size="lg"
@@ -83,7 +100,7 @@ export const ArtistProfileHeader = ({_id,  name,  profilePicture,}: ArtistProfil
           {isFollowing ? (
             <>
               <UserCheck className="h-5 w-5 mr-2" />
-               Following
+              Following
             </>
           ) : (
             <>
