@@ -5,7 +5,7 @@ import { useUserFollowing, useUserPlayLists } from "@/core/hooks/useFetchHooks";
 import { useCreatePlayList } from "@/core/hooks/usePlayList";
 
 const mainItems = [
-  { title: "Home", url: "/", icon: Home },
+  { title: "Home", url: "/home", icon: Home },
   { title: "Search", url: "/search", icon: Search },
   { title: "Your Library", url: "/library", icon: Library },
 ];
@@ -98,7 +98,7 @@ export function Sidebar() {
               activeClassName="bg-sidebar-accent text-white"
             >
               <div className="relative">
-                <img src={"p.image"} className="h-10 w-10 rounded object-cover" />
+                <img src={`${URL}/playList/${p.coverImageUrl}`} className="h-10 w-10 rounded object-cover" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                   <Play className="h-5 w-5 text-white fill-white" />
                 </div>

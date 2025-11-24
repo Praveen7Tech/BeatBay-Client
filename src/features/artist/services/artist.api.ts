@@ -1,5 +1,6 @@
 import { API_ROUTE_ARTIST } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
+import { SongResponse } from "@/features/user/services/userApi";
 
 interface Data{
   currentPassword: string;
@@ -51,6 +52,17 @@ export const artistApi ={
 
     fetchAlbums: async(): Promise<SongData[]> =>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_ALBUMS)
+      return response.data
+    },
+
+    updateSong: async (songId: string, data: FormData): Promise<any> => {
+        const response = await axiosInstance.put(`${API_ROUTE_ARTIST.EDIT_SONG}/${songId}`, data);
+        return response.data;
+    },
+
+    getSongById: async(songId: string): Promise<SongResponse>=>{
+      const response = await axiosInstance.get(`${API_ROUTE_ARTIST.GET_SONG_BY_ID}/${songId}`)
+      console.log("res--", response.data)
       return response.data
     }
 }

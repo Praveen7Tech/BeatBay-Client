@@ -14,9 +14,7 @@ interface EditProfileProps {
 }
 
 export function EditProfileForm({ onCancel }: EditProfileProps) {
-  const {  register,  handleSubmit, formState: { errors }, } = useForm<ProfileDetailsData>({
-    resolver: zodResolver(ProfileDetailsSchema),
-  })
+
 
   const { user, preview, handleImageChange, handleEdit } = useProfileEdit(userApi.editProfile)
 

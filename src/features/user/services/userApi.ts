@@ -53,7 +53,7 @@ export interface SongResponse {
   album: string;
   releaseDate: string;    
   duration:string 
-  tags: string;
+  tags: [string];
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -103,11 +103,13 @@ export interface NewPlayListResponse{
   name: string
 }
 
-interface PlayList{
-  _id: string
-  name: string
-  songs: SongData[]
-}
+// interface PlayList{
+//   _id: string
+//   name: string
+//   description: string
+//   coverImageUrl: string
+//   songs: SongData[]
+// }
 
 export interface PlaylistSong {
   _id: string;
@@ -188,7 +190,7 @@ export const userApi ={
       return response.data
     },
 
-    getUserPlayLits: async(): Promise<PlayList[]>=>{
+    getUserPlayLits: async(): Promise<PlaylistDetailsResponse[]>=>{
       const response = await axiosInstance.get(API_ROUTES_USER.GET_USER_PLAYLIST)
       return response.data
     },
@@ -206,8 +208,13 @@ export const userApi ={
       return response.data;
     },
 
-    addToPlayList: async (  playListId: string,  data: string ): Promise<{ message: string }> => {
+    addToPlayList: async ( playListId: string,  data: string ): Promise<{ message: string }> => {
       const response = await axiosInstance.post(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playListId}`,{ songId:data });
       return response.data;
     },
+
+    updatePlaylistDetails: async(playlistId: string, data: FormData): Promise<{message: string}>=>{
+      const response = await axiosInstance.post(`${API_ROUTES_USER.EDIT_PLAYLIST}/${playlistId}`, data)
+      return response.data
+    }
 }

@@ -1,8 +1,9 @@
-import { Play, MoreHorizontal, Heart } from "lucide-react";
+import {  MoreHorizontal, Heart } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface SongCardProps {
-  id: string;
+  _id: string;
   title: string;
   album: string;
   coverImageUrl: string;
@@ -14,6 +15,7 @@ interface SongCardProps {
 }
 
 export const SongCard = ({ 
+  _id,
   title, 
   album, 
   coverImageUrl, 
@@ -27,6 +29,11 @@ export const SongCard = ({
 
   const URL = import.meta.env.VITE_API_URL
   const CoverImageURL = `${URL}/songs/${coverImageUrl}`
+  function formatDuration(seconds:number) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  }
   
   return (
     <div className="group flex items-center gap-4 p-3 rounded-md transition-all duration-200 cursor-pointer hover:bg-[#1a1a1a]"
@@ -41,12 +48,12 @@ export const SongCard = ({
           className="w-14 h-14 rounded object-cover"
         />
         {isHovered && (
-          <div className="absolute inset-0 bg-black/60 rounded flex items-center justify-center">
-            <button
+          <div className="absolute inset-0 rounded flex items-center justify-center">
+            {/* <button
               className="w-10 h-10 rounded-full bg-[#1DB954] hover:bg-[#1ed760] hover:scale-110 transition-all duration-200 flex items-center justify-center"
             >
               <Play className="h-5 w-5 fill-white text-white" />
-            </button>
+            </button> */}
           </div>
         )}
       </div>
@@ -84,14 +91,15 @@ export const SongCard = ({
       )}
 
       <div className="text-sm text-[#b3b3b3] w-16 text-right">
-        {duration}
+        {formatDuration(Number(duration))}
       </div>
 
       <button
         className="w-10 h-10 rounded-full hover:bg-[#2a2a2a] transition-all duration-200 flex items-center justify-center"
         style={{ opacity: isHovered ? 1 : 0 }}
-      >
+      ><Link to={`/edit-song/${_id}`}>
         <MoreHorizontal className="h-5 w-5 text-[#b3b3b3]" />
+        </Link>
       </button>
     </div>
   );

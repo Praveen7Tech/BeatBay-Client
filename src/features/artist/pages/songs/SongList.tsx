@@ -1,6 +1,6 @@
 import { SongCard } from "../../components/song/SongCard"; 
 import { ArtistHeader } from "../../components/song/ArtistHeader"; 
-import { SearchBar } from "../../components/song/SearchBar";
+//import { SearchBar } from "../../components/song/SearchBar";
 import { useArtistSongs } from "@/core/hooks/useFetchHooks";
 
 const SongList = () => {
@@ -18,10 +18,10 @@ const SongList = () => {
  return (
     <div className="min-h-screen bg-linear-to-b from-gray-900 to-black ">
       <div className="px-4 py-8">
-        <ArtistHeader />
+        <ArtistHeader songCount={songs?.length}/>
 
         <div className="mb-6">
-          <SearchBar />
+          {/* <SearchBar /> */}
         </div>
 
         <div className="space-y-1">
@@ -33,7 +33,7 @@ const SongList = () => {
             <div className="hidden md:block w-28 text-right">Released</div>
             <div className="hidden lg:block w-20 text-right">Likes</div>
             <div className="w-16 text-right">Duration</div>
-            <div className="w-10"></div>
+            <div className="w-10 text-right">Edit</div>
           </div>
         {songs && songs.length > 0 ? (
             songs.map((song: any) => (
