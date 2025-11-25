@@ -5,15 +5,19 @@ import { useArtistAlbums } from "@/core/hooks/useFetchHooks";
 
 export default function Albums() {
  
-  const {data: albums, isLoading, isError, error} = useArtistAlbums()
+  const { data: albumsData, isLoading, isError, error } = useArtistAlbums();
 
-  if(isLoading){
-    return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
+  if (isLoading) {
+    return <div className="min-h-screen bg-black text-white p-8">Loading albums...</div>;
   }
 
-  if(isError){
-     return <div className="min-h-screen bg-black text-red-500 p-8">Error: {error.message}</div>;
+  if (isError) {
+    return <div className="min-h-screen bg-black text-red-500 p-8">Error: {error.message}</div>;
   }
+
+  const albums = albumsData?.albums || [];
+  const totalAlbum = albumsData?.totalAlbums || 0
+  const totalSongs = albumsData?.totalSongs || 0
 
   return (
     <div
@@ -25,7 +29,7 @@ export default function Albums() {
       }}
     >
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-        <AlbumHeader />
+        <AlbumHeader totalAlbums={totalAlbum} totalSongs={totalSongs}/>
 
         <div style={{ marginBottom: "2rem", padding: "0 2rem" }}>
           <SearchBar />
@@ -39,14 +43,13 @@ export default function Albums() {
             padding: "0 2rem",
           }}
         >
-        {albums && albums.length > 0 ? (
-          albums.map((album:any) => (
-            <AlbumCard  key={album._id} {...album}/>
-          ))
-        ) : (
-          <p className="p-4 text-gray-500">Start with create new album collection.</p>
-        )}  
-          
+          {albums.length > 0 ? (
+            albums.map((album) => (
+              <AlbumCard key={album.id} {...album} />
+            ))
+          ) : (
+            <p className="p-4 text-gray-500">Start with creating a new album collection.</p>
+          )}
         </div>
       </div>
     </div>

@@ -29,6 +29,35 @@ interface SongData {
   updatedAt: string;
 }
 
+export interface AlbumResponseDTO {
+  id: string;
+  name: string;
+  coverImageUrl: string;
+  totalSongs: number;
+  createdAt: Date;
+}
+
+export interface ArtistAlbumsResponseDTO {
+  artistId: string;
+  totalAlbums: number;
+  totalSongs: number;   
+  albums: AlbumResponseDTO[];
+}
+
+export interface  InitialAlbumSongs{
+  id: string; 
+  title: string; 
+  coverImageUrl: string 
+}
+
+export interface EditAlbumDetailsResponse{
+  id: string;
+  title: string;
+  description: string;
+  coverImageUrl: string;
+  songs: InitialAlbumSongs[];
+}
+
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
@@ -50,7 +79,7 @@ export const artistApi ={
       return response.data
     },
 
-    fetchAlbums: async(): Promise<SongData[]> =>{
+    fetchAlbums: async(): Promise<ArtistAlbumsResponseDTO> =>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_ALBUMS)
       return response.data
     },
@@ -62,7 +91,17 @@ export const artistApi ={
 
     getSongById: async(songId: string): Promise<SongResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTE_ARTIST.GET_SONG_BY_ID}/${songId}`)
-      console.log("res--", response.data)
+      return response.data
+    },
+
+    getAlbumById: async(albumId: string): Promise<EditAlbumDetailsResponse>=>{
+      const response = await axiosInstance.get(`${API_ROUTE_ARTIST.GET_ALBUM_BY_ID}/${albumId}`)
+      console.log("res--1", response.data)
+      return response.data
+    },
+
+    editAlbum: async(albumId: string, data: FormData): Promise<{message: string}>=>{
+      const response = await axiosInstance.put(`${API_ROUTE_ARTIST.EDIT_ALBUM}/${albumId}`, data)
       return response.data
     }
 }

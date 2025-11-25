@@ -1,12 +1,12 @@
 import { Play, Plus } from "lucide-react";
 import { useState } from "react";
-import { SongData } from "../../services/userApi";
+import {  SongResponse } from "../../services/userApi";
 import { Link } from "react-router-dom";
 
 
 
 interface RecommendedSongsProps {
-  songs: SongData[]
+  songs: SongResponse[]
 }
 
 export const RecommendedSongs = ({ songs }: RecommendedSongsProps) => {

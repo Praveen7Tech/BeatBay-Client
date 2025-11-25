@@ -91,6 +91,7 @@ const AppRouter: React.FC = () => {
 
           <Route path='/artist-createAlbum' element={<CreateAlbumRaw/>}/>
           <Route path='/artist-albums' element={<Albums/>}/>
+          <Route path='/edit-album/:albumId' element={<CreateAlbumRaw/>}/>
         </Route>
    
         {/* un authorized */}

@@ -32,7 +32,9 @@ export const API_ROUTE_ARTIST = {
   CREATE_ALBUM: '/artist/create-album',
   FETCH_ALBUMS: '/artist/fetch-albums',
   EDIT_SONG: '/artist/edit-song',
-  GET_SONG_BY_ID: '/artist/get-song'
+  GET_SONG_BY_ID: '/artist/get-song',
+  GET_ALBUM_BY_ID: '/artist/get-album',
+  EDIT_ALBUM: '/artist/edit-album'
 }
 
 export const API_ROUTES_USER ={

@@ -1,7 +1,12 @@
 import { Play, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export const AlbumHeader = () => {
+interface AlbumHeaderProps{
+  totalAlbums: number
+  totalSongs: number
+}
+
+export const AlbumHeader = ({totalAlbums,totalSongs}: AlbumHeaderProps) => {
   return (
     <div className="relative mb-8">
       <div
@@ -12,9 +17,9 @@ export const AlbumHeader = () => {
           <h1 className="text-5xl font-bold mb-4 text-white">Your Albums</h1>
 
           <div className="flex items-center gap-6 text-sm text-[#b3b3b3]">
-            <span className="font-medium">12 albums</span>
+            <span className="font-medium">{totalAlbums} albums</span>
             <span>•</span>
-            <span>120 songs</span>
+            <span>{totalSongs} songs</span>
           </div>
         </div>
       </div>

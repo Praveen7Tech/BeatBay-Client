@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { userApi } from "../../services/userApi";
 import { useAudioContext } from "@/core/context/useAudioContext"; 
 import { ArtistSection } from "../../components/song/artistSection";
+import { MusicLoader } from "@/core/components/loading/LoadingScreen";
   
 export default function SongDetail() {
 
@@ -24,7 +25,7 @@ export default function SongDetail() {
   const isCurrentSongPlaying = isPlaying && currentSong?._id === song?._id;
 
   if(isLoading){
-    return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
+    return <MusicLoader/>
   }
 
   if(isError){
