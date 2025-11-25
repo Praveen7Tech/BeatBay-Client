@@ -3,13 +3,14 @@ import { Link } from "react-router-dom"
 import AlbumCard from "../../components/home/album-card" 
 import ArtistCard from "../../components/home/artist-card" 
 import { useUserAlbums, useUserSongs } from "@/core/hooks/useFetchHooks"
+import { MusicLoader } from "@/core/components/loading/LoadingScreen"
 export default function HomeContent() {
  
   const {data: songs, isLoading: songsLoading, isError: songsError, error: songMessage} = useUserSongs()
   const {data: albums, isLoading: albumsLoading, isError: albumsError, error: albumMessage} = useUserAlbums()
 
     if (songsLoading || albumsLoading) {
-        return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
+        return <MusicLoader/>
     }
 
     if (songsError || albumsError) {

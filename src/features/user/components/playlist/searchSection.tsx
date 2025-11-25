@@ -2,6 +2,7 @@ import { Search, X } from "lucide-react";
 import { Input } from "@/features/artist/components/song/Input";
 import { SongData } from "../../services/userApi";
 import { useRef, useState, KeyboardEvent } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 interface PlaylistSearchSectionProps {
   songs: SongData[];
@@ -10,6 +11,7 @@ interface PlaylistSearchSectionProps {
   onSearch: (query: string) => void;
   addSong: (songId: string) => void;
   isAddingSong?: boolean;
+  isSearching: boolean;
 }
 
 export const PlaylistSearchSection = ({
@@ -19,6 +21,7 @@ export const PlaylistSearchSection = ({
   onSearch,
   addSong,
   isAddingSong,
+  isSearching,
 }: PlaylistSearchSectionProps) => {
   const searchQueryRef = useRef<HTMLInputElement>(null);
   const [localQuery, setLocalQuery] = useState("");
@@ -31,9 +34,7 @@ export const PlaylistSearchSection = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
+    if (e.key === "Enter") handleSearch();
   };
 
   const handleClear = () => {
@@ -59,13 +60,14 @@ export const PlaylistSearchSection = ({
         </button>
       </div>
 
+      {/* Search input */}
       <div className="relative mb-6">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#b3b3b3]" />
         <Input
           ref={searchQueryRef}
           type="text"
           placeholder="Search for songs or artists..."
-          className="pl-12 h-12 bg-[#242424] border-none text-white placeholder:text-[#b3b3b3] focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="pl-12 h-12 bg-[#242424] border-none text-white placeholder:text-[#b3b3b3]"
           value={localQuery}
           onChange={(e) => setLocalQuery(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -80,40 +82,58 @@ export const PlaylistSearchSection = ({
         )}
       </div>
 
-      {/* Search Results */}
-      <div className="space-y-2">
-        {songs.map((song) => (
-          <div
-            key={song._id}
-            className="flex items-center gap-4 p-2 rounded hover:bg-[#282828] transition-colors group"
-          >
-            <img
-              src={`${URL}/songs/${song.coverImageUrl}`}
-              alt={song.title}
-              className="w-12 h-12 rounded object-cover"
+      {/* Search results section */}
+      <div className="space-y-2 min-h-[200px] flex flex-col">
+        {isSearching ? (
+          <div className="flex items-center justify-center h-10">
+            <ThreeDots
+              height="50"
+              width="50"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              visible={true}
             />
-            <div className="flex-1 min-w-0">
-              <p className="text-white font-normal truncate">{song.title}</p>
-              <p className="text-[#b3b3b3] text-sm truncate">
-                {"song.artistName ?? song.artistId"}
-              </p>
-            </div>
-            <div className="flex-1 min-w-0 hidden md:block">
-              <p className="text-[#b3b3b3] text-sm truncate">{song.album}</p>
-            </div>
-            <span className="text-[#b3b3b3] text-sm mr-4">{song.duration}</span>
-            <button
-              onClick={() => addSong(song._id)}
-              disabled={isAddingSong}
-              className="px-6 py-1.5 rounded-full border border-[#535353] text-white text-sm font-medium hover:border-white hover:scale-105 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {isAddingSong ? "Adding..." : "Add"}
-            </button>
           </div>
-        ))}
+        ) : (
+          <>
+            {songs.map((song) => (
+              <div
+                key={song._id}
+                className="flex items-center gap-4 p-2 rounded hover:bg-[#282828] transition-colors group"
+              >
+                <img
+                  src={`${URL}/songs/${song.coverImageUrl}`}
+                  alt={song.title}
+                  className="w-12 h-12 rounded object-cover"
+                />
 
-        {songs.length === 0 && localQuery && (
-          <p className="text-[#b3b3b3] text-sm">No songs found.</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-normal truncate">{song.title}</p>
+                  <p className="text-[#b3b3b3] text-sm truncate">
+                    {"song?.artistName ?? song.artistId"}
+                  </p>
+                </div>
+
+                <div className="flex-1 min-w-0 hidden md:block">
+                  <p className="text-[#b3b3b3] text-sm truncate">{song.album}</p>
+                </div>
+
+                <span className="text-[#b3b3b3] text-sm mr-4">{song.duration}</span>
+
+                <button
+                  onClick={() => addSong(song._id)}
+                  disabled={isAddingSong}
+                  className="px-6 py-1.5 rounded-full border border-[#535353] text-white text-sm font-medium hover:border-white hover:scale-105 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-60"
+                >
+                  {isAddingSong ? "Adding..." : "Add"}
+                </button>
+              </div>
+            ))}
+
+            {songs.length === 0 && localQuery && (
+              <p className="text-[#b3b3b3] text-sm">No songs found.</p>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -35,7 +35,7 @@ export default function PlaylistDetail() {
     addSongMutation.mutate(songId);
   };
 
-  if (isPlaylistLoading || isSearchFetching) {
+  if (isPlaylistLoading ) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <p>Loading playlist...</p>
@@ -59,6 +59,8 @@ export default function PlaylistDetail() {
           onAddSongClick={() => setIsSearchOpen(true)}
         />
 
+        <PlaylistSongTable songs={playlist.songs} />
+
         <PlaylistSearchSection
           songs={searchSongs || []}
           isOpen={isSearchOpen}
@@ -69,10 +71,10 @@ export default function PlaylistDetail() {
           onSearch={handleSearch}
           addSong={handleAddSong}
           isAddingSong={addSongMutation.isPending}
-          // isSearching={isSearchFetching}
+          isSearching={isSearchFetching}
         />
 
-        <PlaylistSongTable songs={playlist.songs} />
+        
       </div>
     </div>
   );
