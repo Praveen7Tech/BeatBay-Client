@@ -2,6 +2,8 @@ import { SongCard } from "../../components/song/SongCard";
 import { ArtistHeader } from "../../components/song/ArtistHeader"; 
 //import { SearchBar } from "../../components/song/SearchBar";
 import { useArtistSongs } from "@/core/hooks/useFetchHooks";
+import { Link } from "react-router-dom";
+import { SongData } from "../../services/artist.api";
 
 const SongList = () => {
 
@@ -36,8 +38,10 @@ const SongList = () => {
             <div className="w-10 text-right">Edit</div>
           </div>
         {songs && songs.length > 0 ? (
-            songs.map((song: any) => (
-              <SongCard key={song.id} {...song} /> 
+            songs.map((song: SongData) => (
+              <Link to={`/artist/song-details/${song._id}`}>
+                <SongCard key={song._id} {...song} /> 
+              </Link>
             ))
           ) : (
             <p className="p-4 text-gray-500">Start with upload new song.</p>

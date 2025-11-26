@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, Search, Library, Plus, Heart, ChevronLeft, ChevronRight, Play, Music, User } from "lucide-react";
+import { Home, Search, Plus, Heart, ChevronLeft, ChevronRight, Play, Music, User } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useUserFollowing, useUserPlayLists } from "@/core/hooks/useFetchHooks";
 import { useCreatePlayList } from "@/core/hooks/usePlayList";
@@ -91,7 +91,8 @@ export function Sidebar() {
 
        
         {/* Scrollable Playlists */}
-        <div className="overflow-y-auto h-[25vh] pr-2 space-y-1 scrollbar-hide">
+        {playlists?.length! > 0 && (
+        <div className="overflow-y-auto max-h-[25vh] pr-2 space-y-1 scrollbar-hide">
           {playlists?.map((p) => (
             <NavLink
               key={p._id}
@@ -118,9 +119,11 @@ export function Sidebar() {
             </NavLink>
           ))}
         </div>
+        )}
 
         {/* Artists */}
         {isOpen && <h3 className="text-xs font-semibold text-sidebar-foreground mt-3 px-3">Artists</h3>}
+        {followers?.length! > 0 && (
         <div className="overflow-y-auto h-[25vh] pr-2 space-y-1">
           {followers?.map((artist) => (
             <NavLink
@@ -148,6 +151,7 @@ export function Sidebar() {
             </NavLink>
           ))}
         </div>
+        )}
       </div>
 
       {/* Fade Bottom */}

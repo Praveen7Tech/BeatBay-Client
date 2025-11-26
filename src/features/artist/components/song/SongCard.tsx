@@ -1,4 +1,4 @@
-import {  MoreHorizontal, Heart } from "lucide-react";
+import {  MoreHorizontal, Heart, Play } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -45,15 +45,15 @@ export const SongCard = ({
         <img
           src={CoverImageURL}
           alt={album}
-          className="w-14 h-14 rounded object-cover"
+          className="w-20 h-20 rounded object-cover"
         />
         {isHovered && (
           <div className="absolute inset-0 rounded flex items-center justify-center">
-            {/* <button
+            <button
               className="w-10 h-10 rounded-full bg-[#1DB954] hover:bg-[#1ed760] hover:scale-110 transition-all duration-200 flex items-center justify-center"
             >
               <Play className="h-5 w-5 fill-white text-white" />
-            </button> */}
+            </button>
           </div>
         )}
       </div>
