@@ -4,9 +4,7 @@ import { Button } from "@/core/components/button/Button"
 import { Input } from "@/core/components/input/Input"
 import { userApi } from "../../services/userApi" 
 import { ImagePlus, Mail, User } from "lucide-react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { ProfileDetailsData, ProfileDetailsSchema } from "../../schemas/editProfile.Schema"
+import { ProfileDetailsData,  } from "../../schemas/editProfile.Schema"
 import { useProfileEdit } from "@/core/hooks/useEditProfile"
 
 interface EditProfileProps {
@@ -15,8 +13,8 @@ interface EditProfileProps {
 
 export function EditProfileForm({ onCancel }: EditProfileProps) {
 
-
-  const { user, preview, handleImageChange, handleEdit } = useProfileEdit(userApi.editProfile)
+  const { user, preview, handleImageChange, handleEdit, register, handleSubmit, errors } 
+  = useProfileEdit(userApi.editProfile)
 
   const handleEditProfile = async (data: ProfileDetailsData) => {
     await handleEdit(data)
@@ -59,7 +57,7 @@ export function EditProfileForm({ onCancel }: EditProfileProps) {
                 type="text"
                 defaultValue={user?.name}
                 placeholder="Enter your full name"
-                error={errors.name?.message}
+                error={errors.name?.message} errorTheme="red"
               />
             </div>
 

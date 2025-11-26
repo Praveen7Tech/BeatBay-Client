@@ -5,14 +5,9 @@ import { Search, Bell, ChevronDown } from "lucide-react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
-interface NavbarProps {
-  onProfileClick?: () => void
-  onBackClick?: () => void
-}
-
 const URL = import.meta.env.VITE_API_URL
 
-export default function Navbar({ onProfileClick, onBackClick }: NavbarProps) {
+export default function Navbar() {
   const user = useSelector((state: RootState)=> state.auth.user)
   return (
     <nav className="fixed top-0 left-0 right-0 h-24 bg-black shadow-lg m-2 border border-b border-gray-800 z-50">
@@ -27,7 +22,7 @@ export default function Navbar({ onProfileClick, onBackClick }: NavbarProps) {
 
           {/* Back Button */}
           <button
-            onClick={onBackClick}
+            onClick={()=> window.history.back()}
             className="p-2 hover:bg-gray-900 rounded-lg transition-colors"
             aria-label="Go back"
           >
@@ -59,7 +54,6 @@ export default function Navbar({ onProfileClick, onBackClick }: NavbarProps) {
           {/* Profile Section */}
           <Link to='/profile'>
           <button
-            onClick={onProfileClick}
             className="flex items-center gap-3 px-3 py-2 hover:bg-gray-900 rounded-lg transition-colors cursor-pointer group"
           >
             {/* Avatar */}

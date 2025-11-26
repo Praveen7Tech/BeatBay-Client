@@ -3,20 +3,22 @@ import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "../store/store"
 import { useApi } from "./useApi"
-import { update, User } from "@/features/auth/slices/authSlice"
-import { ProfileDetailsData } from "@/features/user/schemas/editProfile.Schema" 
+import { update } from "@/features/auth/slices/authSlice"
+import { ProfileDetailsData, ProfileDetailsSchema } from "@/features/user/schemas/editProfile.Schema" 
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { EditProfileResponse } from "@/features/user/services/userApi"
 
-interface UpdateProfileResponse {
-  message: string
-  user: User
-}
-
-export const useProfileEdit = (editApi: (data: FormData)=> Promise<UpdateProfileResponse>) => {
+export const useProfileEdit = (editApi: (data: FormData)=> Promise<EditProfileResponse>) => {
     const [image, setImage] = useState<File | null>(null)
     const [preview, setPreview] = useState<string | null>(null)
     const user = useSelector((state: RootState) => state.auth.user)
     const dispatch = useDispatch()
     const { execute } = useApi(editApi)
+
+    const {register, handleSubmit, formState:{errors}} = useForm<ProfileDetailsData>({
+          resolver: zodResolver(ProfileDetailsSchema)
+   })
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -45,5 +47,5 @@ export const useProfileEdit = (editApi: (data: FormData)=> Promise<UpdateProfile
         }
     }
 
-    return { user, image, preview, handleImageChange, handleEdit }
+    return { user, image, preview, handleImageChange, handleEdit, register, handleSubmit, errors }
 }

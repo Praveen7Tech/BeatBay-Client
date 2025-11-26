@@ -1,7 +1,7 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
 
-interface EditProfileResponse {
+export interface EditProfileResponse {
   message: string;
   accessToken: string; 
   user: {

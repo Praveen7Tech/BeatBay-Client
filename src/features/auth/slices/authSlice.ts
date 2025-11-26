@@ -7,7 +7,7 @@ export interface User {
   bio?:string
   role: string;
   profilePicture?:string
-  followingCount: number
+  followingCount?: number
 }
 
 export interface AuthState {

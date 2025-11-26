@@ -36,6 +36,7 @@ import SongDetail from '@/features/user/pages/song/songDetails';
 import AlbumDetail from '@/features/user/pages/album/albumDetails';
 import ArtistDetail from '@/features/user/pages/artist/artistDetals';
 import PlaylistDetail from '@/features/user/pages/playlist/playList';
+import ArtistSongDetail from '@/features/artist/pages/songs/SongDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -88,6 +89,7 @@ const AppRouter: React.FC = () => {
           <Route path='/artist-uploadTrack' element={<UploadTrack/>}/>
           <Route path='/artist-songs' element={<SongList/>}/>
           <Route path='/edit-song/:songId' element={<UploadTrack/>}/>
+          <Route path='/artist/song-details/:songId' element={<ArtistSongDetail/>}/>
 
           <Route path='/artist-createAlbum' element={<CreateAlbumRaw/>}/>
           <Route path='/artist-albums' element={<Albums/>}/>

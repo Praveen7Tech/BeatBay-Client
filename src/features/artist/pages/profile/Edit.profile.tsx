@@ -1,24 +1,18 @@
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Biohazard, User, User2, X } from "lucide-react"
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom"
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { useProfileEdit } from "@/core/hooks/useEditProfile";
-import { ProfileDetailsData, ProfileDetailsSchema } from "../../schema-validator/EditProfile.Schema";
+import { ProfileDetailsData} from "../../schema-validator/EditProfile.Schema";
 const imgURL = import.meta.env.VITE_API_URL
 
 export function EditArtistProfile() {
-    const navigate = useNavigate()
-    // schema validator
-    const {register, handleSubmit, formState:{errors}} = useForm<ProfileDetailsData>({
-        resolver: zodResolver(ProfileDetailsSchema)
-    })  
+    const navigate = useNavigate() 
 
     // handle edit profile
-    const {user, preview, handleEdit, handleImageChange} = useProfileEdit(authApiArtist.editProfile)
+    const {user, preview, handleEdit, handleImageChange, handleSubmit, errors, register} = useProfileEdit(authApiArtist.editProfile)
     const EditProfileData = async(data: ProfileDetailsData)=>{
       await handleEdit(data)
       navigate('/artist-profile')

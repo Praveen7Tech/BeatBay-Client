@@ -14,13 +14,14 @@ interface UploadResponse {
   message: string
 }
 
-interface SongData {
+export interface SongData {
   _id: string; 
   title: string;
   album: string;
   artistId: string;
   audioUrl: string;
   coverImageUrl: string;
+  duration: string
   description?: string; 
   genre: string;
   tags?: string; 
@@ -102,6 +103,11 @@ export const artistApi ={
 
     editAlbum: async(albumId: string, data: FormData): Promise<{message: string}>=>{
       const response = await axiosInstance.put(`${API_ROUTE_ARTIST.EDIT_ALBUM}/${albumId}`, data)
+      return response.data
+    },
+
+    deleteSong: async(songId: string): Promise<boolean>=>{
+      const response = await axiosInstance.delete(`${API_ROUTE_ARTIST.DELETE_SONG}/${songId}`)
       return response.data
     }
 }
