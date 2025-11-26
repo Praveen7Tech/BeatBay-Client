@@ -37,6 +37,7 @@ import AlbumDetail from '@/features/user/pages/album/albumDetails';
 import ArtistDetail from '@/features/user/pages/artist/artistDetals';
 import PlaylistDetail from '@/features/user/pages/playlist/playList';
 import ArtistSongDetail from '@/features/artist/pages/songs/SongDetails';
+import AlbumDetailsPage from '@/features/artist/pages/albums/albumDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -94,6 +95,7 @@ const AppRouter: React.FC = () => {
           <Route path='/artist-createAlbum' element={<CreateAlbumRaw/>}/>
           <Route path='/artist-albums' element={<Albums/>}/>
           <Route path='/edit-album/:albumId' element={<CreateAlbumRaw/>}/>
+          <Route path='/artist/album-details/:albumId' element={<AlbumDetailsPage/>}/>
         </Route>
    
         {/* un authorized */}

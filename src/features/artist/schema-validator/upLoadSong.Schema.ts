@@ -14,10 +14,10 @@ const requiredLrcFileSchema = z
     { message: "Only .txt lyrics files are allowed" }
   );
 
-// This is the critical fix
+// optional validator when editing files for manage exist file
 const optionalFileOrString = z.union([
-  z.string().min(1),       // existing URL
-  z.instanceof(File)       // newly uploaded file
+  z.string().min(1),       
+  z.instanceof(File)       
 ]).optional();
 
 export const UploadSongSchema = (isEdit: boolean) => z.object({

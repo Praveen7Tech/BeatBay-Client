@@ -109,5 +109,10 @@ export const artistApi ={
     deleteSong: async(songId: string): Promise<boolean>=>{
       const response = await axiosInstance.delete(`${API_ROUTE_ARTIST.DELETE_SONG}/${songId}`)
       return response.data
+    },
+
+    deleteAlbum: async(albumId: string): Promise<boolean>=>{
+      const response = await axiosInstance.delete(`${API_ROUTE_ARTIST.DELETE_ALBUM}/${albumId}`)
+      return response.data
     }
 }

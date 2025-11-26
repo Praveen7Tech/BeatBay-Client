@@ -25,7 +25,7 @@ export const useCreateAlbum = (isEdit: boolean) => {
 
   // validator 
   const { register, handleSubmit,setValue,formState: { errors }, } = useForm<CreateAlbumData>({
-    resolver: zodResolver(CreateAlbumSchema),
+    resolver: zodResolver(CreateAlbumSchema(isEdit)),
     defaultValues: {
       songIds: [],
     },

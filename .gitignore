@@ -1,4 +1,4 @@
-# ⚠️ Node modules (never push)
+# ⚠️ Node modules 
 node_modules/
 package-lock.json
 

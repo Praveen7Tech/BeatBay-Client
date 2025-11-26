@@ -2,6 +2,7 @@ import { AlbumHeader } from "../../components/album/albumHeader";
 import { AlbumCard } from "../../components/album/albumCard"; 
 import { SearchBar } from "../../components/song/SearchBar"; 
 import { useArtistAlbums } from "@/core/hooks/useFetchHooks";
+import { Link } from "react-router-dom";
 
 export default function Albums() {
  
@@ -45,7 +46,9 @@ export default function Albums() {
         >
           {albums.length > 0 ? (
             albums.map((album) => (
-              <AlbumCard key={album.id} {...album} />
+              <Link to={`/artist/album-details/${album.id}`}>
+                  <AlbumCard key={album.id} {...album} />
+              </Link>
             ))
           ) : (
             <p className="p-4 text-gray-500">Start with creating a new album collection.</p>
