@@ -34,7 +34,7 @@ const AdminLogin: React.FC = () => {
       const res = await AdminLogin(data);
       if (res) {
         dispatch(loginSuccess({ user: res.user, accessToken: res.accessToken }));
-        navigate("/dashboard", { replace: true });
+        navigate("/admin/dashboard", { replace: true });
       }
     } catch (error) {
       console.error("Error in admin login:", error);

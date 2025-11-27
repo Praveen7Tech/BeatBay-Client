@@ -12,7 +12,11 @@ export const API_ROUTES = {
 
 export const API_ROUTE_ADMIN = {
   LOGIN: "/admin/login",
-  LOGOUT: '/admin/logout'
+  LOGOUT: '/admin/logout',
+
+  FETCH_USERS: '/admin/fetch-allusers',
+  GET_USER_BYID: '/admin/get-userById',
+  BLOCK_USER: '/admin/block-user'
 }
 
 export const API_ROUTE_ARTIST = {

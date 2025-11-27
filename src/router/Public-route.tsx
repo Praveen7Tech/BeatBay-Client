@@ -13,7 +13,7 @@ const PublicOnlyRoute: React.FC = () => {
       case ROLES.USER:
         return <Navigate to={'/home'} replace/>;
       case ROLES.ADMIN:
-        return <Navigate to={'/dashboard'} replace />; 
+        return <Navigate to={'/admin/dashboard'} replace />; 
       case ROLES.ARTIST:
         return <Navigate to={'/artist-dashboard'} replace/>;
       default :
