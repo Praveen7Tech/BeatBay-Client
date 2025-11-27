@@ -15,6 +15,7 @@ interface LoginResponse {
     name: string;
     email: string;
     role: string;
+    status: boolean
   };
 }
 
@@ -24,8 +25,8 @@ export const authApiAdmin = {
         return response.data
     },
 
-      logout: async() =>{
+    logout: async() =>{
         const response = await axiosInstance.post(API_ROUTE_ADMIN.LOGOUT);
         return response.data
-      },
+    }
 }

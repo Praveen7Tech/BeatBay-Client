@@ -8,6 +8,7 @@ export interface User {
   role: string;
   profilePicture?:string
   followingCount?: number
+  status?: boolean
 }
 
 export interface AuthState {

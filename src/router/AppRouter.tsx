@@ -38,6 +38,9 @@ import ArtistDetail from '@/features/user/pages/artist/artistDetals';
 import PlaylistDetail from '@/features/user/pages/playlist/playList';
 import ArtistSongDetail from '@/features/artist/pages/songs/SongDetails';
 import AlbumDetailsPage from '@/features/artist/pages/albums/albumDetails';
+import AdminLayout from '@/features/admin/pages/Layout/adminLayout';
+import { UserListing } from '@/features/admin/pages/users/userListing';
+import { UserDetails } from '@/features/admin/pages/users/userDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -78,7 +81,11 @@ const AppRouter: React.FC = () => {
         </Route>
 
         {/* admin routes */}
-        <Route path="/dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
+        <Route element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminLayout/> </ProtectedRoute>}>
+          <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
+          <Route path='/admin/users' element={<UserListing/>}/>
+          <Route path='/admin/users/:userId' element={<UserDetails/>}/>
+        </Route>
 
         {/* artist routes */}
         <Route element={<ProtectedRoute requiredRole={ROLES.ARTIST}><DashboardLayout/></ProtectedRoute>}>
