@@ -2,10 +2,10 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Disc, ChevronLeft, ChevronRight } from "lucide-react"
 import { ArtistAlbum } from "../../services/adminApi"
+import { Pagination } from "../common/Pagination"
 
 
 interface ArtistAlbumsGridProps {
@@ -20,14 +20,6 @@ export function ArtistAlbumsGrid({ albums, itemsPerPage , isLoading = false }: A
   const totalPages = Math.ceil(albums.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
   const displayedAlbums = albums.slice(startIndex, startIndex + itemsPerPage)
-
-  const handlePrevious = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1))
-  }
-
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-  }
 
   if (isLoading) {
     return (
@@ -51,6 +43,7 @@ export function ArtistAlbumsGrid({ albums, itemsPerPage , isLoading = false }: A
       </Card>
     )
   }
+  const URL_BASE = import.meta.env.VITE_API_URL;
 
   return (
     <Card className="bg-spotify-dark border-spotify-tertiary">
@@ -67,7 +60,7 @@ export function ArtistAlbumsGrid({ albums, itemsPerPage , isLoading = false }: A
               {/* Album Cover */}
               <div className="relative mb-4 overflow-hidden rounded-lg bg-spotify-tertiary/20">
                 <img
-                  src={album.coverImageUrl || "/placeholder.svg?height=200&width=200&query=album cover"}
+                  src={`${URL_BASE}/albums/${album?.coverImageUrl}`}
                   alt={album.title}
                   className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -97,50 +90,13 @@ export function ArtistAlbumsGrid({ albums, itemsPerPage , isLoading = false }: A
                     <p className="text-sm font-bold text-spotify-green">{0}M</p>
                   </div>
                 </div>
-
-                {/* Status Badge */}
-                <Badge
-                  variant={album.status === "active" ? "default" : "destructive"}
-                  className={`w-full justify-center ${album.status === "active" ? "bg-spotify-green text-spotify-black" : ""}`}
-                >
-                  {album.status === "active" ? "Active" : "Removed"}
-                </Badge>
               </div>
             </div>
           ))}
         </div>
-
         {/* Pagination */}
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-spotify-tertiary">
-            <p className="text-xs text-spotify-secondary">
-              Showing <span className="font-medium">{displayedAlbums.length}</span> of{" "}
-              <span className="font-medium">{albums.length}</span> albums
-            </p>
-            <div className="flex items-center gap-2">
-              <p className="text-xs text-spotify-secondary mr-2">
-                Page <span className="font-medium">{currentPage}</span> of{" "}
-                <span className="font-medium">{totalPages}</span>
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handlePrevious}
-                disabled={currentPage === 1}
-                className="bg-transparent"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleNext}
-                disabled={currentPage === totalPages}
-                className="bg-transparent"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+          <Pagination page={currentPage} totalPages={totalPages} setPage={setCurrentPage} 
+          prevIcon={ChevronLeft} nextIcon={ChevronRight}/>
       </CardContent>
     </Card>
   )

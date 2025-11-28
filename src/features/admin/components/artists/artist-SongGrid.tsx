@@ -3,9 +3,9 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Music, ChevronLeft, ChevronRight } from "lucide-react"
 import { ArtistSong } from "../../services/adminApi"
+import { Pagination } from "../common/Pagination"
 
 interface ArtistSongsListProps {
   songs: ArtistSong[] | []
@@ -19,14 +19,6 @@ export function ArtistSongsList({ songs, itemsPerPage , isLoading = false }: Art
   const totalPages = Math.ceil(songs.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
   const displayedSongs = songs.slice(startIndex, startIndex + itemsPerPage)
-
-  const handlePrevious = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1))
-  }
-
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-  }
 
   if (isLoading) {
     return (
@@ -51,6 +43,8 @@ export function ArtistSongsList({ songs, itemsPerPage , isLoading = false }: Art
     )
   }
 
+  const URL_BASE = import.meta.env.VITE_API_URL;
+
   return (
     <Card className="bg-spotify-dark border-spotify-tertiary">
       <CardHeader>
@@ -63,57 +57,37 @@ export function ArtistSongsList({ songs, itemsPerPage , isLoading = false }: Art
               key={song._id}
               className="flex items-center justify-between p-4 rounded-lg bg-spotify-black border border-spotify-tertiary hover:bg-spotify-black/80 transition-colors"
             >
-              <div className="flex-1">
-                <h4 className="text-sm font-medium text-spotify-text mb-1">{song.title}</h4>
-                <p className="text-xs text-spotify-secondary">{song.duration}</p>
+              <div className="flex items-center gap-4 flex-1">
+                <img
+                  src={`${URL_BASE}/songs/${song?.coverImageUrl}`}
+                  alt={song.title}
+                  className="w-16 h-16 rounded-full object-cover border border-spotify-tertiary"
+                />
+
+                <div>
+                  <h4 className="text-sm font-medium text-spotify-text mb-1">{song.title}</h4>
+                  <p className="text-xs text-spotify-secondary">{song.duration}</p>
+                </div>
               </div>
+
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="text-sm font-medium text-spotify-text">{100}</p>
+                  <p className="text-sm font-medium text-spotify-text">{ 0}</p>
                   <p className="text-xs text-spotify-secondary">Plays</p>
                 </div>
-                <Badge
-                  variant={song.status === "active" ? "default" : "destructive"}
-                  className={song.status === "active" ? "bg-spotify-green text-spotify-black" : ""}
-                >
-                  {song.status === "active" ? "Active" : "Removed"}
+
+                <Badge className="bg-spotify-green text-spotify-black">
+                  Active
                 </Badge>
               </div>
             </div>
           ))}
+
         </div>
 
         {/* Pagination */}
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-spotify-tertiary">
-            <p className="text-xs text-spotify-secondary">
-              Showing <span className="font-medium">{displayedSongs.length}</span> of{" "}
-              <span className="font-medium">{songs.length}</span> songs
-            </p>
-            <div className="flex items-center gap-2">
-              <p className="text-xs text-spotify-secondary mr-2">
-                Page <span className="font-medium">{currentPage}</span> of{" "}
-                <span className="font-medium">{totalPages}</span>
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handlePrevious}
-                disabled={currentPage === 1}
-                className="bg-transparent"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleNext}
-                disabled={currentPage === totalPages}
-                className="bg-transparent"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+        <Pagination page={currentPage} totalPages={totalPages} setPage={setCurrentPage} 
+                  prevIcon={ChevronLeft} nextIcon={ChevronRight}/>
       </CardContent>
     </Card>
   )
