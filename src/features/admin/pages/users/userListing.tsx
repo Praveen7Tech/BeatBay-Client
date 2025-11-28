@@ -14,7 +14,7 @@ import { useDebouncing } from "@/core/hooks/admin/useDebouncing"
 export function UserListing() {
   const [search, setSearchValue] = useState("")
   const [page, setPage] = useState(1)
-  const limit = 4
+  const limit = 2
 
   const searchValue = useDebouncing(search, 500)
 
@@ -139,7 +139,7 @@ export function UserListing() {
             disabled={page == 1}>
             Previous
           </Button>
-          <Button variant="outline"
+          <Button variant="outline" disabled={page === totalPages}
             onClick={()=> setPage((prev)=> prev+1)}>
             Next
           </Button>
