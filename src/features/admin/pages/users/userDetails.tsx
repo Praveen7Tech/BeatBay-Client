@@ -1,52 +1,23 @@
 "use client"
 
-import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { AlertCircle, ArrowLeft } from "lucide-react"
 import { Link, useParams } from "react-router-dom"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { adminApi } from "../../services/adminApi"
-import { queryClient } from "@/core/hooks/artist/queryClientSetup"
+import { useUserManagement } from "@/core/hooks/admin/useUserManagement"
 
 export function UserDetails() {
-  const [isBlocked, setIsBlocked] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const {userId} = useParams()
 
-  const { data: user, isLoading: fetchLoading, isError} = useQuery({
-    queryKey: ["userDatabyId", userId],
-    queryFn: ()=> adminApi.getUserById(userId!),
-    enabled: !!userId
-  })
-
-  const BlockUserMutation = useMutation({
-    mutationFn: ()=> adminApi.blockUser(userId!),
-    onSuccess: ()=>{
-        queryClient.invalidateQueries({queryKey: ["userDatabyId", userId]})
-        queryClient.invalidateQueries({queryKey: ["allUsers"]})
-        setIsBlocked(!isBlocked)
-        setIsLoading(false)
-    },
-    onError: (error)=>{
-        console.error("error in blocking user", error)
-        setIsLoading(false)
-    }
-  })
-
-  const handleToggleBlock = async () => {
-    setIsLoading(true)
-    BlockUserMutation.mutate()
-  }
-
+  const {user, isLoading, HanleTooglrBlock, fetchLoading, isError, profilePicture} = useUserManagement(userId!)
 
   if(fetchLoading) return <div>Loading..</div>
   if(isError) return <div>Loading..</div>
 
-  
- const URL_BASE = import.meta.env.VITE_API_URL;
- const profilePicture = `${URL_BASE}/uploads/${user?.profilePicture}`
+  const handleToggleBlock = ()=>{
+    HanleTooglrBlock()
+  }
 
   return (
     <div className="space-y-6">
@@ -177,15 +148,15 @@ export function UserDetails() {
         <div className="space-y-4">
           {/* Block/Unblock Card */}
           <Card
-            className={`border-2 ${isBlocked ? "bg-red-500/10 border-red-500" : "bg-spotify-dark border-spotify-tertiary"}`}
+            className={`border-2 ${user?.status ? "bg-spotify-dark border-spotify-tertiary" : "bg-red-500/10 border-red-500"}`}
           >
             <CardHeader>
-              <CardTitle className={isBlocked ? "text-red-500" : "text-spotify-text"}>
-                {isBlocked ? "User Blocked" : "User Active"}
+              <CardTitle className={user?.status ? "text-spotify-text" : "text-red-500"}>
+                {user?.status ? "User Active" : "User Blocked"}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {isBlocked && (
+              {!user?.status && (
                 <div className="flex gap-3 p-3 bg-red-500/20 rounded-lg border border-red-500/30">
                   <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                   <p className="text-sm text-red-500">This user is currently blocked from accessing the platform.</p>
@@ -194,10 +165,10 @@ export function UserDetails() {
               <Button
                 onClick={handleToggleBlock}
                 disabled={isLoading}
-                variant={isBlocked ? "default" : "destructive"}
+                variant={user?.status ? "destructive" : "default"}
                 className="w-full"
               >
-                {isLoading ? "Processing..." : isBlocked ? "Unblock User" : "Block User"}
+                {isLoading ? "Processing..." : user?.status ?  "Block User" : "Unblock User"}
               </Button>
             </CardContent>
           </Card>

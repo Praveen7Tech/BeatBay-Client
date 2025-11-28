@@ -39,6 +39,14 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    // hanle blocked users when using the page
+    const StatusCode = error.response?.status
+    if(StatusCode === 403){
+      console.log("403")
+      window.location.href ='/unauthorized'
+      return Promise.reject(error)
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (originalRequest.url?.includes('/auth-status')) {
         // If the refresh token itself failed, log out

@@ -1,6 +1,22 @@
+import { useApi } from "@/core/hooks/useApi";
+import { authApi } from "@/features/auth/services/authApi";
+import { logout } from "@/features/auth/slices/authSlice";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Unauthorized() {
+  const dispatch = useDispatch()
+  const { execute: Logout } = useApi(authApi.logout)
+  const HandleLogout = async()=>{
+    try {
+      await Logout(null)
+      dispatch(logout())
+      window.location.href = "/login"
+    } catch (error) {
+      console.error("Error during logout:", error)
+    }
+  }
+    
   return (
     <div className="min-h-screen bg-linear-to-br from-black via-gray-900 to-black flex items-center justify-center p-4">
       <div className="text-center max-w-md">
@@ -22,15 +38,16 @@ export default function Unauthorized() {
         </h1>
         <h2 className="text-2xl font-semibold text-white mb-3">Access Denied</h2>
         <p className="text-gray-400 mb-8">
-          You don't have permission to access this resource. Please log in to continue.
+          You don't have permission to access this resource. Please contact the support team.
         </p>
 
         {/* Animated Button */}
-        <Link to={'/home'}>
-          <button className="w-full bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-green-500/50">
+        {/* <Link to={'/login'}> */}
+          <button onClick={HandleLogout}
+           className="w-full bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-green-500/50">
             Go to Login
           </button>
-        </Link>
+        {/* </Link> */}
 
         {/* Back Link */}
         <Link to={'/home'}>

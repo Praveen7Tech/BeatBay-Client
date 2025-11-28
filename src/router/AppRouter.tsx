@@ -41,6 +41,8 @@ import AlbumDetailsPage from '@/features/artist/pages/albums/albumDetails';
 import AdminLayout from '@/features/admin/pages/Layout/adminLayout';
 import { UserListing } from '@/features/admin/pages/users/userListing';
 import { UserDetails } from '@/features/admin/pages/users/userDetails';
+import { ArtistListing } from '@/features/admin/pages/artists/artistListing';
+import { ArtistDetails } from '@/features/admin/pages/artists/artistDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -85,6 +87,9 @@ const AppRouter: React.FC = () => {
           <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
           <Route path='/admin/users' element={<UserListing/>}/>
           <Route path='/admin/users/:userId' element={<UserDetails/>}/>
+
+          <Route path='/admin/artists' element={<ArtistListing/>}/>
+          <Route path='/admin/artists/:artistId' element={<ArtistDetails/>}/>
         </Route>
 
         {/* artist routes */}

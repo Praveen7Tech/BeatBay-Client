@@ -16,7 +16,13 @@ export const API_ROUTE_ADMIN = {
 
   FETCH_USERS: '/admin/fetch-allusers',
   GET_USER_BYID: '/admin/get-userById',
-  BLOCK_USER: '/admin/block-user'
+  BLOCK_USER: '/admin/block-user',
+  UN_BLOCK_USER: '/admin/unBlock-user',
+
+  FETCH_ARTIST: '/admin/fetch-allArtist',
+  GET_ARTIST_BYID: '/admin/get-artistById',
+  BLOCK_ARTIST: '/admin/block-artist',
+  UN_BLOCK_ARTIST: '/admin/unBlock-artist',
 }
 
 export const API_ROUTE_ARTIST = {
