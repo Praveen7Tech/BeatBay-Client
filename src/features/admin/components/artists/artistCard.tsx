@@ -15,7 +15,7 @@ export function ArtistCardGrid({artist}:ArtistCardProps){
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
          {artist.map((artist) => (
           <Link key={artist.id} to={`/admin/artists/${artist.id}`}>
-            <Card className="bg-spotify-dark border-spotify-tertiary h-full hover:bg-spotify-black transition-colors cursor-pointer group">
+            <Card className="bg-background border-spotify-tertiary h-full hover:bg-spotify-black transition-colors cursor-pointer group">
               <CardContent className="p-6">
                 <div className="space-y-4">
                   {/* Avatar and Status */}

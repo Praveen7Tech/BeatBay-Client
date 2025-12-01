@@ -8,7 +8,7 @@ interface SearchBarProps {
 }
 export function SearchBar({value, onChange}: SearchBarProps){
     return(
-        <Card className="bg-spotify-dark border-spotify-tertiary">
+        <Card className="bg-background border-spotify-tertiary">
         <CardContent className="pt-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-spotify-tertiary" />

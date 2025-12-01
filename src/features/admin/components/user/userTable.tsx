@@ -12,7 +12,7 @@ interface UserTableProps{
 export function UserTable({users}: UserTableProps){
     const URL_BASE = import.meta.env.VITE_API_URL;
     return(
-        <Card className="bg-spotify-dark border-spotify-tertiary overflow-hidden">
+        <Card className="bg-background border-spotify-tertiary overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>

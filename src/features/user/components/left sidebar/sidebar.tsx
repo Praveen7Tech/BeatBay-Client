@@ -3,6 +3,7 @@ import { Home, Search, Plus, Heart, ChevronLeft, ChevronRight, Play, Music, User
 import { NavLink } from "@/components/NavLink";
 import { useUserFollowing, useUserPlayLists } from "@/core/hooks/useFetchHooks";
 import { useCreatePlayList } from "@/core/hooks/usePlayList";
+import { SidebarShimmer } from "@/core/components/shimmers/SidebarShimmer";
 
 const mainItems = [
   { title: "Home", url: "/home", icon: Home },
@@ -24,7 +25,7 @@ export function Sidebar() {
   }
 
   if(isLoading || follow){
-    return <h1>Loading....</h1>
+    return <SidebarShimmer/>
   }
   if(isError || followError){
     return <p>{error?.message }</p>

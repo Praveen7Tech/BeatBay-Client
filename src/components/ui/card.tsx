@@ -81,6 +81,21 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+
+function StatCard({ title, value, change }: { title: string; value: string; change: string }) {
+  return (
+    <Card className="bg-spotify-dark border-spotify-tertiary">
+      <CardContent className="pt-6">
+        <p className="text-spotify-secondary text-sm mb-2">{title}</p>
+        <p className="text-3xl font-bold text-spotify-text mb-2">{value}</p>
+        <p className={`text-sm ${change.startsWith("+") ? "text-spotify-green" : "text-red-500"}`}>
+          {change} from last month
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
 export {
   Card,
   CardHeader,
@@ -89,4 +104,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  StatCard
 }
