@@ -23,6 +23,8 @@ export const API_ROUTE_ADMIN = {
   GET_ARTIST_BYID: '/admin/get-artistById',
   BLOCK_ARTIST: '/admin/block-artist',
   UN_BLOCK_ARTIST: '/admin/unBlock-artist',
+
+  GET_DASHBOARD_DATA:'/admin/get-dashboard-data'
 }
 
 export const API_ROUTE_ARTIST = {

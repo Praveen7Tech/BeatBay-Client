@@ -84,3 +84,19 @@ function InfoItem({ label, value }: { label: string; value: string }) {
   )
 }
 
+//  <AdminStatsCard
+//             title="Avg. Daily Users"
+//             value="12.4K"
+//             change="+6.8%"
+//             changeType="positive"
+//             icon={Users}
+//             subtitle="Last 30 days"
+//           />
+//           <AdminStatsCard
+//             title="Revenue"
+//             value="$94.2K"
+//             change="+22.3%"
+//             changeType="positive"
+//             icon={TrendingUp}
+//             subtitle="This month"
+//           />

@@ -2,65 +2,36 @@
 
 export function MusicLoader() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black">
-      <div className="flex flex-col items-center gap-8">
-        {/* Sound wave bars */}
-        <div className="flex items-end gap-1.5">
-          {[...Array(5)].map((_, i) => (
+   <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center p-4">
+      <div className="text-center space-y-8 max-w-md">
+        {/* Animated music bars - green theme */}
+        <div className="flex justify-center gap-2 h-20">
+          {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="w-2 rounded-full bg-emerald-500"
+              className="w-1 bg-linear-to-t from-green-500 to-green-400 rounded-full"
               style={{
-                height: "40px",
-                animation: `soundWave 1s ease-in-out infinite`,
+                animation: `bounce 0.6s ease-in-out infinite`,
                 animationDelay: `${i * 0.1}s`,
+                height: `${40 + i * 20}px`,
               }}
             />
           ))}
         </div>
 
-        {/* Loading text */}
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-lg font-medium tracking-wider text-emerald-500">Loading</span>
-          <div className="flex gap-1">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="h-1.5 w-1.5 rounded-full bg-emerald-500"
-                style={{
-                  animation: `dotPulse 1.4s ease-in-out infinite`,
-                  animationDelay: `${i * 0.2}s`,
-                }}
-              />
-            ))}
-          </div>
+        {/* 404 Text */}
+        <div>
+          <h1 className="text-xl mt-4 bg-linear-to-r from-green-400 via-green-500 to-green-400 bg-clip-text text-transparent animate-pulse">
+            Loading ...
+          </h1>
+          <p className="text-xl text-gray-300 mt-4">Oops! Track not found</p>
         </div>
       </div>
 
-      {/* Keyframe animations */}
       <style>{`
-        @keyframes soundWave {
-          0%,
-          100% {
-            height: 12px;
-            opacity: 0.5;
-          }
-          50% {
-            height: 40px;
-            opacity: 1;
-          }
-        }
-
-        @keyframes dotPulse {
-          0%,
-          100% {
-            opacity: 0.3;
-            transform: scale(0.8);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1);
-          }
+        @keyframes bounce {
+          0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+          50% { transform: scaleY(1); opacity: 1; }
         }
       `}</style>
     </div>

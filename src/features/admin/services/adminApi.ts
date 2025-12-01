@@ -97,6 +97,14 @@ export interface ArtistAlbum {
   status: "active"
 }
 
+export interface  DashBordResponse{
+  totalUser: number
+  totalArtist: number
+  totalSongs: number
+  totalAlbums: number
+  message?: string
+}
+
 
 
 export const adminApi = {
@@ -127,7 +135,6 @@ export const adminApi = {
 
     getArtistById: async(artistId: string): Promise<ArtistDataResponse>=>{
         const response = await axiosInstance.get(`${API_ROUTE_ADMIN.GET_ARTIST_BYID}/${artistId}`)
-        console.log("artist ", response.data)
         return response.data
     },
 
@@ -140,4 +147,10 @@ export const adminApi = {
       const response = await axiosInstance.put(`${API_ROUTE_ADMIN.UN_BLOCK_ARTIST}/${artistId}`)
       return response.data
     },
+
+    getDahsboardDetils: async(): Promise<DashBordResponse>=>{
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_DASHBOARD_DATA)
+        console.log("artist ", response.data)
+      return response.data
+    }
 }
