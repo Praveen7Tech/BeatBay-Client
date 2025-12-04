@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { CreateAlbumSchema, CreateAlbumData } from "@/features/artist/schema-validator/createAlbum.Schema";
 import { artistApi, EditAlbumDetailsResponse, InitialAlbumSongs } from "@/features/artist/services/artist.api";
 import { useNavigate, useParams } from "react-router-dom";
-import { useArtistSongs } from "../useFetchHooks";
+import { useArtistSongs } from "../api/useFetchHooks";
 import { queryClient } from "./queryClientSetup";
 
 export const useCreateAlbum = (isEdit: boolean) => {

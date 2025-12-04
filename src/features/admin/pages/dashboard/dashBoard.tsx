@@ -3,28 +3,10 @@ import { AdminStatsCard } from "../../components/dashboard/admin.statusCard";
 import { AdminGrowthChart } from "../../components/dashboard/admin.growthChart"; 
 import { AdminActivityTable } from "../../components/dashboard/admin.activityTable"; 
 import { TopPerformersTable } from "../../components/dashboard/top.perfomerTable"; 
-import { useEffect } from "react";
-import { useApi } from "@/core/hooks/useApi";
-import { adminApi } from "../../services/adminApi";
+import { useDasboard } from "@/core/hooks/admin/useDashBoard";
 
 export default function AdminDashboard() {
- const { execute: fetchDashboardData, data, loading } = useApi(adminApi.getDahsboardDetils);
-
-  useEffect(() => {
-    const LoadStatus = async () => {
-      try {
-        await fetchDashboardData({}); 
-      } catch (error) {
-        console.error("Dashboard fetch failed in component:", error);
-      }
-    };
-    
-    LoadStatus();
-  }, [fetchDashboardData]); 
-  const totalUser = data?.totalUser ?? 0;
-  const totalArtist = data?.totalArtist ?? 0;
-  const totalSongs = data?.totalSongs ?? 0;
-  const totalAlbums = data?.totalAlbums ?? 0;
+  const {loading, totalUser, totalArtist, totalSongs, totalAlbums} = useDasboard()
   if (loading) {
     return <div className="min-h-screen bg-background p-8">Loading Dashboard...</div>;
   }

@@ -1,6 +1,6 @@
 import { SongResponse } from "@/features/user/services/userApi";
 import React, { createContext, useCallback, useContext, useState } from "react";
-import { useAudioPlayer } from "../hooks/user/useAudioPlayer";
+import { useAudioPlayer } from "../hooks/song/useAudioPlayer";
 
 interface AudioContextType{
     currentSong: SongResponse | null

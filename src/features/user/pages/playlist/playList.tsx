@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { PlaylistHeader } from "../../components/playlist/playList.header";
 import { PlaylistSearchSection } from "../../components/playlist/searchSection";
 import { PlaylistSongTable } from "../../components/playlist/songList";
-import { usePlaylistDetails,useSearchSongs, useAddSongToPlaylist} from "@/core/hooks/usePlayList";
+import { usePlaylistDetails,useSearchSongs, useAddSongToPlaylist} from "@/core/hooks/playList/usePlayList";
 
 export default function PlaylistDetail() {
   const { playlistId } = useParams<{ playlistId: string }>();
@@ -52,7 +52,7 @@ export default function PlaylistDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#121212] to-[#000000] text-white">
+    <div className="min-h-screen bg-linear-to-b from-spotify-dark to-[#000000] text-white">
       <div className="max-w-7xl mx-auto p-8">
         <PlaylistHeader
           playListData={playlist}

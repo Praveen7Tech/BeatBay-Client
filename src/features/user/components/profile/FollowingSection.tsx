@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "react-router-dom";
-import { useUserFollowing } from "@/core/hooks/useFetchHooks";
+import { useUserFollowing } from "@/core/hooks/api/useFetchHooks";
 
 export function FollowingSection() {
 
@@ -19,21 +19,25 @@ export function FollowingSection() {
 
   return (
     <div className="px-8 py-8 border-t border-[#2a2a2a]">
-      <div className="flex items-center gap-2 mb-6">
-        <span className="text-[#00d084]">✓</span>
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold">FOLLOWING</h2>
+         <Link to={`/following`}>
+            <p className="text-[#00d084] text-sm hover:underline">
+              Show All →
+            </p>
+          </Link>
       </div>
 
-      <div className="flex gap-6 overflow-x-auto pb-4">
+      <div className="flex gap-6 pb-4">
 
         {/* When followers exist */}
         {followers && followers.length > 0 ? (
           followers.map((follow) => (
-            <Link to={`/artist-details/${follow.id}`}>
+            <Link to={`/artist/${follow.id}`}>
             <div key={follow.id} className="flex flex-col items-center gap-3 shrink-0">
 
               {/* Image Circle */}
-              <div className="w-20 h-20 rounded-full bg-gray-700 flex items-center justify-center text-2xl font-bold text-gray-300 hover:scale-110 transition-transform cursor-pointer relative overflow-hidden">
+              <div className="w-36 h-36 rounded-full bg-gray-700 flex items-center justify-center text-2xl font-bold text-gray-300 hover:scale-110 transition-transform cursor-pointer relative overflow-hidden">
 
                 {/* Fallback Initial */}
                 {!follow?.profilePicture && (

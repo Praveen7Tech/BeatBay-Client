@@ -5,7 +5,7 @@ import { Input } from "@/core/components/input/Input"
 import { userApi } from "../../services/userApi" 
 import { ImagePlus, Mail, User } from "lucide-react"
 import { ProfileDetailsData,  } from "../../schemas/editProfile.Schema"
-import { useProfileEdit } from "@/core/hooks/useEditProfile"
+import { useProfileEdit } from "@/core/hooks/profile/useEditProfile"
 
 interface EditProfileProps {
   onCancel: () => void

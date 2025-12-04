@@ -1,8 +1,8 @@
 
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { RootState } from "../store/store"
-import { useApi } from "./useApi"
+import { RootState } from "../../store/store"
+import { useApi } from "../api/useApi"
 import { update } from "@/features/auth/slices/authSlice"
 import { ProfileDetailsData, ProfileDetailsSchema } from "@/features/user/schemas/editProfile.Schema" 
 import { useForm } from "react-hook-form"

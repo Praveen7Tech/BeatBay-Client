@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import { useApi } from "../../../core/hooks/useApi";
+import { useApi } from "../../../core/hooks/api/useApi";
 import { authApi } from "../services/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../slices/authSlice";

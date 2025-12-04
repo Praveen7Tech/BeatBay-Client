@@ -1,4 +1,4 @@
-import { useApi } from "@/core/hooks/useApi";
+import { useApi } from "@/core/hooks/api/useApi";
 import { authApi } from "@/features/auth/services/authApi";
 import { logout } from "@/features/auth/slices/authSlice";
 import { useDispatch } from "react-redux";

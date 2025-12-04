@@ -4,7 +4,7 @@ import {
   SongData,
   userApi,
 } from "@/features/user/services/userApi"
-import { showError, showSuccess } from "../utils/toast.config"
+import { showError, showSuccess } from "../../utils/toast.config"
 import { useNavigate } from "react-router-dom"
 
 const playlistKey = (id: string) => ["playlist", id] as const

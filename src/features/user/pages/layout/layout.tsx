@@ -13,7 +13,7 @@ export default function UserLayout() {
         <Navbar />
         <div className="flex flex-1 overflow-hidden pt-24 pb-20">
           <Sidebar />
-          <div className="flex-1 overflow-y-auto bg-[#0f0f0f] scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-transparent">
+          <div className="flex-1 overflow-y-auto bg-[#0f0f0f] scrollbar-hide">
             <Outlet />
           </div>
           <RightPanel />

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useApi } from "../../../core/hooks/useApi";
+import { useApi } from "../../../core/hooks/api/useApi";
 import { authApi } from "../services/authApi";
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Home, Search, Plus, Heart, ChevronLeft, ChevronRight, Play, Music, User } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
-import { useUserFollowing, useUserPlayLists } from "@/core/hooks/useFetchHooks";
-import { useCreatePlayList } from "@/core/hooks/usePlayList";
+import { useUserFollowing, useUserPlayLists } from "@/core/hooks/api/useFetchHooks";
+import { useCreatePlayList } from "@/core/hooks/playList/usePlayList";
 import { SidebarShimmer } from "@/core/components/shimmers/SidebarShimmer";
 
 const mainItems = [
@@ -96,8 +96,8 @@ export function Sidebar() {
         <div className="overflow-y-auto max-h-[25vh] pr-2 space-y-1 scrollbar-hide">
           {playlists?.map((p) => (
             <NavLink
-              key={p._id}
-              to={`/playlist/${p._id}`}
+              key={p.id}
+              to={`/playlist/${p.id}`}
               className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
               activeClassName="bg-sidebar-accent text-white"
             >
@@ -129,7 +129,7 @@ export function Sidebar() {
           {followers?.map((artist) => (
             <NavLink
               key={artist.id}
-              to={`/artist-details/${artist.id}`}
+              to={`/artist/${artist.id}`}
               className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
               activeClassName="bg-sidebar-accent text-white"
             >

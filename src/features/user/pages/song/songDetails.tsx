@@ -46,7 +46,7 @@ export default function SongDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#121212] to-[#000000] text-white">
+    <div className="min-h-screen bg-linear-to-b from-spotify-dark to-[#000000] text-white">
       <div className="max-w-7xl mx-auto p-8">
         <SongHeader 
             title={song?.title} 
@@ -57,7 +57,7 @@ export default function SongDetail() {
         />
          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
-            <Link to={`/artist-details/${song.artistId?._id}`}>
+            <Link to={`/artist/${song.artistId?._id}`}>
               <ArtistSection artistId={song?.artistId} />
             </Link>
           </div> 

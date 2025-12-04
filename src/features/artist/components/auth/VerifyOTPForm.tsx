@@ -1,6 +1,6 @@
 import { authApiArtist } from "../../services/artist-authApi";
 import { Timer } from "../../../../core/components/Timer";
-import { useOtpVerification } from "@/core/hooks/useOtpVerification";
+import { useOtpVerification } from "@/core/hooks/otp/useOtpVerification";
 import { OtpInputs } from "@/core/components/input/OtpInputField";
 import { Button } from "@/core/components/button/Button";
 

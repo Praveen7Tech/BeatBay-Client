@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAuthLoading, setAuthFailure } from '../../features/auth/slices/authSlice';
-import { showError, showSuccess } from '../utils/toast.config';
+import { setAuthLoading, setAuthFailure } from '../../../features/auth/slices/authSlice';
+import { showError, showSuccess } from '../../utils/toast.config';
 
 
 

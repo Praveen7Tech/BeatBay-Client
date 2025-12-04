@@ -1,7 +1,7 @@
 import { SongCard } from "../../components/song/SongCard"; 
 import { ArtistHeader } from "../../components/song/ArtistHeader"; 
 //import { SearchBar } from "../../components/song/SearchBar";
-import { useArtistSongs } from "@/core/hooks/useFetchHooks";
+import { useArtistSongs } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
 import { SongData } from "../../services/artist.api";
 

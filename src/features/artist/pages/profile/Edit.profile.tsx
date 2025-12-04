@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
-import { useProfileEdit } from "@/core/hooks/useEditProfile";
+import { useProfileEdit } from "@/core/hooks/profile/useEditProfile";
 import { ProfileDetailsData} from "../../schema-validator/EditProfile.Schema";
 const imgURL = import.meta.env.VITE_API_URL
 

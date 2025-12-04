@@ -1,5 +1,5 @@
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { useApi } from "@/core/hooks/useApi"; 
+import { useApi } from "@/core/hooks/api/useApi"; 
 import { authApi } from "@/features/auth/services/authApi"; 
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/features/auth/slices/authSlice"; 
