@@ -1,7 +1,7 @@
 import { AlbumHeader } from "../../components/album/albumHeader"; 
 import { AlbumCard } from "../../components/album/albumCard"; 
 import { SearchBar } from "../../components/song/SearchBar"; 
-import { useArtistAlbums } from "@/core/hooks/useFetchHooks";
+import { useArtistAlbums } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
 
 export default function Albums() {

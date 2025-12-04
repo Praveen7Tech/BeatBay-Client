@@ -1,7 +1,7 @@
 import { userApi } from "@/features/user/services/userApi"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { queryClient } from "./artist/queryClientSetup"
-import { showSuccess } from "../utils/toast.config"
+import { queryClient } from "../artist/queryClientSetup"
+import { showSuccess } from "../../utils/toast.config"
 
 export const useFollowStatus = (artistId: string) =>{
 

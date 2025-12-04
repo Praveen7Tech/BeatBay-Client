@@ -1,5 +1,5 @@
 
-import { useApi } from "./useApi"
+import { useApi } from "../api/useApi"
 import { ChangePasswordData } from "@/features/user/schemas/ChangePasswordSchema"; 
 
 interface ApiResponse {

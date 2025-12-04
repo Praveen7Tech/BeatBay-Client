@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom"
 import AlbumCard from "../../components/home/album-card" 
 import ArtistCard from "../../components/home/artist-card" 
-import { useUserAlbums, useUserSongs } from "@/core/hooks/useFetchHooks"
+import { useUserAlbums, useUserSongs } from "@/core/hooks/api/useFetchHooks"
 import { MusicLoader } from "@/core/components/loading/LoadingScreen"
 export default function HomeContent() {
  

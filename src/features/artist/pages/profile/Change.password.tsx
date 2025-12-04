@@ -6,7 +6,7 @@ import { Lock, X } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ChangePasswordData, ChangePasswordSchema } from "@/features/user/schemas/ChangePasswordSchema"
-import { useChangePassword } from "@/core/hooks/useChangePassword"
+import { useChangePassword } from "@/core/hooks/password/useChangePassword"
 import { artistApi } from "../../services/artist.api"
 import { useNavigate } from "react-router-dom"
 

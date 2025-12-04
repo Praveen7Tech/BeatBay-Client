@@ -3,7 +3,7 @@
 import { User } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "@/features/auth/slices/authSlice"
-import { useApi } from "@/core/hooks/useApi"
+import { useApi } from "@/core/hooks/api/useApi"
 import { authApi } from "@/features/auth/services/authApi"
 import type { RootState } from "@/core/store/store"
 import { Button } from "@/core/components/button/Button"

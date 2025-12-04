@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { X, Upload } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
-import { usePlaylistEditForm } from "@/core/hooks/usePlayListEditForm";  
+import { usePlaylistEditForm } from "@/core/hooks/playList/usePlayListEditForm";  
 
 interface PlaylistEditDialogProps {
   isOpen: boolean;
@@ -54,7 +54,7 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
                                     {/* ... overlay UI ... */}
                                 </>
                             ) : (
-                                <Upload className="h-12 w-12 text-[#b3b3b3]" />
+                                <Upload className="h-12 w-12 text-spotify-secondary" />
                             )}
                             <input
                               {...register('image')}

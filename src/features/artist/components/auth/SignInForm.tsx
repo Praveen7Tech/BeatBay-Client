@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { useApi } from "@/core/hooks/useApi"; 
+import { useApi } from "@/core/hooks/api/useApi"; 
 import { authApiArtist } from "../../services/artist-authApi"; 
 import { loginSuccess } from "@/features/auth/slices/authSlice"; 
 import { Lock, Mail } from "lucide-react";

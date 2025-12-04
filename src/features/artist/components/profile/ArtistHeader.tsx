@@ -1,6 +1,6 @@
 "use client"
 
-import { useApi } from "@/core/hooks/useApi"
+import { useApi } from "@/core/hooks/api/useApi"
 import { RootState } from "@/core/store/store"
 import { logout } from "@/features/auth/slices/authSlice"
 import { User } from "lucide-react"

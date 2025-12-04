@@ -1,6 +1,6 @@
 
 import { Mail } from 'lucide-react'
-import { useApi } from '@/core/hooks/useApi'
+import { useApi } from '@/core/hooks/api/useApi'
 import { authApiArtist } from '../../services/artist-authApi'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

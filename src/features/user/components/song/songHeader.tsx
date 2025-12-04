@@ -31,7 +31,7 @@ export const SongHeader = ({
         {/* Action Buttons */}
         <div className="flex items-center gap-4 mt-6">
           <button onClick={onPlayPause}
-            className="w-14 h-14 rounded-full bg-[#1DB954] hover:bg-[#1ed760] hover:scale-105 transition-all flex items-center justify-center shadow-lg"
+            className="w-14 h-14 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg"
             style={{ border: "none", cursor: "pointer" }}
           >
             {isPlaying ? (
@@ -45,14 +45,14 @@ export const SongHeader = ({
             className="w-14 h-14 rounded-full border-2 border-[#535353] hover:border-white transition-all flex items-center justify-center"
             style={{ background: "transparent", cursor: "pointer" }}
           >
-            <Heart className="h-6 w-6 text-[#b3b3b3] hover:text-white" />
+            <Heart className="h-6 w-6 text-spotify-secondary hover:text-white" />
           </button>
           
           <button
             className="w-14 h-14 rounded-full border-2 border-[#535353] hover:border-white transition-all flex items-center justify-center"
             style={{ background: "transparent", cursor: "pointer" }}
           >
-            <Plus className="h-6 w-6 text-[#b3b3b3] hover:text-white" />
+            <Plus className="h-6 w-6 text-spotify-secondary hover:text-white" />
           </button>
         </div>
       </div>
@@ -72,8 +72,8 @@ export const SongHeader = ({
         
         <div className="flex items-center gap-2 text-sm mb-6">
           <span className="text-white">{ "100 strams"}</span>
-          <span className="text-[#b3b3b3]">•</span>
-          <span className="text-[#b3b3b3]">{  "3.04"}</span>
+          <span className="text-spotify-secondary">•</span>
+          <span className="text-spotify-secondary">{  "3.04"}</span>
         </div>
 
       </div>

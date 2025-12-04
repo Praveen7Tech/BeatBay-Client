@@ -1,6 +1,6 @@
 
 import { authApi } from "../services/authApi"
-import { useOtpVerification } from "@/core/hooks/useOtpVerification"
+import { useOtpVerification } from "@/core/hooks/otp/useOtpVerification"
 import { Timer } from "@/core/components/Timer"
 import { OtpInputs } from "@/core/components/input/OtpInputField"
 import { Button } from "@/core/components/button/Button"

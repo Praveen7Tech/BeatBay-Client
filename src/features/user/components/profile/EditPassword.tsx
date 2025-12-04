@@ -7,7 +7,7 @@ import { Lock } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ChangePasswordData, ChangePasswordSchema } from "../../schemas/ChangePasswordSchema"
-import { useChangePassword } from "@/core/hooks/useChangePassword"
+import { useChangePassword } from "@/core/hooks/password/useChangePassword"
 
 interface EditPasswordProps {
   onCancel: () => void

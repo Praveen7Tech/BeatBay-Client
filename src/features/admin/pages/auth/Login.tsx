@@ -4,7 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { useApi } from "../../../../core/hooks/useApi";
+import { useApi } from "../../../../core/hooks/api/useApi";
 import { authApiAdmin } from "../../services/admin-AuthApi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

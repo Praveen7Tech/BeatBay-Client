@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { showError } from "../utils/toast.config"
-import { useApi } from "./useApi"
+import { showError } from "../../utils/toast.config"
+import { useApi } from "../api/useApi"
 import { VerifyOtpResponse } from "@/features/auth/services/authApi"
 
 interface otpVerificationProps {

@@ -35,7 +35,7 @@ export const ArtistSection = ({ artistId }: ArtistSectionProps) => {
 
         {/* Artist Info */}
         <div>
-          <p className="text-xs text-[#b3b3b3] mb-1">Artist</p>
+          <p className="text-xs text-spotify-secondary mb-1">Artist</p>
           <p className="text-base font-bold text-white">{artistId.name}</p>
         </div>
 

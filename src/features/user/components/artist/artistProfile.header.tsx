@@ -1,6 +1,6 @@
 import { Play, UserCheck, UserPlus, MoreHorizontal, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useFollowStatus } from "@/core/hooks/useFollowStatus";
+import { useFollowStatus } from "@/core/hooks/follow/useFollowStatus";
 import { useState } from "react";
 
 interface ArtistProfileHeaderProps {

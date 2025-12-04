@@ -103,13 +103,11 @@ export interface NewPlayListResponse{
   name: string
 }
 
-// interface PlayList{
-//   _id: string
-//   name: string
-//   description: string
-//   coverImageUrl: string
-//   songs: SongData[]
-// }
+interface PlayListData{
+  id: string
+  name: string
+  coverImageUrl?: string | null
+}
 
 export interface PlaylistSong {
   _id: string;
@@ -190,8 +188,9 @@ export const userApi ={
       return response.data
     },
 
-    getUserPlayLits: async(): Promise<PlaylistDetailsResponse[]>=>{
+    getUserPlayLits: async(): Promise<PlayListData[] | []>=>{
       const response = await axiosInstance.get(API_ROUTES_USER.GET_USER_PLAYLIST)
+      console.log("data", response.data)
       return response.data
     },
 

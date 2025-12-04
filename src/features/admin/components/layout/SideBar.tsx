@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { LayoutDashboard, Users, Music, LogOut, Menu, X, Folders, UserStar } from "lucide-react"
-import { useApi } from "@/core/hooks/useApi"
+import { useApi } from "@/core/hooks/api/useApi"
 import { authApiAdmin } from "../../services/admin-AuthApi" 
 import { useDispatch } from "react-redux"
 import { logout } from "@/features/auth/slices/authSlice" 

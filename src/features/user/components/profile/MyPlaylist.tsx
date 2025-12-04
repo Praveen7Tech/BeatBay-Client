@@ -1,8 +1,8 @@
 "use client";
 
 import { Link } from "react-router-dom";
-import { useUserPlayLists } from "@/core/hooks/useFetchHooks";
-import { Music } from "lucide-react";  // default icon
+import { useUserPlayLists } from "@/core/hooks/api/useFetchHooks";
+import { Music } from "lucide-react"; 
 
 export function MyPlaylists() {
 
@@ -15,19 +15,25 @@ export function MyPlaylists() {
 
   return (
     <div className="px-8 py-8">
-      <h2 className="text-xl font-bold mb-6 text-white">MY PLAYLISTS</h2>
-
+      <div className="flex items-center justify-between mb-6">
+         <h2 className="text-xl font-bold mb-6 text-white">MY PLAYLISTS</h2>
+         <Link to={`/playLists`}>
+            <p className="text-[#00d084] text-sm hover:underline">
+              Show All →
+            </p>
+          </Link>
+      </div>      
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {playlists && playlists.length > 0 ? (
-          playlists.map((playlist) => {
+          playlists.slice(0,5).map((playlist) => {
             const imageUrl = playlist.coverImageUrl
               ? `${URL}/playList/${playlist.coverImageUrl}`
               : null;
 
             return (
-              <Link to={`/playList/${playlist._id}`} key={playlist._id}>
+              <Link to={`/playList/${playlist.id}`} key={playlist.id}>
                 <div
-                  className="bg-[#181818] rounded-xl p-4 hover:bg-[#232323] transition-colors cursor-pointer group shadow-md"
+                  className=" hover: transition-colors cursor-pointer group shadow-md"
                 >
                   {/* IMAGE WRAPPER */}
                   <div className="w-full aspect-square rounded-lg overflow-hidden bg-[#2b2b2b] flex items-center justify-center group-hover:scale-105 transition-transform">
