@@ -10,7 +10,6 @@ interface UserTableProps{
 }
 
 export function UserTable({users}: UserTableProps){
-    const URL_BASE = import.meta.env.VITE_API_URL;
     return(
         <Card className="bg-background border-spotify-tertiary overflow-hidden">
         <div className="overflow-x-auto">
@@ -36,7 +35,7 @@ export function UserTable({users}: UserTableProps){
                     <div className="flex items-center gap-3">
                      {user.profilePicture ? (
                         <img
-                            src={`${URL_BASE}/uploads/${user.profilePicture}`}
+                            src={user.profilePicture}
                             alt={user.name}
                             className="w-8 h-8 rounded-full object-cover"
                             onError={(e) => { e.currentTarget.src = "/placeholder.svg" }}

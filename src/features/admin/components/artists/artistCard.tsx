@@ -10,7 +10,6 @@ interface ArtistCardProps{
 }
 
 export function ArtistCardGrid({artist}:ArtistCardProps){
-    const URL_BASE = import.meta.env.VITE_API_URL;
     return(
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
          {artist.map((artist) => (
@@ -22,7 +21,7 @@ export function ArtistCardGrid({artist}:ArtistCardProps){
                   <div className="flex items-start justify-between">
                     {artist.profilePicture ? (
                         <img
-                            src={`${URL_BASE}/uploads/${artist.profilePicture}`}
+                            src={artist.profilePicture}
                             alt={artist.name}
                             className="w-28 h-28 rounded-full object-cover"
                             onError={(e) => { e.currentTarget.src = "/placeholder.svg" }}

@@ -20,22 +20,12 @@
 //   { id: "2", name: "Felwin Shaji", image: "/fan-avatar.jpg" },
 // ]
 
-const mockArtist = {
-  name: "A R Rahman",
-  verified: true,
-  image: "/diverse-music-artists.png",
-  stats: { songs: 567, albums: 45, fans: 3456789 },
-}
+
 
 export default function ProfilePageArtist() {
   return (
     <>
-    <ArtistHeader
-        name={mockArtist.name}
-        verified={mockArtist.verified}
-        image={mockArtist.image}
-        stats={mockArtist.stats}
-      />
+    <ArtistHeader />
     {/* <div className="flex flex-col lg:flex-row gap-8">
       <div className="flex-1 space-y-8">
         <SongsSection songs={mockSongs} />

@@ -7,7 +7,6 @@ import { useApi } from "@/core/hooks/api/useApi"
 import { authApi } from "@/features/auth/services/authApi"
 import type { RootState } from "@/core/store/store"
 import { Button } from "@/core/components/button/Button"
-const URL = import.meta.env.VITE_API_URL;
 interface profileHeaderProps {
   onEditClick: () => void
   onEditPasswordClick?: () => void
@@ -39,7 +38,7 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
           <div className="w-32 h-32 rounded-full border-4 border-[#0f0f0f] flex items-center justify-center shrink-0 overflow-hidden">
             {user.profilePicture ? (
               <img
-                src={`${URL}/uploads/${user.profilePicture}`}
+                src={user.profilePicture}
                 alt={`${user.name}'s profile`}
                 className="w-full h-full object-cover"
               />

@@ -8,8 +8,6 @@ interface ArtistSectionProps {
 }
 
 export const ArtistSection = ({ artistId }: ArtistSectionProps) => {
-  const URL = import.meta.env.VITE_API_URL;
-  const baseURL = `${URL}/uploads/${artistId.profilePicture}`;
 
   const hasImage = !!artistId.profilePicture;
 
@@ -21,7 +19,7 @@ export const ArtistSection = ({ artistId }: ArtistSectionProps) => {
         <div className="w-16 h-16 rounded-full overflow-hidden bg-[#3a3a3a] flex items-center justify-center">
           {hasImage ? (
             <img
-              src={baseURL}
+              src={artistId.profilePicture}
               alt={artistId.name}
               className="w-full h-full object-cover"
               onError={(e) => {

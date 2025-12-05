@@ -13,7 +13,7 @@ import { FansList } from "../../components/artists/artist-Fans"
 
 export function ArtistDetails() {
   const {artistId} = useParams()
-  const {artist, isLoading, HanleTooglrBlock, fetchLoading, isError, profilePicture}= 
+  const {artist, isLoading, HanleTooglrBlock, fetchLoading, isError}= 
   useArtistManagement(artistId!)
 
   if(fetchLoading) return <div>Loading..</div>
@@ -44,7 +44,7 @@ export function ArtistDetails() {
           <ProfileHeaderCard
               name={artist?.name}
               bio={artist?.bio}
-              profileImage={profilePicture}
+              profileImage={artist?.profilePicture}
               status={artist?.status}
               isArtist={true}
           />

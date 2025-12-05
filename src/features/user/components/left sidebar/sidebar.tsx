@@ -30,7 +30,6 @@ export function Sidebar() {
   if(isError || followError){
     return <p>{error?.message }</p>
   }
-  const URL = import.meta.env.VITE_API_URL
 
   return (
     <aside
@@ -104,7 +103,7 @@ export function Sidebar() {
               <div className="relative h-10 w-10 rounded overflow-hidden bg-sidebar-accent flex items-center justify-center">
                 {p.coverImageUrl ? (
                   <img
-                    src={`${URL}/playList/${p.coverImageUrl}`}
+                    src={p.coverImageUrl}
                     className="h-full w-full object-cover"
                   />
                 ) : (
@@ -136,7 +135,7 @@ export function Sidebar() {
              <div className="relative h-10 w-10 rounded-full overflow-hidden bg-sidebar-accent flex items-center justify-center">
               {artist.profilePicture ? (
                 <img
-                  src={`${URL}/uploads/${artist.profilePicture}`}
+                  src={artist.profilePicture}
                   className="h-full w-full object-cover"
                 />
               ) : (

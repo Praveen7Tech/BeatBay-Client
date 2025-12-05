@@ -50,9 +50,6 @@ export const useUserManagement = (userId: string) =>{
         }
     }
 
-     const URL_BASE = import.meta.env.VITE_API_URL;
-     const profilePicture = `${URL_BASE}/uploads/${user?.profilePicture}`
 
-
-    return {user, isLoading, HanleTooglrBlock, fetchLoading, isError, profilePicture}
+    return {user, isLoading, HanleTooglrBlock, fetchLoading, isError}
 }

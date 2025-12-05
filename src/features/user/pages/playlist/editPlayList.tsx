@@ -4,6 +4,7 @@ import { X, Upload } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { usePlaylistEditForm } from "@/core/hooks/playList/usePlayListEditForm";  
+import { Button } from "@/core/components/button/Button";
 
 interface PlaylistEditDialogProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
         defaultValues: initialData 
     });
 
-    const { preview, handleEdit, handleImageChange } = usePlaylistEditForm({ 
+    const { preview, handleEdit, handleImageChange, loading } = usePlaylistEditForm({ 
         playlistId, 
         initialData, 
         onClose 
@@ -90,11 +91,9 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
                     </div>
 
                     <div className="flex justify-end">
-                        <button 
-                            type="submit" 
-                            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform" >
+                       <Button theme="admin" type="submit" loading={loading}>
                             Save
-                        </button>
+                        </Button>
                     </div>
                 </form> 
             </div>

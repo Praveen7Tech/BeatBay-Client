@@ -7,7 +7,6 @@ interface PlaylistHeaderProps {
   playListData: PlaylistDetailsResponse
   onAddSongClick: () => void;
 }
-const URL = import.meta.env.VITE_API_URL
 
 export const PlaylistHeader = ({ playListData, onAddSongClick}: PlaylistHeaderProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -18,7 +17,7 @@ export const PlaylistHeader = ({ playListData, onAddSongClick}: PlaylistHeaderPr
         <div className="w-56 h-56 rounded-lg shadow-2xl overflow-hidden bg-[#1f1f1f] flex items-center justify-center">
         {playListData.coverImageUrl ? (
           <img
-            src={`${URL}/playList/${playListData.coverImageUrl}`}
+            src={playListData.coverImageUrl}
             alt={playListData.name}
             className="w-full h-full object-cover"
           />
@@ -37,13 +36,13 @@ export const PlaylistHeader = ({ playListData, onAddSongClick}: PlaylistHeaderPr
             <h1 className="text-7xl font-bold text-white mb-6 leading-tight">
               {playListData.name}
             </h1>
-            <p className="text-[#b3b3b3] mb-4">{playListData.description}</p>
+            <p className="text-spotify-secondary mb-4">{playListData.description}</p>
             <div className="flex items-center gap-2 text-sm">
               <span className="text-white font-medium">{"owner"}</span>
-              <span className="text-[#b3b3b3]">•</span>
-              <span className="text-[#b3b3b3]">{"totalTracks"} songs</span>
-              <span className="text-[#b3b3b3]">•</span>
-              <span className="text-[#b3b3b3]">{"totalDuration"}</span>
+              <span className="text-spotify-secondary">•</span>
+              <span className="text-spotify-secondary">{"totalTracks"} songs</span>
+              <span className="text-spotify-secondary">•</span>
+              <span className="text-spotify-secondary">{"totalDuration"}</span>
             </div>
           </div>
         </div>

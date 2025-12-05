@@ -13,7 +13,7 @@ import BlockStatusCard from "../../components/common/BlockUnblockCard"
 export function UserDetails() {
   const {userId} = useParams()
 
-  const {user, isLoading, HanleTooglrBlock, fetchLoading, isError, profilePicture} = useUserManagement(userId!)
+  const {user, isLoading, HanleTooglrBlock, fetchLoading, isError} = useUserManagement(userId!)
 
   if(fetchLoading) return <div>Loading..</div>
   if(isError) return <div>Loading..</div>
@@ -44,7 +44,7 @@ export function UserDetails() {
           <ProfileHeaderCard
               name={user?.name}
               bio={ "currently no bio"}
-              profileImage={profilePicture}
+              profileImage={user?.profilePicture}
               status={user?.status}
               isArtist={false}
           />

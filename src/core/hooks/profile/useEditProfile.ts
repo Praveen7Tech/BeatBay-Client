@@ -14,7 +14,7 @@ export const useProfileEdit = (editApi: (data: FormData)=> Promise<EditProfileRe
     const [preview, setPreview] = useState<string | null>(null)
     const user = useSelector((state: RootState) => state.auth.user)
     const dispatch = useDispatch()
-    const { execute } = useApi(editApi)
+    const { execute, loading } = useApi(editApi)
 
     const {register, handleSubmit, formState:{errors}} = useForm<ProfileDetailsData>({
           resolver: zodResolver(ProfileDetailsSchema)
@@ -47,5 +47,5 @@ export const useProfileEdit = (editApi: (data: FormData)=> Promise<EditProfileRe
         }
     }
 
-    return { user, image, preview, handleImageChange, handleEdit, register, handleSubmit, errors }
+    return { user, image, preview, handleImageChange, handleEdit, register, handleSubmit, errors, loading }
 }

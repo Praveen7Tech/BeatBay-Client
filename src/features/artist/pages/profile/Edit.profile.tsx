@@ -6,13 +6,12 @@ import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { useProfileEdit } from "@/core/hooks/profile/useEditProfile";
 import { ProfileDetailsData} from "../../schema-validator/EditProfile.Schema";
-const imgURL = import.meta.env.VITE_API_URL
 
 export function EditArtistProfile() {
     const navigate = useNavigate() 
 
     // handle edit profile
-    const {user, preview, handleEdit, handleImageChange, handleSubmit, errors, register} = useProfileEdit(authApiArtist.editProfile)
+    const {user, preview, handleEdit, handleImageChange, handleSubmit, errors, register, loading} = useProfileEdit(authApiArtist.editProfile)
     const EditProfileData = async(data: ProfileDetailsData)=>{
       await handleEdit(data)
       navigate('/artist-profile')
@@ -42,7 +41,7 @@ export function EditArtistProfile() {
                 :
                 user?.profilePicture ?
                 (<img
-                    src={`${imgURL}/uploads/${user?.profilePicture}`}
+                    src={user?.profilePicture}
                     alt="Artist"
                     className="w-32 h-32 rounded-lg object-cover bg-zinc-800"
                 />) : (<User className="w-12 h-12 text-gray-500"/>)
@@ -78,7 +77,7 @@ export function EditArtistProfile() {
           <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist-profile')} type="button">
             Cancel
           </Button>
-          <Button theme="artist" type="submit">
+          <Button theme="artist" type="submit" loading={loading}>
             Save Changes
           </Button>
         </div>
