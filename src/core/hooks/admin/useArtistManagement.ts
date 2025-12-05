@@ -49,9 +49,6 @@ export const useArtistManagement = (artistId: string) =>{
         }
     }
 
-     const URL_BASE = import.meta.env.VITE_API_URL;
-     const profilePicture = `${URL_BASE}/uploads/${artist?.profilePicture}`
 
-
-    return {artist, isLoading, HanleTooglrBlock, fetchLoading, isError, profilePicture}
+    return {artist, isLoading, HanleTooglrBlock, fetchLoading, isError}
 }

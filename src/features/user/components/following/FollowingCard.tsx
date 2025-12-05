@@ -9,8 +9,6 @@ interface FollowingCardProps {
 
 export const FollowingCard = ({ id, name, profilePicture }: FollowingCardProps) => {
   
-  const URL = import.meta.env.VITE_API_URL;
-  const profilePictureUrl = `${URL}/uploads/${profilePicture}`
   return (
     <Link
       to={`/artist/${id}`}
@@ -20,7 +18,7 @@ export const FollowingCard = ({ id, name, profilePicture }: FollowingCardProps) 
         <div className="aspect-square rounded-full overflow-hidden bg-[#282828] flex items-center justify-center">
           {profilePicture ? (
             <img
-              src={profilePictureUrl}
+              src={profilePicture}
               alt={name}
               className="w-full h-full object-cover"
             />

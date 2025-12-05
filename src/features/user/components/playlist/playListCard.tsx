@@ -9,8 +9,6 @@ interface PlaylistCardProps {
 }
 
 export const PlaylistCard = ({ id, name, coverImageUrl }: PlaylistCardProps) => {
-  const URL = import.meta.env.VITE_API_URL;
-  const coverImage = `${URL}/playList/${coverImageUrl}`
   return (
     <Link
       to={`/playlist/${id}`}
@@ -20,7 +18,7 @@ export const PlaylistCard = ({ id, name, coverImageUrl }: PlaylistCardProps) => 
         <div className="aspect-square rounded-md overflow-hidden bg-[#282828] flex items-center justify-center">
           {coverImageUrl ? (
             <img
-              src={coverImage}
+              src={coverImageUrl}
               alt={name}
               className="w-full h-full object-cover"
             />

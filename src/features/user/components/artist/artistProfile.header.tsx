@@ -19,8 +19,6 @@ export const ArtistProfileHeader = ({
 
   const { isFollowing, toggleFollow } = useFollowStatus(_id);
 
-  const URL = import.meta.env.VITE_API_URL;
-  const baseURL = `${URL}/uploads/${profilePicture}`;
   const hasImage = !!profilePicture;
 
   const [imageError, setImageError] = useState(false);
@@ -38,7 +36,7 @@ export const ArtistProfileHeader = ({
           <div className="w-56 h-56 rounded-full shadow-2xl overflow-hidden bg-[#2a2a2a] flex items-center justify-center">
             {hasImage && !imageError ? (
               <img
-                src={baseURL}
+                src={profilePicture}
                 alt={name}
                 className="w-full h-full object-cover"
                 onError={() => setImageError(true)}

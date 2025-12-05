@@ -13,7 +13,7 @@ interface EditProfileProps {
 
 export function EditProfileForm({ onCancel }: EditProfileProps) {
 
-  const { user, preview, handleImageChange, handleEdit, register, handleSubmit, errors } 
+  const { user, preview, handleImageChange, handleEdit, register, handleSubmit, errors , loading} 
   = useProfileEdit(userApi.editProfile)
 
   const handleEditProfile = async (data: ProfileDetailsData) => {
@@ -76,7 +76,7 @@ export function EditProfileForm({ onCancel }: EditProfileProps) {
         </div>
 
         <div className="flex gap-3 pt-8 border-t border-[#2a2a2a]">
-          <Button type="submit" theme="user" variant="primary">
+          <Button type="submit" theme="user" variant="primary" loading={loading}>
             Save Changes
           </Button>
           <Button type="button" theme="user" variant="dashboard" onClick={onCancel}>

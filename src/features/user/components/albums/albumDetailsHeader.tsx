@@ -6,15 +6,13 @@ interface AlbumDetailHeaderProps {
   coverImageUrl: string;
   releaseYear: string;
   totalTracks: number;
-  totalDuration: string;
 }
 
 export const AlbumDetailHeader = ({
   title,
   artist,
   coverImageUrl,
-  totalTracks,
-  totalDuration,
+  totalTracks=100,
 }: AlbumDetailHeaderProps) => {
 
   const URL = import.meta.env.VITE_API_URL
@@ -41,15 +39,15 @@ export const AlbumDetailHeader = ({
           
           <div className="flex items-center gap-2 text-sm">
             <span className="font-semibold text-white">{artist}</span>
-            <span className="text-[#b3b3b3]">•</span>
-            <span className="text-[#b3b3b3]">{totalTracks} songs, {totalDuration}</span>
+            <span className="text-spotify-secondary">•</span>
+            <span className="text-spotify-secondary">{totalTracks} songs, {"totalDuration"}</span>
           </div>
         </div>
       </div>
 
       <div className="flex items-center gap-8 mt-8">
         <button
-          className="w-14 h-14 rounded-full bg-[#1DB954] hover:bg-[#1ed760] hover:scale-105 transition-all flex items-center justify-center shadow-lg"
+          className="w-14 h-14 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg"
           style={{ border: "none", cursor: "pointer" }}
         >
           <Play className="h-6 w-6 fill-black text-black ml-1" />

@@ -11,8 +11,6 @@ export function MyPlaylists() {
   if (isLoading) return <h1>Loading....</h1>;
   if (isError) return <p>{error.message}</p>;
 
-  const URL = import.meta.env.VITE_API_URL;
-
   return (
     <div className="px-8 py-8">
       <div className="flex items-center justify-between mb-6">
@@ -27,7 +25,7 @@ export function MyPlaylists() {
         {playlists && playlists.length > 0 ? (
           playlists.slice(0,5).map((playlist) => {
             const imageUrl = playlist.coverImageUrl
-              ? `${URL}/playList/${playlist.coverImageUrl}`
+              ? playlist.coverImageUrl
               : null;
 
             return (

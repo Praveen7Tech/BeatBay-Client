@@ -9,19 +9,11 @@ import { useNavigate } from "react-router-dom"
 import { authApiArtist } from "../../services/artist-authApi"
 import { Button } from "@/core/components/button/Button"
 
-interface ArtistHeaderProps {
-  name: string
-  verified?: boolean
-  image?: string
-  stats: {
-    songs: number
-    albums: number
-    fans: number
-  }
-}
-const URL = import.meta.env.VITE_API_URL
 
-export function ArtistHeader({ verified = true, stats }: ArtistHeaderProps) {
+const stats= { songs: 567, albums: 45, fans: 3456789 }
+const verified= true
+
+export function ArtistHeader() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { execute: Logout } = useApi(authApiArtist.logout)
@@ -48,7 +40,7 @@ export function ArtistHeader({ verified = true, stats }: ArtistHeaderProps) {
               <div className="w-48 h-48 bg-gray-800 rounded-lg overflow-hidden">
                 {user?.profilePicture ? (
                   <img
-                    src={`${URL}/uploads/${user?.profilePicture}`}
+                    src={user.profilePicture}
                     alt={`${user.name}'s profile`}
                     className="w-full h-full object-cover"
                   />

@@ -5,8 +5,6 @@ import { Search, Bell, ChevronDown } from "lucide-react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
-const URL = import.meta.env.VITE_API_URL
-
 export default function Navbar() {
   const user = useSelector((state: RootState)=> state.auth.user)
   return (
@@ -60,7 +58,7 @@ export default function Navbar() {
             <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 overflow-hidden">
                 {user?.profilePicture ? (
                   <img
-                    src={`${URL}/uploads/${user?.profilePicture}`}
+                    src={user?.profilePicture}
                     alt={`${user.name}'s profile`}
                     className="w-full h-full object-cover"
                   />

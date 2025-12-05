@@ -34,6 +34,8 @@ export const usePlaylistEditForm = ({ playlistId, initialData, onClose }: UsePla
         }
     });
 
+    const {isPending} = mutation
+
     // Handle File Input Change
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -65,5 +67,6 @@ export const usePlaylistEditForm = ({ playlistId, initialData, onClose }: UsePla
         preview: previewUrl,
         handleImageChange,
         handleEdit, 
+        loading: isPending
     };
 };

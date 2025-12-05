@@ -15,8 +15,6 @@ export function FollowingSection() {
     return <div className="min-h-screen bg-black text-red-600 p-8">{error?.message}</div>;
   }
 
-  const URL = import.meta.env.VITE_API_URL;
-
   return (
     <div className="px-8 py-8 border-t border-[#2a2a2a]">
       <div className="flex items-center justify-between mb-6">
@@ -47,7 +45,7 @@ export function FollowingSection() {
                 {/* Profile Picture */}
                 {follow?.profilePicture && (
                   <img
-                    src={`${URL}/uploads/${follow.profilePicture}`}
+                    src={follow.profilePicture}
                     alt={follow.name}
                     className="absolute inset-0 w-full h-full object-cover rounded-full"
                   />
