@@ -25,7 +25,6 @@ export const PlaylistSearchSection = ({
 }: PlaylistSearchSectionProps) => {
   const searchQueryRef = useRef<HTMLInputElement>(null);
   const [localQuery, setLocalQuery] = useState("");
-  const URL = import.meta.env.VITE_API_URL;
 
   if (!isOpen) return null;
 
@@ -56,18 +55,18 @@ export const PlaylistSearchSection = ({
           onClick={onClose}
           className="w-10 h-10 rounded-full hover:bg-[#282828] flex items-center justify-center transition-colors"
         >
-          <X className="h-6 w-6 text-[#b3b3b3]" />
+          <X className="h-6 w-6 text-spotify-secondary" />
         </button>
       </div>
 
       {/* Search input */}
       <div className="relative mb-6">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#b3b3b3]" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-spotify-secondary" />
         <Input
           ref={searchQueryRef}
           type="text"
           placeholder="Search for songs or artists..."
-          className="pl-12 h-12 bg-[#242424] border-none text-white placeholder:text-[#b3b3b3]"
+          className="pl-12 h-12 bg-[#242424] border-none text-white placeholder:text-spotify-secondary"
           value={localQuery}
           onChange={(e) => setLocalQuery(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -77,7 +76,7 @@ export const PlaylistSearchSection = ({
             onClick={handleClear}
             className="absolute right-4 top-1/2 -translate-y-1/2"
           >
-            <X className="h-5 w-5 text-[#b3b3b3] hover:text-white" />
+            <X className="h-5 w-5 text-spotify-secondary hover:text-white" />
           </button>
         )}
       </div>
@@ -102,23 +101,23 @@ export const PlaylistSearchSection = ({
                 className="flex items-center gap-4 p-2 rounded hover:bg-[#282828] transition-colors group"
               >
                 <img
-                  src={`${URL}/songs/${song.coverImageUrl}`}
+                  src={song.coverImageUrl}
                   alt={song.title}
                   className="w-12 h-12 rounded object-cover"
                 />
 
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-normal truncate">{song.title}</p>
-                  <p className="text-[#b3b3b3] text-sm truncate">
+                  <p className="text-spotify-secondary text-sm truncate">
                     {"song?.artistName ?? song.artistId"}
                   </p>
                 </div>
 
                 <div className="flex-1 min-w-0 hidden md:block">
-                  <p className="text-[#b3b3b3] text-sm truncate">{song.album}</p>
+                  <p className="text-spotify-secondary text-sm truncate">{song.album}</p>
                 </div>
 
-                <span className="text-[#b3b3b3] text-sm mr-4">{song.duration}</span>
+                <span className="text-spotify-secondary text-sm mr-4">{song.duration}</span>
 
                 <button
                   onClick={() => addSong(song._id)}
@@ -131,7 +130,7 @@ export const PlaylistSearchSection = ({
             ))}
 
             {songs.length === 0 && localQuery && (
-              <p className="text-[#b3b3b3] text-sm">No songs found.</p>
+              <p className="text-spotify-secondary text-sm">No songs found.</p>
             )}
           </>
         )}

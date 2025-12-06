@@ -15,15 +15,12 @@ export const SongHeader = ({
   onPlayPause
 }: SongHeaderProps) => {
 
-  const URL = import.meta.env.VITE_API_URL
-  const baseURL = `${URL}/songs/${coverImageUrl}`
-
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
       {/* Song Cover */}
       <div className="shrink-0">
         <img
-          src={baseURL}
+          src={coverImageUrl}
           alt={title}
           className="w-64 h-64 rounded-lg shadow-2xl object-cover"
         />

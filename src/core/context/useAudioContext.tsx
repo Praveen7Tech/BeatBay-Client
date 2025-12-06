@@ -1,6 +1,7 @@
-import { SongResponse } from "@/features/user/services/userApi";
-import React, { createContext, useCallback, useContext, useState } from "react";
+import { SongResponse, userApi } from "@/features/user/services/userApi";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useAudioPlayer } from "../hooks/song/useAudioPlayer";
+import { clearPlayBackState, getPlaybackState } from "../service/playerStorageService";
 
 interface AudioContextType{
     currentSong: SongResponse | null
@@ -24,11 +25,11 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
     const [currentIndex, setCurrentIndex] = useState<number>(-1)
     const [volume, setVolumeState] = useState(50) // default volume 50%
     const [playList, setPlayList] = useState<SongResponse[] | []>([])
+    const [initialTime, setInitialTime] = useState<number>(0)
 
-     const currentSong = playList[currentIndex]
-
-    const URL = import.meta.env.VITE_API_URL
-    const audioUrl = `${URL}/songs/${currentSong?.audioUrl}`
+    const currentSong = playList[currentIndex]
+    const audioUrl = currentSong?.audioUrl
+    const currentSongId = currentSong?._id
 
     // Skip forwad song
      const skipForward = useCallback(()=>{
@@ -38,12 +39,38 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
         setCurrentIndex(nextIndex)
     },[currentIndex, playList.length])
 
-    const {isPlaying, currentTime, playPause, seekTime, setVolume} = useAudioPlayer(audioUrl, skipForward)
+    // initiate the audio player hook
+    const {isPlaying, currentTime, playPause, seekTime, setVolume} = 
+    useAudioPlayer({currentSongId, initialTime, audioUrl, onEnded: skipForward})
+
+    //hydration for fetch last played song if exists
+    useEffect(()=>{
+        const storedState = getPlaybackState()
+        const RestoreLastPlayedSong = async()=>{
+            if(storedState?.songId){
+                try {
+                    const data = await userApi.SongDetail(storedState.songId)
+
+                    setPlayList([data.songs])
+                    setCurrentIndex(0)
+                    setInitialTime(storedState.currentTime)
+                } catch (error) {
+                    console.error("error in fetching last played song", error)
+                    clearPlayBackState()
+                }
+            }
+           
+        }
+
+        RestoreLastPlayedSong()
+    },[])
 
     // seting playlist and play first song
     const setPlaylistAndPlay = useCallback((songs: SongResponse[], index = 0)=>{
         setPlayList(songs)
         setCurrentIndex(index)
+        setInitialTime(0)
+        clearPlayBackState()
     },[])
 
     // voolume adjustment

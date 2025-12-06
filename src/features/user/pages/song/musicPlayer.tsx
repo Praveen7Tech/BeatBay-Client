@@ -33,9 +33,6 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
     setVolume(value)
   }
 
-  const URL = import.meta.env.VITE_API_URL
-  const coverImage = `${URL}/songs/${currentSong?.coverImageUrl}`
-
   const currentDuration = Number(currentSong?.duration) || 0
   const progressPercentage = (currentTime / currentDuration) * 100 || 0
 
@@ -51,7 +48,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
          <div className="w-14 h-14 rounded overflow-hidden bg-[#222] flex items-center justify-center">
             {currentSong?.coverImageUrl ? (
               <img
-                src={coverImage}
+                src={currentSong.coverImageUrl}
                 alt="cover"
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -66,7 +63,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
             <span className="text-sm text-white font-medium truncate">
               {currentSong?.title }
             </span>
-            <span className="text-xs text-[#b3b3b3] truncate">
+            <span className="text-xs text-spotify-secondary truncate">
               {currentSong?.artistId.name}
             </span>
           </div>
@@ -76,12 +73,12 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
         <div className="flex flex-col items-center gap-2 flex-1 max-w-[722px]">
 
           <div className="flex items-center gap-4">
-            <button className="text-[#b3b3b3] hover:text-white transition-colors"
+            <button className="text-spotify-secondary hover:text-white transition-colors"
             onClick={skipBackward}>
               <SkipBack size={20} />
             </button>
 
-            <button className="w-12 h-12 rounded-full bg-[#1DB954] hover:bg-[#1ed760] hover:scale-105 transition-all flex items-center justify-center shadow-lg" 
+            <button className="w-12 h-12 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg" 
             onClick={playPause}>
               {isPlaying ? 
               <Pause className="h-5 w-5 fill-black text-black"/> :
@@ -89,7 +86,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
               }
             </button>
 
-            <button className="text-[#b3b3b3] hover:text-white transition-colors"
+            <button className="text-spotify-secondary hover:text-white transition-colors"
             onClick={skipForward}>
               <SkipForward size={20} />
             </button>
@@ -117,7 +114,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
 
         {/* Right: Volume Control */}
         <div className="flex items-center gap-2 justify-end min-w-[180px] w-[30%]">
-          <Volume2 size={20} className="text-[#b3b3b3] hover:text-white transition-colors" />
+          <Volume2 size={20} className="text-spotify-secondary hover:text-white transition-colors" />
            <Slider
             value={[volume]}
             onValueChange={handleVolumeChange}

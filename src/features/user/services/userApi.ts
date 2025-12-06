@@ -150,6 +150,7 @@ export const userApi ={
 
     SongDetail: async(songId:string): Promise<SongPageResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
+      console.log("juii", response.data)
       return response.data
     },
 

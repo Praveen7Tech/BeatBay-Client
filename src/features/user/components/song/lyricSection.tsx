@@ -13,12 +13,11 @@ export interface LyricLine {
 export const LyricsSection = ({ lyricsUrl, currentTime }: LyricsSectionProps) => {
  const [lyrics, setLyrics] = useState<LyricLine[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState(-1);
-  const URL = import.meta.env.VITE_API_URL;
   
   // Fetch the lyrics file content
   useEffect(() => {
     if (lyricsUrl) {
-      fetch(`${URL}/songs/${lyricsUrl}`) 
+      fetch(lyricsUrl) 
         .then(res => res.text())
         .then(text => setLyrics(parseLrc(text)))
         .catch(err => console.error("Failed to load lyrics", err));
@@ -49,7 +48,7 @@ export const LyricsSection = ({ lyricsUrl, currentTime }: LyricsSectionProps) =>
   <div className="rounded-lg">
     <h2 className="text-2xl font-bold mb-6 text-white">Lyrics</h2>
 
-    {/* We only show 5 lines at a time */}
+    {/*only show 5 lines at a time */}
     {(() => {
       const VISIBLE_LINES = 5;
       const half = Math.floor(VISIBLE_LINES / 2);

@@ -26,9 +26,6 @@ export const SongCard = ({
   duration 
 }: SongCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  const URL = import.meta.env.VITE_API_URL
-  const CoverImageURL = `${URL}/songs/${coverImageUrl}`
   function formatDuration(seconds:number) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -43,7 +40,7 @@ export const SongCard = ({
     >
       <div className="relative shrink-0">
         <img
-          src={CoverImageURL}
+          src={coverImageUrl}
           alt={album}
           className="w-20 h-20 rounded object-cover"
         />

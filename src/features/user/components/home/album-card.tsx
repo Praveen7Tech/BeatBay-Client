@@ -10,17 +10,13 @@ interface SongCardProps {
 }
 
 
-export default function AlbumCard({title, album, coverImageUrl, type }: SongCardProps) {
-
-  const URL = import.meta.env.VITE_API_URL
-  const baseURL = type === 'song' ? `${URL}/songs` : `${URL}/albums`;
-  const finalImageUrl = `${baseURL}/${coverImageUrl}`
+export default function AlbumCard({title, album, coverImageUrl }: SongCardProps) {
   
   return (
     <div className="shrink-0 w-40 group cursor-pointer">
       <div className={`bg-linear-to-br rounded-lg overflow-hidden mb-3 aspect-square relative`}>
         <img
-          src={finalImageUrl}
+          src={coverImageUrl}
           
           alt={"image"}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

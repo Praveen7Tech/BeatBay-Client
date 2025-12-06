@@ -7,13 +7,13 @@ import { Link } from "react-router-dom"
 export default function NowPlayingCard() {
 
   const { currentSong } = useAudioContext()
-  const URL = import.meta.env.VITE_API_URL
-  const coverImage = `${URL}/songs/${currentSong?.coverImageUrl}`
+  const coverImage = currentSong?.coverImageUrl
 
   const hasImage = !!currentSong?.coverImageUrl
 
   return (
     <div className="bg-linear-to-br from-[#2a2a2a] to-[#1a1a1a] rounded-lg overflow-hidden border border-[#3a3a3a]">
+      {currentSong?._id && (
     <Link to={`/song/${currentSong?._id}`}>
       {/* Image with fallback */}
       <div className="aspect-square bg-linear-to-br from-green-400 to-emerald-600 relative overflow-hidden flex items-center justify-center">
@@ -53,6 +53,7 @@ export default function NowPlayingCard() {
         </div> */}
       </div>
       </Link>
+      )}
     </div>
   )
 }

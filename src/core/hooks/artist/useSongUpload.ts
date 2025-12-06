@@ -149,6 +149,6 @@ export const useSongUpload = (isEdit: boolean) => {
     setInitialFormData,
     isLoading: SongMutation.isPending,
     CoverImageURL,
-    dataLoading
+    dataLoading,
   };
 };

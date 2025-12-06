@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 
 export const useSongDetails = () => {
     const { songId } = useParams<{ songId: string }>();
-    const URL_BASE = import.meta.env.VITE_API_URL;
 
     // Use query hook to fetch the data
     const { data: song, isLoading, isError, error } = useQuery({
@@ -13,7 +12,7 @@ export const useSongDetails = () => {
         enabled: !!songId, 
     });
 
-    const CoverImageURL = song?.coverImageUrl ? `${URL_BASE}/songs/${song.coverImageUrl}` : undefined;
+    const CoverImageURL = song?.coverImageUrl 
 
     return {
         song,
