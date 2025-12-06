@@ -43,3 +43,11 @@ export const useUserFollowing = () =>{
         queryFn: () => userApi.following()
     })
 }
+
+export const useFetchsongById =(songId: string) =>{
+    return useQuery({
+        queryKey: ["songDetails", songId],
+        queryFn: () => userApi.SongDetail(songId!),
+        enabled: !!songId,
+    })
+}    

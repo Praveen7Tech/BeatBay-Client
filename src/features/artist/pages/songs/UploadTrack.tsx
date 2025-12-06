@@ -12,7 +12,7 @@ export default function UploadTrack() {
 
   // Custom Hook to upload and Edit song
   const { register,handleSubmit,errors, fileInputRef,trackInputRef, lrcInputRef, coverPreview,trackFileName,
-    lrcFileName, handleFileChange, Onsubmit,CoverImageURL
+    lrcFileName, handleFileChange, Onsubmit,CoverImageURL, isLoading
   } = useSongUpload( isEdit);
 
   return (
@@ -206,7 +206,7 @@ export default function UploadTrack() {
                 CANCEL
               </Button>
 
-              <Button theme="artist" type="submit" >
+              <Button theme="artist" type="submit" loading={isLoading}>
                 {isEdit ? "UPDATE" : "UPLOAD"}
               </Button>
             </div>

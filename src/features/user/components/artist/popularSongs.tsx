@@ -32,8 +32,6 @@ export const PopularSongs = ({ _id, title, duration, coverImageUrl }: SongCardPr
   const handleRowClick = (songId: string) => {
     navigate(`/song/${songId}`);
   };
-  const URL = import.meta.env.VITE_API_URL
-  const baseURL = `${URL}/songs/${coverImageUrl}`
 
   return (
    <div className="space-y-2">
@@ -55,7 +53,7 @@ export const PopularSongs = ({ _id, title, duration, coverImageUrl }: SongCardPr
           {/* Song Info */}
           <div className="flex items-center gap-3 min-w-0">
             <img
-              src={baseURL}
+              src={coverImageUrl}
               alt={title}
               className="w-10 h-10 rounded object-cover"
             />

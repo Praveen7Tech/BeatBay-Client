@@ -27,7 +27,7 @@ const SongList = () => {
         </div>
 
         <div className="space-y-1">
-          <div className="flex items-center gap-4 px-3 py-2 text-sm font-medium text-[#b3b3b3] border-b border-[#282828]">
+          <div className="flex items-center gap-4 px-3 py-2 text-sm font-medium text-spotify-secondary border-b border-[#282828]">
             <div className="w-14">#</div>
             <div className="flex-1">Title</div>
             <div className="hidden lg:block w-24 text-right">Streams</div>

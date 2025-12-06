@@ -7,6 +7,7 @@ import { useApi } from "@/core/hooks/api/useApi"
 import { authApi } from "@/features/auth/services/authApi"
 import type { RootState } from "@/core/store/store"
 import { Button } from "@/core/components/button/Button"
+import { clearPlayBackState } from "@/core/service/playerStorageService"
 interface profileHeaderProps {
   onEditClick: () => void
   onEditPasswordClick?: () => void
@@ -21,6 +22,7 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
     try {
       await Logout(null)
       dispatch(logout())
+      clearPlayBackState()
       window.location.href = "/login"
     } catch (error) {
       console.error("Error during logout:", error)
