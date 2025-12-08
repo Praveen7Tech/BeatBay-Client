@@ -179,22 +179,7 @@ export default function UploadTrack() {
                 )}
               </div>
             </div>
-
-            {/* Release Date */}
-            {/* {isEdit && 
-            <div className="grid grid-cols-2 gap-6 mb-8">
-              <div>
-                <label className="text-gray-400 text-sm mb-2 block">Release Date</label>
-                <Input
-                  theme="artist"
-                
-                  type="text"
-                  placeholder=""
-                />
-              </div>
-            </div>} */}
             
-
             {/* Buttons */}
             <div className="flex justify-center gap-6 mt-10">
               <Button

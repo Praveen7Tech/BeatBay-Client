@@ -35,7 +35,7 @@ export const useCreateAlbum = (isEdit: boolean) => {
   const setInitialFormData = (album: EditAlbumDetailsResponse) =>{
     setValue("title", album.title)
     setValue("description", album.description)
-    setPreviewUrl(`${import.meta.env.VITE_API_URL}/albums/${album.coverImageUrl}`)
+    setPreviewUrl(album.coverImageUrl)
 
     // select songs id already in the album
     const ids = album.songs.map((al:InitialAlbumSongs)=> al.id)
@@ -142,5 +142,6 @@ export const useCreateAlbum = (isEdit: boolean) => {
     HandleUpload,
     selectedSongs,
     songs,
+    isLoading: CreateMutation.isPending
   };
 };

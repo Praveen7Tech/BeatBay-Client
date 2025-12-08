@@ -22,10 +22,9 @@ export default function CreateAlbumRaw() {
     handleImageUpload,
     HandleUpload,
     selectedSongs,
-    songs,
+    songs, isLoading
   } = useCreateAlbum(isEdit);
 
-  const URL = import.meta.env.VITE_API_URL;
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
@@ -137,7 +136,7 @@ export default function CreateAlbumRaw() {
                     className="relative bg-zinc-900 border border-zinc-700 rounded-lg"
                   >
                     <img
-                      src={`${URL}/songs/${song.coverImageUrl}`}
+                      src={song.coverImageUrl}
                       className="aspect-square object-cover w-full"
                     />
                     <div className="p-3">
@@ -161,7 +160,7 @@ export default function CreateAlbumRaw() {
           <Button theme="artist" type="button" onClick={() => window.history.back()}>
             CANCEL
           </Button>
-          <Button theme="artist" type="submit">
+          <Button theme="artist" type="submit" loading={isLoading}>
             {isEdit ? "EDIT" : "CREATE"}
           </Button>
         </div>
