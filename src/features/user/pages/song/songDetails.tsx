@@ -1,21 +1,16 @@
 import { SongHeader } from "../../components/song/songHeader"; 
 import { LyricsSection } from "../../components/song/lyricSection"; 
-import { RecommendedSongs } from "../../components/song/recomentedSongs"; 
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { userApi } from "../../services/userApi";
 import { useAudioContext } from "@/core/context/useAudioContext"; 
 import { ArtistSection } from "../../components/song/artistSection";
 import { MusicLoader } from "@/core/components/loading/LoadingScreen";
+import { SongTable } from "@/core/components/song/SongTable";
+import { useFetchsongById } from "@/core/hooks/api/useFetchHooks";
   
 export default function SongDetail() {
 
- const { songId } = useParams();
-    const { data: pageData, isLoading, isError, error } = useQuery({
-    queryKey: ["songDetails", songId],
-    queryFn: () => userApi.SongDetail(songId!),
-    enabled: !!songId,
-  });
+  const { songId } = useParams();
+  const {data: pageData, isLoading, isError, error} = useFetchsongById(songId!)
 
   const song = pageData?.songs
   const recomentedSongs = pageData?.recomentations
@@ -68,7 +63,13 @@ export default function SongDetail() {
           />
           </div>
         </div>       
-        <RecommendedSongs songs={recomentedSongs} />
+        <SongTable 
+        songs={recomentedSongs}
+        config={{
+          title: "Recommented Songs",
+          showDuration: true,
+          showHeart: true,
+        }}/>
       </div>
     </div>
   );

@@ -8,6 +8,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "./queryClientSetup";
 import { artistApi } from "@/features/artist/services/artist.api";
 
+const extractFilenameFromUrl = (url: string | undefined | null): string | null => {
+  if (!url) return null;
+  // This extracts the path segment after the last slash
+  const parts = url.split('/');
+  return parts[parts.length - 1];
+};
+
 export const useSongUpload = (isEdit: boolean) => {
   const navigate = useNavigate();
   const { songId } = useParams();
@@ -25,11 +32,10 @@ export const useSongUpload = (isEdit: boolean) => {
 
 
   // setup the dynamic image selection based on edit and upload
-  const BASEURL = import.meta.env.VITE_API_URL;
   const CoverImageURL = coverPreview
   ? coverPreview.startsWith("blob:")
     ? coverPreview                          
-    : `${BASEURL}/songs/${coverPreview}`    
+    : coverPreview  
   : null;
   const schema = UploadSongSchema(isEdit);
 
@@ -77,8 +83,8 @@ export const useSongUpload = (isEdit: boolean) => {
     setValue("lrcFile", song.lyricsUrl ?? "existing");
 
     setCoverPreview(song.coverImageUrl);
-    setTrackFileName(song.audioUrl);
-    setLrcFileName(song.lyricsUrl);
+    setTrackFileName(extractFilenameFromUrl(song.audioUrl));
+    setLrcFileName(extractFilenameFromUrl(song.lyricsUrl));
   };
 
  // update the initial song details when edit song

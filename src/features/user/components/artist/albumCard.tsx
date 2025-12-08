@@ -9,8 +9,6 @@ interface AlbumCardProps {
 
 export const AlbumCard = ({ title, coverImageUrl }: AlbumCardProps) => {
   const [hovered, setHovered] = useState(false);
-  const URL = import.meta.env.VITE_API_URL
-  const baseURL = `${URL}/albums/${coverImageUrl}`
   return (
     <div
       className="bg-surface p-4 rounded-lg transition hover:bg-surface-hover cursor-pointer relative"
@@ -20,7 +18,7 @@ export const AlbumCard = ({ title, coverImageUrl }: AlbumCardProps) => {
       {/* Cover Image */}
       <div className="relative mb-3">
         <img
-          src={baseURL}
+          src={coverImageUrl}
           alt={title}
           className="w-full aspect-square rounded object-cover"
         />

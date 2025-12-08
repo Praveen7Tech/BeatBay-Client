@@ -1,9 +1,9 @@
 import { ArtistProfileHeader } from "../../components/artist/artistProfile.header"; 
-import { PopularSongs } from "../../components/artist/popularSongs"; 
 import { Link, useParams } from "react-router-dom";
 import { AlbumCard } from "../../components/artist/albumCard";
 import { userApi } from "../../services/userApi";
 import { useQuery } from "@tanstack/react-query";
+import { SongTable } from "@/core/components/song/SongTable";
 
 export default function ArtistDetail() {
   const { artistId } = useParams();
@@ -34,14 +34,12 @@ export default function ArtistDetail() {
 
         {/* Popular Songs Section */}
         <div className="px-8 py-8">
-          <h2 className="text-2xl font-bold mb-6 text-foreground">Popular</h2>
-           {songs && songs.length > 0 ? (
-              songs.map((song) => (
-                <PopularSongs key={song._id} {...song}/>
-            ))
-            ):(
-              <p className="p-4 text-gray-500">Oops no songs found.</p>
-            )  }
+            <SongTable
+            songs={songs}
+            config={{
+              title: "Popular Songs"
+            }}
+            />
         </div>
 
         {/* Albums Section */}

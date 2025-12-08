@@ -36,28 +36,27 @@ export interface SongData {
 }
 
 export interface ArtistInfo {
-  _id: string;
-  name: string;
-  profilePicture: string;
+    _id: string;
+    name: string;
+    profilePicture: string;
 }
 
 export interface SongResponse {
-  _id: string;
-  artistId:any
-  title: string;
-  genre: string;
-  audioUrl: string;
-  lyricsUrl: string
-  coverImageUrl: string;
-  description: string;
-  album: string;
-  releaseDate: string;    
-  duration:string 
-  tags: [string];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+    _id: string;
+    title: string;
+    coverImageUrl: string;
+    audioUrl: string;
+    lyricsUrl: string;
+    artistId: ArtistInfo; 
+    duration: number; 
+    likesCount: number;
 }
+// export interface RecommendedSong {
+//     _id: string;
+//     title: string;
+//     coverImageUrl: string;
+//     duration: number; // Duration in seconds
+// }
 
 interface SongPageResponse{
   songs: SongResponse
@@ -150,7 +149,7 @@ export const userApi ={
 
     SongDetail: async(songId:string): Promise<SongPageResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
-      console.log("juii", response.data)
+      console.log("da", response.data)
       return response.data
     },
 

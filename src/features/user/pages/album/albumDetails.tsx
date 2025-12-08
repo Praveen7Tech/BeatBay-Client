@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { AlbumDetailHeader } from "../../components/albums/albumDetailsHeader"; 
-import { AlbumSongList } from "../../components/albums/albumSongList"; 
 import { useQuery } from "@tanstack/react-query";
 import { userApi } from "../../services/userApi";
+import { SongTable } from "@/core/components/song/SongTable";
 
 
 export default function AlbumDetail() {
@@ -36,7 +36,12 @@ export default function AlbumDetail() {
           totalTracks={albums.songs.length}
         />
 
-        <AlbumSongList songs={albums.songs} />
+        <SongTable 
+        songs={albums.songs}
+        config={{
+          title: "Featured Songs"
+        }}
+        />
       </div>
     </div>
   );

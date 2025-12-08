@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { PlaylistHeader } from "../../components/playlist/playList.header";
 import { PlaylistSearchSection } from "../../components/playlist/searchSection";
-import { PlaylistSongTable } from "../../components/playlist/songList";
 import { usePlaylistDetails,useSearchSongs, useAddSongToPlaylist} from "@/core/hooks/playList/usePlayList";
+import { SongTable } from "@/core/components/song/SongTable";
 
 export default function PlaylistDetail() {
   const { playlistId } = useParams<{ playlistId: string }>();
@@ -58,8 +58,12 @@ export default function PlaylistDetail() {
           playListData={playlist}
           onAddSongClick={() => setIsSearchOpen(true)}
         />
-
-        <PlaylistSongTable songs={playlist.songs} />
+        <SongTable 
+          songs={playlist.songs}
+          config={{
+            title: "Featured Songs"
+          }}
+        />
 
         <PlaylistSearchSection
           songs={searchSongs || []}

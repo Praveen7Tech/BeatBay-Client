@@ -15,13 +15,11 @@ export const AlbumDetailHeader = ({
   totalTracks=100,
 }: AlbumDetailHeaderProps) => {
 
-  const URL = import.meta.env.VITE_API_URL
-  const baseURL = `${URL}/albums/${coverImageUrl}`
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-8 items-end">
         <img
-          src={baseURL}
+          src={coverImageUrl}
           alt={title}
           className="w-48 h-48 rounded-lg shadow-2xl object-cover"
         />

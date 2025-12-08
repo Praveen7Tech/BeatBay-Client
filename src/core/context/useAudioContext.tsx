@@ -67,6 +67,7 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
 
     // seting playlist and play first song
     const setPlaylistAndPlay = useCallback((songs: SongResponse[], index = 0)=>{
+        console.log("list", songs)
         setPlayList(songs)
         setCurrentIndex(index)
         setInitialTime(0)
