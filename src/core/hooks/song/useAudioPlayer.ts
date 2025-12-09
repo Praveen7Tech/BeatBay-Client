@@ -1,4 +1,3 @@
-
 import { savePlayBackState } from "@/core/service/playerStorageService"
 import { useCallback, useEffect, useRef, useState } from "react"
 
@@ -7,12 +6,19 @@ interface AudioPlayerProps {
     audioUrl: string | undefined,
     onEnded?: () => void,
     initialTime?: number 
+    isRepeating: boolean
 }
 
-export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnded }: AudioPlayerProps) =>{
+export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnded, isRepeating }: AudioPlayerProps) =>{
     const audioRef = useRef<HTMLAudioElement | null>(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
+    
+    // Store isRepeating in a ref to avoid re-triggering the effect when it changes
+    const isRepeatingRef = useRef(isRepeating)
+    useEffect(() => {
+        isRepeatingRef.current = isRepeating
+    }, [isRepeating])
 
     // initial audio element creation when component mount
     useEffect(()=>{
@@ -31,11 +37,18 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
             }
         }
         const handleEnded = ()=> {
-            setIsPlaying(false)
-            // use the skipForwad callback fn to automatically play next song if ended
-            if(onEnded){
-                onEnded()
+
+            if(isRepeatingRef.current && audioRef.current){
+                audioRef.current.currentTime = 0
+                audioRef.current.play()
+            }else{
+                setIsPlaying(false)
+                // use the skipForwad callback fn to automatically play next song if ended
+                if(onEnded){
+                    onEnded()
+                }
             }
+            
         }
         audio.addEventListener("timeupdate", handleTimeUpdate)
         audio.addEventListener("ended", handleEnded)      
@@ -64,17 +77,17 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
                     }
 
                     // play song after add the current time after initial hydration
-                    audio.play()                // play the music after the new url set
+                    audio.play()
                         .then(()=> setIsPlaying(true))
                         .catch(err => console.error("Auto play failed", err))
 
                     audio.removeEventListener("loadedmetadata", handleMetaDataLoad)        
                 }
-                // adding the event listener whe the browser loads the song data
+                // adding the event listener when the browser loads the song data
                 audio.addEventListener("loadedmetadata", handleMetaDataLoad)
                 
             }else if(isPlaying){
-                // song url not changed but play again (chnage from pause action)
+                // song url not changed but play again (change from pause action)
                 audio.play()
             }
         }
@@ -87,7 +100,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
             if(isPlaying){
                 audioRef.current.pause()
             }else{
-                // check the sorce file exist before playing
+                // check the source file exist before playing
                 if(audioRef.current.src && !audioRef.current.src.includes("undefined")){
                     audioRef.current.play()
                 }
@@ -105,7 +118,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
     },[])
 
 
-    // RealTime volume  level
+    // RealTime volume level
     const setVolume = useCallback((volumePercentage: number)=>{
         if(audioRef.current){
             audioRef.current.volume = volumePercentage / 100

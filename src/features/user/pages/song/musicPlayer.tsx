@@ -1,22 +1,16 @@
-import { Music, Pause, Play, SkipBack, SkipForward, Volume2 } from "lucide-react";
+import { Music, Pause, Play, Repeat1, SkipBack, SkipForward, Volume2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { useAudioContext } from "@/core/context/useAudioContext"; 
-
-const formatTime = (seconds: number): string => {
-    if (isNaN(seconds) || seconds === 0) return "0:00";
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-};
+import { formatTime } from "@/core/utils/formatTime";
 
 type SliderProps = React.ComponentProps<typeof Slider>
 
 export const MusicPlayer = ({ className, ...props }: SliderProps) => {
 
   const {currentSong, currentTime, isPlaying, playPause, volume, setVolume, seekTime,
-    skipForward, skipBackward
+    skipForward, skipBackward, isRepeating, RepeatSong
   } = useAudioContext()
 
   // music progress bar changing
@@ -39,7 +33,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 bg-[#181818] border-t border-[#282828] px-4 py-3 z-50"
+      className="fixed bottom-0 left-0 right-0 bg-background border-t border-[#282828] shadow-lg m-2 px-4 py-3 z-50"
       style={{ height: "90px" }}
     >
       <div className="max-w-screen-2xl mx-auto flex items-center justify-between gap-4">
@@ -72,10 +66,10 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
         {/* Center: Player Controls */}
         <div className="flex flex-col items-center gap-2 flex-1 max-w-[722px]">
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-8">
             <button className="text-spotify-secondary hover:text-white transition-colors"
             onClick={skipBackward}>
-              <SkipBack size={20} />
+              <SkipBack  />
             </button>
 
             <button className="w-12 h-12 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg" 
@@ -88,8 +82,16 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
 
             <button className="text-spotify-secondary hover:text-white transition-colors"
             onClick={skipForward}>
-              <SkipForward size={20} />
+              <SkipForward />
             </button>
+
+            <div className="flex items-center">
+              <button className={isRepeating ? "text-[#1DB954] hover:text-[#1DB954]" : "text-spotify-secondary hover:text-white transition-colors"}
+             onClick={RepeatSong}>
+              <Repeat1 />
+            </button>
+            </div>
+            
           </div>
 
           {/* Progress Bar */}

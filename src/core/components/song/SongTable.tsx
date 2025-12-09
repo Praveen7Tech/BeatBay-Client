@@ -1,3 +1,5 @@
+import { formatTime } from "@/core/utils/formatTime";
+import { SongResponse } from "@/features/user/services/userApi";
 import { Play, Heart, Clock, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -10,7 +12,7 @@ export interface SongTableConfig {
 }
 
 export interface SongTableProps {
-  songs: any[]; 
+  songs: SongResponse[]; 
   config?: SongTableConfig;
 }
 
@@ -28,22 +30,24 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
   };
 
   return (
-    <div >
+    <div>
       <h2 className="text-2xl font-bold my-8 text-white">{config?.title}</h2>
-      
       <div className="bg-spotify-dark rounded-lg overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="border-b border-[#282828]">
               <th className="text-left px-4 py-3 text-spotify-secondary text-sm font-medium w-12">#</th>
-              <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">Title</th>
+              <th className="px-4 py-3 text-left text-spotify-secondary text-sm">Title</th>
               <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">Album</th>
                <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">
                 Date Added
               </th>
-               <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">
+              <th className="px-4 py-3 w-8"></th>
+               <th className="px-4 py-3 text-right text-spotify-secondary text-sm">
                 <Clock className="h-4 w-4 inline" />
               </th>
+              
+              <th className="px-4 py-3 w-8"></th>
             </tr>
           </thead>
           <tbody>
@@ -73,18 +77,22 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
                     />
                      <div>
                     <p className="text-white font-medium hover:text-green-500">{song.title}</p>
-                    <p className="text-spotify-secondary text-sm">{"song.artist"}</p>
+                    <p className="text-spotify-secondary text-sm">{song.artistId.name}</p>
                   </div>
                   </div>
                   </Link>
                 </td>
-                <td className="px-4 py-3">
-                  <span className="text-spotify-secondary text-sm">{song.album}</span>
+                <td className="px-4 py-3 hidden lg:table-cell">
+                  <span className="text-spotify-secondary text-sm">Dummy Album</span>
                 </td>
-                 <td className="px-6 py-4 text-right">
+                 <td className="px-4 py-3 text-left hidden lg:table-cell">
+                   <span className="text-spotify-secondary text-sm">Yesterday</span>
+                </td>
+                 
+                <td className="px-4 py-3">
                   <button
                     onClick={(e) => toggleLike(song._id, e)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end"
                   >
                     <Heart
                       className={`h-5 w-5 ${
@@ -96,12 +104,12 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
                   </button>
                 </td>
                 <td className="px-4 py-3 text-right">
-                  <div className="flex items-center justify-end gap-4">
-                    <span className="text-spotify-secondary text-sm">{song.duration}</span>
+                  <span className="text-spotify-secondary text-sm">{formatTime(song.duration)}</span>
+                </td>
+                <td className="px-4 py-3">
                     <button className="w-8 h-8 rounded-full bg-transparent hover:bg-[#3e3e3e] flex items-center justify-center transition-colors opacity-0 group-hover:opacity-100">
                       <Plus className="h-5 w-5 text-spotify-secondary hover:text-white" />
                     </button>
-                  </div>
                 </td>
               </tr>
             ))}
