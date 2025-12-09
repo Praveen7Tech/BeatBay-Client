@@ -1,8 +1,10 @@
+import { formatTime } from "@/core/utils/formatTime";
 import { Play, Heart, Plus, Pause } from "lucide-react";
 
 interface SongHeaderProps {
   title: string;
   coverImageUrl: string;
+  duration: number
 
   isPlaying: boolean;
   onPlayPause: () => void;
@@ -11,6 +13,7 @@ interface SongHeaderProps {
 export const SongHeader = ({
   title,
   coverImageUrl,
+  duration,
   isPlaying,
   onPlayPause
 }: SongHeaderProps) => {
@@ -70,7 +73,7 @@ export const SongHeader = ({
         <div className="flex items-center gap-2 text-sm mb-6">
           <span className="text-white">{ "100 strams"}</span>
           <span className="text-spotify-secondary">•</span>
-          <span className="text-spotify-secondary">{  "3.04"}</span>
+          <span className="text-spotify-secondary">{formatTime(duration)}</span>
         </div>
 
       </div>

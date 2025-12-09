@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 export default function Navbar() {
   const user = useSelector((state: RootState)=> state.auth.user)
   return (
-    <nav className="fixed top-0 left-0 right-0 h-24 bg-black shadow-lg m-2 border border-b border-gray-800 z-50">
+    <nav className="fixed top-0 left-0 right-0 h-24 bg-background shadow-lg m-2 border border-b border-gray-800 z-50">
       <div className="flex items-center justify-between h-full px-6 gap-4">
         {/* Left Section - Logo and Back Button */}
         <div className="flex items-center gap-4 min-w-fit">

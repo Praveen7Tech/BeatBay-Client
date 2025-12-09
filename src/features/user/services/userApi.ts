@@ -41,6 +41,11 @@ export interface ArtistInfo {
     profilePicture: string;
 }
 
+export interface AlbumInfo {
+  _id: string
+  name: string
+}
+
 export interface SongResponse {
     _id: string;
     title: string;
@@ -48,6 +53,7 @@ export interface SongResponse {
     audioUrl: string;
     lyricsUrl: string;
     artistId: ArtistInfo; 
+    albumId: AlbumInfo
     duration: number; 
     likesCount: number;
 }

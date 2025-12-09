@@ -40,12 +40,18 @@ export default function SongDetail() {
     }
   };
 
+  // active song and lyric management based on the song change
+  const activeSong = currentSong?._id === song?._id ? currentSong : song;
+  const activeLyricsUrl = activeSong?.lyricsUrl;
+  const activeCurrentTime = currentSong?._id === song?._id ? currentTime : 0;
+
   return (
     <div className="min-h-screen bg-linear-to-b from-spotify-dark to-[#000000] text-white">
       <div className="max-w-7xl mx-auto p-8">
         <SongHeader 
             title={song?.title} 
             coverImageUrl={song?.coverImageUrl}
+            duration={song?.duration}
 
             isPlaying={isCurrentSongPlaying} 
             onPlayPause={handlePlayPause}
@@ -58,8 +64,8 @@ export default function SongDetail() {
           </div> 
           <div>
             <LyricsSection 
-              lyricsUrl={song?.lyricsUrl} 
-              currentTime={currentTime} 
+              lyricsUrl={activeLyricsUrl} 
+              currentTime={activeCurrentTime} 
           />
           </div>
         </div>       
