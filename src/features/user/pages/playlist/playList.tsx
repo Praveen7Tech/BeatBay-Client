@@ -60,9 +60,7 @@ export default function PlaylistDetail() {
         />
         <SongTable 
           songs={playlist.songs}
-          config={{
-            title: "Featured Songs"
-          }}
+            title={ "Featured Songs"}
         />
 
         <PlaylistSearchSection

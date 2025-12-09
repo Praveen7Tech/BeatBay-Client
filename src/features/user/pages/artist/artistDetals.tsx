@@ -36,9 +36,7 @@ export default function ArtistDetail() {
         <div className="px-8 py-8">
             <SongTable
             songs={songs}
-            config={{
-              title: "Popular Songs"
-            }}
+              title={"Popular Songs"}
             />
         </div>
 
@@ -53,7 +51,7 @@ export default function ArtistDetail() {
                 </Link>
               ))
              ):(
-              <p className="p-4 text-gray-500">Oops no songs found.</p>
+              <p className="p-4 text-gray-500">Oops no Album found.</p>
             )  }
           </div>
         </div>

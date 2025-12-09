@@ -1,4 +1,4 @@
-import { Play, UserCheck, UserPlus, MoreHorizontal, User } from "lucide-react";
+import {  UserCheck, UserPlus, MoreHorizontal, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFollowStatus } from "@/core/hooks/follow/useFollowStatus";
 import { useState } from "react";
@@ -81,13 +81,13 @@ export const ArtistProfileHeader = ({
 
       {/* Buttons */}
       <div className="mt-6 px-8 flex items-center gap-4">
-        <Button
+        {/* <Button
           size="lg"
           className="rounded-full h-14 px-8 bg-primary hover:bg-primary/90 hover:scale-105 transition-all"
         >
           <Play className="h-5 w-5 mr-2 fill-current" />
           Play
-        </Button>
+        </Button> */}
 
         <Button
           variant={isFollowing ? "secondary" : "outline"}

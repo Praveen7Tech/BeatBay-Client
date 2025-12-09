@@ -1,22 +1,16 @@
 import { formatTime } from "@/core/utils/formatTime";
 import { SongResponse } from "@/features/user/services/userApi";
-import { Play, Heart, Clock, Plus } from "lucide-react";
+import { Play, Heart, Clock, Plus, AudioLines } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export interface SongTableConfig {
-  title: string;
-  showDateAdded?: boolean;
-  showDuration?: boolean;
-  showHeart?: boolean;
-}
-
 export interface SongTableProps {
   songs: SongResponse[]; 
-  config?: SongTableConfig;
+  title: string
+  activeSongId?: string | undefined
 }
 
-export const SongTable = ({ songs, config }: SongTableProps) => {
+export const SongTable = ({ songs, title, activeSongId, }: SongTableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
 
@@ -31,7 +25,8 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold my-8 text-white">{config?.title}</h2>
+      <h2 className="text-2xl font-bold my-8 text-white">{title}</h2>
+       {songs.length > 0 ? (
       <div className="bg-spotify-dark rounded-lg overflow-hidden">
         <table className="w-full">
           <thead>
@@ -40,7 +35,7 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
               <th className="px-4 py-3 text-left text-spotify-secondary text-sm">Title</th>
               <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">Album</th>
                <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">
-                Date Added
+                {/* Date Added */}
               </th>
               <th className="px-4 py-3 w-8"></th>
                <th className="px-4 py-3 text-right text-spotify-secondary text-sm">
@@ -54,12 +49,15 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
             {songs.map((song, index) => (
               <tr
                 key={song._id}
-                className="border-b border-[#282828] hover:bg-[#282828] transition-colors group"
+                className={`border-b border-[#282828] hover:bg-[#282828] transition-colors group
+                  ${activeSongId === song._id ? "text-green-500" : ""}`}
                 onMouseEnter={() => setHoveredRow(index)}
                 onMouseLeave={() => setHoveredRow(null)}
               >
                 <td className="px-4 py-3">
-                  {hoveredRow === index ? (
+                  {activeSongId === song._id ? (
+                    <AudioLines className="h-5 w-5 text-green-500 animate-pulse" />
+                  ) : hoveredRow === index ? (
                     <button className="text-white hover:scale-110 transition-transform">
                       <Play className="h-4 w-4 fill-current text-green-500" />
                     </button>
@@ -76,7 +74,13 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
                       className="w-10 h-10 rounded object-cover"
                     />
                      <div>
-                    <p className="text-white font-medium hover:text-green-500">{song.title}</p>
+                    <p
+                      className={`font-medium hover:text-green-500 ${
+                        activeSongId === song._id ? "text-green-500" : "text-white"
+                      }`}
+                    >
+                      {song.title}
+                    </p>
                     <p className="text-spotify-secondary text-sm">{song.artistId.name}</p>
                   </div>
                   </div>
@@ -86,7 +90,7 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
                   <span className="text-spotify-secondary text-sm">Dummy Album</span>
                 </td>
                  <td className="px-4 py-3 text-left hidden lg:table-cell">
-                   <span className="text-spotify-secondary text-sm">Yesterday</span>
+                   <span className="text-spotify-secondary text-sm"></span>
                 </td>
                  
                 <td className="px-4 py-3">
@@ -116,6 +120,10 @@ export const SongTable = ({ songs, config }: SongTableProps) => {
           </tbody>
         </table>
       </div>
+       ):
+      <p className="p-4 text-gray-500">Oops no Songs found.</p>
+    }
     </div>
   );
 };
+

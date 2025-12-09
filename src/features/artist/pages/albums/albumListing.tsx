@@ -3,9 +3,11 @@ import { AlbumCard } from "../../components/album/albumCard";
 import { SearchBar } from "../../components/song/SearchBar"; 
 import { useArtistAlbums } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Pagination } from "@/features/admin/components/common/Pagination";
 
 export default function Albums() {
- 
+  const [currentPage, setCurrentPage] = useState(1)
   const { data: albumsData, isLoading, isError, error } = useArtistAlbums();
 
   if (isLoading) {
@@ -55,6 +57,7 @@ export default function Albums() {
           )}
         </div>
       </div>
+      <Pagination page={currentPage} totalPages={1} setPage={setCurrentPage}/>
     </div>
   );
 }

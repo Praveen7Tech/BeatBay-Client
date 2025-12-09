@@ -71,11 +71,8 @@ export default function SongDetail() {
         </div>       
         <SongTable 
         songs={recomentedSongs}
-        config={{
-          title: "Recommented Songs",
-          showDuration: true,
-          showHeart: true,
-        }}/>
+          title= {"Recommented Songs"}
+         />
       </div>
     </div>
   );
