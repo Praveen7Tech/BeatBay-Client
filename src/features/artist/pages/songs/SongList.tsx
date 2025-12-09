@@ -4,9 +4,11 @@ import { ArtistHeader } from "../../components/song/ArtistHeader";
 import { useArtistSongs } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
 import { SongData } from "../../services/artist.api";
+import { Pagination } from "@/features/admin/components/common/Pagination";
+import { useState } from "react";
 
 const SongList = () => {
-
+   const [currentPage, setCurrentPage] = useState(1)
     const {data: songs, isLoading, isError, error}= useArtistSongs()
 
     if (isLoading) {
@@ -48,6 +50,7 @@ const SongList = () => {
           )}
         </div>
       </div>
+      <Pagination page={currentPage} totalPages={1} setPage={setCurrentPage}/>
     </div>
   );
 };

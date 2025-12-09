@@ -1,4 +1,4 @@
-import { Play, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface AlbumHeaderProps{
@@ -26,11 +26,11 @@ export const AlbumHeader = ({totalAlbums,totalSongs}: AlbumHeaderProps) => {
 
       <div className="flex items-center gap-4 mt-6 px-8">
         {/* Play All Button */}
-        <button
+        {/* <button
           className=" rounded-full h-14 px-8 bg-[#1DB954] text-black font-semibold  flex items-center gap-2 cursor-pointer transition-transform duration-300 hover:scale-105 hover:bg-spotify-green "    >
           <Play size={20} fill="currentColor" />
           Play All
-        </button>
+        </button> */}
 
         {/* New Album Button */}
         <Link to="/artist-createAlbum">

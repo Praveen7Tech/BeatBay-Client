@@ -77,7 +77,7 @@ interface AlbumResponse {
    coverImageUrl: string;
    createdAt: string;
    description: string;
-   songs: SongData[]
+   songs: SongResponse[]
 }
 
 export interface ArtistDetailsResponse {

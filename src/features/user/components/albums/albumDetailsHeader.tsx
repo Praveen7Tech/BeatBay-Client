@@ -1,4 +1,4 @@
-import { Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 
 interface AlbumDetailHeaderProps {
   title: string;
@@ -6,13 +6,15 @@ interface AlbumDetailHeaderProps {
   coverImageUrl: string;
   releaseYear: string;
   totalTracks: number;
+  isPlaying: boolean
+  onPlayAlbum: ()=> void
 }
 
 export const AlbumDetailHeader = ({
   title,
   artist,
   coverImageUrl,
-  totalTracks=100,
+  totalTracks=100, onPlayAlbum, isPlaying
 }: AlbumDetailHeaderProps) => {
 
   return (
@@ -38,17 +40,20 @@ export const AlbumDetailHeader = ({
           <div className="flex items-center gap-2 text-sm">
             <span className="font-semibold text-white">{artist}</span>
             <span className="text-spotify-secondary">•</span>
-            <span className="text-spotify-secondary">{totalTracks} songs, {"totalDuration"}</span>
+            <span className="text-spotify-secondary">{totalTracks} songs</span>
           </div>
         </div>
       </div>
 
       <div className="flex items-center gap-8 mt-8">
-        <button
-          className="w-14 h-14 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg"
+        <button className="w-14 h-14 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg"
           style={{ border: "none", cursor: "pointer" }}
-        >
-          <Play className="h-6 w-6 fill-black text-black ml-1" />
+         onClick={onPlayAlbum}>
+           {isPlaying ? (
+              <Pause className="h-6 w-6 fill-black text-black" />
+            ):(
+              <Play className="h-6 w-6 fill-black text-black ml-1" />
+            )}  
         </button>
       </div>
     </div>

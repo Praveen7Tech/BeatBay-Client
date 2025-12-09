@@ -64,8 +64,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
         </div>
 
         {/* Center: Player Controls */}
-        <div className="flex flex-col items-center gap-2 flex-1 max-w-[722px]">
-
+       <div className={`flex flex-col items-center gap-2 flex-1 max-w-[722px] ${ !currentSong ? "pointer-events-none opacity-40 cursor-not-allowed" : ""  }`}  >
           <div className="flex items-center gap-8">
             <button className="text-spotify-secondary hover:text-white transition-colors"
             onClick={skipBackward}>
