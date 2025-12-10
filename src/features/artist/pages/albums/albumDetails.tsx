@@ -16,13 +16,14 @@ export default function AlbumDetailsPage() {
       <div className="container mx-auto px-4 py-8 space-y-8">
         <AlbumDetailsHeader />
         {/* <SelectedSongs/> */}
+        
+        <h1>Songs </h1>  
         <div  style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
             gap: "1.5rem",
             padding: "0 2rem",
           }}>
-            
          {songs.length > 0 && (
               songs.map((song) => (
                 <Link to={`/artist/song-details/${song.id}`}>

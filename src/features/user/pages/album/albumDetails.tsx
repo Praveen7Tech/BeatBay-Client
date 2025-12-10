@@ -45,7 +45,6 @@ export default function AlbumDetail() {
   const isCurrentAlbumPlaying = isPlaying && isCurrentAlbumLoadedInPlayer;
 
    const handlePlayPause = () => {
-    console.log("click")
     if(isCurrentAlbumPlaying){
         playPause()
     }else{

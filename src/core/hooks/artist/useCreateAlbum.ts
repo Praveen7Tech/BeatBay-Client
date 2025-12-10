@@ -49,7 +49,6 @@ export const useCreateAlbum = (isEdit: boolean) => {
       setInitialFormData(InitialAlbumData)
     }
   },[InitialAlbumData, isEdit])
-  console.log("selected songs ", InitialAlbumData)
 
   //  Song Fetching
   const { data: songs = [] } = useArtistSongs();

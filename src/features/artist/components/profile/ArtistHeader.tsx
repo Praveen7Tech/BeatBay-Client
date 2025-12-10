@@ -10,7 +10,7 @@ import { authApiArtist } from "../../services/artist-authApi"
 import { Button } from "@/core/components/button/Button"
 
 
-const stats= { songs: 567, albums: 45, fans: 3456789 }
+const stats= { songs: 1, albums: 1, fans: 3456789 }
 const verified= true
 
 export function ArtistHeader() {
@@ -84,14 +84,14 @@ export function ArtistHeader() {
                     {stats.albums.toLocaleString()}
                   </div>
                 </div>
-                <div>
+                {/* <div>
                   <div className="text-gray-400 text-sm flex items-center gap-2">
                     <span>♪</span> Fans
                   </div>
                   <div className="text-2xl font-bold text-white">
                     {stats.fans.toLocaleString()}
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

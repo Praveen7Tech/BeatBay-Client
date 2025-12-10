@@ -17,7 +17,6 @@ export function Sidebar() {
   // fetch playlist and folowerss
   const {data: playlists, isLoading, isError, error} = useUserPlayLists()
   const { data: followers, isLoading: follow, isError:followError, } = useUserFollowing()
-
   // create PlayList hook
   const createPlayList = useCreatePlayList()
   const HandleCreatePlayList = ()=>{
@@ -133,7 +132,7 @@ export function Sidebar() {
               activeClassName="bg-sidebar-accent text-white"
             >
              <div className="relative h-10 w-10 rounded-full overflow-hidden bg-sidebar-accent flex items-center justify-center">
-              {artist.profilePicture ? (
+              {artist.profilePicture && artist.profilePicture !== null ? (
                 <img
                   src={artist.profilePicture}
                   className="h-full w-full object-cover"

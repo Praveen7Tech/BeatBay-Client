@@ -51,3 +51,12 @@ export const useFetchsongById =(songId: string) =>{
         enabled: !!songId,
     })
 }    
+
+
+export const useFetchArtistDetails = (artistId: string)=>{
+    return useQuery({
+        queryKey: ["artistData", artistId],
+        queryFn: () => userApi.artistDetails(artistId!),
+    enabled: !!artistId,
+    })
+}
