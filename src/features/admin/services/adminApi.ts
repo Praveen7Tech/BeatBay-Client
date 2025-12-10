@@ -150,7 +150,6 @@ export const adminApi = {
 
     getDahsboardDetils: async(): Promise<DashBordResponse>=>{
       const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_DASHBOARD_DATA)
-        console.log("artist ", response.data)
       return response.data
     }
 }

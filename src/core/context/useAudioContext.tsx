@@ -86,7 +86,6 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
         setInitialTime(0)
         clearPlayBackState()
     },[])
-    console.log("play", playList)
 
     // volume adjustment
     const handleSetVolume = (value: number[])=>{

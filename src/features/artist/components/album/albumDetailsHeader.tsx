@@ -24,12 +24,11 @@ export function AlbumDetailsHeader() {
         deleteSongMutation(albumId); 
     }
   };
-
   return (
     <>
     <Button onClick={()=> window.history.back()} variant="ghost" className="mb-6 -ml-2">
       <ArrowLeft className="w-4 h-4 mr-2" />
-      Back to Songs
+      Back to Albums
     </Button>
     <div className="flex items-start gap-6 mb-8 bg-surface p-6 rounded-lg border border-border">
       <div className="flex gap-6 flex-1 flex-col md:flex-row md:items-end">
@@ -52,17 +51,17 @@ export function AlbumDetailsHeader() {
 
           <div className="flex gap-2 flex-wrap">
             <span className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
-              {10} tracks
+              {album.songs.length} tracks
             </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
+            {/* <span className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
               {"albumData.genre"}
-            </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
+            </span> */}
+            {/* <span className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
               {"albumData.plays"} plays
             </span>
             <span className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
               Released: {new Date("albumData.releaseDate").toLocaleDateString()}
-            </span>
+            </span> */}
           </div>
         </div>
 

@@ -97,7 +97,6 @@ export const artistApi ={
 
     getAlbumById: async(albumId: string): Promise<EditAlbumDetailsResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTE_ARTIST.GET_ALBUM_BY_ID}/${albumId}`)
-      console.log("res--1", response.data)
       return response.data
     },
 

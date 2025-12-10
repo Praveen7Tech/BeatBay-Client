@@ -155,7 +155,6 @@ export const userApi ={
 
     SongDetail: async(songId:string): Promise<SongPageResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
-      console.log("da", response.data)
       return response.data
     },
 
@@ -196,7 +195,6 @@ export const userApi ={
 
     getUserPlayLits: async(): Promise<PlayListData[] | []>=>{
       const response = await axiosInstance.get(API_ROUTES_USER.GET_USER_PLAYLIST)
-      console.log("data", response.data)
       return response.data
     },
 
@@ -209,7 +207,6 @@ export const userApi ={
       const response = await axiosInstance.get(API_ROUTES_USER.SEARCH_SONGS, {
         params: { q: query },
       });
-      console.log("playlist by id-", response.data)
       return response.data;
     },
 
