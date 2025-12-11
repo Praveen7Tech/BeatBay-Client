@@ -9,10 +9,14 @@ import { loginSuccess } from "../slices/authSlice";
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { LoginFormInput, LoginSchema } from "../schemas/auth.validator";
+import { useState } from "react";
 
 
 export default function LoginForm () {
-
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+    const toogglePasswordVisible = ()=>{
+      setIsPasswordVisible(prev => !prev)
+    }
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormInput>({
         resolver: zodResolver(LoginSchema)
     })
@@ -42,7 +46,8 @@ export default function LoginForm () {
         </div>
 
         <div>
-          <Input theme="user" {...register("password")} type="password" placeholder="Password" 
+          <Input theme="user" {...register("password")} type="password"  placeholder="Password" 
+          showPasswordToggle={true}  isPasswordVisible={isPasswordVisible} togglePasswordVisibility={toogglePasswordVisible}
           error={errors.password?.message}/>
         </div>
 

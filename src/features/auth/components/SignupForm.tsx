@@ -6,8 +6,13 @@ import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { SignupFormInputs, signupSchema } from "../schemas/auth.validator";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function SignupForm() {
+   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+   const toogglePasswordVisible = ()=>{
+      setIsPasswordVisible(prev => !prev)
+   }
 
   // validating form
   const { register, handleSubmit, formState: { errors } } = useForm<SignupFormInputs>({
@@ -41,7 +46,11 @@ export default function SignupForm() {
         </div>
 
         <div>
-          <Input theme="user" {...register("password")} type="password" placeholder="Password" error={errors.password?.message} />
+          <Input theme="user" {...register("password")} type="password" placeholder="Password" error={errors.password?.message}
+          showPasswordToggle={true}
+          isPasswordVisible={isPasswordVisible}
+          togglePasswordVisibility={toogglePasswordVisible}
+           />
         </div>
 
         <Button theme="user" type="submit" loading={loading}>

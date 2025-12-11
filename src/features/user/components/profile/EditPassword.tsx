@@ -8,12 +8,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ChangePasswordData, ChangePasswordSchema } from "../../schemas/ChangePasswordSchema"
 import { useChangePassword } from "@/core/hooks/password/useChangePassword"
+import { useState } from "react"
 
 interface EditPasswordProps {
   onCancel: () => void
 }
 
 export function EditPassword({ onCancel }: EditPasswordProps) {
+  const [showCurrent, setShowCurrent] = useState(false)
+  const [showNew, setShowNew] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+ 
   const { register, handleSubmit,  formState: { errors },setError } = useForm<ChangePasswordData>({
     resolver: zodResolver(ChangePasswordSchema),
   })
@@ -46,6 +51,9 @@ export function EditPassword({ onCancel }: EditPasswordProps) {
               icon={Lock}
               placeholder="Enter current password"
               error={errors.currentPassword?.message} errorTheme="red"
+              showPasswordToggle={true}
+              isPasswordVisible={showCurrent}
+              togglePasswordVisibility={()=> setShowCurrent(prev => !prev)}
             />
           </div>
 
@@ -58,6 +66,9 @@ export function EditPassword({ onCancel }: EditPasswordProps) {
               icon={Lock}
               placeholder="Enter new password"
               error={errors.newPassword?.message} errorTheme="red"
+              showPasswordToggle={true}
+              isPasswordVisible={showNew}
+              togglePasswordVisibility={()=> setShowNew(prev => !prev)}
             />
           </div>
 
@@ -70,6 +81,9 @@ export function EditPassword({ onCancel }: EditPasswordProps) {
               icon={Lock}
               placeholder="Confirm new password"
               error={errors.confirmPassword?.message} errorTheme="red"
+              showPasswordToggle={true}
+              isPasswordVisible={showConfirm}
+              togglePasswordVisibility={()=> setShowConfirm(prev => !prev)}
             />
           </div>
         </div>

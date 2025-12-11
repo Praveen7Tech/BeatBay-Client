@@ -9,9 +9,14 @@ import { Lock, Mail } from "lucide-react";
 import { Input } from "@/core/components/input/Input";
 import { LoginFormInput, LoginSchema } from "@/features/auth/schemas/auth.validator";
 import { Button } from "@/core/components/button/Button";
+import { useState } from "react";
 
 
 export default function LoginForm(){
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+    const toogglePasswordVisible = ()=>{
+        setIsPasswordVisible(prev => !prev)
+    }
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormInput>({
         resolver: zodResolver(LoginSchema)
     })
@@ -41,8 +46,12 @@ export default function LoginForm(){
             </div>
 
             <div>
-                <Input theme="artist" {...register("password")} placeholder="Password" icon={Lock} 
-                 error={errors.password?.message} errorTheme="red"/>
+                <Input theme="artist" type="password" {...register("password")} placeholder="Password" icon={Lock} 
+                 error={errors.password?.message} errorTheme="red"
+                 showPasswordToggle={true}
+                 isPasswordVisible={isPasswordVisible}
+                 togglePasswordVisibility={toogglePasswordVisible}
+                 />
             </div>
                 <Link to="/artist-forgot-password" className="text-white hover:text-green-500 font-semibold transition-colors">
                      Forgot password?
