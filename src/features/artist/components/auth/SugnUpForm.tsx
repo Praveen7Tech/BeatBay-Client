@@ -9,8 +9,13 @@ import { authApiArtist } from "../../services/artist-authApi"
 import { type SignupFormInputs, signupSchema } from "@/features/auth/schemas/auth.validator"
 import { Button } from "@/core/components/button/Button"
 import { Input } from "@/core/components/input/Input"
+import { useState } from "react"
 
 export default function SignupForm() {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const toogglePasswordVisible = ()=>{
+    setIsPasswordVisible(prev => !prev)
+  }
   const {
     register,
     handleSubmit,
@@ -56,6 +61,9 @@ export default function SignupForm() {
           type="password"
           error={errors.password?.message}
           errorTheme="red"
+          showPasswordToggle={true}
+          isPasswordVisible={isPasswordVisible}
+          togglePasswordVisibility={toogglePasswordVisible}
         />
       </div>
 

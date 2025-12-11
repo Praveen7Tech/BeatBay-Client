@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -21,6 +21,7 @@ const LoginSchema = z.object({
 type LoginInput = z.infer<typeof LoginSchema>;
 
 const AdminLogin: React.FC = () => {
+  const [showPassword, setPassword] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({
@@ -70,8 +71,11 @@ const AdminLogin: React.FC = () => {
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Password
               </label>
-              <Input theme="admin" errorTheme="red" {...register("password")} type="password"  placeholder="Enter your password"  
-              error={errors?.password?.message} />
+              <Input theme="admin" errorTheme="red" {...register("password")} type="password"  placeholder="Enter your password" error={errors?.password?.message}
+              showPasswordToggle={true}
+              isPasswordVisible={showPassword}
+              togglePasswordVisibility={()=> setPassword(prev=> !prev)}
+               />
             </div>
 
             {/* Submit Button */}

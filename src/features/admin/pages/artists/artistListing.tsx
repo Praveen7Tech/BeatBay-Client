@@ -14,7 +14,7 @@ export function ArtistListing() {
 
     const [search, setSearchValue] = useState("")
     const [page, setPage] = useState(1)
-    const limit = 2
+    const limit = 3
   
     const searchValue = useDebouncing(search, 500)
   

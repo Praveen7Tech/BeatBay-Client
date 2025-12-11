@@ -9,13 +9,17 @@ import { ChangePasswordData, ChangePasswordSchema } from "@/features/user/schema
 import { useChangePassword } from "@/core/hooks/password/useChangePassword"
 import { artistApi } from "../../services/artist.api"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 
 
 export function EditPassword() {
+    const [showCurrentPassword, setCurrentPassword] = useState(false)
+    const [showNewPassword, setNewPassword] = useState(false)
+    const [showConfirmPassword, setConfirmPassword] = useState(false)
     const navigate = useNavigate()
-  const { register, handleSubmit,  formState: { errors },setError } = useForm<ChangePasswordData>({
-      resolver: zodResolver(ChangePasswordSchema),
+    const { register, handleSubmit,  formState: { errors },setError } = useForm<ChangePasswordData>({
+        resolver: zodResolver(ChangePasswordSchema),
     })
   
     const { handleChange } = useChangePassword(artistApi.changePassword)
@@ -52,6 +56,9 @@ export function EditPassword() {
               placeholder="Enter current password"
               error={errors.currentPassword?.message}
               errorTheme="red"
+              showPasswordToggle={true}
+              isPasswordVisible={showCurrentPassword}
+              togglePasswordVisibility={()=> setCurrentPassword(prev => !prev)}
             />
           </div>
 
@@ -65,6 +72,9 @@ export function EditPassword() {
               placeholder="Enter new password"
               error={errors.newPassword?.message}
               errorTheme="red"
+              showPasswordToggle={true}
+              isPasswordVisible={showNewPassword}
+              togglePasswordVisibility={()=> setNewPassword(prev => !prev)}
             />
           </div>
 
@@ -78,6 +88,9 @@ export function EditPassword() {
               placeholder="Confirm new password"
               error={errors.confirmPassword?.message}
               errorTheme="red"
+              showPasswordToggle={true}
+              isPasswordVisible={showConfirmPassword}
+              togglePasswordVisibility={()=> setConfirmPassword(prev => !prev)}
             />
           </div>
         </div>

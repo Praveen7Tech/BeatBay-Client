@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { LucideIcon } from "lucide-react";
+import { Eye, EyeOff, LucideIcon } from "lucide-react";
 
 type ThemeType = "user" | "artist" | "admin";
 type ErrorType = "red" | "while"
@@ -10,10 +10,24 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: LucideIcon;
   error?:string
   errorTheme?: ErrorType
+
+  showPasswordToggle?: boolean
+  isPasswordVisible?: boolean
+  togglePasswordVisibility?: ()=> void
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ theme = "user", icon: Icon, className = "",error, errorTheme, ...props }, ref) => {
+  ({ theme = "user", 
+    icon: Icon, 
+    className = "",
+    error, 
+    errorTheme, 
+    showPasswordToggle = false, 
+    isPasswordVisible, 
+    togglePasswordVisibility,
+    type="text",
+     ...props }, 
+     ref) => {
     // 🟢 User style
     const userStyle = `
       w-80 px-4 py-3 bg-black/20 border border-white/50 rounded-full 
@@ -47,9 +61,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         : theme === "user"
         ? userError
         : artistError
+    
+
+    // Determine the input type based on visibility state
+    const inputType = showPasswordToggle && isPasswordVisible ? "text" : type;    
+
+    // Calculate final input classes including conditional padding for icons/buttons
+    const inputClasses = `${themeClasses} ${Icon ? "pl-12" : ""}`;
 
     return (
-      <div className={`space-y-1 ${className}`}> 
+       <div className={`space-y-1 ${className}`}> 
         <div className="relative">
           {Icon && (
             <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 pointer-events-none" />
@@ -57,8 +78,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             {...props}
-            className={`${themeClasses} ${Icon ? "pl-12" : ""}`}
+            type={inputType}
+            className={inputClasses}
           />
+          {showPasswordToggle && togglePasswordVisibility && (
+            <button 
+             type="button"
+             onClick={togglePasswordVisibility}
+             // 🔑 Add z-10 here to ensure clickability
+             className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 hover:text-white transition-colors z-10 pr-8"
+              aria-label={isPasswordVisible ? "Hide password" : "Show   password"}
+            >
+              {isPasswordVisible ? <Eye/> : <EyeOff/> }
+            </button>
+          )}
         </div>
         <p className={errorClasses}>{error || ""}</p>
       </div>
