@@ -1,7 +1,7 @@
 "use client"
-
+import { SearchBar } from "@/core/components/search/SearchBar"
 import { RootState } from "@/core/store/store"
-import { Search, Bell, ChevronDown } from "lucide-react"
+import { Bell, ChevronDown} from "lucide-react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
@@ -31,17 +31,9 @@ export default function Navbar() {
         </div>
 
         {/* Center Section - Search Bar */}
-        <div className="flex-1 max-w-md">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-            <input
-              type="text"
-              placeholder="find your favourite song...."
-              className="w-full bg-gray-900 text-white placeholder-gray-500 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
-            />
-          </div>
-        </div>
-
+       <div className="flex-1 max-w-lg">
+        <SearchBar/>
+      </div>
         {/* Right Section - Notification and Profile */}
         <div className="flex items-center gap-4 min-w-fit">
           {/* Notification Bell */}

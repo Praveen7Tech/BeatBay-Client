@@ -48,7 +48,10 @@ export interface AlbumInfo {
 
 export interface SongResponse {
     _id: string;
+    description: string
     title: string;
+    genre: string
+    tags: string[]
     coverImageUrl: string;
     audioUrl: string;
     lyricsUrl: string;
@@ -217,6 +220,12 @@ export const userApi ={
 
     updatePlaylistDetails: async(playlistId: string, data: FormData): Promise<{message: string}>=>{
       const response = await axiosInstance.post(`${API_ROUTES_USER.EDIT_PLAYLIST}/${playlistId}`, data)
+      return response.data
+    },
+
+    search: async(query: string)=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.SEARCH}?q=${encodeURIComponent(query)}`)
+      console.log("search ", response.data)
       return response.data
     }
 }

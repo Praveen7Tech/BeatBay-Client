@@ -75,7 +75,7 @@ export const useSongUpload = (isEdit: boolean) => {
   const setInitialFormData = (song: SongResponse) => {
     setValue("title", song.title);
     setValue("description", song.description);
-    setValue("genre", song.genre[0] || "");
+    setValue("genre", song.genre);
     setValue("tags", song.tags.join(", "));
 
     setValue("coverImage", song.coverImageUrl ?? "existing");
