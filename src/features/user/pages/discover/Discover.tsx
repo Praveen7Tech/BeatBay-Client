@@ -1,42 +1,25 @@
 import { useEffect, useState } from "react";
-import TopResultCard from "../../components/discover/TopResultCard"; 
-import SongList from "../../components/discover/SongList"; 
-import ArtistCard from "../../components/discover/ArtistCard"; 
-import album1 from "/src/assets/bg.png";
-import album2 from "/src/assets/bg.png"
-import album3 from "/src/assets/bg.png"
+import TopResultCard from "../../components/discover/TopResultCard";
+import SongList from "../../components/discover/SongList";
 import AlbumCard from "../../components/home/album-card";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 import { useApi } from "@/core/hooks/api/useApi";
 import { userApi } from "../../services/userApi";
+import type {
+  SearchResponse,
+  TopResult,
+  Song as SongType,
+  Artist as ArtistType,
+  Album as AlbumType,
+} from "../../services/userApi";
 import { useDebouncing } from "@/core/hooks/admin/useDebouncing";
+import { FollowingCard } from "../../components/following/FollowingCard";
 
 const filters = ["All", "Songs", "Playlists", "Albums", "Artists", "Profiles"];
 
-const topResult = {
-  title: "Midnight Dreams",
-  type: "Song",
-  artist: "Luna Nova",
-  image: album1,
-};
-
-const songs = [
-  { id: "1", title: "Midnight Dreams", artist: "Luna Nova", duration: "3:06", image: album1 },
-  { id: "2", title: "Midnight Hour", artist: "The Echoes, Deep Blue", duration: "3:41", image: album2 },
-  { id: "3", title: "Midnight Run", artist: "A.R. Smith, Sid Wave", duration: "4:35", image: album3 },
-  { id: "4", title: "Midnight City", artist: "Neon Pulse, Ray Synth", duration: "4:47", image: album1 },
-];
-
-const artists = [
-  { id: "1", name: "Luna Nova", image: album1 },
-  { id: "2", name: "The Echoes", image: album2 },
-  { id: "3", name: "Deep Blue", image: album3 },
-  { id: "4", name: "Neon Pulse", image: album1 },
-  { id: "5", name: "Ray Synth", image: album2 },
-  { id: "6", name: "A.R. Smith", image: album3 },
-];
+// sample filter options
 
 const Discover = () => {
   
@@ -45,26 +28,38 @@ const Discover = () => {
   const searchQuery = useDebouncing(searchQueryRedux, 500)
 
   const [activeFilter, setActiveFilter] = useState("All");
-  const [searchResult, setSearchResult] = useState(null)
-  
-  const {execute: Search, loading} = useApi(userApi.search)
+
+  const [topResult, setTopResult] = useState<TopResult | null>(null);
+  const [songs, setSongs] = useState<SongType[]>([]);
+  const [albums, setAlbums] = useState<AlbumType[]>([]);
+  const [artists, setArtists] = useState<ArtistType[]>([]);
+  const [users, setUsers] = useState<ArtistType[]>([]);
+
+  const { execute: Search, loading } = useApi<SearchResponse & { message?: string }, string>(
+    userApi.search
+  );
 
   useEffect(()=>{
     const HandleSearchResult = async()=>{
       try {
-        const data =await Search(searchQuery)
-        setSearchResult(data)
+        const data = await Search(searchQuery);
+        if (!data) return;
+        setTopResult(data.topResult ?? null);
+        setSongs(data.songs ?? []);
+        setAlbums(data.albums ?? []);
+        setArtists(data.artists ?? []);
+        setUsers(data.users ?? []);
       } catch (error) {
-        console.error(error)
-        setSearchResult(null)
+        console.error(error);
       }
     }
 
     HandleSearchResult()
   },[searchQuery, Search])
 
-  console.log("dis", searchResult)
-
+ if(loading){
+  return <div>loading.....</div>
+ }
   return (
     <div className="min-h-screen bg-background p-6">
       {/* Filter Tabs */}
@@ -86,33 +81,40 @@ const Discover = () => {
 
       {/* Results Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <TopResultCard {...topResult} />
+        {topResult ? <TopResultCard topResult={topResult} /> : null}
         <SongList songs={songs} />
       </div>
-
-      {/* Artists Section */}
-      <div>
-        <h2 className="text-2xl font-bold text-white mb-4">Artists</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {artists.map((artist) => (
-            <ArtistCard key={artist.id} {...artist} />
-          ))}
-        </div>
-      </div>
+      
       <div className="px-8 py-8">
           <h2 className="text-2xl font-bold mb-6 text-foreground">Albums</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {songs && songs.length > 0 ? (
-              songs.map((song) => (
-                <Link to={`/album/${song.id}`}>
-                    <AlbumCard key={song.id} {...song} />
+            {albums && songs.length > 0 ? (
+              albums.map((song) => (
+                <Link key={song.id} to={`/album/${song.id}`}>
+                  <AlbumCard {...song} type="album"/>
                 </Link>
               ))
-             ):(
+            ) : (
               <p className="p-4 text-gray-500">Oops no Album found.</p>
-            )  }
+            )}
           </div>
         </div>
+        <div>
+        <h2 className="text-2xl font-bold text-white mb-4">Artists</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {artists.map((artist) => (
+            <FollowingCard key={artist.id} {...artist} />
+          ))}
+        </div>
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-white mb-4">Users</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {users.map((artist) => (
+            <FollowingCard key={artist.id} {...artist} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

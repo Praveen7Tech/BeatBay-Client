@@ -1,14 +1,14 @@
 interface ArtistCardProps {
   id: string;
   name: string;
-  image: string;
+  coverImageUrl: string;
 }
 
-const ArtistCard = ({ name, image }: ArtistCardProps) => {
+const ArtistCard = ({ name, coverImageUrl }: ArtistCardProps) => {
   return (
     <div className="bg-[#181818] p-4 rounded-lg hover:bg-[#282828] transition-colors cursor-pointer group">
       <img
-        src={image}
+        src={coverImageUrl}
         alt={name}
         className="w-full aspect-square rounded-full mb-4 shadow-lg"
       />
