@@ -135,6 +135,44 @@ export interface PlaylistDetailsResponse {
   songs: SongData[];
 }
 
+export interface Song{
+    id: string
+    title: string
+    artist: string
+    duration: number
+    coverImageUrl: string
+}
+
+export interface Artist {
+  id: string 
+  name: string;
+  profilePicture: string
+}
+
+export interface Album{
+  id: string;
+  title: string;
+  artist: string; 
+  coverImageUrl: string;
+}
+
+export interface TopResult {
+  id: string;
+  title: string;
+  artist: string;
+  coverImageUrl: string;
+}
+
+export interface SearchResponse{
+    topResult: TopResult
+    albums: Album[]
+    songs: Song[];
+    artists: Artist[];
+    users: Artist[]
+}
+
+
+
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
         const response = await axiosInstance.put<EditProfileResponse>(API_ROUTES_USER.EDIT_PROFILE, data);
@@ -223,7 +261,7 @@ export const userApi ={
       return response.data
     },
 
-    search: async(query: string)=>{
+    search: async(query: string): Promise<SearchResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SEARCH}?q=${encodeURIComponent(query)}`)
       console.log("search ", response.data)
       return response.data

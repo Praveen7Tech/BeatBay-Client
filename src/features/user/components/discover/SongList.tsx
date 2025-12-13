@@ -2,8 +2,8 @@ interface Song {
   id: string;
   title: string;
   artist: string;
-  duration: string;
-  image: string;
+  duration: string | number;
+  coverImageUrl: string;
 }
 
 interface SongListProps {
@@ -21,7 +21,7 @@ const SongList = ({ songs }: SongListProps) => {
             className="flex items-center gap-3 p-2 rounded-md hover:bg-[#282828] cursor-pointer group"
           >
             <img
-              src={song.image}
+              src={song.coverImageUrl}
               alt={song.title}
               className="w-10 h-10 rounded"
             />

@@ -6,7 +6,7 @@ interface SongCardProps {
   title: string;
   album?: string;
   coverImageUrl: string;
-  type: CardType
+  type?: CardType;
 }
 
 
