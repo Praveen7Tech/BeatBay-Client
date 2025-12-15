@@ -3,14 +3,14 @@ import { Link } from "react-router-dom"
 import AlbumCard from "../../components/home/album-card" 
 import ArtistCard from "../../components/home/artist-card" 
 import { useUserAlbums, useUserSongs } from "@/core/hooks/api/useFetchHooks"
-import { MusicLoader } from "@/core/components/loading/LoadingScreen"
+import { SpinnerCustom } from "@/components/ui/spinner"
 export default function HomeContent() {
  
   const {data: songs, isLoading: songsLoading, isError: songsError, error: songMessage} = useUserSongs()
   const {data: albums, isLoading: albumsLoading, isError: albumsError, error: albumMessage} = useUserAlbums()
 
     if (songsLoading || albumsLoading) {
-        return <MusicLoader/>
+        return <SpinnerCustom/>
     }
 
     if (songsError || albumsError) {

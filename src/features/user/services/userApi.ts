@@ -60,12 +60,6 @@ export interface SongResponse {
     duration: number; 
     likesCount: number;
 }
-// export interface RecommendedSong {
-//     _id: string;
-//     title: string;
-//     coverImageUrl: string;
-//     duration: number; // Duration in seconds
-// }
 
 interface SongPageResponse{
   songs: SongResponse

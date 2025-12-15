@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TopResultCard from "../../components/discover/TopResultCard";
 import SongList from "../../components/discover/SongList";
 import AlbumCard from "../../components/home/album-card";
@@ -16,17 +16,17 @@ import type {
 } from "../../services/userApi";
 import { useDebouncing } from "@/core/hooks/admin/useDebouncing";
 import { FollowingCard } from "../../components/following/FollowingCard";
+import { SpinnerCustom } from "@/components/ui/spinner"; 
 
 const filters = ["All", "Songs", "Playlists", "Albums", "Artists", "Profiles"];
-
-// sample filter options
 
 const Discover = () => {
   
   const searchQueryRedux = useSelector((state: RootState)=> state.search.query)
 
-  const searchQuery = useDebouncing(searchQueryRedux, 500)
+  const DebounceSearchQuery = useDebouncing(searchQueryRedux, 500)
 
+  const lastSuccessQuery = useRef("")
   const [activeFilter, setActiveFilter] = useState("All");
 
   const [topResult, setTopResult] = useState<TopResult | null>(null);
@@ -35,33 +35,42 @@ const Discover = () => {
   const [artists, setArtists] = useState<ArtistType[]>([]);
   const [users, setUsers] = useState<ArtistType[]>([]);
 
-  const { execute: Search, loading } = useApi<SearchResponse & { message?: string }, string>(
-    userApi.search
-  );
+  const { execute: Search, loading } = useApi<SearchResponse & { message?: string }, string>(userApi.search);
 
   useEffect(()=>{
     const HandleSearchResult = async()=>{
-      try {
-        const data = await Search(searchQuery);
-        if (!data) return;
-        setTopResult(data.topResult ?? null);
-        setSongs(data.songs ?? []);
-        setAlbums(data.albums ?? []);
-        setArtists(data.artists ?? []);
-        setUsers(data.users ?? []);
-      } catch (error) {
-        console.error(error);
+
+      if(DebounceSearchQuery.length === 0) return
+
+      if(DebounceSearchQuery !== lastSuccessQuery.current){
+         try {
+          const data = await Search(DebounceSearchQuery);
+          if (!data) return;
+          setTopResult(data.topResult ?? null);
+          setSongs(data.songs ?? []);
+          setAlbums(data.albums ?? []);
+          setArtists(data.artists ?? []);
+          setUsers(data.users ?? []);
+
+          lastSuccessQuery.current = DebounceSearchQuery
+        } catch (error) {
+          console.error(error);
+        }
       }
+     
     }
 
     HandleSearchResult()
-  },[searchQuery, Search])
+  },[DebounceSearchQuery, Search])
 
- if(loading){
-  return <div>loading.....</div>
- }
   return (
     <div className="min-h-screen bg-background p-6">
+      {loading && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
+          <SpinnerCustom/>
+        </div>
+      )}
+
       {/* Filter Tabs */}
       <div className="flex gap-2 mb-8">
         {filters.map((filter) => (
@@ -87,7 +96,7 @@ const Discover = () => {
       
       <div className="px-8 py-8">
           <h2 className="text-2xl font-bold mb-6 text-foreground">Albums</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {albums && songs.length > 0 ? (
               albums.map((song) => (
                 <Link key={song.id} to={`/album/${song.id}`}>
@@ -99,20 +108,29 @@ const Discover = () => {
             )}
           </div>
         </div>
-        <div>
+        
+        <div className="px-8 py-8">
         <h2 className="text-2xl font-bold text-white mb-4">Artists</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {artists.map((artist) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {artists.length > 0 ?(
+          artists.map((artist) => (
             <FollowingCard key={artist.id} {...artist} />
-          ))}
+          ))
+           ) : (
+              <p className="p-4 text-gray-500">Oops no Artists found.</p>
+            )}
         </div>
       </div>
-      <div>
+      <div className="px-8 py-8">
         <h2 className="text-2xl font-bold text-white mb-4">Users</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {users.map((artist) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {users.length > 0 ? (
+          users.map((artist) => (
             <FollowingCard key={artist.id} {...artist} />
-          ))}
+          ))
+          ) : (
+              <p className="p-4 text-gray-500">Oops no Users found.</p>
+            )}
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { SidebarShimmer } from "@/core/components/shimmers/SidebarShimmer";
 
 const mainItems = [
   { title: "Home", url: "/home", icon: Home },
-  { title: "Search", url: "/search", icon: Search },
+  { title: "Browse", url: "/browse", icon: Search },
   // { title: "Your Library", url: "/library", icon: Library },
 ];
 
