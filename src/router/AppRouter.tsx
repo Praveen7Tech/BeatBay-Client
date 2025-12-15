@@ -46,6 +46,7 @@ import { ArtistDetails } from '@/features/admin/pages/artists/artistDetails';
 import Playlists from '@/features/user/pages/playlist/playList-listing';
 import Following from '@/features/user/pages/following/Following';
 import Discover from '@/features/user/pages/discover/Discover';
+import BrowseSection from '@/features/user/pages/discover/BrowseSection';
 
 const AppRouter: React.FC = () => {
   return (
@@ -86,7 +87,8 @@ const AppRouter: React.FC = () => {
           <Route path='/playLists' element={<Playlists/>}/>
           <Route path='/following' element={<Following/>}/>
 
-          <Route path='/search' element={<Discover/>}/>
+          <Route path='/search/:query' element={<Discover/>}/>
+          <Route path='/browse' element={<BrowseSection/>}/>
         </Route>
 
         {/* admin routes */}

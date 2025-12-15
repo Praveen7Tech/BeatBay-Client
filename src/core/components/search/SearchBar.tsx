@@ -1,44 +1,43 @@
 import { RootState } from "@/core/store/store";
-import { clearSearchQuery, setSearchQuery } from "@/features/user/slice/searchSlice";
+import { setSearchQuery } from "@/features/user/slice/searchSlice";
 import { Search, Home, LayoutGrid, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface SearchBarProps {
-  onChange?: (value: string) => void;
   placeholder?: string;
 }
 
 export const SearchBar = ({ placeholder = "What do you want to play?" }: SearchBarProps) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const location = useLocation()
 
   // get current query from redux
   const currentQury = useSelector((state: RootState)=> state.search.query)
 
-  const [inputQuery, setInputQury] = useState(currentQury)
+  const [inputQuery, setInputQuery] = useState(currentQury)
 
   useEffect(()=>{
-    setInputQury(currentQury)
+    setInputQuery(currentQury)
   },[currentQury])
 
-  const HandleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
-    const value = e.target.value
-    setInputQury(value)
+   const HandleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputQuery(value);
+    dispatch(setSearchQuery(value));
 
-    dispatch(setSearchQuery(value))
-
-    if(location.pathname !== '/search'){
-      navigate("/search")
+    if (value.length > 0) {
+      navigate(`/search/${encodeURIComponent(value)}`);
+    } else {
+      navigate("/browse");
     }
-  }
+  };
 
   const HandleClearQury = () =>{
-    dispatch(clearSearchQuery())
-    setInputQury("")
+    //dispatch(clearSearchQuery())
+    setInputQuery("")
   }
   
   return (
@@ -73,7 +72,9 @@ export const SearchBar = ({ placeholder = "What do you want to play?" }: SearchB
             )}
             </div>
             <div className="w-px h-6 bg-[#727272] mx-3" />
-            <LayoutGrid className="w-5 h-5 text-muted-foreground hover:text-white cursor-pointer transition-colors" />
+            <Link to='browse'>
+                <LayoutGrid className="w-5 h-5 text-muted-foreground hover:text-white cursor-pointer transition-colors" />
+            </Link>
         </div>
         </div>
     </div>

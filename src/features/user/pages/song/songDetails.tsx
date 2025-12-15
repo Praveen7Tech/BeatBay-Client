@@ -1,78 +1,81 @@
-import { SongHeader } from "../../components/song/songHeader"; 
-import { LyricsSection } from "../../components/song/lyricSection"; 
 import { Link, useParams } from "react-router-dom";
-import { useAudioContext } from "@/core/context/useAudioContext"; 
+import { SongHeader } from "../../components/song/songHeader";
+import { LyricsSection } from "../../components/song/lyricSection";
 import { ArtistSection } from "../../components/song/artistSection";
-import { MusicLoader } from "@/core/components/loading/LoadingScreen";
 import { SongTable } from "@/core/components/song/SongTable";
+import { SpinnerCustom } from "@/components/ui/spinner";
+import { useAudioContext } from "@/core/context/useAudioContext";
 import { useFetchsongById } from "@/core/hooks/api/useFetchHooks";
-  
+
 export default function SongDetail() {
-
   const { songId } = useParams();
-  const {data: pageData, isLoading, isError, error} = useFetchsongById(songId!)
 
-  const song = pageData?.songs
-  const recomentedSongs = pageData?.recomentations
+  const { data, isLoading, isError, error,} = useFetchsongById(songId!);
 
-  const { setPlaylistAndPlay, currentSong, isPlaying , playPause, currentTime} = useAudioContext();
+  const { setPlaylistAndPlay, currentSong, isPlaying,playPause, currentTime } = useAudioContext();
 
-  const isCurrentSongPlaying = isPlaying && currentSong?._id === song?._id;
-
-  if(isLoading){
-    return <MusicLoader/>
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
+        {error instanceof Error ? error.message : "Something went wrong"}
+      </div>
+    );
   }
 
-  if(isError){
-    return <div className="min-h-screen bg-black text-red-600 p-8">{error.message}</div>;
-  }
-   if (!song || !recomentedSongs) {
-    return <div className="min-h-screen bg-black text-white p-8">Song details not available.</div>;
+  if (isLoading) {
+    return (
+        <SpinnerCustom />
+    );
   }
 
- 
+  const song = data!.songs;
+  const recomentedSongs = data!.recomentations;
+
+  const isCurrentSongPlaying =
+    isPlaying && currentSong?._id === song._id;
+
   const handlePlayPause = () => {
-    if(isCurrentSongPlaying){
-        playPause()
-    }else{
-        const playlist = [song, ...recomentedSongs.filter(s => s._id !== song._id)]
-        setPlaylistAndPlay(playlist, 0)
+    if (isCurrentSongPlaying) {
+      playPause();
+    } else {
+      const playlist = [
+        song,
+        ...recomentedSongs.filter((s) => s._id !== song._id),
+      ];
+      setPlaylistAndPlay(playlist, 0);
     }
   };
 
-  // active song and lyric management based on the song change
-  const activeSong = currentSong?._id === song?._id ? currentSong : song;
-  const activeLyricsUrl = activeSong?.lyricsUrl;
-  const activeCurrentTime = currentSong?._id === song?._id ? currentTime : 0;
+  const activeSong = currentSong?._id === song._id ? currentSong : song;
+
+  const activeCurrentTime = currentSong?._id === song._id ? currentTime : 0;
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-spotify-dark to-[#000000] text-white">
+    <div className="min-h-screen bg-linear-to-b from-spotify-dark to-black text-white">
       <div className="max-w-7xl mx-auto p-8">
-        <SongHeader 
-            title={song?.title} 
-            coverImageUrl={song?.coverImageUrl}
-            duration={song?.duration}
-
-            isPlaying={isCurrentSongPlaying} 
-            onPlayPause={handlePlayPause}
+        <SongHeader
+          title={song.title}
+          coverImageUrl={song.coverImageUrl}
+          duration={song.duration}
+          isPlaying={isCurrentSongPlaying}
+          onPlayPause={handlePlayPause}
         />
-         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div>
-            <Link to={`/artist/${song.artistId?._id}`}>
-              <ArtistSection artistId={song?.artistId} />
-            </Link>
-          </div> 
-          <div>
-            <LyricsSection 
-              lyricsUrl={activeLyricsUrl} 
-              currentTime={activeCurrentTime} 
+
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <Link to={`/artist/${song.artistId?._id}`}>
+            <ArtistSection artistId={song.artistId} />
+          </Link>
+
+          <LyricsSection
+            lyricsUrl={activeSong.lyricsUrl}
+            currentTime={activeCurrentTime}
           />
-          </div>
-        </div>       
-        <SongTable 
-        songs={recomentedSongs}
-          title= {"Recommented Songs"}
-         />
+        </div>
+
+        <SongTable
+          title="Recommended Songs"
+          songs={recomentedSongs}
+        />
       </div>
     </div>
   );
