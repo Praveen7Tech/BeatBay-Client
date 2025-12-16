@@ -68,5 +68,6 @@ export const API_ROUTES_USER ={
   GET_USER_PLAYLIST: '/user/get-user-playlist',
   SEARCH_SONGS: '/user/searchSong',
   EDIT_PLAYLIST: '/user/edit-playList',
-  SEARCH: '/user/search'
+  SEARCH: '/user/search',
+  USER_DETAILS: '/user/user-details'
 }

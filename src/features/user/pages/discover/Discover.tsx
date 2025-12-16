@@ -1,67 +1,19 @@
-import { useEffect, useRef, useState } from "react";
 import TopResultCard from "../../components/discover/TopResultCard";
 import SongList from "../../components/discover/SongList";
 import AlbumCard from "../../components/home/album-card";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
-import { useApi } from "@/core/hooks/api/useApi";
-import { userApi } from "../../services/userApi";
-import type {
-  SearchResponse,
-  TopResult,
-  Song as SongType,
-  Artist as ArtistType,
-  Album as AlbumType,
-} from "../../services/userApi";
-import { useDebouncing } from "@/core/hooks/admin/useDebouncing";
 import { FollowingCard } from "../../components/following/FollowingCard";
 import { SpinnerCustom } from "@/components/ui/spinner"; 
+import { useSearch } from "@/core/hooks/Search/useDiscoverSearch";
 
 const filters = ["All", "Songs", "Playlists", "Albums", "Artists", "Profiles"];
 
 const Discover = () => {
   
   const searchQueryRedux = useSelector((state: RootState)=> state.search.query)
-
-  const DebounceSearchQuery = useDebouncing(searchQueryRedux, 500)
-
-  const lastSuccessQuery = useRef("")
-  const [activeFilter, setActiveFilter] = useState("All");
-
-  const [topResult, setTopResult] = useState<TopResult | null>(null);
-  const [songs, setSongs] = useState<SongType[]>([]);
-  const [albums, setAlbums] = useState<AlbumType[]>([]);
-  const [artists, setArtists] = useState<ArtistType[]>([]);
-  const [users, setUsers] = useState<ArtistType[]>([]);
-
-  const { execute: Search, loading } = useApi<SearchResponse & { message?: string }, string>(userApi.search);
-
-  useEffect(()=>{
-    const HandleSearchResult = async()=>{
-
-      if(DebounceSearchQuery.length === 0) return
-
-      if(DebounceSearchQuery !== lastSuccessQuery.current){
-         try {
-          const data = await Search(DebounceSearchQuery);
-          if (!data) return;
-          setTopResult(data.topResult ?? null);
-          setSongs(data.songs ?? []);
-          setAlbums(data.albums ?? []);
-          setArtists(data.artists ?? []);
-          setUsers(data.users ?? []);
-
-          lastSuccessQuery.current = DebounceSearchQuery
-        } catch (error) {
-          console.error(error);
-        }
-      }
-     
-    }
-
-    HandleSearchResult()
-  },[DebounceSearchQuery, Search])
+  const {topResult, songs, albums, artists, users, loading, setActiveFilter, activeFilter} = useSearch(searchQueryRedux)
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -89,50 +41,50 @@ const Discover = () => {
       </div>
 
       {/* Results Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {topResult ? <TopResultCard topResult={topResult} /> : null}
-        <SongList songs={songs} />
-      </div>
-      
-      <div className="px-8 py-8">
-          <h2 className="text-2xl font-bold mb-6 text-foreground">Albums</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {albums && songs.length > 0 ? (
-              albums.map((song) => (
-                <Link key={song.id} to={`/album/${song.id}`}>
-                  <AlbumCard {...song} type="album"/>
+     {(topResult || songs.length > 0) && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {topResult && <TopResultCard topResult={topResult} />}
+          {songs.length > 0 && <SongList songs={songs} />}
+        </div>
+      )}
+
+        {albums.length > 0 && (
+          <div className="px-8 py-8">
+            <h2 className="text-2xl font-bold mb-6 text-foreground">Albums</h2>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {albums.map((album) => (
+                <Link key={album.id} to={`/album/${album.id}`}>
+                  <AlbumCard {...album} type="album" />
                 </Link>
-              ))
-            ) : (
-              <p className="p-4 text-gray-500">Oops no Album found.</p>
-            )}
+              ))}
+            </div>
+          </div>
+        )}
+        
+       {artists.length > 0 && (
+          <div className="px-8 py-8">
+            <h2 className="text-2xl font-bold text-white mb-4">Artists</h2>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {artists.map((artist) => (
+                <FollowingCard key={artist.id} {...artist} type="artist"/>
+              ))}
+            </div>
+          </div>
+        )}
+
+      {users.length > 0 && (
+        <div className="px-8 py-8">
+          <h2 className="text-2xl font-bold text-white mb-4">Users</h2>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {users.map((user) => (
+              <FollowingCard key={user.id} {...user} type="profile"/>
+            ))}
           </div>
         </div>
-        
-        <div className="px-8 py-8">
-        <h2 className="text-2xl font-bold text-white mb-4">Artists</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {artists.length > 0 ?(
-          artists.map((artist) => (
-            <FollowingCard key={artist.id} {...artist} />
-          ))
-           ) : (
-              <p className="p-4 text-gray-500">Oops no Artists found.</p>
-            )}
-        </div>
-      </div>
-      <div className="px-8 py-8">
-        <h2 className="text-2xl font-bold text-white mb-4">Users</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {users.length > 0 ? (
-          users.map((artist) => (
-            <FollowingCard key={artist.id} {...artist} />
-          ))
-          ) : (
-              <p className="p-4 text-gray-500">Oops no Users found.</p>
-            )}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

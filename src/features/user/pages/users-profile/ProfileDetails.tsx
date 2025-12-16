@@ -1,0 +1,42 @@
+import { ProfilePageLayout } from "../../components/common/ProfileLayout"; 
+import { ProfileHeader } from "../../components/common/ProfileHeader"; 
+import { PlaylistsSection } from "../../components/common/PlayListSection"; 
+import { FollowingSection } from "../../components/common/FollowingSection"; 
+import { useParams } from "react-router-dom";
+import { SpinnerCustom } from "@/components/ui/spinner";
+import { useUserProfileDetails } from "@/core/hooks/api/useFetchHooks";
+
+export default function UserProfile() {
+    const {userId} = useParams()
+    const { data,isLoading, isError, error,} = useUserProfileDetails(userId!)
+    
+      if (isLoading) {
+        return (
+            <SpinnerCustom />
+        );
+      }
+    
+      if (isError || !data) {
+        return (
+          <div className="min-h-screen flex items-center justify-center text-red-500">
+            {error instanceof Error ? error.message : "Failed to load artist"}
+          </div>
+        );
+      }
+      const user = data.user; 
+      const playLists = data.playlists
+      const following = data.followingArtists
+    return (
+        <ProfilePageLayout>
+        <ProfileHeader
+            id={user.id}
+            name={user.name}
+            profilePicture={user.profilePicture}
+            subtitle={`${user.followingCount} followers`}
+        />
+
+        <PlaylistsSection playlists={playLists} />
+        <FollowingSection users={following} />
+        </ProfilePageLayout>
+    );
+}

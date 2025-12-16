@@ -165,6 +165,31 @@ export interface SearchResponse{
     users: Artist[]
 }
 
+export interface Follow {
+  id: string;
+  name: string;
+  profilePicture: string;
+}
+
+export interface PlayList{
+  id: string;
+  name: string;
+  coverImage: string;
+}
+
+export interface User{
+  id: string;
+  name: string;
+  profilePicture: string;
+  followingCount: number;
+  playListCount: number;
+}
+
+export interface UserProfileResponseDTO {
+  user: User;
+  followingArtists: Follow[];
+  playlists: PlayList[];
+}
 
 
 export const userApi ={
@@ -257,6 +282,11 @@ export const userApi ={
 
     search: async(query: string): Promise<SearchResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SEARCH}?q=${encodeURIComponent(query)}`)
+      return response.data
+    },
+
+    userProfileDetails: async(userId: string):Promise<UserProfileResponseDTO>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.USER_DETAILS}/${userId}`)
       console.log("search ", response.data)
       return response.data
     }
