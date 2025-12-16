@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 interface FollowingCardProps {
   id: string;
   name: string;
-  type?: "Artist" | "User";
+  type?: "artist" | "profile";
   profilePicture?: string;
 }
 
-export const FollowingCard = ({ id, name, profilePicture }: FollowingCardProps) => {
-  
+export const FollowingCard = ({ id, name, profilePicture, type }: FollowingCardProps) => {
+  const tag = type === "profile" ? "Profile" : "Artist"
   return (
     <Link
-      to={`/artist/${id}`}
+      to={`/${type}/${id}`}
       className="group p-4 rounded-md bg-[#181818] hover:bg-[#282828] transition-all duration-300 cursor-pointer"
     >
       <div className="relative mb-4">
@@ -30,7 +30,7 @@ export const FollowingCard = ({ id, name, profilePicture }: FollowingCardProps) 
         </div>
       </div>
       <h3 className="text-white font-bold text-base truncate mb-1">{name}</h3>
-      <p className="text-[#a7a7a7] text-sm">{"Artist"}</p>
+      <p className="text-[#a7a7a7] text-sm">{tag}</p>
     </Link>
   );
 };

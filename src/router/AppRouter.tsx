@@ -47,6 +47,7 @@ import Playlists from '@/features/user/pages/playlist/playList-listing';
 import Following from '@/features/user/pages/following/Following';
 import Discover from '@/features/user/pages/discover/Discover';
 import BrowseSection from '@/features/user/pages/discover/BrowseSection';
+import UserProfile from '@/features/user/pages/users-profile/ProfileDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -89,6 +90,7 @@ const AppRouter: React.FC = () => {
 
           <Route path='/search/:query' element={<Discover/>}/>
           <Route path='/browse' element={<BrowseSection/>}/>
+          <Route path='/profile/:userId' element={<UserProfile/>}/>
         </Route>
 
         {/* admin routes */}

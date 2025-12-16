@@ -60,3 +60,20 @@ export const useFetchArtistDetails = (artistId: string)=>{
     enabled: !!artistId,
     })
 }
+
+export const useArtistDetails = (artistId: string) => {
+  return useQuery({
+    queryKey: ["artistDetails", artistId],
+    queryFn: () => userApi.artistDetails(artistId!),
+    enabled: !!artistId,
+  });
+};
+
+
+export const useUserProfileDetails = (userId: string) => {
+  return useQuery({
+    queryKey: ["userDetails", userId],
+    queryFn: () => userApi.userProfileDetails(userId!),
+    enabled: !!userId,
+  });
+};
