@@ -10,6 +10,7 @@ interface ProfileHeaderProps {
   verified?: boolean;
   subtitle?: string; // monthly listeners / followers
   showFollowButton?: boolean;
+  role: "user" | "artist"
 }
 
 export function ProfileHeader({
@@ -19,8 +20,9 @@ export function ProfileHeader({
   verified,
   subtitle,
   showFollowButton = true,
+  role
 }: ProfileHeaderProps) {
-  const { isFollowing, toggleFollow } = useFollowStatus(id);
+  const { isFollowing, toggleFollow } = useFollowStatus(id, role);
   const [imageError, setImageError] = useState(false);
 
   return (

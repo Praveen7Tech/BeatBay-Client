@@ -31,6 +31,7 @@ export default function ArtistDetail() {
         id={artist._id}
         name={artist.name}
         profilePicture={artist.profilePicture}
+        role="artist"
         verified
         subtitle={`monthly listeners`}
       />

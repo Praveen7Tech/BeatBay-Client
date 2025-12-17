@@ -10,6 +10,7 @@ import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 import { LoginFormInput, LoginSchema } from "../schemas/auth.validator";
 import { useState } from "react";
+import { socket } from "@/core/config/socket";
 
 
 export default function LoginForm () {
@@ -31,6 +32,7 @@ export default function LoginForm () {
             if(res){
                 dispatch(loginSuccess({user: res?.user, accessToken: res.accessToken}))
                 navigate("/home")
+                socket.emit("register_user", res.user.id)
             }
            
         } catch (error) {

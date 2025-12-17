@@ -33,6 +33,7 @@ export default function UserProfile() {
             name={user.name}
             profilePicture={user.profilePicture}
             subtitle={`${user.followingCount} followers`}
+            role="user"
         />
 
         <PlaylistsSection playlists={playLists} />

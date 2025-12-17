@@ -1,7 +1,7 @@
 "use client"
 
 import { useAudioContext } from "@/core/context/useAudioContext"
-import { Music } from "lucide-react"
+import { ChartNoAxesColumn, Music } from "lucide-react"
 import { Link } from "react-router-dom"
 
 export default function NowPlayingCard() {
@@ -12,6 +12,11 @@ export default function NowPlayingCard() {
   const hasImage = !!currentSong?.coverImageUrl
 
   return (
+    <>
+    <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+            Now Playing
+            <ChartNoAxesColumn className="h-5 w-5 text-green-500 animate-pulse"/>
+          </h2>
     <div className="bg-linear-to-br from-[#2a2a2a] to-[#1a1a1a] rounded-lg overflow-hidden border border-[#3a3a3a]">
       {currentSong?._id && (
     <Link to={`/song/${currentSong?._id}`}>
@@ -55,5 +60,6 @@ export default function NowPlayingCard() {
       </Link>
       )}
     </div>
+    </>
   )
 }
