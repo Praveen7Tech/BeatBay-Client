@@ -66,7 +66,6 @@ interface SongPageResponse{
   recomentations: SongResponse[]
 }
 
-
 interface AlbumResponse {
    _id: string;
    title: string;
@@ -191,6 +190,17 @@ export interface UserProfileResponseDTO {
   playlists: PlayList[];
 }
 
+export interface Friends{
+  id:string
+  name:string
+  status: boolean
+  profilePicture: string
+}
+
+export interface FriendsResponse{
+  friends: Friends[]
+}
+
 
 export const userApi ={
     editProfile: async (data: FormData): Promise<EditProfileResponse> => {
@@ -228,18 +238,14 @@ export const userApi ={
       return response.data
     }, 
 
-    checkFollowStatus: async(artistId: string): Promise<{isFollowing: boolean}>=>{
-      const response = await axiosInstance.get(`${API_ROUTES_USER.IS_FOLLOWING}/${artistId}`)
+    toggleFollow: async(targetId: string, role: string, action: string):Promise<{message: string}>=>{
+      const method = action === "follow" ? "post" : "delete"
+      const response = await axiosInstance[method](`${API_ROUTES_USER.FOLLOW}/${targetId}?role=${role}`)
       return response.data
     },
 
-    followArtist:async(artistId: string): Promise<{message: string}>=>{
-      const response = await axiosInstance.post(`${API_ROUTES_USER.FOLLOW}/${artistId}`)
-      return response.data
-    },
-
-    unfollowArtist: async(artistId: string): Promise<{message: string}>=>{
-      const response = await axiosInstance.delete(`${API_ROUTES_USER.FOLLOW}/${artistId}`)
+    checkFollowStatus: async(targetId: string, role: string): Promise<{isFollowing: boolean}>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.IS_FOLLOWING}/${targetId}?role=${role}`)
       return response.data
     },
 
@@ -287,7 +293,11 @@ export const userApi ={
 
     userProfileDetails: async(userId: string):Promise<UserProfileResponseDTO>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.USER_DETAILS}/${userId}`)
-      console.log("search ", response.data)
+      return response.data
+    },
+
+    getFriends: async():Promise<FriendsResponse>=>{
+      const response = await axiosInstance.get(API_ROUTES_USER.FRIENDS)
       return response.data
     }
 }

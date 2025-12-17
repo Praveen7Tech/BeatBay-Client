@@ -69,5 +69,6 @@ export const API_ROUTES_USER ={
   SEARCH_SONGS: '/user/searchSong',
   EDIT_PLAYLIST: '/user/edit-playList',
   SEARCH: '/user/search',
-  USER_DETAILS: '/user/user-details'
+  USER_DETAILS: '/user/user-details',
+  FRIENDS: '/user/friends'
 }

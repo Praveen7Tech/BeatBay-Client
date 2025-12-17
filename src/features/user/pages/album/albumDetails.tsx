@@ -5,7 +5,6 @@ import { SongTable } from "@/core/components/song/SongTable";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useAudioContext } from "@/core/context/useAudioContext";
 import { userApi } from "../../services/userApi";
-import { Alert } from "@chakra-ui/react";
 
 export default function AlbumDetail() {
   const { albumId } = useParams();
@@ -21,10 +20,7 @@ export default function AlbumDetail() {
   if (isError) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
-        <Alert.Root status="error" variant="outline">
-          <Alert.Indicator />
-          <Alert.Title>{error instanceof Error ? error.message : "Something went wrong"}</Alert.Title>
-        </Alert.Root>
+        Error in album fetching : {error.message}
       </div>
     );
   }

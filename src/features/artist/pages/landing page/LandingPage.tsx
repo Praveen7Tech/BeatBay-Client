@@ -4,7 +4,7 @@ import { FeatureShowcase } from "../../components/landing page/FeatureShowcase"
 
 function LandingPage() {
   const handleNavigation = (page: string) => {
-    console.log("Navigating to:", page)
+    //console.log("Navigating to:", page)
   }
 
   return (
