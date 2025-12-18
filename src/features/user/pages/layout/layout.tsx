@@ -5,10 +5,10 @@ import { Outlet } from "react-router-dom"
 import { MusicPlayer } from "../song/musicPlayer"
 import { AudioPlayerProvider } from "@/core/context/useAudioContext" 
 import { Sidebar } from "../../components/left sidebar/sidebar"
-import { useSocketInit } from "@/core/hooks/socket/useSocket"
+import { useSocket } from "@/core/hooks/socket/useSocket"
 
 export default function UserLayout() {
-  useSocketInit()
+  useSocket()
   return (
     <AudioPlayerProvider>
       <div className="h-screen bg-[#0f0f0f] text-white overflow-hidden flex flex-col">
