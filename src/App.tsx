@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './core/store/store'; 
 import Spinner from './core/components/Spinner';
 import { API_ROUTES } from './core/api/apiRoutes';
+import { clearPrivateRoom, setPrivateRoom } from './features/user/slice/privateRoomSlice';
+import { InviteState, setInviteState } from './features/user/slice/inviteState.slice';
 
 const AppContext : React.FC = ()=> {
   const dispatch = useDispatch()
@@ -18,11 +20,28 @@ const AppContext : React.FC = ()=> {
     const checkAuthStatus = async ()=>{
       try {
         const response = await axiosInstance.get(API_ROUTES.AUTH_STATUS)
-        const {user, accessToken} = response.data
+        const {user, accessToken, roomState} = response.data
         console.log("hydration suucess", response.data)
         
         dispatch(completeInitialHydration({user, accessToken}))
+        if(roomState){
+            dispatch(setPrivateRoom(roomState))
 
+            const isHost = roomState.hostId === user.id
+            const friendId = isHost ? roomState.guestId : roomState.hostId
+
+            let uiState : InviteState = "none"
+            if(roomState.status === "pending"){
+              uiState = isHost ? "pending" : "recieved"
+            }else if( roomState.status === "jamming"){
+              uiState = "connected"
+            }
+
+            dispatch(setInviteState({friendId, state: uiState}))
+        }else{
+            dispatch(clearPrivateRoom())
+        }
+        
       } catch (error) {
         console.error("hydration error",error)
       }

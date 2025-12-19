@@ -3,27 +3,28 @@ import { Link } from "react-router-dom";
 import { Check, User, X } from "lucide-react";
 import { Friends, userApi } from "../../services/userApi";
 import { SpinnerCustom } from "@/components/ui/spinner";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect,  useCallback } from "react";
 import { socket } from "@/core/config/socket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
-
-type InviteState = "none" | "pending" | "received" | "connected";
-
-type InviteStateMap = Record<string, InviteState>;
+import { useDispatch } from "react-redux";
+import { setInviteState } from "../../slice/inviteState.slice";
+import { clearPrivateRoom, setPrivateRoom } from "../../slice/privateRoomSlice";
 
 interface RoomCreatedPayload {
   roomId: string;
   hostId: string;
   guestId: string;
+  status:  "pending" | "jamming" | "none"
 }
-
-/* ---------- COMPONENT ---------- */
 
 const FriendsActivity = () => {
   const user = useSelector((state: RootState) => state.auth.user);
+  const inviteState = useSelector((state: RootState)=> state.inviteState.invites)
+  const roomId = useSelector((state: RootState)=> state.privateRoom.roomId)
+  const dispatch = useDispatch()
 
-  const [inviteState, setInviteState] = useState<InviteStateMap>({});
+  //const [inviteState, setInviteState] = useState<InviteStateMap>({});
 
   const {data: friends, isLoading, isError,error,} = useQuery({
     queryKey: ["friendsActivity"],
@@ -37,35 +38,35 @@ const FriendsActivity = () => {
     if (!user?.id) return;
 
     const handleInviteReceived = ({ fromUserId }: { fromUserId: string }) => {
-      setInviteState((prev) => ({
-        ...prev,
-        [fromUserId]: "received",
-      }));
+      dispatch(setInviteState({friendId: fromUserId, state: "recieved"}))
     };
 
     const handleRoomCreated = (room: RoomCreatedPayload) => {
-      setInviteState((prev) => ({
-        ...prev,
-        [room.hostId]: "connected",
-        [room.guestId]: "connected",
-      }));
+      dispatch(setPrivateRoom(room))
+      dispatch(setInviteState({friendId: room.hostId, state: "connected"}))
+      dispatch(setInviteState({friendId: room.guestId, state: "connected"}))
     };
 
     const handleInviteRejected = ({ guestId }: { guestId: string }) => {
-      setInviteState((prev) => ({
-        ...prev,
-        [guestId]: "none",
-      }));
+      dispatch(setInviteState({friendId: guestId, state: "none"}))
     };
+
+    const handleLeftRoom = ({hostId, guestId} : {hostId: string, guestId: string})=>{
+        const friendId = hostId === user.id ? guestId : hostId;
+        dispatch(clearPrivateRoom());
+        dispatch(setInviteState({ friendId, state: "none" }));
+    }
 
     socket.on("invite_received", handleInviteReceived);
     socket.on("room_created", handleRoomCreated);
     socket.on("invite_rejected", handleInviteRejected);
+    socket.on("room_cancelled", handleLeftRoom)
 
     return () => {
       socket.off("invite_received", handleInviteReceived);
       socket.off("room_created", handleRoomCreated);
       socket.off("invite_rejected", handleInviteRejected);
+      socket.off("room_cancelled", handleLeftRoom)
     };
   }, [user?.id]);
 
@@ -81,10 +82,7 @@ const FriendsActivity = () => {
         toUserId: friendId,
       });
 
-      setInviteState((prev) => ({
-        ...prev,
-        [friendId]: "pending",
-      }));
+      dispatch(setInviteState({friendId, state: "pending"}))
     },
     [user?.id]
   );
@@ -112,13 +110,16 @@ const FriendsActivity = () => {
         guestId: user.id,
       });
 
-      setInviteState((prev) => ({
-        ...prev,
-        [friendId]: "none",
-      }));
+      dispatch(setInviteState({friendId, state: "none"}))
     },
     [user?.id]
   );
+
+  const leftRoom = useCallback((roomId: string)=>{
+     if(!user?.id) return;
+
+     socket.emit("left_room", {userId: user.id,roomId})
+  },[user?.id])
 
 
   if (isLoading) return <SpinnerCustom />;
@@ -175,7 +176,7 @@ const FriendsActivity = () => {
 
               {/* ACTIONS */}
               <div className="ml-auto flex items-center gap-2">
-                {state === "received" && (
+                {state === "recieved" && (
                   <>
                     <button
                       onClick={() => acceptInvite(friend.id)}
@@ -197,9 +198,15 @@ const FriendsActivity = () => {
                 )}
 
                 {state === "connected" && (
-                  <span className="text-green-500 text-xs font-bold animate-pulse">
-                    Connecting
-                  </span>
+                  // <span className="text-green-500 text-xs font-bold animate-pulse">
+                  //   Connecting
+                  // </span>
+                  <button
+                    onClick={() => leftRoom(roomId!)}
+                    className="px-3 py-1 text-xs font-semibold text-white border border-[#727272] rounded-full hover:border-white hover:scale-105 transition-all"
+                  >
+                    left
+                  </button>
                 )}
 
                 {state === "none" && (

@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-interface PrivateRoomState{
+export interface PrivateRoomState{
     roomId: string | null
-    partnerName: string | null
-    partnerId: string | null
-    isHost: boolean,
+    hostId: string | null
+    guestId: string | null
+    status: "pending" | "jamming" | "none"
     isActive: boolean 
 }
 
 const initialState: PrivateRoomState = {
     roomId: null,
-    partnerName: null,
-    partnerId: null,
-    isHost: false,
+    hostId: null,
+    guestId: null,
+    status: "none",
     isActive: false 
 }
 
@@ -21,9 +21,9 @@ const PrivateRoomSlice = createSlice({
     reducers:{
          setPrivateRoom: (state, action: PayloadAction<Omit<PrivateRoomState, 'isActive'>>) => {
             state.roomId = action.payload.roomId;
-            state.partnerName = action.payload.partnerName;
-            state.partnerId = action.payload.partnerId;
-            state.isHost = action.payload.isHost;
+            state.hostId = action.payload.hostId;
+            state.guestId = action.payload.guestId;
+            state.status = action.payload.status;
             state.isActive = true;
         },
         clearPrivateRoom: () => {
