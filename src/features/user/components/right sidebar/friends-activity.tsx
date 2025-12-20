@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { Check, User, X } from "lucide-react";
+import { Check, LogOut, User, X } from "lucide-react";
 import { Friends, userApi } from "../../services/userApi";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useEffect,  useCallback } from "react";
@@ -8,15 +8,10 @@ import { socket } from "@/core/config/socket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 import { useDispatch } from "react-redux";
-import { setInviteState } from "../../slice/inviteState.slice";
+import { setBulkInvite, setInviteState } from "../../slice/inviteState.slice";
 import { clearPrivateRoom, setPrivateRoom } from "../../slice/privateRoomSlice";
+import { showError } from "@/core/utils/toast.config";
 
-interface RoomCreatedPayload {
-  roomId: string;
-  hostId: string;
-  guestId: string;
-  status:  "pending" | "jamming" | "none"
-}
 
 const FriendsActivity = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -24,102 +19,118 @@ const FriendsActivity = () => {
   const roomId = useSelector((state: RootState)=> state.privateRoom.roomId)
   const dispatch = useDispatch()
 
-  //const [inviteState, setInviteState] = useState<InviteStateMap>({});
-
   const {data: friends, isLoading, isError,error,} = useQuery({
     queryKey: ["friendsActivity"],
     queryFn: userApi.getFriends,
     enabled: !!user?.id,
   });
 
-  /* ---------- SOCKET LISTENERS ---------- */
+/* ---------- SOCKET LISTENERS ---------- */
 
-  useEffect(() => {
-    if (!user?.id) return;
+useEffect(() => {
+  if (!user?.id) return;
 
-    const handleInviteReceived = ({ fromUserId }: { fromUserId: string }) => {
-      dispatch(setInviteState({friendId: fromUserId, state: "recieved"}))
-    };
+  socket.emit("register", user.id);
 
-    const handleRoomCreated = (room: RoomCreatedPayload) => {
-      dispatch(setPrivateRoom(room))
-      dispatch(setInviteState({friendId: room.hostId, state: "connected"}))
-      dispatch(setInviteState({friendId: room.guestId, state: "connected"}))
-    };
+  const handleInviteReceived = (roomId: string) => {
+    dispatch(setInviteState({ friendId: roomId, state: "recieved" }));
+  };
 
-    const handleInviteRejected = ({ guestId }: { guestId: string }) => {
-      dispatch(setInviteState({friendId: guestId, state: "none"}))
-    };
+  const handleRoomMembersUpdated = (updatedRoom: any) => {
+    dispatch(setPrivateRoom(updatedRoom));
 
-    const handleLeftRoom = ({hostId, guestId} : {hostId: string, guestId: string})=>{
-        const friendId = hostId === user.id ? guestId : hostId;
-        dispatch(clearPrivateRoom());
-        dispatch(setInviteState({ friendId, state: "none" }));
-    }
+    updatedRoom.members.forEach((m: any) => {
+      if (m.id !== user.id) {
+        dispatch(
+          setInviteState({ friendId: m.id, state: "connected" })
+        );
+      }
+    });
+  };
 
-    socket.on("invite_received", handleInviteReceived);
-    socket.on("room_created", handleRoomCreated);
-    socket.on("invite_rejected", handleInviteRejected);
-    socket.on("room_cancelled", handleLeftRoom)
+  const handleInviteRejected = ({ guestId }: { guestId: string }) => {
+    dispatch(setInviteState({ friendId: guestId, state: "none" }));
+  };
 
-    return () => {
-      socket.off("invite_received", handleInviteReceived);
-      socket.off("room_created", handleRoomCreated);
-      socket.off("invite_rejected", handleInviteRejected);
-      socket.off("room_cancelled", handleLeftRoom)
-    };
-  }, [user?.id]);
+  const handleRoomDeleted = () => {
+    dispatch(clearPrivateRoom());
+    dispatch(setBulkInvite({}));
+  };
 
-  /* ---------- ACTIONS ---------- */
+  const handleInviteError = ({ message,  friendId }: { message: string, friendId: string }) => {
+    showError(message)
+    dispatch(setInviteState({ friendId, state: "none" }));
+  };
 
-  // send invite request
-  const sendInvite = useCallback(
-    (friendId: string) => {
-      if (!user?.id) return;
+  const handleInviteExpiredHost = ({ guestId }: { guestId: string }) => {
+      dispatch(setInviteState({ friendId: guestId, state: "none" }));
+  };
 
-      socket.emit("invite_send", {
-        fromUserId: user.id,
-        toUserId: friendId,
-      });
+  socket.on("invite_received", handleInviteReceived);
+  socket.on("room_members_updated", handleRoomMembersUpdated);
+  socket.on("invite_rejected", handleInviteRejected);
+  socket.on("room_deleted", handleRoomDeleted);
+  socket.on("invite_expired", handleInviteError);
+  socket.on("invite_expired_host", handleInviteExpiredHost);
 
-      dispatch(setInviteState({friendId, state: "pending"}))
+  return () => {
+    socket.off("invite_received", handleInviteReceived);
+    socket.off("room_members_updated", handleRoomMembersUpdated);
+    socket.off("invite_rejected", handleInviteRejected);
+    socket.off("room_deleted", handleRoomDeleted);
+    socket.off("invite_expired", handleInviteError);
+    socket.off("invite_expired_host", handleInviteExpiredHost);
+  };
+}, [user?.id]);
+
+/* ---------- ACTIONS ---------- */
+
+const sendInvite = useCallback((friendId: string) => {
+  if (!user?.id) return;
+
+  socket.emit("invite_send", {
+    fromUserId: user.id,
+    fromUserName: user.name,
+    fromUserImage: user.profilePicture,
+    toUserId: friendId,
+  });
+
+  dispatch(setInviteState({ friendId, state: "pending" }));
+}, [user?.id]);
+
+const acceptInvite = useCallback((hostId: string) => {
+  if (!user?.id) return;
+
+  socket.emit("accept_invite", {
+    roomId: hostId,
+    guestData: {
+      id: user.id,
+      name: user.name,
+      image: user.profilePicture,
     },
-    [user?.id]
-  );
+  });
+}, [user?.id]);
 
-  // accept invite request
-  const acceptInvite = useCallback(
-    (friendId: string) => {
-      if (!user?.id) return;
+const rejectInvite = useCallback((hostId: string) => {
+  if (!user?.id) return;
+ 
+  socket.emit("reject_invite", {
+    hostId,
+    guestId: user.id,
+  });
 
-      socket.emit("accept_invite", {
-        hostId: friendId,
-        guestId: user.id,
-      });
-    },
-    [user?.id]
-  );
+  dispatch(setInviteState({ friendId: hostId, state: "none" }));
+}, [user?.id]);
 
-  // reject invite request
-  const rejectInvite = useCallback(
-    (friendId: string) => {
-      if (!user?.id) return;
+const leftRoom = useCallback(() => {
+  if (!user?.id || !roomId) return;
 
-      socket.emit("reject_invite", {
-        hostId: friendId,
-        guestId: user.id,
-      });
+  socket.emit("left_room", {
+    userId: user.id,
+    roomId,
+  });
+}, [user?.id, roomId]);
 
-      dispatch(setInviteState({friendId, state: "none"}))
-    },
-    [user?.id]
-  );
-
-  const leftRoom = useCallback((roomId: string)=>{
-     if(!user?.id) return;
-
-     socket.emit("left_room", {userId: user.id,roomId})
-  },[user?.id])
 
 
   if (isLoading) return <SpinnerCustom />;
@@ -176,43 +187,21 @@ const FriendsActivity = () => {
 
               {/* ACTIONS */}
               <div className="ml-auto flex items-center gap-2">
-                {state === "recieved" && (
-                  <>
-                    <button
-                      onClick={() => acceptInvite(friend.id)}
-                      className="text-green-500 hover:scale-110 transition"
-                    >
-                      <Check size={20} />
-                    </button>
-                    <button
-                      onClick={() => rejectInvite(friend.id)}
-                      className="text-red-500 hover:scale-110 transition"
-                    >
-                      <X size={20} />
-                    </button>
-                  </>
-                )}
-
-                {state === "pending" && (
-                  <span className="text-gray-400 text-xs italic">Pending…</span>
-                )}
-
-                {state === "connected" && (
-                  // <span className="text-green-500 text-xs font-bold animate-pulse">
-                  //   Connecting
-                  // </span>
-                  <button
-                    onClick={() => leftRoom(roomId!)}
-                    className="px-3 py-1 text-xs font-semibold text-white border border-[#727272] rounded-full hover:border-white hover:scale-105 transition-all"
-                  >
-                    left
+                 {state === "connected" ? (
+                  <button onClick={leftRoom} className="text-red-500 text-xs flex items-center gap-1 hover:underline">
+                    <LogOut size={14} /> Leave
                   </button>
-                )}
-
-                {state === "none" && (
-                  <button
-                    onClick={() => sendInvite(friend.id)}
-                    className="px-3 py-1 text-xs font-semibold text-white border border-[#727272] rounded-full hover:border-white hover:scale-105 transition-all"
+                ) : state === "recieved" ? (
+                  <div className="flex gap-2">
+                    <button onClick={() => acceptInvite(friend.id)} className="text-green-500"><Check /></button>
+                    <button onClick={() => rejectInvite(friend.id)} className="text-red-500"><X /></button>
+                  </div>
+                ) : state === "pending" ? (
+                  <span className="text-gray-400 text-xs">Sent...</span>
+                ) : (
+                  <button 
+                    onClick={() => sendInvite(friend.id)} 
+                    className="px-3 py-1 text-xs border border-gray-500 rounded-full text-white hover:border-white"
                   >
                     Invite
                   </button>
