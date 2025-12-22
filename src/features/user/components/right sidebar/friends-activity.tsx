@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { Check, LogOut, User, X } from "lucide-react";
+import { Check, User, X } from "lucide-react";
 import { Friends, userApi } from "../../services/userApi";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useEffect,  useCallback } from "react";
@@ -8,15 +8,13 @@ import { socket } from "@/core/config/socket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 import { useDispatch } from "react-redux";
-import { setBulkInvite, setInviteState } from "../../slice/inviteState.slice";
-import { clearPrivateRoom, setPrivateRoom } from "../../slice/privateRoomSlice";
+import { setInviteState } from "../../slice/inviteState.slice";
 import { showError } from "@/core/utils/toast.config";
 
 
 const FriendsActivity = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const inviteState = useSelector((state: RootState)=> state.inviteState.invites)
-  const roomId = useSelector((state: RootState)=> state.privateRoom.roomId)
   const dispatch = useDispatch()
 
   const {data: friends, isLoading, isError,error,} = useQuery({
@@ -35,26 +33,8 @@ useEffect(() => {
   const handleInviteReceived = (roomId: string) => {
     dispatch(setInviteState({ friendId: roomId, state: "recieved" }));
   };
-
-  const handleRoomMembersUpdated = (updatedRoom: any) => {
-    dispatch(setPrivateRoom(updatedRoom));
-
-    updatedRoom.members.forEach((m: any) => {
-      if (m.id !== user.id) {
-        dispatch(
-          setInviteState({ friendId: m.id, state: "connected" })
-        );
-      }
-    });
-  };
-
   const handleInviteRejected = ({ guestId }: { guestId: string }) => {
     dispatch(setInviteState({ friendId: guestId, state: "none" }));
-  };
-
-  const handleRoomDeleted = () => {
-    dispatch(clearPrivateRoom());
-    dispatch(setBulkInvite({}));
   };
 
   const handleInviteError = ({ message,  friendId }: { message: string, friendId: string }) => {
@@ -67,17 +47,13 @@ useEffect(() => {
   };
 
   socket.on("invite_received", handleInviteReceived);
-  socket.on("room_members_updated", handleRoomMembersUpdated);
   socket.on("invite_rejected", handleInviteRejected);
-  socket.on("room_deleted", handleRoomDeleted);
   socket.on("invite_expired", handleInviteError);
   socket.on("invite_expired_host", handleInviteExpiredHost);
 
   return () => {
     socket.off("invite_received", handleInviteReceived);
-    socket.off("room_members_updated", handleRoomMembersUpdated);
     socket.off("invite_rejected", handleInviteRejected);
-    socket.off("room_deleted", handleRoomDeleted);
     socket.off("invite_expired", handleInviteError);
     socket.off("invite_expired_host", handleInviteExpiredHost);
   };
@@ -121,17 +97,6 @@ const rejectInvite = useCallback((hostId: string) => {
 
   dispatch(setInviteState({ friendId: hostId, state: "none" }));
 }, [user?.id]);
-
-const leftRoom = useCallback(() => {
-  if (!user?.id || !roomId) return;
-
-  socket.emit("left_room", {
-    userId: user.id,
-    roomId,
-  });
-}, [user?.id, roomId]);
-
-
 
   if (isLoading) return <SpinnerCustom />;
 
@@ -188,9 +153,7 @@ const leftRoom = useCallback(() => {
               {/* ACTIONS */}
               <div className="ml-auto flex items-center gap-2">
                  {state === "connected" ? (
-                  <button onClick={leftRoom} className="text-red-500 text-xs flex items-center gap-1 hover:underline">
-                    <LogOut size={14} /> Leave
-                  </button>
+                  <span className="text-gray-400 text-xs">in a room</span>
                 ) : state === "recieved" ? (
                   <div className="flex gap-2">
                     <button onClick={() => acceptInvite(friend.id)} className="text-green-500"><Check /></button>

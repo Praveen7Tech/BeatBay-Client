@@ -1,64 +1,132 @@
 
-import { Users, LogOut, Crown, User, X } from "lucide-react";
+import { socket } from "@/core/config/socket";
+import { RootState } from "@/core/store/store";
+import { Users, LogOut, Crown, User, X, Sparkles, UserPlus } from "lucide-react";
+import { useCallback, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { clearPrivateRoom, setPrivateRoom } from "../../slice/privateRoomSlice";
+import { setBulkInvite, setInviteState } from "../../slice/inviteState.slice";
 
-interface RoomUser {
-  id: string;
-  name: string;
-  avatar: string;
-  role: "host" | "guest";
-}
 
-interface PrivateRoomsProps {
-  roomName?: string;
-  users?: RoomUser[];
-  currentUserId?: string;
-  onLeave?: () => void;
-  onRemoveUser?: (userId: string) => void;
-}
+const PrivateRooms = () => {
+  const user = useSelector((state: RootState)=> state.auth.user)
+  const room = useSelector((state: RootState)=> state.privateRoom)
+  const isHost = room.hostId == user?.id
+  const members = room.members
+  const dispatch = useDispatch()
 
-const defaultUsers: RoomUser[] = [
-  { id: "1", name: "John", avatar: "https://i.pravatar.cc/40?img=1", role: "host" },
-  { id: "2", name: "Sarah", avatar: "https://i.pravatar.cc/40?img=2", role: "guest" },
-  { id: "3", name: "Mike", avatar: "https://i.pravatar.cc/40?img=3", role: "guest" },
-  { id: "4", name: "Emma", avatar: "https://i.pravatar.cc/40?img=4", role: "guest" },
-];
+  useEffect(()=>{
 
-const PrivateRooms = ({ 
-  roomName = "Chill Vibes", 
-  users = defaultUsers,
-  currentUserId = "1",
-  onLeave,
-  onRemoveUser
-}: PrivateRoomsProps) => {
-  const isHost = users.find(u => u.id === currentUserId)?.role === "host";
+    const handleRoomDeleted = () => {
+        dispatch(clearPrivateRoom());
+        dispatch(setBulkInvite({}));
+    };
+    const handleUserLeft = () => {
+        dispatch(clearPrivateRoom());
+        dispatch(setBulkInvite({}));
+    };
+    const handleRoomMembersUpdated = (type:string,updatedRoom: any, leftUserId?: string) => {
+
+        console.log("room update - ", type, leftUserId)
+        // only manage the user left action
+        if(type === "left" && leftUserId === user?.id) {
+            dispatch(clearPrivateRoom());
+            dispatch(setBulkInvite({}));
+            return;
+        }
+        
+        dispatch(setPrivateRoom(updatedRoom));
+    
+        if (type === "join") {
+            // Mark new members as connected
+            updatedRoom.members.forEach((m: any) => {
+                if (m.id !== user?.id) {
+                    dispatch(setInviteState({ friendId: m.id, state: "connected" }));
+                }
+            });
+        } else if (type === "left" && leftUserId ) {
+            if (leftUserId !== user?.id) {
+                dispatch(setInviteState({ friendId: leftUserId, state: "none" }));
+            }
+        }
+    };
+
+    socket.on("room_deleted", handleRoomDeleted);
+    socket.on("room_members_updated", handleRoomMembersUpdated);
+    socket.on("user_left", handleUserLeft)
+
+    return ()=>{
+      socket.off("room_deleted", handleRoomDeleted);
+      socket.off("room_members_updated", handleRoomMembersUpdated);
+      socket.off("user_left", handleUserLeft)
+    }
+    
+  },[user?.id])
+
+  const leftRoom = useCallback(() => {
+    if (!user?.id || !room.roomId) return;
   
+    socket.emit("left_room", {
+      userId: user.id,
+      roomId:room.roomId,
+    });
+
+    dispatch(clearPrivateRoom())
+    dispatch(setBulkInvite({}))
+  }, [user?.id, room.roomId]);
+
+
+  if (!room.isActive) {
+    return (
+      <div className="bg-[#1a1a1a] rounded-xl p-6 flex flex-col items-center justify-center text-center">
+        <div className="relative mb-4">
+          <div className="w-16 h-16 rounded-full bg-linear-to-br from-[#1DB954]/20 to-[#1DB954]/5 flex items-center justify-center animate-pulse">
+            <Users size={28} className="text-[#1DB954]" />
+          </div>
+          <div className="absolute -top-1 -right-1 animate-bounce">
+            <Sparkles size={16} className="text-[#1DB954]" />
+          </div>
+        </div>
+        
+        <h3 className="text-white font-semibold text-sm mb-1">Start a Private Room</h3>
+        <p className="text-spotify-secondary text-xs mb-4 max-w-[180px]">
+          Listen together with friends in real-time
+        </p>
+        
+        <button
+          // onClick={onCreateRoom}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#1DB954] hover:bg-spotify-green text-black font-medium text-sm transition-all hover:scale-105"
+        >
+          <UserPlus size={16} />
+          <span>Create Room</span>
+        </button>
+      </div>
+    );
+  }
   return (
     <div className="bg-[#1a1a1a] rounded-xl p-4">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-white font-semibold text-sm">{roomName}</h3>
+          <h3 className="text-white font-semibold text-sm">{"Chill Vibes"}</h3>
           <div className="flex items-center gap-1 text-spotify-secondary text-xs mt-1">
-            <Users size={12} />
-            <span>{users.length} listening</span>
+            <Users size={12} className="text-[#1DB954]"/>
+            <span>{members.length} listening</span>
           </div>
         </div>
-        <button 
-          onClick={onLeave}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#282828] hover:bg-[#3e3e3e] text-spotify-secondary hover:text-white text-xs transition-colors"
-        >
-          <LogOut size={12} />
-          <span>Leave</span>
-        </button>
+          <button onClick={leftRoom}  className="text-red-500 text-xs flex items-center gap-1 hover:underline py-1.5 px-3 rounded-full bg-[#282828] hover:bg-[#3e3e3e]">
+            <LogOut size={14} /> Leave
+          </button>
       </div>
       
       <div className="space-y-2">
-        {users.map((user) => (
+        {members.map((user) => (
           <div 
             key={user.id} 
             className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#282828] transition-colors group"
           >
             <img 
-              src={user.avatar} 
+              src={user.image} 
               alt={user.name}
               className="w-8 h-8 rounded-full object-cover"
             />
@@ -77,7 +145,7 @@ const PrivateRooms = ({
             </div>
             {isHost && user.role !== "host" && (
               <button
-                onClick={() => onRemoveUser?.(user.id)}
+                // onClick={() => onRemoveUser?.(user.id)}
                 className="opacity-0 group-hover:opacity-100 p-1.5 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 transition-all"
               >
                 <X size={12} />
