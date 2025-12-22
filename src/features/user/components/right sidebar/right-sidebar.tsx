@@ -16,6 +16,7 @@ export default function RightPanel() {
 
         {/* Private Room */}
         <div className="p-6 border-b border-[#2a2a2a]">
+          <h2 className="text-lg font-bold mb-4">PRIVATE ROOM</h2>
           <PrivateRoomCard />
         </div>
 
