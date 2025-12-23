@@ -9,14 +9,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "./core/store/store";
 import Spinner from "./core/components/Spinner";
 import { API_ROUTES } from "./core/api/apiRoutes";
-import {
-  clearPrivateRoom,
-  setPrivateRoom,
-} from "./features/user/slice/privateRoomSlice";
-import {
-  InviteState,
-  setBulkInvite,
-} from "./features/user/slice/inviteState.slice";
 
 const AppContext: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,48 +20,48 @@ const AppContext: React.FC = () => {
     const checkAuthStatus = async () => {
       try {
         const response = await axiosInstance.get(API_ROUTES.AUTH_STATUS);
-        const { user, accessToken, roomState, pendingInvite } = response.data;
+        const { user, accessToken } = response.data;
 
         console.log("hydra ", response.data);
         dispatch(completeInitialHydration({ user, accessToken }));
 
-        const bulkInviteStates: Record<string, InviteState> = {};
+        // const bulkInviteStates: Record<string, InviteState> = {};
 
-        if (roomState) {
-          dispatch(setPrivateRoom(roomState));
-          const isHost = roomState.hostId === user.id;
+        // if (roomState) {
+        //   dispatch(setPrivateRoom(roomState));
+        //   const isHost = roomState.hostId === user.id;
 
-          // Room is Active (Jamming)
-          if (roomState.status === "jamming") {
-            roomState.members.forEach((m: any) => {
-              if (m.id !== user.id) bulkInviteStates[m.id] = "connected";
-            });
-          }
-          //  Host interface show pending state of guets (users)
-          if (
-            isHost &&
-            roomState.pendingGuests &&
-            Array.isArray(roomState.pendingGuests)
-          ) {
-            roomState.pendingGuests.forEach((guestId: string) => {
-              if (!bulkInviteStates[guestId]) {
-                bulkInviteStates[guestId] = "pending";
-              }
-            });
-          }
-        }
+        //   // Room is Active (Jamming)
+        //   if (roomState.status === "jamming") {
+        //     roomState.members.forEach((m: any) => {
+        //       if (m.id !== user.id) bulkInviteStates[m.id] = "connected";
+        //     });
+        //   }
+        //   //  Host interface show pending state of guets (users)
+        //   if (
+        //     isHost &&
+        //     roomState.pendingGuests &&
+        //     Array.isArray(roomState.pendingGuests)
+        //   ) {
+        //     roomState.pendingGuests.forEach((guestId: string) => {
+        //       if (!bulkInviteStates[guestId]) {
+        //         bulkInviteStates[guestId] = "pending";
+        //       }
+        //     });
+        //   }
+        // }
 
-        // Guest persistence (Before  join any room)
-        // If the backend found a pending invite key in Redis for this user
-        if (pendingInvite) {
-          bulkInviteStates[pendingInvite.hostId] = "recieved";
-        }
+        // // Guest persistence (Before  join any room)
+        // // If the backend found a pending invite key in Redis for this user
+        // if (pendingInvite) {
+        //   bulkInviteStates[pendingInvite.hostId] = "recieved";
+        // }
 
-        dispatch(setBulkInvite(bulkInviteStates));
+        // dispatch(setBulkInvite(bulkInviteStates));
 
-        if (!roomState) {
-          dispatch(clearPrivateRoom());
-        }
+        // if (!roomState) {
+        //   dispatch(clearPrivateRoom());
+        // }
       } catch (error) {
         console.error("Hydration error:", error);
       }

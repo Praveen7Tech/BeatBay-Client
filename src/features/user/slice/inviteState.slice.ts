@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type InviteState = "none" | "pending" | "recieved" | "connected" | "another_room"
 
-interface InviteStateMap {
+ export interface InviteStateMap {
     [friendId: string] : InviteState
 }
 
