@@ -18,6 +18,12 @@ const PrivateRooms = () => {
 
   useEffect(()=>{
 
+    const restoreRoomState = (roomData: any)=> {
+      if(roomData){
+         dispatch(setPrivateRoom(roomData))
+      }
+    }
+
     const handleRoomDeleted = () => {
         dispatch(clearPrivateRoom());
         dispatch(setBulkInvite({}));
@@ -51,6 +57,8 @@ const PrivateRooms = () => {
             }
         }
     };
+
+    socket.on("restore_room_state", restoreRoomState)
 
     socket.on("room_deleted", handleRoomDeleted);
     socket.on("room_members_updated", handleRoomMembersUpdated);

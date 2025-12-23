@@ -8,8 +8,9 @@ import { socket } from "@/core/config/socket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 import { useDispatch } from "react-redux";
-import { setInviteState } from "../../slice/inviteState.slice";
+import { setBulkInvite, setInviteState } from "../../slice/inviteState.slice";
 import { showError } from "@/core/utils/toast.config";
+import { setPrivateRoom } from "../../slice/privateRoomSlice";
 
 
 const FriendsActivity = () => {
@@ -28,10 +29,16 @@ const FriendsActivity = () => {
 useEffect(() => {
   if (!user?.id) return;
 
-  socket.emit("register", user.id);
+  const SyncFriendsStatus = (friedsState:any)=>{
+    dispatch(setBulkInvite(friedsState))
+  }
 
-  const handleInviteReceived = (roomId: string) => {
-    dispatch(setInviteState({ friendId: roomId, state: "recieved" }));
+  const handleRoomCreation = (roomData: any)=>{
+      dispatch(setPrivateRoom(roomData))
+  }
+
+  const handleInviteReceived = ({ fromUserId }: { fromUserId: string }) => {
+    dispatch(setInviteState({ friendId: fromUserId, state: "recieved" }));
   };
   const handleInviteRejected = ({ guestId }: { guestId: string }) => {
     dispatch(setInviteState({ friendId: guestId, state: "none" }));
@@ -46,12 +53,25 @@ useEffect(() => {
       dispatch(setInviteState({ friendId: guestId, state: "none" }));
   };
 
+  const handleGlobalStatusChange = ({ friendId, status }: any) => {
+    // Updates "connected" status globally
+    dispatch(setInviteState({ friendId, state: status }));
+  };
+
+  socket.on("room_created", handleRoomCreation)
+  socket.on("sync_friends_status", SyncFriendsStatus)
+  socket.on("friend_status_changed", handleGlobalStatusChange);
+
   socket.on("invite_received", handleInviteReceived);
   socket.on("invite_rejected", handleInviteRejected);
   socket.on("invite_expired", handleInviteError);
   socket.on("invite_expired_host", handleInviteExpiredHost);
 
   return () => {
+    socket.off("room_created", handleRoomCreation)
+    socket.off("sync_friends_status", SyncFriendsStatus)
+    socket.off("friend_status_changed", handleGlobalStatusChange);
+
     socket.off("invite_received", handleInviteReceived);
     socket.off("invite_rejected", handleInviteRejected);
     socket.off("invite_expired", handleInviteError);
