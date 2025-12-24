@@ -34,9 +34,9 @@ const PrivateRooms = () => {
     };
     const handleRoomMembersUpdated = (type:string,updatedRoom: any, leftUserId?: string) => {
 
-        console.log("room update - ", type, leftUserId)
         // only manage the user left action
         if(type === "left" && leftUserId === user?.id) {
+          console.log("only user left")
             dispatch(clearPrivateRoom());
             dispatch(setBulkInvite({}));
             return;
@@ -52,8 +52,15 @@ const PrivateRooms = () => {
                 }
             });
         } else if (type === "left" && leftUserId ) {
+          console.log("only user remove")
             if (leftUserId !== user?.id) {
                 dispatch(setInviteState({ friendId: leftUserId, state: "none" }));
+            }
+        } else if(type === "remove" && leftUserId){
+            if(leftUserId !== user?.id){
+              dispatch(setInviteState({friendId: leftUserId, state: "none"}))
+            }else{
+              dispatch(clearPrivateRoom())
             }
         }
     };
@@ -83,6 +90,10 @@ const PrivateRooms = () => {
     dispatch(clearPrivateRoom())
     dispatch(setBulkInvite({}))
   }, [user?.id, room.roomId]);
+
+  const removeUser = useCallback((userId: string)=>{
+    socket.emit("remove_user", {userId:userId, roomId: room.roomId})
+  },[user?.id, room.roomId])
 
 
   if (!room.isActive) {
@@ -133,11 +144,17 @@ const PrivateRooms = () => {
             key={user.id} 
             className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#282828] transition-colors group"
           >
-            <img 
+            {user.image ? (
+              <img 
               src={user.image} 
               alt={user.name}
-              className="w-8 h-8 rounded-full object-cover"
+              className="w-10 h-10 rounded-full bg-[#282828]"
             />
+            ): (
+               <div className="w-10 h-10 rounded-full bg-[#282828] flex items-center justify-center">
+                      <User className="h-5 w-5 text-white opacity-70" />
+                </div>
+            )}
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">{user.name}</p>
               <div className="flex items-center gap-1">
@@ -153,7 +170,7 @@ const PrivateRooms = () => {
             </div>
             {isHost && user.role !== "host" && (
               <button
-                // onClick={() => onRemoveUser?.(user.id)}
+                 onClick={() => removeUser(user.id)}
                 className="opacity-0 group-hover:opacity-100 p-1.5 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 transition-all"
               >
                 <X size={12} />

@@ -37,8 +37,9 @@ useEffect(() => {
       dispatch(setPrivateRoom(roomData))
   }
 
-  const handleInviteReceived = ({ fromUserId }: { fromUserId: string }) => {
+  const handleInviteReceived = (fromUserId: string ) => {
     dispatch(setInviteState({ friendId: fromUserId, state: "recieved" }));
+    console.log("make", fromUserId, "pending status")
   };
   const handleInviteRejected = ({ guestId }: { guestId: string }) => {
     dispatch(setInviteState({ friendId: guestId, state: "none" }));
@@ -105,6 +106,7 @@ const acceptInvite = useCallback((hostId: string) => {
       image: user.profilePicture,
     },
   });
+  console.log("accept trigger ", hostId)
 }, [user?.id]);
 
 const rejectInvite = useCallback((hostId: string) => {
