@@ -4,11 +4,14 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { useAudioContext } from "@/core/context/useAudioContext"; 
 import { formatTime } from "@/core/utils/formatTime";
+import { useSelector } from "react-redux";
+import { RootState } from "@/core/store/store";
 
 type SliderProps = React.ComponentProps<typeof Slider>
 
 export const MusicPlayer = ({ className, ...props }: SliderProps) => {
 
+  const room = useSelector((state:RootState)=> state.privateRoom)
   const {currentSong, currentTime, isPlaying, playPause, volume, setVolume, seekTime,
     skipForward, skipBackward, isRepeating, RepeatSong
   } = useAudioContext()
@@ -21,6 +24,18 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
     const newTime = (newPercentage / 100) * Duration
     seekTime(newTime)
   }
+
+   const displaySong = room.isActive && room.songData ? {
+      title: room.songData.title,
+      artistName: room.songData.artist,
+      coverImageUrl: room.songData.image,
+      duration: currentSong?.duration // Keep duration from context or songData
+  } : {
+      title: currentSong?.title,
+      artistName: currentSong?.artistId?.name,
+      coverImageUrl: currentSong?.coverImageUrl,
+      duration: currentSong?.duration
+  };
 
   // volume updation
   const handleVolumeChange = (value: number[])=>{
@@ -42,7 +57,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
          <div className="w-14 h-14 rounded overflow-hidden bg-[#222] flex items-center justify-center">
             {currentSong?.coverImageUrl ? (
               <img
-                src={currentSong.coverImageUrl}
+                src={displaySong.coverImageUrl}
                 alt="cover"
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -55,10 +70,10 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
           </div>
           <div className="flex flex-col overflow-hidden">
             <span className="text-sm text-white font-medium truncate">
-              {currentSong?.title }
+              {displaySong?.title }
             </span>
             <span className="text-xs text-spotify-secondary truncate">
-              {currentSong?.artistId.name}
+              {displaySong?.artistName}
             </span>
           </div>
         </div>

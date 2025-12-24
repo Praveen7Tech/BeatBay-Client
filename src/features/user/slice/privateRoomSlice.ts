@@ -6,6 +6,16 @@ export interface RoomMember {
     image: string;
     role: "host" | "guest";
 }
+export interface SongData{
+    id:string
+    title:string
+    image: string
+    audioUrl: string
+    artist: string
+    timestamp: number
+    isPlaying: boolean
+    updatedAt:number
+}
 export interface PrivateRoomState{
     roomId: string | null
     hostId: string | null
@@ -13,6 +23,7 @@ export interface PrivateRoomState{
     pendingGuests: string[] | []
     status: "pending" | "jamming" | "none"
     isActive: boolean 
+    songData:SongData | null
 }
 
 const initialState: PrivateRoomState = {
@@ -20,6 +31,7 @@ const initialState: PrivateRoomState = {
     hostId: null,
     members:[],
     pendingGuests: [],
+    songData: null,
     status: "none",
     isActive: false 
 }
@@ -32,6 +44,7 @@ const PrivateRoomSlice = createSlice({
             state.roomId = action.payload.roomId;
             state.hostId = action.payload.hostId;
             state.members = action.payload.members || [];
+            state.songData = action.payload.songData
             state.status = action.payload.status;
             state.isActive = true;
         },
@@ -42,9 +55,12 @@ const PrivateRoomSlice = createSlice({
         },
         clearPrivateRoom: () => {
             return initialState;
-        }
+        },
+        setRoomSongData: (state, action: PayloadAction<SongData>) => {
+            state.songData = action.payload;
+        },
     }
 })
 
-export const {setPrivateRoom,clearPrivateRoom} = PrivateRoomSlice.actions
+export const {setPrivateRoom,clearPrivateRoom, setRoomSongData} = PrivateRoomSlice.actions
 export default PrivateRoomSlice.reducer
