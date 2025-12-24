@@ -55,7 +55,7 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
 
     // initiate the audio player hook
     const {isPlaying, currentTime, playPause, seekTime, setVolume} = useAudioPlayer(
-        {currentSongId, initialTime, audioUrl, onEnded: skipForward, isRepeating})
+        {currentSongId, initialTime, audioUrl, onEnded: skipForward, isRepeating, currentSong})
 
     //hydration for fetch last played song if exists
     useEffect(()=>{
