@@ -26,12 +26,8 @@ const PrivateRooms = () => {
 
     const handleRoomDeleted = () => {
         dispatch(clearPrivateRoom());
-        dispatch(setBulkInvite({}));
     };
-    const handleUserLeft = () => {
-        dispatch(clearPrivateRoom());
-        dispatch(setBulkInvite({}));
-    };
+   
     const handleRoomMembersUpdated = (type:string,updatedRoom: any, leftUserId?: string) => {
 
         // only manage the user left action
@@ -69,12 +65,11 @@ const PrivateRooms = () => {
 
     socket.on("room_deleted", handleRoomDeleted);
     socket.on("room_members_updated", handleRoomMembersUpdated);
-    socket.on("user_left", handleUserLeft)
 
     return ()=>{
+      socket.off("restore_room_state", restoreRoomState)
       socket.off("room_deleted", handleRoomDeleted);
       socket.off("room_members_updated", handleRoomMembersUpdated);
-      socket.off("user_left", handleUserLeft)
     }
     
   },[user?.id])
@@ -87,8 +82,6 @@ const PrivateRooms = () => {
       roomId:room.roomId,
     });
 
-    dispatch(clearPrivateRoom())
-    dispatch(setBulkInvite({}))
   }, [user?.id, room.roomId]);
 
   const removeUser = useCallback((userId: string)=>{
