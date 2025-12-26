@@ -42,11 +42,13 @@ useEffect(() => {
     console.log("make", fromUserId, "pending status")
   };
   const handleInviteRejected = ({ guestId }: { guestId: string }) => {
+    console.log("invite rjected ", guestId)
     dispatch(setInviteState({ friendId: guestId, state: "none" }));
   };
 
   const handleInviteError = ({ message,  friendId }: { message: string, friendId: string }) => {
     showError(message)
+    console.log("friend id  ",friendId)
     dispatch(setInviteState({ friendId, state: "none" }));
   };
 
@@ -117,7 +119,7 @@ const rejectInvite = useCallback((hostId: string) => {
     guestId: user.id,
   });
 
-  dispatch(setInviteState({ friendId: hostId, state: "none" }));
+  dispatch(setInviteState({ friendId: hostId, state: "connected" }));
 }, [user?.id]);
 
   if (isLoading) return <SpinnerCustom />;
