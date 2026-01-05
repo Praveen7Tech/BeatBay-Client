@@ -1,4 +1,4 @@
-import { Play, Plus } from "lucide-react";
+import { Pause, Play, Plus } from "lucide-react";
 import { useState } from "react";
 import { PlaylistEditDialog } from "../../pages/playlist/editPlayList";
 import { PlaylistDetailsResponse } from "../../services/userApi";
@@ -6,9 +6,11 @@ import { PlaylistDetailsResponse } from "../../services/userApi";
 interface PlaylistHeaderProps {
   playListData: PlaylistDetailsResponse
   onAddSongClick: () => void;
+  handlePlayPause: ()=> void
+  isPlaying: boolean
 }
 
-export const PlaylistHeader = ({ playListData, onAddSongClick}: PlaylistHeaderProps) => {
+export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handlePlayPause}: PlaylistHeaderProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   
   return (
@@ -49,10 +51,15 @@ export const PlaylistHeader = ({ playListData, onAddSongClick}: PlaylistHeaderPr
       </div>
 
       <div className="flex items-center gap-4 mb-6">
-        <button
+        {isPlaying }
+        <button onClick={handlePlayPause}
           className="w-14 h-14 rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center shadow-lg"
         >
-          <Play className="h-6 w-6 fill-black text-black ml-1" />
+          {isPlaying ? (
+              <Pause className="h-6 w-6 fill-black text-black" />
+            ):(
+              <Play className="h-6 w-6 fill-black text-black ml-1" />
+            )} 
         </button>
 
         <button

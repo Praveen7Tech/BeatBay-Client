@@ -29,9 +29,12 @@ export default function HomeContent() {
         <div className="px-6 py-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">Popular Releases</h2>
-            <a href="#" className="text-[#00d084] text-sm hover:underline">
+            <Link 
+              to={`/showall?type=songs`} 
+              className="text-[#00d084] text-sm hover:underline"
+            >
               Show All →
-            </a>
+            </Link>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {songs && songs.length > 0 ? (
@@ -51,9 +54,12 @@ export default function HomeContent() {
         <div className="px-6 py-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">Trending Albums</h2>
-            <a href="#" className="text-[#00d084] text-sm hover:underline">
+            <Link 
+              to={`/showall?type=albums`} 
+              className="text-[#00d084] text-sm hover:underline"
+            >
               Show All →
-            </a>
+            </Link>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             { albums && albums.length > 0 ? (

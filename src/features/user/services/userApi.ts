@@ -299,5 +299,15 @@ export const userApi ={
     getFriends: async():Promise<FriendsResponse>=>{
       const response = await axiosInstance.get(API_ROUTES_USER.FRIENDS)
       return response.data
-    }
+    },
+
+    fetchPaginatedData: async ({ type, page, limit, q, genre }: any) => {
+      const endpoint = type === 'songs' ? '/user/songs' : '/user/albums';
+      const response = await axiosInstance.get(endpoint, {
+        params: { page, limit, q, genre }
+      });
+      // Expected response shape: { docs: Array, totalPages: number, currentPage: number }
+      console.log("results ", response.data)
+      return response.data;
+    },
 }

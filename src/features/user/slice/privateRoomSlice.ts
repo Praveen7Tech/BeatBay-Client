@@ -24,6 +24,7 @@ export interface PrivateRoomState{
     status: "pending" | "jamming" | "none"
     isActive: boolean 
     songData:SongData | null
+    queue: SongData[];
 }
 
 const initialState: PrivateRoomState = {
@@ -33,7 +34,8 @@ const initialState: PrivateRoomState = {
     pendingGuests: [],
     songData: null,
     status: "none",
-    isActive: false 
+    isActive: false,
+    queue: [] 
 }
 
 const PrivateRoomSlice = createSlice({
@@ -46,6 +48,7 @@ const PrivateRoomSlice = createSlice({
             state.members = action.payload.members || [];
             state.songData = action.payload.songData
             state.status = action.payload.status;
+            state.queue = action.payload.queue
             state.isActive = true;
         },
         addMemberToRoom: (state, action: PayloadAction<RoomMember>) => {
@@ -59,8 +62,11 @@ const PrivateRoomSlice = createSlice({
         setRoomSongData: (state, action: PayloadAction<SongData>) => {
             state.songData = action.payload;
         },
+        setRoomQueue: (state, action: PayloadAction<SongData[]>) => {
+            state.queue = action.payload;
+        },
     }
 })
 
-export const {setPrivateRoom,clearPrivateRoom, setRoomSongData} = PrivateRoomSlice.actions
+export const {setPrivateRoom,clearPrivateRoom, setRoomSongData, setRoomQueue} = PrivateRoomSlice.actions
 export default PrivateRoomSlice.reducer

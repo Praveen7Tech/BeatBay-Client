@@ -4,6 +4,7 @@ import { PlaylistHeader } from "../../components/playlist/playList.header";
 import { PlaylistSearchSection } from "../../components/playlist/searchSection";
 import { usePlaylistDetails,useSearchSongs, useAddSongToPlaylist} from "@/core/hooks/playList/usePlayList";
 import { SongTable } from "@/core/components/song/SongTable";
+import { useAudioContext } from "@/core/context/useAudioContext";
 
 export default function PlaylistDetail() {
   const { playlistId } = useParams<{ playlistId: string }>();
@@ -17,6 +18,7 @@ export default function PlaylistDetail() {
       </div>
     );
   }
+  const { setPlaylistAndPlay, isPlaying,playPause, currentSong } = useAudioContext();
 
   // playlist query
   const {data: playlist,isLoading: isPlaylistLoading,isError: isPlaylistError,} = usePlaylistDetails(playlistId);
@@ -51,12 +53,28 @@ export default function PlaylistDetail() {
     );
   }
 
+  const songs = playlist.songs
+  const isCurrentSongPlaying = currentSong?._id === songs[0]._id
+
+  const handlePlayPause = () => {
+    if (isCurrentSongPlaying) {
+      playPause();
+    } else {
+      const playlist = [
+        ...songs
+      ];
+      setPlaylistAndPlay(playlist, 0);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-b from-spotify-dark to-[#000000] text-white">
       <div className="max-w-7xl mx-auto p-8">
         <PlaylistHeader
           playListData={playlist}
           onAddSongClick={() => setIsSearchOpen(true)}
+          handlePlayPause = {handlePlayPause}
+          isPlaying={isPlaying}
         />
         <SongTable 
           songs={playlist.songs}
