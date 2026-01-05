@@ -4,6 +4,7 @@ import { NavLink } from "@/components/NavLink";
 import { useUserFollowing, useUserPlayLists } from "@/core/hooks/api/useFetchHooks";
 import { useCreatePlayList } from "@/core/hooks/playList/usePlayList";
 import { SidebarShimmer } from "@/core/components/shimmers/SidebarShimmer";
+import { FollowingResponse } from "../../services/userApi";
 
 const mainItems = [
   { title: "Home", url: "/home", icon: Home },
@@ -16,7 +17,7 @@ export function Sidebar() {
 
   // fetch playlist and folowerss
   const {data: playlists, isLoading, isError, error} = useUserPlayLists()
-  const { data: followers, isLoading: follow, isError:followError, } = useUserFollowing()
+  const { data: followers, isLoading: follow, isError:followError, } = useUserFollowing(1, 6)
   // create PlayList hook
   const createPlayList = useCreatePlayList()
   const HandleCreatePlayList = ()=>{
@@ -29,6 +30,8 @@ export function Sidebar() {
   if(isError || followError){
     return <p>{error?.message }</p>
   }
+
+  const artists = followers?.docs.filter((f:FollowingResponse)=> f.role === "artist")
 
   return (
     <aside
@@ -122,9 +125,9 @@ export function Sidebar() {
 
         {/* Artists */}
         {isOpen && <h3 className="text-xs font-semibold text-sidebar-foreground mt-3 px-3">Artists</h3>}
-        {followers?.length! > 0 && (
+        {artists?.length! > 0 && (
         <div className="overflow-y-auto h-[25vh] pr-2 space-y-1">
-          {followers?.map((artist) => (
+          {artists?.map((artist) => (
             <NavLink
               key={artist.id}
               to={`/artist/${artist.id}`}

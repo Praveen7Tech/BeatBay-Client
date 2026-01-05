@@ -37,12 +37,22 @@ export const useUserPlayLists = ()=>{
     })
 }
 
-export const useUserFollowing = () =>{
+export const useUserFollowing = (page:number, limit :number) =>{
     return useQuery({
-        queryKey: ["followingList"],
-        queryFn: () => userApi.following()
+        queryKey: ["followingList", page, limit],
+        queryFn: () => userApi.following(page, limit),
+        placeholderData: (previousData) => previousData
     })
 }
+
+export const useUserFollowers = (page:number, limit:number) =>{
+    return useQuery({
+        queryKey: ["followersList",  page, limit],
+        queryFn: () => userApi.followers(page, limit),
+        placeholderData: (previousData) => previousData
+    })
+}
+
 
 export const useFetchsongById =(songId: string) =>{
     return useQuery({
