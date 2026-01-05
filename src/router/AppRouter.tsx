@@ -50,6 +50,7 @@ import BrowseSection from '@/features/user/pages/discover/BrowseSection';
 import UserProfile from '@/features/user/pages/users-profile/ProfileDetails';
 import Room from '@/features/user/pages/private-room/PrivateRoom';
 import ExplorePage from '@/features/user/pages/home/allSongs';
+import FollowingListing from '@/features/user/pages/following/Following';
 
 const AppRouter: React.FC = () => {
   return (
@@ -97,6 +98,7 @@ const AppRouter: React.FC = () => {
           <Route path='/private-room' element={<Room/>}/>
 
           <Route path='/showall' element={<ExplorePage/>}/>
+          <Route path="/connections/:type" element={<FollowingListing />} />
         </Route>
 
         {/* admin routes */}

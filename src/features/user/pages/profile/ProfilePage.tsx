@@ -4,6 +4,7 @@ import { MyPlaylists } from "../../components/profile/MyPlaylist"
 import { ProfileHeader } from "../../components/profile/ProfileHeader"
 import { EditProfileForm } from "../../components/profile/EditProfileForm"
 import { EditPassword } from "../../components/profile/EditPassword"
+import { FollowersSection } from "../../components/followers/folowersSection"
 
 type ProfileSection = "default" | "editProfile" | "editPassword"
 
@@ -28,6 +29,7 @@ export default function ProfilePage() {
           <>
             <MyPlaylists />
             <FollowingSection />
+            <FollowersSection/>
           </>
         )}
       </div>
