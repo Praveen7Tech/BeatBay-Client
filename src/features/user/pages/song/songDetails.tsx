@@ -31,8 +31,7 @@ export default function SongDetail() {
   const song = data!.songs;
   const recomentedSongs = data!.recomentations;
 
-  const isCurrentSongPlaying =
-    isPlaying && currentSong?._id === song._id;
+  const isCurrentSongPlaying = currentSong?._id === song._id;
 
   const handlePlayPause = () => {
     if (isCurrentSongPlaying) {
@@ -57,7 +56,7 @@ export default function SongDetail() {
           title={song.title}
           coverImageUrl={song.coverImageUrl}
           duration={song.duration}
-          isPlaying={isCurrentSongPlaying}
+          isPlaying={isPlaying}
           onPlayPause={handlePlayPause}
         />
 

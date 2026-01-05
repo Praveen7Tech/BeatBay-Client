@@ -82,7 +82,7 @@ export const PlaylistSearchSection = ({
       </div>
 
       {/* Search results section */}
-      <div className="space-y-2 min-h-[200px] flex flex-col">
+      <div className="space-y-2 min-h-[100px] flex flex-col">
         {isSearching ? (
           <div className="flex items-center justify-center h-10">
             <ThreeDots
@@ -98,7 +98,7 @@ export const PlaylistSearchSection = ({
             {songs.map((song) => (
               <div
                 key={song._id}
-                className="flex items-center gap-4 p-2 rounded hover:bg-[#282828] transition-colors group"
+                className="flex items-center gap-2 p-2 rounded hover:bg-[#282828] transition-colors group"
               >
                 <img
                   src={song.coverImageUrl}

@@ -7,6 +7,7 @@ import { RootState } from "@/core/store/store";
 import { FollowingCard } from "../../components/following/FollowingCard";
 import { SpinnerCustom } from "@/components/ui/spinner"; 
 import { useSearch } from "@/core/hooks/Search/useDiscoverSearch";
+import SearchEmptyState from "./EmptyResult";
 
 const filters = ["All", "Songs", "Playlists", "Albums", "Artists", "Profiles"];
 
@@ -14,6 +15,18 @@ const Discover = () => {
   
   const searchQueryRedux = useSelector((state: RootState)=> state.search.query)
   const {topResult, songs, albums, artists, users, loading, setActiveFilter, activeFilter} = useSearch(searchQueryRedux)
+
+  const hasResults =
+    !!topResult ||
+    songs.length > 0 ||
+    albums.length > 0 ||
+    artists.length > 0 ||
+    users.length > 0;
+
+  const shouldShowEmpty =
+    !loading &&
+    !hasResults &&
+    searchQueryRedux.trim().length > 0;
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -39,6 +52,7 @@ const Discover = () => {
           </button>
         ))}
       </div>
+       {shouldShowEmpty && <SearchEmptyState/>}
 
       {/* Results Grid */}
      {(topResult || songs.length > 0) && (

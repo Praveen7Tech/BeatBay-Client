@@ -33,12 +33,12 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
     }, [isRepeating])
 
     // initail song updation and action s managing
-    useEffect(() => {
-        // When the host switches the song (audioUrl changes), broadcast immediately
-        if (isHost && audioUrl && room.roomId && currentSong) {
-            broadcastSync(true, 0); // Start at 0 seconds, isPlaying: true
-        }
-    }, [audioUrl, isHost, room.roomId]); 
+    // useEffect(() => {
+    //     // When the host switches the song (audioUrl changes), broadcast immediately
+    //     if (isHost && audioUrl && room.roomId && currentSong) {
+    //         broadcastSync(true, 0); // Start at 0 seconds, isPlaying: true
+    //     }
+    // }, [audioUrl, isHost, room.roomId]); 
 
     // initial audio element creation when component mount
     useEffect(()=>{
@@ -115,7 +115,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
 
     // manage song sync in private room
     useEffect(() => {
-        if (!socket || isHost) return;
+        if (!socket) return;
 
         socket.on("receive_player_sync", (data: SongData) => {
             if (audioRef.current) {
@@ -149,22 +149,22 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
     }, [socket, isHost]);
 
     // broadcast event when host action change
-    const broadcastSync = (playing: boolean, time: number) => {
-        if (isHost && room.roomId && currentSong) {
-            console.log("here we gooooooo-",room.roomId)
-            const syncPayload: any = {
-                id: currentSong._id,
-                title: currentSong.title,
-                image: currentSong.coverImageUrl,
-                audioUrl: currentSong.audioUrl,
-                artist: currentSong.artistId.name,
-                isPlaying: playing,
-                timestamp: time,
-                updatedAt: Date.now()
-            };
-            socket.emit("player_sync", { roomId: room.roomId, songData: syncPayload });
-        }
-    };
+    // const broadcastSync = (playing: boolean, time: number) => {
+    //     if (isHost && room.roomId && currentSong) {
+    //         console.log("here we gooooooo-",room.roomId)
+    //         const syncPayload: any = {
+    //             id: currentSong._id,
+    //             title: currentSong.title,
+    //             image: currentSong.coverImageUrl,
+    //             audioUrl: currentSong.audioUrl,
+    //             artist: currentSong.artistId.name,
+    //             isPlaying: playing,
+    //             timestamp: time,
+    //             updatedAt: Date.now()
+    //         };
+    //         socket.emit("player_sync", { roomId: room.roomId, songData: syncPayload });
+    //     }
+    // };
 
 
     // manage play and pause action
@@ -181,7 +181,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
             setIsPlaying(!isPlaying)
 
             // broadcast sync
-            broadcastSync(!isPlaying, audioRef.current.currentTime)
+            //broadcastSync(!isPlaying, audioRef.current.currentTime)
         }
     },[isPlaying])
 
@@ -192,9 +192,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
             audioRef.current.currentTime = time
 
             //broadcast
-            if (isHost && socket && room.roomId && currentSong) {
-                broadcastSync(isPlaying, time);
-            }
+            //broadcastSync(isPlaying, time);
         }
     },[])
 
