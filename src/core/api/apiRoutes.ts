@@ -24,7 +24,10 @@ export const API_ROUTE_ADMIN = {
   BLOCK_ARTIST: '/admin/block-artist',
   UN_BLOCK_ARTIST: '/admin/unBlock-artist',
 
-  GET_DASHBOARD_DATA:'/admin/get-dashboard-data'
+  GET_DASHBOARD_DATA:'/admin/get-dashboard-data',
+  GET_SONGS: '/admin/get-allsongs',
+  GET_SONG_BYID:'/admin/get-songbyid/:id',
+  TOGGLE_STATUS: '/admin/song/:id/status'
 }
 
 export const API_ROUTE_ARTIST = {

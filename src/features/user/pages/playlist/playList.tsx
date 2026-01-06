@@ -54,7 +54,7 @@ export default function PlaylistDetail() {
   }
 
   const songs = playlist.songs
-  const isCurrentSongPlaying = currentSong?._id === songs[0]._id
+  const isCurrentSongPlaying = currentSong?._id === songs[0]?._id
 
   const handlePlayPause = () => {
     if (isCurrentSongPlaying) {
