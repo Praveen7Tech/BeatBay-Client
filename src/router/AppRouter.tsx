@@ -51,6 +51,8 @@ import UserProfile from '@/features/user/pages/users-profile/ProfileDetails';
 import Room from '@/features/user/pages/private-room/PrivateRoom';
 import ExplorePage from '@/features/user/pages/home/allSongs';
 import FollowingListing from '@/features/user/pages/following/Following';
+import AdminSongs from '@/features/admin/pages/songs/song.listing';
+import AdminSongDetail from '@/features/admin/pages/songs/songDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -109,6 +111,9 @@ const AppRouter: React.FC = () => {
 
           <Route path='/admin/artists' element={<ArtistListing/>}/>
           <Route path='/admin/artists/:artistId' element={<ArtistDetails/>}/>
+
+          <Route path='/admin/songs' element={<AdminSongs/>}/>
+          <Route path='/admin/songs/:id' element={<AdminSongDetail/>}/>
         </Route>
 
         {/* artist routes */}

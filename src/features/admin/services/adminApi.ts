@@ -105,6 +105,24 @@ export interface  DashBordResponse{
   message?: string
 }
 
+export interface AdminSong {
+  id: string;
+  title: string;
+  artist: string;
+  album: string;
+  coverImage: string;
+  duration: string;
+  streams: number;
+  status: boolean;
+  uploadDate: string;
+  genre: string;
+}
+
+export interface SongResponse {
+  songs: AdminSong[];
+  totalCount: number;
+  totalPages: number;
+}
 
 
 export const adminApi = {
@@ -151,5 +169,27 @@ export const adminApi = {
     getDahsboardDetils: async(): Promise<DashBordResponse>=>{
       const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_DASHBOARD_DATA)
       return response.data
+    },
+
+    getAllSongs: async (params: {page: number;  limit: number;search?: string;status?: string; 
+      genre?: string; sort?: string; }): Promise<SongResponse> => {
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_SONGS, {
+        params: params
+      });
+      console.log("dayum  ", response.data)
+      return response.data;
+    },
+
+    getSongDetails: async (id: string) => {
+      const path = API_ROUTE_ADMIN.GET_SONG_BYID.replace(':id', id);
+      const response = await axiosInstance.get(path);;
+      return response.data.data; 
+    },
+
+    toggleSongStatus: async (id: string, status: boolean) => {
+        const path = API_ROUTE_ADMIN.TOGGLE_STATUS.replace(':id', id);
+        const response = await axiosInstance.put(path, { isBlocked: status });
+        return response.data;
     }
+
 }
