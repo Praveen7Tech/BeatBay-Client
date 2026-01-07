@@ -4,7 +4,7 @@ import { NavLink } from "@/components/NavLink";
 import { useUserFollowing, useUserPlayLists } from "@/core/hooks/api/useFetchHooks";
 import { useCreatePlayList } from "@/core/hooks/playList/usePlayList";
 import { SidebarShimmer } from "@/core/components/shimmers/SidebarShimmer";
-import { FollowingResponse } from "../../services/userApi";
+import { FollowingResponse } from "../../services/response.type";
 
 const mainItems = [
   { title: "Home", url: "/home", icon: Home },

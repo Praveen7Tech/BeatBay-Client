@@ -56,8 +56,8 @@ const Discover = () => {
 
       {/* Results Grid */}
      {(topResult || songs.length > 0) && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {topResult && <TopResultCard topResult={topResult} />}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-stretch">
+          {topResult && <TopResultCard topResult={topResult} songs={songs}/>}
           {songs.length > 0 && <SongList songs={songs} />}
         </div>
       )}

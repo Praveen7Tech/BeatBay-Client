@@ -1,8 +1,6 @@
-import { Users,UserStar, Music, Album, List, TrendingUp, Activity } from "lucide-react";
+import { Users,UserStar, Music, Album,  } from "lucide-react";
 import { AdminStatsCard } from "../../components/dashboard/admin.statusCard"; 
 import { AdminGrowthChart } from "../../components/dashboard/admin.growthChart"; 
-import { AdminActivityTable } from "../../components/dashboard/admin.activityTable"; 
-import { TopPerformersTable } from "../../components/dashboard/top.perfomerTable"; 
 import { useDasboard } from "@/core/hooks/admin/useDashBoard";
 
 export default function AdminDashboard() {
@@ -55,7 +53,7 @@ export default function AdminDashboard() {
             icon={Album}
             subtitle="Published albums"
           />
-          <AdminStatsCard
+          {/* <AdminStatsCard
             title="Playlists"
             value="8,291"
             change="+15.2%"
@@ -78,7 +76,7 @@ export default function AdminDashboard() {
             changeType="positive"
             icon={Activity}
             subtitle="Content creators"
-          />
+          /> */}
          
         </div>
 
@@ -87,8 +85,8 @@ export default function AdminDashboard() {
 
         {/* Tables Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <AdminActivityTable />
-          <TopPerformersTable />
+          {/* <AdminActivityTable />
+          <TopPerformersTable /> */}
         </div>
       </div>
     </div>

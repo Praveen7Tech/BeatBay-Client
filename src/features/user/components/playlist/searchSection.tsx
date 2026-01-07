@@ -1,8 +1,8 @@
 import { Search, X } from "lucide-react";
 import { Input } from "@/features/artist/components/song/Input";
-import { SongData } from "../../services/userApi";
 import { useRef, useState, KeyboardEvent } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { SongData } from "../../services/response.type";
 
 interface PlaylistSearchSectionProps {
   songs: SongData[];
@@ -109,13 +109,10 @@ export const PlaylistSearchSection = ({
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-normal truncate">{song.title}</p>
                   <p className="text-spotify-secondary text-sm truncate">
-                    {"song?.artistName ?? song.artistId"}
+                    {song?.artistName }
                   </p>
                 </div>
 
-                <div className="flex-1 min-w-0 hidden md:block">
-                  <p className="text-spotify-secondary text-sm truncate">{song.album}</p>
-                </div>
 
                 <span className="text-spotify-secondary text-sm mr-4">{song.duration}</span>
 

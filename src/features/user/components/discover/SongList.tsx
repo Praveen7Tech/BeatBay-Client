@@ -1,3 +1,5 @@
+import { formatTime } from "@/core/utils/formatTime";
+
 interface Song {
   id: string;
   title: string;
@@ -12,9 +14,10 @@ interface SongListProps {
 
 const SongList = ({ songs }: SongListProps) => {
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <h2 className="text-2xl font-bold text-white mb-4">Songs</h2>
-      <div className="space-y-2">
+
+      <div className="flex-1 space-y-2 overflow-hidden">
         {songs.map((song) => (
           <div
             key={song.id}
@@ -27,9 +30,13 @@ const SongList = ({ songs }: SongListProps) => {
             />
             <div className="flex-1 min-w-0">
               <p className="text-white font-medium truncate">{song.title}</p>
-              <p className="text-sm text-spotify-secondary truncate">{song.artist}</p>
+              <p className="text-sm text-spotify-secondary truncate">
+                {song.artist}
+              </p>
             </div>
-            <span className="text-sm text-spotify-secondary">{song.duration}</span>
+            <span className="text-sm text-spotify-secondary">
+              {formatTime(Number(song.duration))}
+            </span>
           </div>
         ))}
       </div>

@@ -1,7 +1,7 @@
 import { Pause, Play, Plus } from "lucide-react";
 import { useState } from "react";
 import { PlaylistEditDialog } from "../../pages/playlist/editPlayList";
-import { PlaylistDetailsResponse } from "../../services/userApi";
+import { PlaylistDetailsResponse } from "../../services/response.type";
 
 interface PlaylistHeaderProps {
   playListData: PlaylistDetailsResponse

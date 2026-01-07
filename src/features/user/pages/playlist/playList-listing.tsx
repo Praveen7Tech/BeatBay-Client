@@ -1,13 +1,19 @@
 import { useUserPlayLists } from "@/core/hooks/api/useFetchHooks";
 import { PlaylistCard } from "../../components/playlist/playListCard"; 
+import { Pagination } from "../../components/pagination/pagination";
+import { useSearchParams } from "react-router-dom";
 
 const Playlists = () => {
     const { data: playlists, isLoading, isError, error } = useUserPlayLists();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = parseInt(searchParams.get("page") || "1");
   
     if (isLoading) return <h1>Loading....</h1>;
     if (isError) return <p>{error.message}</p>;
 
-
+    const handlePageChange = (newPage: number) => {
+      setSearchParams({ page: newPage.toString() });
+    };
   return (
     <div className="min-h-screen bg-linear-to-b from-[#1a1a1a] to-spotify-dark p-6">
       <div className="max-w-7xl mx-auto">
@@ -27,6 +33,13 @@ const Playlists = () => {
           <p>no playlists created .</p>
           }   
         </div>
+      </div>
+      <div className="mt-auto py-10">
+          <Pagination
+            currentPage={page} 
+            totalPages={ 1} 
+            onPageChange={handlePageChange}
+          />
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import type {
   Song as SongType,
   Artist as ArtistType,
   Album as AlbumType,
-} from "@/features/user/services/userApi";
+} from "@/features/user/services/response.type";
 
 export const useSearch =(query: string) =>{
     const DebounceSearchQuery = useDebouncing(query, 500)
