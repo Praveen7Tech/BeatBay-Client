@@ -20,7 +20,7 @@ export default function AlbumDetail() {
   if (isError) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
-        Error in album fetching : {error.message}
+         {error.message}
       </div>
     );
   }

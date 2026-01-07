@@ -39,6 +39,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const statusCode = error.response?.status;
     // hanle blocked users when using the page
     const StatusCode = error.response?.status
     if(StatusCode === 403){
@@ -75,7 +76,15 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error);
+     const errorMessage = error.response?.data?.message || "An unexpected error occurred";
+    
+    // new Error object with the backend message
+    const flattenedError = new Error(errorMessage);
+    
+    (flattenedError as any).status = statusCode;
+
+    return Promise.reject(flattenedError);
+
   }
 );
 

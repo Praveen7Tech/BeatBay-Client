@@ -62,6 +62,9 @@ export interface SongPageResponse{
   songs: SongResponse
   recomentations: SongResponse[]
 }
+export interface SongDehydration{
+  songs: SongResponse
+}
 
 export interface AlbumResponse {
    _id: string;
