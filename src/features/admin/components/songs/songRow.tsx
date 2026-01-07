@@ -1,4 +1,4 @@
-import { Play, MoreHorizontal, Eye, Edit, Trash2, Heart } from "lucide-react";
+import { Play, MoreHorizontal, Eye, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,12 +19,12 @@ export interface AdminSong {
   duration: number;
   likesCount: number;
   uploadDate: string;
-  status: boolean; // ✅ boolean status
+  status: boolean; 
 }
 
 const AdminSongRow = ({ song, index }: { song: AdminSong; index: number }) => {
   const isActive = song.status === true;
-console.log("hoii d", isActive)
+
   return (
     <tr className="border-b border-border hover:bg-muted/30 transition-colors group">
       <td className="py-3 px-4 text-muted-foreground text-sm w-12">

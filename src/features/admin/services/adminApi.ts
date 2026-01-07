@@ -176,7 +176,6 @@ export const adminApi = {
       const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_SONGS, {
         params: params
       });
-      console.log("dayum  ", response.data)
       return response.data;
     },
 
@@ -190,6 +189,24 @@ export const adminApi = {
         const path = API_ROUTE_ADMIN.TOGGLE_STATUS.replace(':id', id);
         const response = await axiosInstance.put(path, { isBlocked: status });
         return response.data;
+    },
+
+    getAllAlbums: async (params: { page: number; limit: number; search?: string; status?: string; sort?: string; }) => {
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_ALBUMS, { params });
+      return response.data; 
+    },
+
+    getAlbumDetails: async (id: string) => {
+      const path = API_ROUTE_ADMIN.GET_ALBUM_BYID.replace(':id', id);
+      const response = await axiosInstance.get(path);
+      return response.data.data; 
+    },
+
+    toggleAlbumStatus: async (id: string, status: boolean) => {
+        const path = API_ROUTE_ADMIN.TOGGLE_ALBUM_STATUS.replace(':id', id);
+        const response = await axiosInstance.put(path, { status });
+        return response.data;
     }
+
 
 }

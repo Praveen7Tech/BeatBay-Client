@@ -53,6 +53,8 @@ import ExplorePage from '@/features/user/pages/home/allSongs';
 import FollowingListing from '@/features/user/pages/following/Following';
 import AdminSongs from '@/features/admin/pages/songs/song.listing';
 import AdminSongDetail from '@/features/admin/pages/songs/songDetails';
+import AdminAlbums from '@/features/admin/pages/album/adminAlbumListing';
+import AdminAlbumDetail from '@/features/admin/pages/album/adminAlbumDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -114,6 +116,8 @@ const AppRouter: React.FC = () => {
 
           <Route path='/admin/songs' element={<AdminSongs/>}/>
           <Route path='/admin/songs/:id' element={<AdminSongDetail/>}/>
+          <Route path='/admin/albums' element={<AdminAlbums/>}/>
+          <Route path='/admin/album/:id' element={<AdminAlbumDetail/>}/>
         </Route>
 
         {/* artist routes */}
