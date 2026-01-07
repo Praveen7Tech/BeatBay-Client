@@ -1,7 +1,7 @@
 import { socket } from "@/core/config/socket"
 import { savePlayBackState } from "@/core/service/playerStorageService"
 import { RootState } from "@/core/store/store"
-import { SongResponse } from "@/features/user/services/userApi"
+import { SongResponse } from "@/features/user/services/response.type"
 import { setRoomSongData, SongData } from "@/features/user/slice/privateRoomSlice"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -14,9 +14,10 @@ interface AudioPlayerProps {
     onEnded?: () => void,
     initialTime?: number 
     isRepeating: boolean
+    onTrackLoaded?: () => void;
 }
 
-export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnded, isRepeating, currentSong }: AudioPlayerProps) =>{
+export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnded, isRepeating, onTrackLoaded }: AudioPlayerProps) =>{
     const audioRef = useRef<HTMLAudioElement | null>(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
@@ -98,7 +99,11 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
 
                     // play song after add the current time after initial hydration
                     audio.play()
-                        .then(()=> setIsPlaying(true))
+                        .then(() => {
+                            setIsPlaying(true);
+                            // RESET THE TIME STATE IN THE PROVIDER
+                            if (onTrackLoaded) onTrackLoaded(); 
+                        })
                         .catch(err => console.error("Auto play failed", err))
 
                     audio.removeEventListener("loadedmetadata", handleMetaDataLoad)        
@@ -111,7 +116,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
                 audio.play()
             }
         }
-    },[audioUrl, isPlaying, initialTime])
+    },[audioUrl, isPlaying, initialTime, onTrackLoaded])
 
     // manage song sync in private room
     useEffect(() => {

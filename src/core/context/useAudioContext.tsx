@@ -1,7 +1,8 @@
-import { SongResponse, userApi } from "@/features/user/services/userApi";
+import {  userApi } from "@/features/user/services/userApi";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useAudioPlayer } from "../hooks/song/useAudioPlayer";
 import { clearPlayBackState, getPlaybackState } from "../service/playerStorageService";
+import { SongResponse } from "@/features/user/services/response.type";
 
 interface AudioContextType{
     currentSong: SongResponse | null
@@ -19,6 +20,7 @@ interface AudioContextType{
 
     isRepeating: boolean
     RepeatSong: ()=> void
+    onTrackLoaded?: ()=> void
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined)
@@ -45,6 +47,11 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
         setIsrepeating(prev => !prev)
     },[])
 
+    // reset initial time when hydration
+    const resetInitialTime = useCallback(() => {
+        setInitialTime(0);
+    }, []);
+
     // Skip forward song - use functional update to avoid stale closures
     const skipForward = useCallback(()=>{
         setCurrentIndex(prev => {
@@ -55,29 +62,39 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
 
     // initiate the audio player hook
     const {isPlaying, currentTime, playPause, seekTime, setVolume} = useAudioPlayer(
-        {currentSongId, initialTime, audioUrl, onEnded: skipForward, isRepeating, currentSong})
+        {currentSongId, initialTime, audioUrl, onEnded: skipForward, isRepeating, currentSong, onTrackLoaded: resetInitialTime})
 
     //hydration for fetch last played song if exists
-    useEffect(()=>{
-        const storedState = getPlaybackState()
-        const RestoreLastPlayedSong = async()=>{
-            if(storedState?.songId){
+    useEffect(() => {
+        const storedState = getPlaybackState();
+        
+        const RestoreLastPlayedSong = async () => {
+        if (storedState?.songId) {
                 try {
-                    const data = await userApi.SongDetail(storedState.songId)
-
-                    setPlayList([data.songs])
-                    setCurrentIndex(0)
-                    setInitialTime(storedState.currentTime)
+                    const data = await userApi.SongDetailHydration(storedState.songId);
+                    
+                    if (data && data.songs) {
+                        setPlayList(Array.isArray(data.songs) ? data.songs : [data.songs]);
+                        setCurrentIndex(0);
+                        setInitialTime(storedState.currentTime); 
+                    } else {
+                        handleInvalidContent();
+                    }
                 } catch (error) {
-                    console.error("error in fetching last played song", error)
-                    clearPlayBackState()
+                    handleInvalidContent();
                 }
             }
-           
-        }
+        };
 
-        RestoreLastPlayedSong()
-    },[])
+        const handleInvalidContent = () => {
+            console.warn("Content blocked or unavailable");
+            clearPlayBackState(); // Clear localStorage
+            setPlayList([]);      // Empty player
+            setCurrentIndex(-1);
+        };
+
+        RestoreLastPlayedSong();
+    }, []);
 
     // setting playlist and play first song
     const setPlaylistAndPlay = useCallback((songs: SongResponse[], index = 0)=>{

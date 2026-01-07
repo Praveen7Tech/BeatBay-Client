@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FollowersResponse, FriendsResponse, NewPlayListResponse, PlayListData, PlaylistDetailsResponse, SearchResponse, SongData, SongPageResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FollowersResponse, FriendsResponse, NewPlayListResponse, PlayListData, PlaylistDetailsResponse, SearchResponse, SongData, SongDehydration, SongPageResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={
@@ -26,6 +26,11 @@ export const userApi ={
 
     SongDetail: async(songId:string): Promise<SongPageResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
+      return response.data
+    },
+
+    SongDetailHydration: async(songId:string): Promise<SongDehydration>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER. SONG_HYDRATION}/${songId}`)
       return response.data
     },
 
