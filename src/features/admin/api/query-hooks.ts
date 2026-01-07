@@ -9,3 +9,12 @@ export const useSongDetails = (id: string) => {
     staleTime: 5 * 60 * 1000, // 5 minutes cache
   });
 };
+
+export const useAlbumDetails = (id: string)=>{
+  return useQuery({
+    queryKey: ['album', id],
+    queryFn: () => adminApi.getAlbumDetails(id),
+    enabled: !!id, 
+    staleTime: 5 * 60 * 1000, 
+  })
+}

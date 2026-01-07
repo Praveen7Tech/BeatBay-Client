@@ -27,7 +27,11 @@ export const API_ROUTE_ADMIN = {
   GET_DASHBOARD_DATA:'/admin/get-dashboard-data',
   GET_SONGS: '/admin/get-allsongs',
   GET_SONG_BYID:'/admin/get-songbyid/:id',
-  TOGGLE_STATUS: '/admin/song/:id/status'
+  TOGGLE_STATUS: '/admin/song/:id/status',
+
+  GET_ALBUMS: '/admin/get-allalbums',
+  GET_ALBUM_BYID: '/admin/get-albumbyid/:id',
+  TOGGLE_ALBUM_STATUS:'/admin/album/:id/status'
 }
 
 export const API_ROUTE_ARTIST = {
