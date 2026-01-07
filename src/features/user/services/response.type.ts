@@ -21,6 +21,7 @@ export interface SongData {
   title: string;
   album?: string;
   artistId: string;
+  artistName?:string
   audioUrl: string;
   coverImageUrl: string;
   description?: string; 

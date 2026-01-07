@@ -43,6 +43,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
 
     // initial audio element creation when component mount
     useEffect(()=>{
+        console.log("palying start")
         audioRef.current = new Audio()
         const audio = audioRef.current
 
@@ -101,8 +102,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
                     audio.play()
                         .then(() => {
                             setIsPlaying(true);
-                            // RESET THE TIME STATE IN THE PROVIDER
-                            if (onTrackLoaded) onTrackLoaded(); 
+                            // reset time state in the provider
                         })
                         .catch(err => console.error("Auto play failed", err))
 

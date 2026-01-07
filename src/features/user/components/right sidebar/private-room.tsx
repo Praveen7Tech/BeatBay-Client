@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { clearPrivateRoom, setPrivateRoom } from "../../slice/privateRoomSlice";
 import { setBulkInvite, setInviteState } from "../../slice/inviteState.slice";
+import { useNavigate } from "react-router-dom";
 
 
 const PrivateRooms = () => {
@@ -15,6 +16,7 @@ const PrivateRooms = () => {
   const isHost = room.hostId == user?.id
   const members = room.members
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(()=>{
 
@@ -26,6 +28,7 @@ const PrivateRooms = () => {
 
     const handleRoomDeleted = () => {
         dispatch(clearPrivateRoom());
+        navigate("/home")
     };
    
     const handleRoomMembersUpdated = (type:string,updatedRoom: any, leftUserId?: string) => {

@@ -19,7 +19,7 @@ export function UserTable({users}: UserTableProps){
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">User</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Email</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Join Date</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Followers</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Following</th>
                 {/* <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Playlists</th> */}
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Status</th>
                 <th className="px-6 py-4 text-right text-sm font-semibold text-spotify-secondary">Action</th>

@@ -43,8 +43,6 @@ export function ArtistSongsList({ songs, itemsPerPage , isLoading = false }: Art
     )
   }
 
-  const URL_BASE = import.meta.env.VITE_API_URL;
-
   return (
     <Card className="bg-spotify-dark border-spotify-tertiary">
       <CardHeader>
@@ -59,7 +57,7 @@ export function ArtistSongsList({ songs, itemsPerPage , isLoading = false }: Art
             >
               <div className="flex items-center gap-4 flex-1">
                 <img
-                  src={`${URL_BASE}/songs/${song?.coverImageUrl}`}
+                  src={song.coverImageUrl}
                   alt={song.title}
                   className="w-16 h-16 rounded-full object-cover border border-spotify-tertiary"
                 />

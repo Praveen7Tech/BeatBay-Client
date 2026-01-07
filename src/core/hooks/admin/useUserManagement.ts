@@ -7,7 +7,7 @@ import { useState } from "react"
 export const useUserManagement = (userId: string) =>{
 
     // initial user details
-    const { data: user, isLoading: fetchLoading, isError} = useQuery({
+    const { data: user, isLoading: fetchLoading, isError, error} = useQuery({
         queryKey: ["userDatabyId", userId],
         queryFn: ()=> adminApi.getUserById(userId!),
         enabled: !!userId
@@ -51,5 +51,5 @@ export const useUserManagement = (userId: string) =>{
     }
 
 
-    return {user, isLoading, HanleTooglrBlock, fetchLoading, isError}
+    return {user, isLoading, HanleTooglrBlock, fetchLoading, isError, error}
 }

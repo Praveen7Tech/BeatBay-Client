@@ -9,7 +9,6 @@ import ProfileHeaderCard from "../../components/common/ProfileHeaderCard"
 import AccountInfoCard from "../../components/common/AccountInformationCard"
 import StatisticsCard from "../../components/common/StatisticsCard"
 import BlockStatusCard from "../../components/common/BlockUnblockCard"
-import { FansList } from "../../components/artists/artist-Fans"
 
 export function ArtistDetails() {
   const {artistId} = useParams()
@@ -53,8 +52,6 @@ export function ArtistDetails() {
           <AccountInfoCard
             email={artist?.email}
             createdAt={artist?.createdAt}
-            lastActive={"artist?.lastActive"}
-            location={"artist?.location"}
             showId={false}
           />
           {/* Statistics */}
@@ -63,7 +60,7 @@ export function ArtistDetails() {
           {/* <TopSongsCard/> */}
           
           {/* album listing card */}
-          <ArtistAlbumsGrid albums={artist?.albums || []} itemsPerPage={1} />
+          <ArtistAlbumsGrid albums={artist?.albums || []} itemsPerPage={3} />
         </div>
 
         {/* Right Column - Actions */}
@@ -77,7 +74,7 @@ export function ArtistDetails() {
           />
            {/* Song listing card */}
           <ArtistSongsList songs={artist?.songs || []} itemsPerPage={5} />
-          <FansList  itemsPerPage={5} />
+          {/* <FansList  itemsPerPage={5} /> */}
          
         </div>
       </div>

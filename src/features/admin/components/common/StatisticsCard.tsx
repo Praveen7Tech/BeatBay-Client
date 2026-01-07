@@ -18,20 +18,16 @@ interface StatisticsCardProps {
 export default function StatisticsCard({ type, data }: StatisticsCardProps) {
   // Determine grid columns
   const gridCols = type === "artist" ? "grid-cols-2" : "grid-cols-4";
-
+console.log("hhhhhh", data)
   // Auto-generate stats based on type
   const stats =
     type === "artist"
       ? [
-          { label: "Followers", value: 0 },
-          { label: "Monthly Listeners", value: 0 },
+          { label: "Followers", value: data.followersCount },
           { label: "Total Songs", value: (data as ArtistData)?.songs?.length || 0 },
           { label: "Albums", value: (data as ArtistData)?.albums?.length || 0 },
-          { label: "Total Plays", value: 0 },
-          { label: "This Month Revenue", value: 0 },
         ]
       : [
-          { label: "Followers", value: (data as UserData)?.followingCount || 0 },
           { label: "Following", value: (data as UserData)?.followingCount || 0 },
           { label: "Playlists", value: (data as UserData)?.playLists?.length || 0 },
           { label: "Total Plays", value: 0 },

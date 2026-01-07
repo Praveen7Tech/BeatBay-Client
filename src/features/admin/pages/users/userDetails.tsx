@@ -1,6 +1,5 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { Link, useParams } from "react-router-dom"
@@ -13,10 +12,10 @@ import BlockStatusCard from "../../components/common/BlockUnblockCard"
 export function UserDetails() {
   const {userId} = useParams()
 
-  const {user, isLoading, HanleTooglrBlock, fetchLoading, isError} = useUserManagement(userId!)
+  const {user, isLoading, HanleTooglrBlock, fetchLoading, isError, error} = useUserManagement(userId!)
 
   if(fetchLoading) return <div>Loading..</div>
-  if(isError) return <div>Loading..</div>
+  if(isError) return <div>{error?.message}</div>
 
   const handleToggleBlock = ()=>{
     HanleTooglrBlock()
@@ -43,7 +42,6 @@ export function UserDetails() {
           {/* Profile Card */}
           <ProfileHeaderCard
               name={user?.name}
-              bio={ "currently no bio"}
               profileImage={user?.profilePicture}
               status={user?.status}
               isArtist={false}
@@ -52,8 +50,6 @@ export function UserDetails() {
           <AccountInfoCard
             email={user?.email}
             createdAt={user?.createdAt}
-            lastActive={"user?.lastActive"}
-            location={"user?.location"}
             id={user?._id}
             showId={true}
           />
@@ -71,7 +67,7 @@ export function UserDetails() {
             onToggle={handleToggleBlock}
           />
            {/* Premium Information */}
-          <Card className="bg-spotify-dark border-spotify-tertiary">
+          {/* <Card className="bg-spotify-dark border-spotify-tertiary">
             <CardHeader>
               <CardTitle className="text-spotify-text">Premium Subscription</CardTitle>
             </CardHeader>
@@ -80,7 +76,6 @@ export function UserDetails() {
                 <div>
                   <p className="text-sm text-spotify-secondary mb-1">Status</p>
                   <p className="text-spotify-text font-bold">
-                    {/* {user?.premiumStatus === "active" ? "Premium Active" : "Free Plan"} */}
                   </p>
                 </div>
                 <div className="text-right">
@@ -89,7 +84,7 @@ export function UserDetails() {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </div>

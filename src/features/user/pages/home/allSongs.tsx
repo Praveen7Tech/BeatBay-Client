@@ -2,7 +2,6 @@
 
 import { useSearchParams, Link } from "react-router-dom"
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
-import { Button } from "@/components/ui/button"
 import { Search } from "lucide-react"
 import { Input } from "@/core/components/input/Input"
 import AlbumCard from "../../components/home/album-card"
@@ -10,7 +9,7 @@ import { Pagination } from "../../components/pagination/pagination"
 import { SpinnerCustom } from "@/components/ui/spinner"
 import { userApi } from "../../services/userApi"
 
-const LANGUAGES = ["All", "Malayalam", "English", "Hindi", "Tamil"]
+//const LANGUAGES = ["All", "Malayalam", "English", "Hindi", "Tamil"]
 
 export default function ExplorePage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -72,7 +71,7 @@ export default function ExplorePage() {
             </div>
 
             {/* Language Filter */}
-            {isSongs && (
+            {/* {isSongs && (
               <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar w-full md:w-auto">
                 {LANGUAGES.map((l) => (
                   <Button
@@ -86,7 +85,7 @@ export default function ExplorePage() {
                   </Button>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         </div>
 

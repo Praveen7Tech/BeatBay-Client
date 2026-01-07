@@ -1,5 +1,5 @@
 import { formatTime } from "@/core/utils/formatTime";
-import { SongResponse } from "@/features/user/services/userApi";
+import { SongResponse } from "@/features/user/services/response.type";
 import { Play, Heart, Clock, Plus, AudioLines } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -33,8 +33,7 @@ export const SongTable = ({ songs, title, activeSongId, }: SongTableProps) => {
             <tr className="border-b border-[#282828]">
               <th className="text-left px-4 py-3 text-spotify-secondary text-sm font-medium w-12">#</th>
               <th className="px-4 py-3 text-left text-spotify-secondary text-sm">Title</th>
-              <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">Album</th>
-               <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">
+             <th className="px-4 py-3 text-left text-spotify-secondary text-sm hidden lg:table-cell">
                 {/* Date Added */}
               </th>
               <th className="px-4 py-3 w-8"></th>
@@ -86,9 +85,7 @@ export const SongTable = ({ songs, title, activeSongId, }: SongTableProps) => {
                   </div>
                   </Link>
                 </td>
-                <td className="px-4 py-3 hidden lg:table-cell">
-                  <span className="text-spotify-secondary text-sm">Dummy Album</span>
-                </td>
+                
                  <td className="px-4 py-3 text-left hidden lg:table-cell">
                    <span className="text-spotify-secondary text-sm"></span>
                 </td>
