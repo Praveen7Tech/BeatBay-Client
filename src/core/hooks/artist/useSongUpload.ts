@@ -3,10 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { SongResponse } from "@/features/user/services/userApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "./queryClientSetup";
 import { artistApi } from "@/features/artist/services/artist.api";
+import { SongResponse } from "@/features/user/services/response.type";
 
 const extractFilenameFromUrl = (url: string | undefined | null): string | null => {
   if (!url) return null;
@@ -115,7 +115,7 @@ export const useSongUpload = (isEdit: boolean) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["songs"] });
-      navigate("/artist-songs");
+      navigate("/artist/songs");
     },
     onError: (error) => {
       console.error("song mutation error", error);

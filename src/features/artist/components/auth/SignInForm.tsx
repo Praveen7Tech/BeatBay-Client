@@ -30,7 +30,7 @@ export default function LoginForm(){
             const res = await login(data)
             if(res){
                 dispatch(loginSuccess({user: res?.user, accessToken: res.accessToken}))
-                navigate("/home")
+                navigate("/artist/dashboard")
             }
            
         } catch (error) {
@@ -53,7 +53,7 @@ export default function LoginForm(){
                  togglePasswordVisibility={toogglePasswordVisible}
                  />
             </div>
-                <Link to="/artist-forgot-password" className="text-white hover:text-green-500 font-semibold transition-colors">
+                <Link to="/artist/forgot-password" className="text-white hover:text-green-500 font-semibold transition-colors">
                      Forgot password?
                 </Link>
             <Button type="submit" theme="user" variant="secondary" loading={loading}

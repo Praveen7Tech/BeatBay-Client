@@ -11,13 +11,28 @@ const SongList = () => {
    const [currentPage, setCurrentPage] = useState(1)
     const {data: songs, isLoading, isError, error}= useArtistSongs()
 
-    if (isLoading) {
-        return <div className="min-h-screen bg-black text-white p-8">Loading songs...</div>;
+   if (isLoading) {
+        return (
+          <div className="min-h-screen bg-linear-to-b from-gray-900 to-black text-white p-8">
+            <div className="flex items-center justify-center h-96">
+              <div className="animate-spin">
+                <div className="w-12 h-12 border-4 border-gray-700 border-t-green-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        );
     }
 
     if (isError) {
-        return <div className="min-h-screen bg-black text-red-500 p-8">Error: {error.message}</div>;
+        return (
+          <div className="min-h-screen bg-linear-to-b from-gray-900 to-black">
+            <div className="flex items-center justify-center h-96">
+              <p className="text-red-500 text-lg">{error?.message || "Error loading songs"}</p>
+            </div>
+          </div>
+        );
     }
+
 
  return (
     <div className="min-h-screen bg-linear-to-b from-gray-900 to-black ">

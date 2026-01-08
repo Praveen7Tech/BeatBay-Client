@@ -15,7 +15,7 @@ export const useDeleteSong = () => {
             queryClient.invalidateQueries({ queryKey: ["songs"] });
             queryClient.invalidateQueries({ queryKey: ["albums"] });
             showSuccess("Song deletion successful");
-            navigate("/artist-songs");
+            navigate("/artist/songs");
         },
         onError: (error) => {
             console.error(error);

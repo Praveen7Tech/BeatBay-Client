@@ -30,7 +30,7 @@ const ResetPasswordFormArtist = () => {
         }
         try {
             await resetPassword({token, password: data.newPassword})
-            navigate("/artist-signin")
+            navigate("/artist/login")
         } catch (error) {
             console.error(error)
         }

@@ -30,7 +30,7 @@ export default function SignupForm() {
   const onSubmit = async (data: SignupFormInputs) => {
     try {
       await Signup(data)
-      navigate(`/verify-otp-artist`, { state: { email: data.email } })
+      navigate(`/artist/verify-otp`, { state: { email: data.email } })
     } catch (err) {
       console.error(err)
     }

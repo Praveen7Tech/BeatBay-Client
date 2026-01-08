@@ -101,10 +101,10 @@ export function ArtistHeader() {
             <Button theme="artist" variant="primary" onClick={handleLogout} type="button"  >
               Logout
             </Button>
-            <Button theme="artist"  variant="primary"  onClick={() => navigate("/artist-edit-profile")}  >
+            <Button theme="artist"  variant="primary"  onClick={() => navigate("/artist/edit-profile")}  >
               Edit Profile
             </Button>
-            <Button theme="artist"  variant="primary"  onClick={() => navigate("/artist-change-password")}  >
+            <Button theme="artist"  variant="primary"  onClick={() => navigate("/artist/change-password")}  >
               Change Password
             </Button>
           </div>

@@ -23,7 +23,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({children, requiredRole})
             case ROLES.ADMIN:
                  return <Navigate to="/dashboard" replace />;
             case ROLES.ARTIST:
-                 return <Navigate to="/artist-dashboard" replace />;
+                 return <Navigate to="/artist/dashboard" replace />;
             default:
                  return <Navigate to="/unauthorized" replace />;
         }

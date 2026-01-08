@@ -6,36 +6,36 @@ export function AuthFooter() {
 
   let content;
 
-  if (path === "/artist") {
+  if (path === "/artist/signup") {
     content = (
       <>
         Already have an account?{" "}
         <Link
-          to="/artist-signin"
+          to="/artist/login"
           className="text-green-500 hover:text-green-400 font-semibold"
         >
           Sign In
         </Link>
       </>
     );
-  } else if (path === "/artist-signin") {
+  } else if (path === "/artist/login") {
     content = (
       <>
         Don't have an account?{" "}
         <Link
-          to="/artist"
+          to="/artist/signup"
           className="text-green-500 hover:text-green-400 font-semibold"
         >
           Register
         </Link>
       </>
     );
-  } else if (path === "/artist-forgot-password") {
+  } else if (path === "/artist/forgot-password") {
     content = (
       <>
         Remembered your password?{" "}
         <Link
-          to="/artist-signin"
+          to="/artist/login"
           className="text-green-500 hover:text-green-400 font-semibold">
           Sign In
         </Link>

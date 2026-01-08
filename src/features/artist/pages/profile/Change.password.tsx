@@ -27,7 +27,7 @@ export function EditPassword() {
     const handleEditPassword = async (data: ChangePasswordData) => {
       try {
           await handleChange(data)
-          navigate('/artist-profile')
+          navigate('/artist/profile')
       } catch (error:any) {
           if(error.response.data.message === "incorrect"){
               setError("currentPassword", {message:"Incorrect current password"})
@@ -96,7 +96,7 @@ export function EditPassword() {
         </div>
 
         <div className="flex gap-3 justify-end pt-4 border-t border-zinc-800">
-          <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist-profile')} type="button">
+          <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist/profile')} type="button">
             Cancel
           </Button>
           <Button theme="artist" type="submit">

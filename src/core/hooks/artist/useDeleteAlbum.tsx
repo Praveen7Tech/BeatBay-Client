@@ -12,7 +12,7 @@ export const useDeleteAlbum = () =>{
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["albums"] });
             showSuccess("Album deletion successful");
-            navigate("/artist-albums");
+            navigate("/artist/albums");
         },
         onError: (error) => {
             console.error(error);

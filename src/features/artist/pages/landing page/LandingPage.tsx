@@ -3,7 +3,7 @@ import { HeroSection } from "../../components/landing page/HeroSection"
 import { FeatureShowcase } from "../../components/landing page/FeatureShowcase" 
 
 function LandingPage() {
-  const handleNavigation = (page: string) => {
+  const handleNavigation = () => {
     //console.log("Navigating to:", page)
   }
 

@@ -73,13 +73,13 @@ const AppRouter: React.FC = () => {
           <Route path='/admin' element={<AdminLogin/>} />
 
           {/* Artist */}
-          <Route path='/artist' element={<SignupPageArtist/>} />
-          <Route path='/verify-otp-artist' element={<VerifyOTPartist/>} />
-          <Route path='/artist-signin' element={<SignInPageArtist/>} />
-          <Route path='/artist-forgot-password' element={<ForgotPasswordArtist/>}/>
-          <Route path='/artist-reset-password' element={<ResetPasswordArtist/>}/>
+          <Route path='/artist/signup' element={<SignupPageArtist/>} />
+          <Route path='/artist/verify-otp' element={<VerifyOTPartist/>} />
+          <Route path='/artist/login' element={<SignInPageArtist/>} />
+          <Route path='/artist/forgot-password' element={<ForgotPasswordArtist/>}/>
+          <Route path='/artist/reset-password' element={<ResetPasswordArtist/>}/>
 
-          <Route path='/artist-landingpage' element={<LandingPage/>}/>
+          <Route path='/artist' element={<LandingPage/>}/>
         </Route>
 
         {/* USER ROUTES WITH PERSISTENT LAYOUT */}
@@ -122,19 +122,19 @@ const AppRouter: React.FC = () => {
 
         {/* artist routes */}
         <Route element={<ProtectedRoute requiredRole={ROLES.ARTIST}><DashboardLayout/></ProtectedRoute>}>
-          <Route path='/artist-dashboard' element={<ArtistDashboard/>}/>
-          <Route path='/artist-profile' element={<ProfilePageArtist/>}/>
-          <Route path='/artist-edit-profile' element={<EditArtistProfile/>}/>
-          <Route path='/artist-change-password' element={<EditPassword/>}/>
+          <Route path='/artist/dashboard' element={<ArtistDashboard/>}/>
+          <Route path='/artist/profile' element={<ProfilePageArtist/>}/>
+          <Route path='/artist/edit-profile' element={<EditArtistProfile/>}/>
+          <Route path='/artist/change-password' element={<EditPassword/>}/>
           
-          <Route path='/artist-uploadTrack' element={<UploadTrack/>}/>
-          <Route path='/artist-songs' element={<SongList/>}/>
-          <Route path='/edit-song/:songId' element={<UploadTrack/>}/>
+          <Route path='/artist/uploadTrack' element={<UploadTrack/>}/>
+          <Route path='/artist/songs' element={<SongList/>}/>
+          <Route path='/artist/edit-song/:songId' element={<UploadTrack/>}/>
           <Route path='/artist/song-details/:songId' element={<ArtistSongDetail/>}/>
 
-          <Route path='/artist-createAlbum' element={<CreateAlbumRaw/>}/>
-          <Route path='/artist-albums' element={<Albums/>}/>
-          <Route path='/edit-album/:albumId' element={<CreateAlbumRaw/>}/>
+          <Route path='/artist/createAlbum' element={<CreateAlbumRaw/>}/>
+          <Route path='/artist/albums' element={<Albums/>}/>
+          <Route path='/artist/edit-album/:albumId' element={<CreateAlbumRaw/>}/>
           <Route path='/artist/album-details/:albumId' element={<AlbumDetailsPage/>}/>
         </Route>
    

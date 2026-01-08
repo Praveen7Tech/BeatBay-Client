@@ -90,7 +90,7 @@ export const useCreateAlbum = (isEdit: boolean) => {
     mutationFn: (formData: FormData) => artistApi.createAlbum(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["albums"] });
-      navigate("/artist-albums");
+      navigate("/artist/albums");
     },
   });
 
@@ -100,7 +100,7 @@ export const useCreateAlbum = (isEdit: boolean) => {
     onSuccess:() =>{
       queryClient.invalidateQueries({queryKey: ["albums"]})
       queryClient.invalidateQueries({queryKey: ["albumDetailsById"]})
-      navigate("/artist-albums");
+      navigate("/artist/albums");
     }
   })
 

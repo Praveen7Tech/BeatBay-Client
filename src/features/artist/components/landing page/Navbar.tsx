@@ -46,10 +46,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
         {/* Auth Buttons */}
         <div className="flex gap-3">
-            <Link to={'/artist'}><button className="px-4 py-2 text-white text-md hover:text-green-500 transition-colors">Log in</button></Link>
+            <Link to={'/artist/login'}><button className="px-4 py-2 text-white text-md hover:text-green-500 transition-colors">Log in</button></Link>
           
           <button className="px-6 py-2 bg-green-500 text-black text-md font-semibold rounded-full hover:bg-green-400 transition-colors">
-            Get access
+            <Link to={'/artist/signup'}>Get access</Link>
           </button>
         </div>
       </div>

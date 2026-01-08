@@ -33,7 +33,7 @@ export const AlbumHeader = ({totalAlbums,totalSongs}: AlbumHeaderProps) => {
         </button> */}
 
         {/* New Album Button */}
-        <Link to="/artist-createAlbum">
+        <Link to="/artist/createAlbum">
           <button
             className=" rounded-full h-14 px-8 bg-transparent border border-spotify-secondary text-white font-semibold flex items-center gap-2 cursor-pointer transition-colors duration-300 hover:border-[#1DB954] "  >
             <Plus size={20} />

@@ -31,7 +31,7 @@ export const ArtistHeader = ({songCount}: Props) => {
           Play
         </Button> */}
         
-        <Link to={'/artist-uploadTrack'}>
+        <Link to={'/artist/uploadTrack'}>
         <button
           style={{
             borderRadius: "9999px",

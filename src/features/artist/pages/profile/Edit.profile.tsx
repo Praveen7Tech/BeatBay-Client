@@ -14,7 +14,7 @@ export function EditArtistProfile() {
     const {user, preview, handleEdit, handleImageChange, handleSubmit, errors, register, loading} = useProfileEdit(authApiArtist.editProfile)
     const EditProfileData = async(data: ProfileDetailsData)=>{
       await handleEdit(data)
-      navigate('/artist-profile')
+      navigate('/artist/profile')
     }
 
   return (
@@ -22,7 +22,7 @@ export function EditArtistProfile() {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
         <h2 className="text-3xl font-bold">Edit Artist Info</h2>
-        <button onClick={()=> navigate('/artist-profile')} className="text-zinc-400 hover:text-white transition">
+        <button onClick={()=> navigate('/artist/profile')} className="text-zinc-400 hover:text-white transition">
           <X size={24} />
         </button>
       </div>
@@ -74,7 +74,7 @@ export function EditArtistProfile() {
         </div>
         {/* Action Buttons */}
         <div className="flex gap-3 justify-end pt-4 border-t border-zinc-800">
-          <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist-profile')} type="button">
+          <Button theme="artist" variant="dashboard" onClick={()=> navigate('/artist/profile')} type="button">
             Cancel
           </Button>
           <Button theme="artist" type="submit" loading={loading}>

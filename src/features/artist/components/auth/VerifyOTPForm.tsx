@@ -9,7 +9,7 @@ export default function VerifyOTPFormArtist() {
   const {otp, canResend, verifyLoading, resendLoading, HandleChange, HandleSubmit, HandleResend, setCanResend, HandleKeyDown} = useOtpVerification({
     verifyApiEndpoint: authApiArtist.verifyOtp,
     resendApiEndpoint: authApiArtist.resendOtp, 
-    redirectPath: '/artist-signin'
+    redirectPath: '/artist/login'
   })
   
 
