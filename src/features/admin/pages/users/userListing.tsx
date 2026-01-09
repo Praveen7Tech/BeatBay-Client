@@ -7,6 +7,7 @@ import { useDebouncing } from "@/core/hooks/admin/useDebouncing"
 import { SearchBar } from "../../components/common/SearchBar"
 import { Pagination } from "../../components/common/Pagination"
 import { UserTable } from "../../components/user/userTable"
+import { SpinnerCustom } from "@/components/ui/spinner"
 
 export function UserListing() {
   const [search, setSearchValue] = useState("")
@@ -20,9 +21,6 @@ export function UserListing() {
     queryFn: ()=> adminApi.fetchUser(page, limit, searchValue)
   })
 
-  if(isLoading){
-    return <div>Loading</div>
-  }
   if(isError) return <div>{error.message}</div>
 
   const {users, totalPages} = usersData ?? {}
@@ -36,6 +34,11 @@ export function UserListing() {
           <p className="text-spotify-secondary">Manage platform users and their accounts</p>
         </div>
       </div>
+      {isLoading && (
+          <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
+              <SpinnerCustom/>
+            </div>
+      )}
 
       {/* Search Bar*/}
       <SearchBar value={search} onChange={setSearchValue}/>

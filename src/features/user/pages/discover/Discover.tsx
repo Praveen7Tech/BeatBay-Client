@@ -37,7 +37,7 @@ const Discover = () => {
       )}
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 mb-8">
+      {/* <div className="flex gap-2 mb-8">
         {filters.map((filter) => (
           <button
             key={filter}
@@ -51,7 +51,7 @@ const Discover = () => {
             {filter}
           </button>
         ))}
-      </div>
+      </div> */}
        {shouldShowEmpty && <SearchEmptyState/>}
 
       {/* Results Grid */}

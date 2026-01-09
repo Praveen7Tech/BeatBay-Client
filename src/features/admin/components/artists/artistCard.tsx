@@ -12,7 +12,7 @@ interface ArtistCardProps{
 export function ArtistCardGrid({artist}:ArtistCardProps){
     return(
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-         {artist.map((artist) => (
+         {artist?.map((artist) => (
           <Link key={artist.id} to={`/admin/artists/${artist.id}`}>
             <Card className="bg-background border-spotify-tertiary h-full hover:bg-spotify-black transition-colors cursor-pointer group">
               <CardContent className="p-6">
