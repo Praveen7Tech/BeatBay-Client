@@ -38,8 +38,9 @@ const AdminSongFilters = ({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="newest">Newest First</SelectItem>
-            <SelectItem value="popularity">Most Popular</SelectItem>
+            {/* <SelectItem value="popularity">Most Popular</SelectItem> */}
             <SelectItem value="az">A-Z Order</SelectItem>
+            <SelectItem value="za">A-Z Order</SelectItem>
           </SelectContent>
         </Select>
 

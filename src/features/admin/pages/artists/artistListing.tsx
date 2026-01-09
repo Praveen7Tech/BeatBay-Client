@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query"
 import { SearchBar } from "../../components/common/SearchBar"
 import { Pagination } from "../../components/common/Pagination"
 import { ArtistCardGrid } from "../../components/artists/artistCard"
+import { SpinnerCustom } from "@/components/ui/spinner"
 
 export function ArtistListing() {
 
@@ -21,9 +22,6 @@ export function ArtistListing() {
       queryFn: ()=> adminApi.fetchArtists(page, limit, searchValue)
     })
   
-    if(isLoading){
-      return <div>Loading</div>
-    }
     if(isError) return <div>{error.message}</div>
   
     const {artist, totalPages} = artistData ?? {}
@@ -37,6 +35,11 @@ export function ArtistListing() {
           <p className="text-spotify-secondary">Manage artist accounts and content</p>
         </div>
       </div>
+      {isLoading && (
+         <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
+            <SpinnerCustom/>
+        </div>
+      )}
 
       {/* Search Bar*/}
       <SearchBar value={search} onChange={setSearchValue}/>
