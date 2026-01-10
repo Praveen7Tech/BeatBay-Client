@@ -6,11 +6,14 @@ import { SongTable } from "@/core/components/song/SongTable";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useAudioContext } from "@/core/context/useAudioContext";
 import { useFetchsongById } from "@/core/hooks/api/useFetchHooks";
+import { useToggleLikesMutation } from "@/core/hooks/likes/useToggleLikesMutation";
 
 export default function SongDetail() {
   const { songId } = useParams();
 
   const { data, isLoading, isError, error,} = useFetchsongById(songId!);
+  
+  const {mutate: toggleLike} = useToggleLikesMutation()
 
   const { setPlaylistAndPlay, currentSong, isPlaying,playPause, currentTime } = useAudioContext();
 
@@ -29,6 +32,7 @@ export default function SongDetail() {
   }
 
   const song = data!.songs;
+  const isLiked = data!.isLiked
   const recomentedSongs = data!.recomentations;
 
   const isCurrentSongPlaying = currentSong?._id === song._id;
@@ -44,6 +48,9 @@ export default function SongDetail() {
       setPlaylistAndPlay(playlist, 0);
     }
   };
+const handleLike = (songId: string) => {
+  toggleLike(songId); 
+};
 
   const activeSong = currentSong?._id === song._id ? currentSong : song;
 
@@ -58,6 +65,8 @@ export default function SongDetail() {
           duration={song.duration}
           isPlaying={isPlaying}
           onPlayPause={handlePlayPause}
+          isLiked={isLiked}
+          onLike={() => handleLike(songId!)}
         />
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -74,6 +83,7 @@ export default function SongDetail() {
         <SongTable
           title="Recommended Songs"
           songs={recomentedSongs}
+          onLike={handleLike}
         />
       </div>
     </div>

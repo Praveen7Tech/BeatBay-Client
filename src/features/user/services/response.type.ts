@@ -56,11 +56,13 @@ export interface SongResponse {
     artistId: ArtistInfo; 
     albumId: AlbumInfo
     duration: number; 
+    isLiked?:boolean
     likesCount: number;
 }
 
 export interface SongPageResponse{
-  songs: SongResponse
+  songs: SongResponse,
+  isLiked: boolean,
   recomentations: SongResponse[]
 }
 export interface SongDehydration{

@@ -8,9 +8,10 @@ export interface SongTableProps {
   songs: SongResponse[]; 
   title: string
   activeSongId?: string | undefined
+  onLike: (id: string) => void;
 }
 
-export const SongTable = ({ songs, title, activeSongId, }: SongTableProps) => {
+export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
 
@@ -92,12 +93,15 @@ export const SongTable = ({ songs, title, activeSongId, }: SongTableProps) => {
                  
                 <td className="px-4 py-3">
                   <button
-                    onClick={(e) => toggleLike(song._id, e)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onLike(song._id); 
+                  }}
                     className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end"
                   >
                     <Heart
                       className={`h-5 w-5 ${
-                        likedSongs.has(song._id)
+                        song.isLiked
                           ? "fill-red-500 text-red-500"
                           : "text-spotify-secondary hover:text-white"
                       }`}
