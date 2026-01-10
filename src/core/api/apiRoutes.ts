@@ -79,5 +79,6 @@ export const API_ROUTES_USER ={
   EDIT_PLAYLIST: '/user/edit-playList',
   SEARCH: '/user/search',
   USER_DETAILS: '/user/user-details',
-  FRIENDS: '/user/friends'
+  FRIENDS: '/user/friends',
+  SONG_LIKE:'/user/song/:id/toggle-like'
 }

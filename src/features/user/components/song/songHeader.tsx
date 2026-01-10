@@ -5,18 +5,14 @@ interface SongHeaderProps {
   title: string;
   coverImageUrl: string;
   duration: number
-
   isPlaying: boolean;
   onPlayPause: () => void;
+  isLiked: boolean
+  onLike: ()=> void
 }
 
-export const SongHeader = ({
-  title,
-  coverImageUrl,
-  duration,
-  isPlaying,
-  onPlayPause
-}: SongHeaderProps) => {
+export const SongHeader = ({ title,  coverImageUrl, duration, isPlaying, onPlayPause , onLike, isLiked}: SongHeaderProps) => {
+
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -41,11 +37,15 @@ export const SongHeader = ({
             )}           
           </button>
           
-          <button
+          <button onClick={onLike}
             className="w-14 h-14 rounded-full border-2 border-[#535353] hover:border-white transition-all flex items-center justify-center"
             style={{ background: "transparent", cursor: "pointer" }}
           >
-            <Heart className="h-6 w-6 text-spotify-secondary hover:text-white" />
+             <Heart 
+              className={`h-6 w-6 transition-colors ${
+                isLiked ? "fill-[#fa0909] text-[#fa0707]" : "text-spotify-secondary hover:text-white"
+              }`} 
+            />
           </button>
           
           <button

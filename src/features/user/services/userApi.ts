@@ -125,4 +125,12 @@ export const userApi ={
       console.log("results ", response.data)
       return response.data;
     },
+
+    toggleLike: async(songId: string): Promise<boolean>=>{
+      console.log("heyy ")
+      const path = API_ROUTES_USER.SONG_LIKE.replace(':id', songId);
+      const response = await axiosInstance.put(path)
+      console.log("like trigger", response.data)
+      return response.data
+    }
 }
