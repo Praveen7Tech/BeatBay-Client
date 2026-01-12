@@ -1,6 +1,6 @@
 import { API_ROUTE_ARTIST } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { SongResponse } from "@/features/user/services/userApi";
+import { SongResponse } from "@/features/user/services/response.type";
 
 interface Data{
   currentPassword: string;
@@ -14,20 +14,12 @@ interface UploadResponse {
   message: string
 }
 
-export interface SongData {
-  _id: string; 
+export interface FetchSong {
+  id: string;
   title: string;
-  album: string;
-  artistId: string;
-  audioUrl: string;
   coverImageUrl: string;
-  duration: string
-  description?: string; 
-  genre: string;
-  tags?: string; 
-  releaseDate: string; 
+  duration: number;
   createdAt: string;
-  updatedAt: string;
 }
 
 export interface AlbumResponseDTO {
@@ -70,7 +62,7 @@ export const artistApi ={
        return response.data
     },
 
-    fetchSongs: async(): Promise<SongData[]> =>{
+    fetchSongs: async(): Promise<FetchSong[]> =>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.FETCH_SONGS,)
       return response.data
     },

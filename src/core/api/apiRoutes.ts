@@ -80,5 +80,6 @@ export const API_ROUTES_USER ={
   SEARCH: '/user/search',
   USER_DETAILS: '/user/user-details',
   FRIENDS: '/user/friends',
-  SONG_LIKE:'/user/song/:id/toggle-like'
+  SONG_LIKE:'/user/song/:id/toggle-like',
+  LIKED_SONGS: '/user/liked-songs'
 }

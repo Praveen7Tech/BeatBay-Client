@@ -39,8 +39,8 @@ export default function HomeContent() {
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {songs && songs.length > 0 ? (
               songs.map((song) => (
-              <Link to={`/song/${song._id}`}>
-              <AlbumCard key={song._id} {...song} type="song"/>
+              <Link to={`/song/${song.id}`}>
+              <AlbumCard key={song.id} {...song} type="song"/>
               </Link>
             ))
             ):(
@@ -64,8 +64,8 @@ export default function HomeContent() {
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             { albums && albums.length > 0 ? (
               albums.map((album)=>(
-              <Link to={`/album/${album._id}`}>  
-                <AlbumCard key={album._id} {...album} type="album"/>
+              <Link to={`/album/${album.id}`}>  
+                <AlbumCard key={album.id} {...album} type="album"/>
               </Link>  
               ))
             ):(

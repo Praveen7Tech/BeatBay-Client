@@ -1,4 +1,5 @@
-import  AdminSongRow, { AdminSong } from "./songRow"; 
+import { AdminSong } from "../../services/adminApi";
+import  AdminSongRow from "./songRow"; 
 
 interface AdminSongTableProps {
   songs: AdminSong[];

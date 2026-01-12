@@ -19,7 +19,6 @@ export interface EditPassResponse{
 export interface SongData {
   _id: string; 
   title: string;
-  album?: string;
   artistId: string;
   artistName?:string
   audioUrl: string;
@@ -33,16 +32,49 @@ export interface SongData {
   updatedAt: string;
 }
 
+export interface FetchSongs {
+  id: string;
+  title: string;
+  coverImageUrl: string;
+  duration: number;
+  createdAt: string;
+}
+
+export interface FetchAlbum {
+  id: string;
+  title: string;
+  coverImageUrl: string;
+}
+
+export interface ArtistDTO {
+  id: string;
+  name: string;
+  profilePicture?: string;
+}
+
+export interface SongDetails {
+  id: string;
+  title: string;
+  coverImageUrl: string;
+  audioUrl: string;
+  lyricsUrl?: string;
+  duration: number;
+  artist: ArtistDTO;
+  artistName?:string
+  isLiked: boolean;
+}
+
+export interface SongDetailsResponse {
+  song: SongDetails;
+  recommendations: SongDetails[];
+}
+
 export interface ArtistInfo {
     _id: string;
     name: string;
     profilePicture: string;
 }
 
-export interface AlbumInfo {
-  _id: string
-  name: string
-}
 
 export interface SongResponse {
     _id: string;
@@ -54,29 +86,23 @@ export interface SongResponse {
     audioUrl: string;
     lyricsUrl: string;
     artistId: ArtistInfo; 
-    albumId: AlbumInfo
     duration: number; 
     isLiked?:boolean
     likesCount: number;
 }
 
-export interface SongPageResponse{
-  songs: SongResponse,
-  isLiked: boolean,
-  recomentations: SongResponse[]
-}
+
 export interface SongDehydration{
-  songs: SongResponse
+  songs: SongDetails
 }
 
 export interface AlbumResponse {
-   _id: string;
+   id: string;
    title: string;
-   artistId: ArtistInfo;
+   artistName: ArtistInfo;
    coverImageUrl: string;
-   createdAt: string;
    description: string;
-   songs: SongResponse[]
+   songs: SongDetails[]
 }
 
 export interface ArtistDetailsResponse {
@@ -134,7 +160,7 @@ export interface PlaylistDetailsResponse {
   name: string;
   description?: string;
   coverImageUrl?: string;
-  songs: SongData[];
+  songs: SongDetails[];
 }
 
 export interface Song{
@@ -208,4 +234,21 @@ export interface Friends{
 
 export interface FriendsResponse{
   friends: Friends[]
+}
+
+export interface LikedSong{
+  id: string
+  title: string
+  coverImage: string
+  duration: number
+  artistName: string
+  likedAt: string
+}
+
+export interface LikedSondResponse{
+  songs: LikedSong[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }

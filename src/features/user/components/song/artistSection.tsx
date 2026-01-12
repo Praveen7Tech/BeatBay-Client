@@ -1,15 +1,12 @@
 import { User } from "lucide-react";
-
+import { ArtistDTO } from "../../services/response.type";
 interface ArtistSectionProps {
-  artistId: {
-    name: string;
-    profilePicture: string;
-  };
+  artist: ArtistDTO;
 }
 
-export const ArtistSection = ({ artistId }: ArtistSectionProps) => {
+export const ArtistSection = ({ artist }: ArtistSectionProps) => {
 
-  const hasImage = !!artistId.profilePicture;
+  const hasImage = !!artist.profilePicture;
 
   return (
     <div className="space-y-4">
@@ -19,8 +16,8 @@ export const ArtistSection = ({ artistId }: ArtistSectionProps) => {
         <div className="w-16 h-16 rounded-full overflow-hidden bg-[#3a3a3a] flex items-center justify-center">
           {hasImage ? (
             <img
-              src={artistId.profilePicture}
-              alt={artistId.name}
+              src={artist.profilePicture}
+              alt={artist.name}
               className="w-full h-full object-cover"
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = "none";
@@ -34,7 +31,7 @@ export const ArtistSection = ({ artistId }: ArtistSectionProps) => {
         {/* Artist Info */}
         <div>
           <p className="text-xs text-spotify-secondary mb-1">Artist</p>
-          <p className="text-base font-bold text-white">{artistId.name}</p>
+          <p className="text-base font-bold text-white">{artist.name}</p>
         </div>
 
       </div>

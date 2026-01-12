@@ -1,7 +1,7 @@
 import { socket } from "@/core/config/socket"
 import { savePlayBackState } from "@/core/service/playerStorageService"
 import { RootState } from "@/core/store/store"
-import { SongResponse } from "@/features/user/services/response.type"
+import { SongDetails } from "@/features/user/services/response.type"
 import { setRoomSongData, SongData } from "@/features/user/slice/privateRoomSlice"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -10,7 +10,7 @@ import { useSelector } from "react-redux"
 interface AudioPlayerProps {
     currentSongId: string | undefined, 
     audioUrl: string | undefined,
-    currentSong: SongResponse| null
+    currentSong: SongDetails| null
     onEnded?: () => void,
     initialTime?: number 
     isRepeating: boolean

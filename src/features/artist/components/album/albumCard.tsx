@@ -29,7 +29,7 @@ export const AlbumCard = ({ id, name, coverImageUrl, totalSongs, createdAt }: Al
         />
 
         {isHovered && (
-          <Link to={`/edit-album/${id}`}>
+          <Link to={`/artist/edit-album/${id}`}>
           <button
             className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-[#1DB954] border-none flex items-center justify-center shadow-lg transition-all hover:scale-105 hover:bg-spotify-green"
           >

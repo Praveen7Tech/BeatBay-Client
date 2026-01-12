@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FollowersResponse, FriendsResponse, NewPlayListResponse, PlayListData, PlaylistDetailsResponse, SearchResponse, SongData, SongDehydration, SongPageResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlayListData, PlaylistDetailsResponse, SearchResponse, SongData, SongDehydration, SongDetailsResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={
@@ -14,17 +14,17 @@ export const userApi ={
        return response.data
     },
     
-    fetchSong: async():Promise<SongData[]> =>{
+    fetchSong: async():Promise<FetchSongs[]> =>{
       const response = await axiosInstance.get(API_ROUTES_USER.FETCH_SONGS)
       return response.data
     },
 
-    fetchAlbums: async():Promise<SongData[]> =>{
+    fetchAlbums: async():Promise<FetchAlbum[]> =>{
       const response = await axiosInstance.get(API_ROUTES_USER.FETCH_ALBUMS)
       return response.data
     },
 
-    SongDetail: async(songId:string): Promise<SongPageResponse>=>{
+    SongDetail: async(songId:string): Promise<SongDetailsResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_DETAILS}/${songId}`)
       return response.data
     },
@@ -36,6 +36,7 @@ export const userApi ={
 
     AlbumDetails: async(albumId:string): Promise<AlbumResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.ALBUM_DETAILS}/${albumId}`)
+      console.log("album deta", response.data)
       return response.data
     },
     
@@ -81,6 +82,7 @@ export const userApi ={
 
     getPlaylistById: async (playlistId: string): Promise<PlaylistDetailsResponse> => {
       const response = await axiosInstance.get(`${API_ROUTES_USER.GET_PLAYLIST_BY_ID}/${playlistId}`);
+      console.log("playlist", response.data)
       return response.data;
     },
 
@@ -127,10 +129,14 @@ export const userApi ={
     },
 
     toggleLike: async(songId: string): Promise<boolean>=>{
-      console.log("heyy ")
       const path = API_ROUTES_USER.SONG_LIKE.replace(':id', songId);
       const response = await axiosInstance.put(path)
-      console.log("like trigger", response.data)
+      return response.data
+    },
+
+    LikedSongs: async(): Promise<LikedSondResponse>=>{
+      const response = await axiosInstance.get(API_ROUTES_USER.LIKED_SONGS)
+      console.log("resu", response.data)
       return response.data
     }
 }

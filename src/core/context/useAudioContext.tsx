@@ -2,11 +2,11 @@ import {  userApi } from "@/features/user/services/userApi";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useAudioPlayer } from "../hooks/song/useAudioPlayer";
 import { clearPlayBackState, getPlaybackState } from "../service/playerStorageService";
-import { SongResponse } from "@/features/user/services/response.type";
+import { SongDetails } from "@/features/user/services/response.type";
 
 interface AudioContextType{
-    currentSong: SongResponse | null
-    setPlaylistAndPlay: (songs: SongResponse[], startIndex?: number)=> void
+    currentSong: SongDetails | null
+    setPlaylistAndPlay: (songs: SongDetails[], startIndex?: number)=> void
     isPlaying: boolean
     currentTime: number
     playPause: ()=> void
@@ -14,7 +14,7 @@ interface AudioContextType{
     setVolume: (volume: number[])=> void
     volume: number
 
-    playList: SongResponse[]
+    playList: SongDetails[]
     skipForward: ()=> void
     skipBackward: ()=> void
 
@@ -29,18 +29,18 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
 
     const [currentIndex, setCurrentIndex] = useState<number>(-1)
     const [volume, setVolumeState] = useState(50)
-    const [playList, setPlayList] = useState<SongResponse[]>([])
+    const [playList, setPlayList] = useState<SongDetails[]>([])
     const [initialTime, setInitialTime] = useState<number>(0)
     const [isRepeating, setIsrepeating] = useState(false)
 
     // Safe currentSong with bounds checking
-    const currentSong: SongResponse | null = 
+    const currentSong: SongDetails | null = 
         playList.length > 0 && currentIndex >= 0 && currentIndex < playList.length 
             ? playList[currentIndex] 
             : null
             
     const audioUrl = currentSong?.audioUrl
-    const currentSongId = currentSong?._id
+    const currentSongId = currentSong?.id
 
     // Repeat the current song
     const RepeatSong = useCallback(()=>{
@@ -97,7 +97,8 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
     }, []);
 
     // setting playlist and play first song
-    const setPlaylistAndPlay = useCallback((songs: SongResponse[], index = 0)=>{
+    const setPlaylistAndPlay = useCallback((songs: SongDetails[], index = 0)=>{
+        console.log("played",songs)
         setPlayList(songs)
         setCurrentIndex(index)
         setInitialTime(0)

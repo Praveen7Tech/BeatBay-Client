@@ -1,9 +1,8 @@
 import { SongCard } from "../../components/song/SongCard"; 
 import { ArtistHeader } from "../../components/song/ArtistHeader"; 
-//import { SearchBar } from "../../components/song/SearchBar";
 import { useArtistSongs } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
-import { SongData } from "../../services/artist.api";
+import { FetchSong, } from "../../services/artist.api";
 import { Pagination } from "@/features/admin/components/common/Pagination";
 import { useState } from "react";
 
@@ -48,16 +47,15 @@ const SongList = () => {
             <div className="w-14">#</div>
             <div className="flex-1">Title</div>
             <div className="hidden lg:block w-24 text-right">Streams</div>
-            <div className="hidden xl:block w-24 text-right">Listeners</div>
             <div className="hidden md:block w-28 text-right">Released</div>
             <div className="hidden lg:block w-20 text-right">Likes</div>
             <div className="w-16 text-right">Duration</div>
             <div className="w-10 text-right">Edit</div>
           </div>
         {songs && songs.length > 0 ? (
-            songs.map((song: SongData) => (
-              <Link to={`/artist/song-details/${song._id}`}>
-                <SongCard key={song._id} {...song} /> 
+            songs.map((song: FetchSong) => (
+              <Link to={`/artist/song-details/${song.id}`}>
+                <SongCard key={song.id} {...song} /> 
               </Link>
             ))
           ) : (
