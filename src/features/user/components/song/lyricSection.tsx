@@ -2,7 +2,7 @@ import { parseLrc } from "@/core/utils/LyricsParser";
 import { useEffect, useState } from "react";
 
 interface LyricsSectionProps {
-  lyricsUrl: string;
+  lyricsUrl?: string;
   currentTime: number
 }
 export interface LyricLine {

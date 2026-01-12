@@ -35,7 +35,7 @@ export default function AlbumDetail() {
 
   const album = data!;
 
-  const isCurrentAlbumPlaying = isPlaying && playList.length === album.songs.length &&  playList.every((s, i) => s._id === album.songs[i]._id);
+  const isCurrentAlbumPlaying = isPlaying && playList.length === album.songs.length &&  playList.every((s, i) => s.id === album.songs[i].id);
 
   const handlePlayPause = () => {
     if (isCurrentAlbumPlaying) {
@@ -50,9 +50,8 @@ export default function AlbumDetail() {
       <div className="max-w-7xl mx-auto p-8">
         <AlbumDetailHeader
           title={album.title}
-          artist={album.artistId.name}
+          artist={album.artistName}
           coverImageUrl={album.coverImageUrl}
-          releaseYear={album.createdAt}
           totalTracks={album.songs.length}
           isPlaying={isCurrentAlbumPlaying}
           onPlayAlbum={handlePlayPause}
@@ -61,7 +60,7 @@ export default function AlbumDetail() {
         <SongTable
           title="Featured Songs"
           songs={album.songs}
-          activeSongId={currentSong?._id}
+          activeSongId={currentSong?.id}
         />
       </div>
     </div>

@@ -95,11 +95,11 @@ export default function CreateAlbumRaw() {
                 <div className="bg-zinc-900 border border-zinc-700 rounded-lg mt-2 max-h-56 overflow-y-auto">
                   {filteredSongs.map(
                     (song) =>
-                      !selectedSongs.includes(song._id) && (
+                      !selectedSongs.includes(song.id) && (
                         <button
-                          key={song._id}
+                          key={song.id}
                           type="button"
-                          onClick={() => handleAddSong(song._id)}
+                          onClick={() => handleAddSong(song.id)}
                           className="w-full text-left px-3 py-2 hover:bg-zinc-800"
                         >
                           {song.title}
@@ -129,10 +129,10 @@ export default function CreateAlbumRaw() {
             <h3 className="text-sm font-medium mb-4">Selected Tracks</h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {songs
-                ?.filter((s) => selectedSongs.includes(s._id))
+                ?.filter((s) => selectedSongs.includes(s.id))
                 .map((song) => (
                   <div
-                    key={song._id}
+                    key={song.id}
                     className="relative bg-zinc-900 border border-zinc-700 rounded-lg"
                   >
                     <img
@@ -144,7 +144,7 @@ export default function CreateAlbumRaw() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => handleRemoveSong(song._id)}
+                      onClick={() => handleRemoveSong(song.id)}
                       className="absolute top-2 right-2 bg-red-600 p-2 rounded-full"
                     >
                       <Trash2 size={14} />

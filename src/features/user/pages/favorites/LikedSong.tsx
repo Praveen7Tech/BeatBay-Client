@@ -1,0 +1,64 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/core/store/store";
+import { useLikesSongs } from "@/core/hooks/api/useFetchHooks";
+import { useToggleLikesMutation } from "@/core/hooks/likes/useToggleLikesMutation";
+import { SpinnerCustom } from "@/components/ui/spinner";
+import LikedSongsHeader from "../../components/favorites/LikedSongsHeader";
+import LikedSongsActions from "../../components/favorites/LikedSongsActions";
+import LikedSongsTable from "../../components/favorites/LikedSongsTable";
+import { useAudioContext } from "@/core/context/useAudioContext";
+
+const LikedSongs = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [hoveredRow, setHoveredRow] = useState<string | null>(null);
+
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
+  const { data, isLoading, isError, error } = useLikesSongs(userId!);
+  const { mutate: toggleLike } = useToggleLikesMutation();
+
+  const {currentSong,setPlaylistAndPlay, isPlaying,playPause} = useAudioContext()
+
+  if (isLoading) return <SpinnerCustom />;
+
+  if (isError)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        {error instanceof Error ? error.message : "Failed to load liked songs"}
+      </div>
+    );
+
+  const songs = data?.songs ?? [];
+  const isCurrentSongPlaying =  isPlaying && currentSong?._id === songs[0].id
+
+  const HandleSongPlaying = ()=>{
+    if(isCurrentSongPlaying){
+      playPause()
+    }else{
+      setPlaylistAndPlay(songs, 0)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <LikedSongsHeader 
+        totalSongs={songs.length} 
+      />
+      <LikedSongsActions 
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        onPlaySong={HandleSongPlaying}
+        isPlaying={isPlaying}
+       />
+      <LikedSongsTable
+        songs={songs}
+        hoveredRow={hoveredRow}
+        setHoveredRow={setHoveredRow}
+        toggleLike={toggleLike}
+        searchQuery={searchQuery}
+      />
+    </div>
+  );
+};
+
+export default LikedSongs;

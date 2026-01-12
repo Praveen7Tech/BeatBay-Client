@@ -31,11 +31,11 @@ export default function SongDetail() {
     );
   }
 
-  const song = data!.songs;
-  const isLiked = data!.isLiked
-  const recomentedSongs = data!.recomentations;
+  const song = data!.song;
+  const isLiked = song.isLiked
+  const recomentedSongs = data!.recommendations;
 
-  const isCurrentSongPlaying = currentSong?._id === song._id;
+  const isCurrentSongPlaying = currentSong?.id === song.id;
 
   const handlePlayPause = () => {
     if (isCurrentSongPlaying) {
@@ -43,7 +43,7 @@ export default function SongDetail() {
     } else {
       const playlist = [
         song,
-        ...recomentedSongs.filter((s) => s._id !== song._id),
+        ...recomentedSongs.filter((s) => s.id !== song.id),
       ];
       setPlaylistAndPlay(playlist, 0);
     }
@@ -52,9 +52,9 @@ const handleLike = (songId: string) => {
   toggleLike(songId); 
 };
 
-  const activeSong = currentSong?._id === song._id ? currentSong : song;
+  const activeSong = currentSong?.id === song.id ? currentSong : song;
 
-  const activeCurrentTime = currentSong?._id === song._id ? currentTime : 0;
+  const activeCurrentTime = currentSong?.id === song.id ? currentTime : 0;
 
   return (
     <div className="min-h-screen bg-linear-to-b from-spotify-dark to-black text-white">
@@ -70,8 +70,8 @@ const handleLike = (songId: string) => {
         />
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Link to={`/artist/${song.artistId?._id}`}>
-            <ArtistSection artistId={song.artistId} />
+          <Link to={`/artist/${song.artist.id}`}>
+            <ArtistSection artist={song.artist} />
           </Link>
 
           <LyricsSection

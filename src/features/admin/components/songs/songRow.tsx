@@ -10,17 +10,18 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { formatTime } from "@/core/utils/formatTime";
+import { AdminSong } from "../../services/adminApi";
 
-export interface AdminSong {
-  id: string;
-  title: string;
-  genre: string;
-  coverImageUrl: string;
-  duration: number;
-  likesCount: number;
-  uploadDate: string;
-  status: boolean; 
-}
+// export interface AdminSong {
+//   id: string;
+//   title: string;
+//   genre: string;
+//   coverImageUrl: string;
+//   duration: number;
+//   likesCount: number;
+//   uploadDate: string;
+//   status: boolean; 
+
 
 const AdminSongRow = ({ song, index }: { song: AdminSong; index: number }) => {
   const isActive = song.status === true;
@@ -35,7 +36,7 @@ const AdminSongRow = ({ song, index }: { song: AdminSong; index: number }) => {
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded overflow-hidden shrink-0">
             <img
-              src={song.coverImageUrl}
+              src={song.coverImage}
               alt={song.title}
               className="w-full h-full object-cover"
             />
@@ -66,7 +67,7 @@ const AdminSongRow = ({ song, index }: { song: AdminSong; index: number }) => {
       <td className="py-3 px-4 hidden lg:table-cell">
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <Heart className="w-3.5 h-3.5 fill-primary text-primary" />
-          {song.likesCount.toLocaleString()}
+          {song?.likesCount?.toLocaleString()}
         </div>
       </td>
 

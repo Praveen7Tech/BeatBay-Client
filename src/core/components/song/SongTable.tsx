@@ -1,28 +1,18 @@
 import { formatTime } from "@/core/utils/formatTime";
-import { SongResponse } from "@/features/user/services/response.type";
+import { SongDetails } from "@/features/user/services/response.type";
 import { Play, Heart, Clock, Plus, AudioLines } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export interface SongTableProps {
-  songs: SongResponse[]; 
+  songs: SongDetails[]; 
   title: string
   activeSongId?: string | undefined
-  onLike: (id: string) => void;
+  onLike?: (id: string) => void;
 }
 
 export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-  const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
-
-  const toggleLike = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLikedSongs(prev => {
-      const updated = new Set(prev);
-      updated.has(id) ? updated.delete(id) : updated.add(id);
-      return updated;
-    });
-  };
 
   return (
     <div>
@@ -48,14 +38,14 @@ export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps)
           <tbody>
             {songs.map((song, index) => (
               <tr
-                key={song._id}
+                key={song.id}
                 className={`border-b border-[#282828] hover:bg-[#282828] transition-colors group
-                  ${activeSongId === song._id ? "text-green-500" : ""}`}
+                  ${activeSongId === song.id ? "text-green-500" : ""}`}
                 onMouseEnter={() => setHoveredRow(index)}
                 onMouseLeave={() => setHoveredRow(null)}
               >
                 <td className="px-4 py-3">
-                  {activeSongId === song._id ? (
+                  {activeSongId === song.id ? (
                     <AudioLines className="h-5 w-5 text-green-500 animate-pulse" />
                   ) : hoveredRow === index ? (
                     <button className="text-white hover:scale-110 transition-transform">
@@ -66,7 +56,7 @@ export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps)
                   )}
                 </td>
                 <td className="px-4 py-3">
-                  <Link to={`/song/${song._id}`}>
+                  <Link to={`/song/${song.id}`}>
                   <div className="flex items-center gap-3">
                     <img
                       src={song?.coverImageUrl}
@@ -76,12 +66,12 @@ export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps)
                      <div>
                     <p
                       className={`font-medium hover:text-green-500 ${
-                        activeSongId === song._id ? "text-green-500" : "text-white"
+                        activeSongId === song.id ? "text-green-500" : "text-white"
                       }`}
                     >
                       {song.title}
                     </p>
-                    <p className="text-spotify-secondary text-sm">{song.artistId.name}</p>
+                    <p className="text-spotify-secondary text-sm">{song?.artist?.name || song?.artistName || ""}</p>
                   </div>
                   </div>
                   </Link>
@@ -95,7 +85,7 @@ export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps)
                   <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onLike(song._id); 
+                    onLike?.(song.id); 
                   }}
                     className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end"
                   >

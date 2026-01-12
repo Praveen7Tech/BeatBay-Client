@@ -111,11 +111,12 @@ export interface AdminSong {
   artist: string;
   album: string;
   coverImage: string;
-  duration: string;
+  duration: number;
   streams: number;
   status: boolean;
   uploadDate: string;
   genre: string;
+  likesCount?:number
 }
 
 export interface SongResponse {

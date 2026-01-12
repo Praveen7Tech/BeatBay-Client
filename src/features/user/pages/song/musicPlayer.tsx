@@ -32,7 +32,7 @@ export const MusicPlayer = ({ className, ...props }: SliderProps) => {
       duration: currentSong?.duration // Keep duration from context or songData
   } : {
       title: currentSong?.title,
-      artistName: currentSong?.artistId?.name,
+      artistName: currentSong?.artist?.name,
       coverImageUrl: currentSong?.coverImageUrl,
       duration: currentSong?.duration
   };

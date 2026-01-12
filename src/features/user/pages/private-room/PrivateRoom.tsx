@@ -15,8 +15,7 @@ import { showError } from "@/core/utils/toast.config";
 const PrivateRoomPage = () => {
 
   const room = useSelector((state: RootState) => state.privateRoom);
-  const user = useSelector((state: RootState) => state.auth.user);
-  const isHost = room.hostId === user?.id;
+ 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch()

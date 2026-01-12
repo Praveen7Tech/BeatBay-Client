@@ -1,11 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import {
-  PlaylistDetailsResponse,
-  SongData,
   userApi,
 } from "@/features/user/services/userApi"
 import { showError, showSuccess } from "../../utils/toast.config"
 import { useNavigate } from "react-router-dom"
+import { PlaylistDetailsResponse, SongData } from "@/features/user/services/response.type"
 
 const playlistKey = (id: string) => ["playlist", id] as const
 const searchSongsKey = (query: string) => ["search-songs", query] as const
@@ -47,7 +46,7 @@ export const useAddSongToPlaylist = (playlistId: string) => {
         playlistKey(playlistId),
         (old) => {
           if (!old) return old
-          const exists = old.songs.some((s) => s._id === songId)
+          const exists = old.songs.some((s) => s.id === songId)
           if (exists) return old
 
           // You may want to add the new song here if you have full song data

@@ -55,6 +55,7 @@ import AdminSongs from '@/features/admin/pages/songs/song.listing';
 import AdminSongDetail from '@/features/admin/pages/songs/songDetails';
 import AdminAlbums from '@/features/admin/pages/album/adminAlbumListing';
 import AdminAlbumDetail from '@/features/admin/pages/album/adminAlbumDetails';
+import LikedSongs from '@/features/user/pages/favorites/LikedSong';
 
 const AppRouter: React.FC = () => {
   return (
@@ -103,6 +104,8 @@ const AppRouter: React.FC = () => {
 
           <Route path='/showall' element={<ExplorePage/>}/>
           <Route path="/connections/:type" element={<FollowingListing />} />
+
+          <Route path='/liked-songs' element={<LikedSongs/>}/>
         </Route>
 
         {/* admin routes */}

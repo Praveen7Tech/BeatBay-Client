@@ -54,7 +54,7 @@ export const useUserFollowers = (page:number, limit:number) =>{
 }
 
 
-export const useFetchsongById =(songId: string) =>{
+export const useFetchsongById = (songId: string) =>{
     return useQuery({
         queryKey: ["songDetails", songId],
         queryFn: () => userApi.SongDetail(songId!),
@@ -67,23 +67,31 @@ export const useFetchArtistDetails = (artistId: string)=>{
     return useQuery({
         queryKey: ["artistData", artistId],
         queryFn: () => userApi.artistDetails(artistId!),
-    enabled: !!artistId,
+        enabled: !!artistId,
     })
 }
 
 export const useArtistDetails = (artistId: string) => {
-  return useQuery({
-    queryKey: ["artistDetails", artistId],
-    queryFn: () => userApi.artistDetails(artistId!),
-    enabled: !!artistId,
-  });
+    return useQuery({
+        queryKey: ["artistDetails", artistId],
+        queryFn: () => userApi.artistDetails(artistId!),
+        enabled: !!artistId,
+    });
 };
 
 
 export const useUserProfileDetails = (userId: string) => {
-  return useQuery({
-    queryKey: ["userDetails", userId],
-    queryFn: () => userApi.userProfileDetails(userId!),
-    enabled: !!userId,
-  });
+    return useQuery({
+        queryKey: ["userDetails", userId],
+        queryFn: () => userApi.userProfileDetails(userId!),
+        enabled: !!userId,
+    });
 };
+
+export const useLikesSongs = (userId: string)=>{
+    return useQuery({
+        queryKey:["liked-songs", userId],
+        queryFn: ()=> userApi.LikedSongs(),
+        enabled: !!userId
+    })
+}
