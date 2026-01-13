@@ -1,17 +1,22 @@
 import { formatTime } from "@/core/utils/formatTime";
 import { SongDetails } from "@/features/user/services/response.type";
-import { Play, Heart, Clock, Plus, AudioLines } from "lucide-react";
+import { Play, Heart, Clock, AudioLines } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { SongActionsMenu } from "../action-menu/SongActionMenu";
 
 export interface SongTableProps {
   songs: SongDetails[]; 
   title: string
   activeSongId?: string | undefined
   onLike?: (id: string) => void;
+  showAction?:boolean;
+  showRemoveFromPlaylist?: boolean;
+  onRemoveFromPlaylist?: (songId: string) => void;
+  onAddToPlaylist?: (songId: string, playlistId: string) => void;
 }
 
-export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps) => {
+export const SongTable = ({ songs, title, activeSongId,onLike,showAction,showRemoveFromPlaylist,onRemoveFromPlaylist,onAddToPlaylist }: SongTableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   return (
@@ -36,7 +41,7 @@ export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps)
             </tr>
           </thead>
           <tbody>
-            {songs.map((song, index) => (
+            {songs?.map((song, index) => (
               <tr
                 key={song.id}
                 className={`border-b border-[#282828] hover:bg-[#282828] transition-colors group
@@ -101,11 +106,17 @@ export const SongTable = ({ songs, title, activeSongId,onLike }: SongTableProps)
                 <td className="px-4 py-3 text-right">
                   <span className="text-spotify-secondary text-sm">{formatTime(song.duration)}</span>
                 </td>
+                {showAction && (
                 <td className="px-4 py-3">
-                    <button className="w-8 h-8 rounded-full bg-transparent hover:bg-[#3e3e3e] flex items-center justify-center transition-colors opacity-0 group-hover:opacity-100">
-                      <Plus className="h-5 w-5 text-spotify-secondary hover:text-white" />
-                    </button>
+                  <SongActionsMenu
+                    songId={song.id}
+                    artist={song.artist?.id }
+                    showRemoveFromPlaylist={showRemoveFromPlaylist}
+                    onRemoveFromPlaylist={onRemoveFromPlaylist}
+                    onAddToPlaylist={onAddToPlaylist}
+                  />
                 </td>
+              )}
               </tr>
             ))}
           </tbody>

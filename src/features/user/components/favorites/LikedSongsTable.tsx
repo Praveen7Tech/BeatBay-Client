@@ -1,23 +1,23 @@
 import { formatTime } from "@/core/utils/formatTime";
 import { format, parseISO } from "date-fns";
-import { Play, Clock, Heart, Plus } from "lucide-react";
-import { LikedSong } from "../../services/response.type";
+import { Play, Clock, Heart, Plus, AudioLines } from "lucide-react";
+import { SongDetails } from "../../services/response.type";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface LikedSongsTableProps {
-  songs: LikedSong[];
-  hoveredRow: string | null;
-  setHoveredRow: (id: string | null) => void;
+  songs: SongDetails[];
   toggleLike: (id: string) => void;
   searchQuery: string;
+  activeSongId?: string
 }
 
 const LikedSongsTable = ({
   songs,
-  hoveredRow,
-  setHoveredRow,
   toggleLike,
-  searchQuery,
+  searchQuery,activeSongId
 }: LikedSongsTableProps) => {
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   return (
     <div className="px-6">
       <table className="w-full">
@@ -39,25 +39,32 @@ const LikedSongsTable = ({
             <tr
               key={song.id}
               className="group hover:bg-secondary/10 transition-colors cursor-pointer"
-              onMouseEnter={() => setHoveredRow(song.id)}
+              onMouseEnter={() => setHoveredRow(index)}
               onMouseLeave={() => setHoveredRow(null)}
             >
               <td className="py-2 px-4 w-12">
-                {hoveredRow === song.id ? (
-                  <Play className="w-4 h-4 text-foreground fill-foreground" />
-                ) : (
-                  <span className="text-muted-foreground">{index + 1}</span>
-                )}
+                {activeSongId === song.id ? (
+                    <AudioLines className="h-5 w-5 text-green-500 animate-pulse" />
+                  ) : hoveredRow === index ? (
+                    <button className="text-white hover:scale-110 transition-transform">
+                      <Play className="h-4 w-4 fill-current text-green-500" />
+                    </button>
+                  ) : (
+                    <span className="text-spotify-secondary text-sm">{index + 1}</span>
+                  )}
               </td>
               <td className="py-2 px-4">
+                <Link to={`/song/${song.id}`}>
                 <div className="flex items-center gap-3">
                   <img
-                    src={song.coverImage}
+                    src={song.coverImageUrl}
                     alt={song.title}
                     className="w-10 h-10 rounded object-cover"
                   />
                   <div className="min-w-0">
-                    <p className="font-medium text-foreground truncate group-hover:text-primary transition-colors">
+                    <p  className={`font-medium hover:text-green-500 ${
+                        activeSongId === song.id ? "text-green-500" : "text-white"
+                      }`}>
                       {song.title}
                     </p>
                     <p className="text-sm text-muted-foreground truncate">
@@ -65,6 +72,7 @@ const LikedSongsTable = ({
                     </p>
                   </div>
                 </div>
+                </Link>
               </td>
               <td className="py-2 px-4 hidden lg:table-cell text-muted-foreground">
                 {format(parseISO(song?.likedAt!), "MMM dd, yyyy")}

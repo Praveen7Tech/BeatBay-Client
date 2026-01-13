@@ -77,9 +77,11 @@ export const API_ROUTES_USER ={
   GET_USER_PLAYLIST: '/user/get-user-playlist',
   SEARCH_SONGS: '/user/searchSong',
   EDIT_PLAYLIST: '/user/edit-playList',
+  DELETE_PLAYLIST:'/user/playlist/:playlistId/delete',
   SEARCH: '/user/search',
   USER_DETAILS: '/user/user-details',
   FRIENDS: '/user/friends',
   SONG_LIKE:'/user/song/:id/toggle-like',
-  LIKED_SONGS: '/user/liked-songs'
+  LIKED_SONGS: '/user/liked-songs',
+  REMOVE_FROM_PLAYLIST: '/user/playlist/:playlistId/song/:songId'
 }

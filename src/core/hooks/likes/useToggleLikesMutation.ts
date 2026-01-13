@@ -1,9 +1,10 @@
-import { showError, showSuccess } from "@/core/utils/toast.config";
 import { userApi } from "@/features/user/services/userApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToaster } from "../toast/useToast";
 
 export const useToggleLikesMutation = () => {
     const queryClient = useQueryClient();
+    const {toast} = useToaster()
 
     return useMutation({
         mutationFn: (songId: string) => userApi.toggleLike(songId),
@@ -43,7 +44,7 @@ export const useToggleLikesMutation = () => {
         },
 
         onSuccess: (isNowLiked) => {
-            showSuccess(isNowLiked ? "Added to Liked Songs" : "Removed from Liked Songs");
+            toast.success(isNowLiked ? "Added to Liked Songs" : "Removed from Liked Songs")
         },
 
         onError: (err, variables, context) => {
@@ -54,7 +55,7 @@ export const useToggleLikesMutation = () => {
             if (context?.previousLibrary) {
                 queryClient.setQueriesData({ queryKey: ["liked-songs"] }, context.previousLibrary);
             }
-            showError("Failed to update like status");
+            toast.error("Failed to update like status")
         },
 
         onSettled: () => {

@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAuthLoading, setAuthFailure } from '../../../features/auth/slices/authSlice';
-import { showError, showSuccess } from '../../utils/toast.config';
+import { useToaster } from '../toast/useToast';
 
 
 
@@ -12,6 +12,7 @@ export const useApi = <TData extends { message?: string }, TParams = unknown>(
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const dispatch = useDispatch();
+  const {toast} =useToaster()
 
   const execute = useCallback(
     async (params: TParams) => {
@@ -26,7 +27,7 @@ export const useApi = <TData extends { message?: string }, TParams = unknown>(
         
         if (response.message) {
           setMessage(response.message);
-          showSuccess(response.message)
+          toast.success(response.message)
         }
 
         return response;
@@ -35,7 +36,7 @@ export const useApi = <TData extends { message?: string }, TParams = unknown>(
         setMessage(errorMessage);
         dispatch(setAuthFailure(errorMessage));
         if(errorMessage !== "incorrect"){
-          showError(errorMessage);
+          toast.error(errorMessage);
         }
         
         throw err;

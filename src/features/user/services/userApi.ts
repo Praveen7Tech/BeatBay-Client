@@ -36,7 +36,6 @@ export const userApi ={
 
     AlbumDetails: async(albumId:string): Promise<AlbumResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.ALBUM_DETAILS}/${albumId}`)
-      console.log("album deta", response.data)
       return response.data
     },
     
@@ -82,7 +81,6 @@ export const userApi ={
 
     getPlaylistById: async (playlistId: string): Promise<PlaylistDetailsResponse> => {
       const response = await axiosInstance.get(`${API_ROUTES_USER.GET_PLAYLIST_BY_ID}/${playlistId}`);
-      console.log("playlist", response.data)
       return response.data;
     },
 
@@ -93,8 +91,8 @@ export const userApi ={
       return response.data;
     },
 
-    addToPlayList: async ( playListId: string,  data: string ): Promise<{ message: string }> => {
-      const response = await axiosInstance.post(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playListId}`,{ songId:data });
+    addToPlayList: async ( playlistId: string,  data: string ): Promise<{ message: string }> => {
+      const response = await axiosInstance.post(`${API_ROUTES_USER.ADD_TO_PLAYLIST}/${playlistId}`,{ songId:data });
       return response.data;
     },
 
@@ -123,8 +121,6 @@ export const userApi ={
       const response = await axiosInstance.get(endpoint, {
         params: { page, limit, q, genre }
       });
-      // Expected response shape: { docs: Array, totalPages: number, currentPage: number }
-      console.log("results ", response.data)
       return response.data;
     },
 
@@ -136,7 +132,20 @@ export const userApi ={
 
     LikedSongs: async(): Promise<LikedSondResponse>=>{
       const response = await axiosInstance.get(API_ROUTES_USER.LIKED_SONGS)
-      console.log("resu", response.data)
+      return response.data
+    },
+
+    removeFromPlayList: async(playListId:string,songId: string): Promise<boolean>=>{
+      const path = API_ROUTES_USER.REMOVE_FROM_PLAYLIST.replace(":playlistId", playListId)
+      .replace(":songId",songId)
+
+      const response = await axiosInstance.delete(path)
+      return response.data
+    },
+
+    deletePlayList: async(playlistId:string): Promise<boolean>=>{
+      const path = API_ROUTES_USER.DELETE_PLAYLIST.replace(":playlistId", playlistId)
+      const response = await axiosInstance.delete(path)
       return response.data
     }
 }

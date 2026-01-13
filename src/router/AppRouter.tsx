@@ -6,7 +6,7 @@ import LoginPage from '../features/auth/pages/Login';
 //import HomePage from '../pages/Home';
 import ForgotPassword from '../features/auth/pages/Forgot-passowrd';
 import ResetPassword from '../features/auth/pages/reset-password';
-import { Toaster } from 'react-hot-toast';
+// import { Toaster } from 'react-hot-toast';
 import ProtectedRoute from './Protected-route';
 import PublicOnlyRoute from './Public-route';
 import { ROLES } from '../core/types/roles';
@@ -56,6 +56,7 @@ import AdminSongDetail from '@/features/admin/pages/songs/songDetails';
 import AdminAlbums from '@/features/admin/pages/album/adminAlbumListing';
 import AdminAlbumDetail from '@/features/admin/pages/album/adminAlbumDetails';
 import LikedSongs from '@/features/user/pages/favorites/LikedSong';
+import { Toaster } from '@/components/ui/sonner';
 
 const AppRouter: React.FC = () => {
   return (
@@ -145,8 +146,9 @@ const AppRouter: React.FC = () => {
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
-      <Toaster/>
-    </BrowserRouter>
+      {/* <Toaster/> */}
+      <Toaster />
+      </BrowserRouter>
   );
 };
 

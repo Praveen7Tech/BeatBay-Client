@@ -61,6 +61,7 @@ export default function AlbumDetail() {
           title="Featured Songs"
           songs={album.songs}
           activeSongId={currentSong?.id}
+          showAction={true}
         />
       </div>
     </div>

@@ -3,6 +3,7 @@ import { Input } from "@/features/artist/components/song/Input";
 import { useRef, useState, KeyboardEvent } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { SongData } from "../../services/response.type";
+import { formatTime } from "@/core/utils/formatTime";
 
 interface PlaylistSearchSectionProps {
   songs: SongData[];
@@ -114,7 +115,7 @@ export const PlaylistSearchSection = ({
                 </div>
 
 
-                <span className="text-spotify-secondary text-sm mr-4">{song.duration}</span>
+                <span className="text-spotify-secondary text-sm mr-4">{formatTime(Number(song.duration))}</span>
 
                 <button
                   onClick={() => addSong(song._id)}

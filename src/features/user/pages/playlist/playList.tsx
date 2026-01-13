@@ -5,6 +5,7 @@ import { PlaylistSearchSection } from "../../components/playlist/searchSection";
 import { usePlaylistDetails,useSearchSongs, useAddSongToPlaylist} from "@/core/hooks/playList/usePlayList";
 import { SongTable } from "@/core/components/song/SongTable";
 import { useAudioContext } from "@/core/context/useAudioContext";
+import { useRemoveFromPlayList } from "@/core/hooks/playList/useRemoveFromPlayList";
 
 export default function PlaylistDetail() {
   const { playlistId } = useParams<{ playlistId: string }>();
@@ -26,16 +27,23 @@ export default function PlaylistDetail() {
   // search songs query
   const { data: searchSongs, isFetching: isSearchFetching } = useSearchSongs(searchQuery);
 
-  // add song mutation
-  const addSongMutation = useAddSongToPlaylist(playlistId);
+  // add & remove song mutation
+  const addSongMutation = useAddSongToPlaylist();
+  const removeSongMutation = useRemoveFromPlayList(playlistId)
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
 
+  // add to playlist
   const handleAddSong = (songId: string) => {
-    addSongMutation.mutate(songId);
+    console.log("hayoo ", playlistId,songId)
+    addSongMutation.mutate({playlistId,songId});
   };
+  // remove from playlist
+  const handleRemoveSong = (songId:string)=>{
+    removeSongMutation.mutate(songId)
+  }
 
   if (isPlaylistLoading ) {
     return (
@@ -75,10 +83,16 @@ export default function PlaylistDetail() {
           onAddSongClick={() => setIsSearchOpen(true)}
           handlePlayPause = {handlePlayPause}
           isPlaying={isPlaying}
+          totalTracks={playlist.songs.length}
+          totalDuration={playlist.totalDuration}
         />
         <SongTable 
           songs={playlist.songs}
-            title={ "Featured Songs"}
+          title={ "Featured Songs"}
+          activeSongId={currentSong?.id}
+          showAction={true}
+          showRemoveFromPlaylist= {true}
+          onRemoveFromPlaylist={handleRemoveSong}
         />
 
         <PlaylistSearchSection

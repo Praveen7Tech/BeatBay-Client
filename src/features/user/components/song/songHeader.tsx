@@ -1,5 +1,6 @@
+import { SongActionsMenu } from "@/core/components/action-menu/SongActionMenu";
 import { formatTime } from "@/core/utils/formatTime";
-import { Play, Heart, Plus, Pause } from "lucide-react";
+import { Play, Heart, Pause } from "lucide-react";
 
 interface SongHeaderProps {
   title: string;
@@ -8,11 +9,14 @@ interface SongHeaderProps {
   isPlaying: boolean;
   onPlayPause: () => void;
   isLiked: boolean
-  onLike: ()=> void
+  onLike: ()=> void;
+  showAction?:boolean
+  addToPlaylist: (songId: string, playlistId: string) => void;
+  songId:string
 }
 
-export const SongHeader = ({ title,  coverImageUrl, duration, isPlaying, onPlayPause , onLike, isLiked}: SongHeaderProps) => {
-
+export const SongHeader = ({ title,  coverImageUrl, duration, isPlaying, onPlayPause , onLike, isLiked,showAction, songId,addToPlaylist}: SongHeaderProps) => {
+ const isAdded = false
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -48,12 +52,18 @@ export const SongHeader = ({ title,  coverImageUrl, duration, isPlaying, onPlayP
             />
           </button>
           
-          <button
-            className="w-14 h-14 rounded-full border-2 border-[#535353] hover:border-white transition-all flex items-center justify-center"
-            style={{ background: "transparent", cursor: "pointer" }}
-          >
-            <Plus className="h-6 w-6 text-spotify-secondary hover:text-white" />
-          </button>
+          <div
+          className={`w-14 h-14 rounded-full transition-all flex items-center justify-center
+            ${isAdded ? "border-none" : "border-2 border-[#535353] hover:border-white"}`}
+        >
+          {showAction && (
+            <SongActionsMenu
+              songId={songId}
+              onAddToPlaylist={addToPlaylist}
+              isHeader={true} 
+            />
+          )}
+        </div>
         </div>
       </div>
 

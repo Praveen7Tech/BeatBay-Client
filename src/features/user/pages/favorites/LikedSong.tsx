@@ -11,7 +11,6 @@ import { useAudioContext } from "@/core/context/useAudioContext";
 
 const LikedSongs = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [hoveredRow, setHoveredRow] = useState<string | null>(null);
 
   const userId = useSelector((state: RootState) => state.auth.user?.id);
   const { data, isLoading, isError, error } = useLikesSongs(userId!);
@@ -29,7 +28,7 @@ const LikedSongs = () => {
     );
 
   const songs = data?.songs ?? [];
-  const isCurrentSongPlaying =  isPlaying && currentSong?._id === songs[0].id
+  const isCurrentSongPlaying =  isPlaying && currentSong?.id === songs[0].id
 
   const HandleSongPlaying = ()=>{
     if(isCurrentSongPlaying){
@@ -52,10 +51,9 @@ const LikedSongs = () => {
        />
       <LikedSongsTable
         songs={songs}
-        hoveredRow={hoveredRow}
-        setHoveredRow={setHoveredRow}
         toggleLike={toggleLike}
         searchQuery={searchQuery}
+        activeSongId={currentSong?.id}
       />
     </div>
   );
