@@ -62,6 +62,7 @@ export interface SongDetails {
   artist: ArtistDTO;
   artistName?:string
   isLiked: boolean;
+  likedAt?:string
 }
 
 export interface SongDetailsResponse {
@@ -156,10 +157,11 @@ export interface PlaylistSong {
 }
 
 export interface PlaylistDetailsResponse {
-  _id: string;
+  id: string;
   name: string;
   description?: string;
   coverImageUrl?: string;
+  totalDuration: number
   songs: SongDetails[];
 }
 
@@ -239,14 +241,14 @@ export interface FriendsResponse{
 export interface LikedSong{
   id: string
   title: string
-  coverImage: string
+  coverImageUrl: string
   duration: number
   artistName: string
   likedAt: string
 }
 
 export interface LikedSondResponse{
-  songs: LikedSong[];
+  songs: SongDetails[];
   total: number;
   page: number;
   limit: number;

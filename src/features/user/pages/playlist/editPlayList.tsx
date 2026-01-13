@@ -16,7 +16,7 @@ interface PlaylistEditDialogProps {
 export const EditPlaylistSchema = z.object({
   name: z.string().min(1, "Playlist name is required"), 
   description: z.string().max(300, "Description is too long").optional().nullable(),
-  image: z.string().optional().nullable(), 
+  coverImageUrl: z.string().optional(), 
 });
 
 export type EditPlaylistData = z.infer<typeof EditPlaylistSchema>;
@@ -58,7 +58,7 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
                                 <Upload className="h-12 w-12 text-spotify-secondary" />
                             )}
                             <input
-                              {...register('image')}
+                              {...register('coverImageUrl')}
                                 type="file"
                                 accept="image/*"
                                 onChange={handleImageChange} 
@@ -70,7 +70,7 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
                         <div className="flex-1 space-y-4">
                             <div>
                                 <input
-                                    {...register("name")} // RHF handles value/onChange now
+                                    {...register("name")} 
                                     type="text"
                                     defaultValue={initialData?.name}
                                     placeholder="Playlist name"

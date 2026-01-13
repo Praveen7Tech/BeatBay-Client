@@ -2,16 +2,27 @@ import { Pause, Play, Plus } from "lucide-react";
 import { useState } from "react";
 import { PlaylistEditDialog } from "../../pages/playlist/editPlayList";
 import { PlaylistDetailsResponse } from "../../services/response.type";
+import { formatTime } from "@/core/utils/formatTime";
+import { PlaylistActionsMenu } from "@/core/components/action-menu/PlayListActionMenu";
+import { useDeletePlayList } from "@/core/hooks/playList/useDeletePlaylist";
 
 interface PlaylistHeaderProps {
   playListData: PlaylistDetailsResponse
   onAddSongClick: () => void;
   handlePlayPause: ()=> void
-  isPlaying: boolean
+  isPlaying: boolean;
+  totalTracks: number;
+  totalDuration:number
 }
 
-export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handlePlayPause}: PlaylistHeaderProps) => {
+export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handlePlayPause, totalTracks, totalDuration}: PlaylistHeaderProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
+
+  const deleteMutation = useDeletePlayList()
+
+  const handleDeletePlaylist = ()=>{
+    deleteMutation.mutate(playListData.id)
+  }
   
   return (
     <>
@@ -31,7 +42,7 @@ export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handle
         )}
       </div>
         <div className="flex flex-col justify-end gap-6 cursor-pointer">
-          <div onClick={()=> setIsEdit(!isEdit)}>
+          <div>
             <p className="text-sm font-medium text-white uppercase tracking-wider mb-2">
               Playlist
             </p>
@@ -42,9 +53,9 @@ export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handle
             <div className="flex items-center gap-2 text-sm">
               <span className="text-white font-medium">{"owner"}</span>
               <span className="text-spotify-secondary">•</span>
-              <span className="text-spotify-secondary">{"totalTracks"} songs</span>
+              <span className="text-spotify-secondary">{totalTracks} songs</span>
               <span className="text-spotify-secondary">•</span>
-              <span className="text-spotify-secondary">{"totalDuration"}</span>
+              <span className="text-spotify-secondary">{formatTime(totalDuration)} minutes</span>
             </div>
           </div>
         </div>
@@ -69,16 +80,19 @@ export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handle
           <Plus className="h-5 w-5" />
           Add Song
         </button>
+        <PlaylistActionsMenu
+          playlistId={playListData.id}
+          playlistName={playListData.name}
+          onDelete={handleDeletePlaylist}
+          onEdit={()=>setIsEdit(!isEdit)}
+        />
+            
       </div>
        <PlaylistEditDialog
-        isOpen={isEdit}
-        onClose={() => setIsEdit(false)}
-        playlistId={playListData._id}
-        initialData={{
-          name: playListData.name,
-          description: "",
-          image: ""
-        }}
+          isOpen={isEdit}
+          onClose={() => setIsEdit(false)}
+          playlistId={playListData.id}
+          initialData={playListData}
       />
     </>
     

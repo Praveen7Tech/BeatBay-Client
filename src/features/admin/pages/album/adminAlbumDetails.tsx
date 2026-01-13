@@ -12,8 +12,9 @@ import { SpinnerCustom } from "@/components/ui/spinner";
 import { useAlbumDetails } from "../../api/query-hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminApi } from "../../services/adminApi";
-import { showError, showSuccess } from "@/core/utils/toast.config";
+import { showError, } from "@/core/utils/toast.config";
 import { format } from "date-fns";
+import { useToaster } from "@/core/hooks/toast/useToast";
 
 
 const statusStyles = {
@@ -25,6 +26,7 @@ const AdminAlbumDetail = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const { data: album, isLoading, isError } = useAlbumDetails(id!);
+  const {toast} = useToaster()
 
   const isActive = album?.isActive == true;
 
@@ -34,7 +36,7 @@ const AdminAlbumDetail = () => {
       queryClient.invalidateQueries({ queryKey: ["album", id] });
       queryClient.invalidateQueries({ queryKey: ["albums"] });
       
-      showSuccess(data.message);
+      toast.success(data.message)
     },
     onError: () => {
       showError("Failed to update album status");

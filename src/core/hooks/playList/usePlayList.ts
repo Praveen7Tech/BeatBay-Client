@@ -2,15 +2,16 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import {
   userApi,
 } from "@/features/user/services/userApi"
-import { showError, showSuccess } from "../../utils/toast.config"
 import { useNavigate } from "react-router-dom"
 import { PlaylistDetailsResponse, SongData } from "@/features/user/services/response.type"
+import { useToaster } from "../toast/useToast"
 
 const playlistKey = (id: string) => ["playlist", id] as const
 const searchSongsKey = (query: string) => ["search-songs", query] as const
 
 // playlist details
 export const usePlaylistDetails = (playlistId: string) => {
+
   return useQuery<PlaylistDetailsResponse>({
     queryKey: playlistKey(playlistId),
     queryFn: () => userApi.getPlaylistById(playlistId),
@@ -29,48 +30,25 @@ export const useSearchSongs = (query: string) => {
 }
 
 // add song to playlist
-export const useAddSongToPlaylist = (playlistId: string) => {
-  const queryClient = useQueryClient()
+export const useAddSongToPlaylist = () => {
+  const queryClient = useQueryClient();
+  const { toast } = useToaster()
 
   return useMutation({
-    mutationFn: (songId: string) => userApi.addToPlayList(playlistId, songId),
-
-    onMutate: async (songId) => {
-      await queryClient.cancelQueries({ queryKey: playlistKey(playlistId) })
-
-      const prev = queryClient.getQueryData<PlaylistDetailsResponse>(
-        playlistKey(playlistId)
-      )
-
-      queryClient.setQueryData<PlaylistDetailsResponse>(
-        playlistKey(playlistId),
-        (old) => {
-          if (!old) return old
-          const exists = old.songs.some((s) => s.id === songId)
-          if (exists) return old
-
-          // You may want to add the new song here if you have full song data
-          return old
-        }
-      )
-
-      return { prev }
+    mutationFn: ({ playlistId, songId }: { playlistId: string; songId: string }) => 
+      userApi.addToPlayList(playlistId, songId),
+    
+    onSuccess: (_, variables) => {
+      toast.success("Song added to playlist")
+      queryClient.invalidateQueries({ queryKey: ["playlist", variables.playlistId] });
     },
-
-    onError: (_err, _songId, context) => {
-      if (context?.prev) {
-        queryClient.setQueryData(playlistKey(playlistId), context.prev)
-      }
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: playlistKey(playlistId) })
-    },
-  })
-}
+    onError: () => toast.error("Failed to add song")
+  });
+};
 
 // create playlist mutation hook
 export const useCreatePlayList = () => {
+  const { toast } = useToaster()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
@@ -78,14 +56,14 @@ export const useCreatePlayList = () => {
     mutationFn: userApi.createPlaylist,
 
     onSuccess: (newPlaylist) => {
-      showSuccess(`${newPlaylist.name}`)
+      toast.success(`${newPlaylist.name}`)
       queryClient.invalidateQueries({ queryKey: ["userPlayLists"] })
       navigate(`/playList/${newPlaylist.id}`)
     },
 
     onError: (error) => {
       console.error(error)
-      showError("Playlist creation failed!")
+      toast.error("Playlist creation failed")
     },
   })
 }

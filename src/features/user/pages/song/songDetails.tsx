@@ -7,6 +7,7 @@ import { SpinnerCustom } from "@/components/ui/spinner";
 import { useAudioContext } from "@/core/context/useAudioContext";
 import { useFetchsongById } from "@/core/hooks/api/useFetchHooks";
 import { useToggleLikesMutation } from "@/core/hooks/likes/useToggleLikesMutation";
+import { useAddSongToPlaylist } from "@/core/hooks/playList/usePlayList";
 
 export default function SongDetail() {
   const { songId } = useParams();
@@ -14,6 +15,11 @@ export default function SongDetail() {
   const { data, isLoading, isError, error,} = useFetchsongById(songId!);
   
   const {mutate: toggleLike} = useToggleLikesMutation()
+  const addSongMutation = useAddSongToPlaylist();
+
+const handleAddToPlaylist = (songId: string,playlistId: string) => {
+  addSongMutation.mutate({ playlistId ,songId });
+};
 
   const { setPlaylistAndPlay, currentSong, isPlaying,playPause, currentTime } = useAudioContext();
 
@@ -67,6 +73,9 @@ const handleLike = (songId: string) => {
           onPlayPause={handlePlayPause}
           isLiked={isLiked}
           onLike={() => handleLike(songId!)}
+          showAction={true}
+          songId={song.id}
+          addToPlaylist={handleAddToPlaylist}
         />
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -84,6 +93,9 @@ const handleLike = (songId: string) => {
           title="Recommended Songs"
           songs={recomentedSongs}
           onLike={handleLike}
+          activeSongId={currentSong?.id}
+          showAction={true}
+          onAddToPlaylist={handleAddToPlaylist}
         />
       </div>
     </div>

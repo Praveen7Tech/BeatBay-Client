@@ -1,9 +1,10 @@
 import { userApi } from "@/features/user/services/userApi"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { queryClient } from "../artist/queryClientSetup"
-import { showSuccess } from "../../utils/toast.config"
+import { useToaster } from "../toast/useToast"
 
 export const useFollowStatus = (targetId: string, role: string) => {
+    const {toast} = useToaster()
     // initail state
     const { data } = useQuery({
         queryKey: ["followStatus", targetId, role],
@@ -23,8 +24,9 @@ export const useFollowStatus = (targetId: string, role: string) => {
             // If it's a user, invalidate mutual friends for your Private Room feature
             if (role === 'user') queryClient.invalidateQueries({ queryKey: ["friendsActivity"] });
             
-            showSuccess(`Now following ${role}`);
-        }
+            toast.success(`Now following ${role}`)
+        },
+        onError:()=> toast.error("Error in unfollow")
     });
 
     // 3. Optimized handle unfollowing
@@ -35,8 +37,9 @@ export const useFollowStatus = (targetId: string, role: string) => {
             queryClient.invalidateQueries({ queryKey: ["followingList"] });
 
             if(role === 'user') queryClient.invalidateQueries({ queryKey: ["friendsActivity"] })
-            showSuccess(`Unfollowed ${role}`);
-        }
+            toast.success(`Unfollowed ${role}`)
+        },
+        onError:()=> toast.error("Error in unfollow")
     });
 
     const toggleFollow = () => {

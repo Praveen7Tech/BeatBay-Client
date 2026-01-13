@@ -10,16 +10,16 @@ export default function NowPlayingCard() {
   const { currentSong } = useAudioContext()
   const room = useSelector((state: RootState) => state.privateRoom)
 
-  const isUsingRoom = room.isActive && room.songData;
-  const activeSong = isUsingRoom ? room.songData : currentSong;
+  // const isUsingRoom = room.isActive && room.songData;
+  // const activeSong = isUsingRoom ? room.songData : currentSong;
 
-  if (!activeSong) return null;
+  if (!currentSong) return null;
 
   const displayData = {
-    id: isUsingRoom ? activeSong.id : activeSong._id, 
-    title: activeSong.title,
-    artistName: isUsingRoom ? activeSong.artist : activeSong.artistId?.name,
-    coverImage: isUsingRoom ? activeSong.image : activeSong.coverImageUrl,
+    id: currentSong.id, 
+    title: currentSong.title,
+    artistName: currentSong?.artist?.name || currentSong?.artistName,
+    coverImage: currentSong.coverImageUrl,
   }
 
   return (
