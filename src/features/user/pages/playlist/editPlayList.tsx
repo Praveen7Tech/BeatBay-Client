@@ -16,7 +16,7 @@ interface PlaylistEditDialogProps {
 export const EditPlaylistSchema = z.object({
   name: z.string().min(1, "Playlist name is required"), 
   description: z.string().max(300, "Description is too long").optional().nullable(),
-  coverImageUrl: z.string().optional(), 
+  coverImageUrl: z.string().optional().nullable()
 });
 
 export type EditPlaylistData = z.infer<typeof EditPlaylistSchema>;
@@ -25,7 +25,7 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
     
     const { register, handleSubmit, formState: { errors } } = useForm<EditPlaylistData>({
         resolver: zodResolver(EditPlaylistSchema),
-        defaultValues: initialData 
+        values: initialData 
     });
 
     const { preview, handleEdit, handleImageChange, loading } = usePlaylistEditForm({ 
@@ -36,7 +36,6 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
 
 
     if (!isOpen) return null;
-
 
     return (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
@@ -58,13 +57,12 @@ export const PlaylistEditDialog = ({isOpen, onClose, initialData, playlistId }: 
                                 <Upload className="h-12 w-12 text-spotify-secondary" />
                             )}
                             <input
-                              {...register('coverImageUrl')}
+                            //   {...register('coverImageUrl')}
                                 type="file"
                                 accept="image/*"
                                 onChange={handleImageChange} 
                                 className="hidden"
                             />
-                            {/* Error handling for file can be complex, usually handled by backend error message */}
                         </label>
 
                         <div className="flex-1 space-y-4">

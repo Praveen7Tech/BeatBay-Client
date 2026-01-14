@@ -95,3 +95,11 @@ export const useLikesSongs = (userId: string)=>{
         enabled: !!userId
     })
 }
+
+export const useAlbumDetails = (albumId:string)=>{
+    return useQuery({
+        queryKey: ["albumDetails", albumId],
+        queryFn: () => userApi.AlbumDetails(albumId!),
+        enabled: !!albumId,
+    })
+}

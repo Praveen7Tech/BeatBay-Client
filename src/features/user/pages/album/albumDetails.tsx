@@ -1,29 +1,20 @@
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { AlbumDetailHeader } from "../../components/albums/albumDetailsHeader";
 import { SongTable } from "@/core/components/song/SongTable";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useAudioContext } from "@/core/context/useAudioContext";
-import { userApi } from "../../services/userApi";
+import { useSongActions } from "@/core/hooks/song/useSongActions";
+import { useAlbumDetails } from "@/core/hooks/api/useFetchHooks";
 
 export default function AlbumDetail() {
-  const { albumId } = useParams();
 
-  const { data,isLoading,isError,error,} = useQuery({
-    queryKey: ["albumDetails", albumId],
-    queryFn: () => userApi.AlbumDetails(albumId!),
-    enabled: !!albumId,
-  });
+  const { albumId } = useParams<{ albumId: string }>();
 
-  const { setPlaylistAndPlay,currentSong, isPlaying, playPause,playList } = useAudioContext();
+  const { data: album, isLoading, isError, error } = useAlbumDetails(albumId!)
 
-  if (isError) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
-         {error.message}
-      </div>
-    );
-  }
+  const { handleLike, handleAddToPlaylist } = useSongActions("album", {albumId});
+
+  const { setPlaylistAndPlay, currentSong, isPlaying, playPause, playList } = useAudioContext();
 
   if (isLoading) {
     return (
@@ -33,9 +24,16 @@ export default function AlbumDetail() {
     );
   }
 
-  const album = data!;
+  if (isError || !album) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
+        {error instanceof Error ? error.message : "Something went wrong"}
+      </div>
+    );
+  }
 
-  const isCurrentAlbumPlaying = isPlaying && playList.length === album.songs.length &&  playList.every((s, i) => s.id === album.songs[i].id);
+  const isCurrentAlbumPlaying =  isPlaying &&  playList.length === album.songs.length &&
+    playList.every((s, i) => s.id === album.songs[i].id);
 
   const handlePlayPause = () => {
     if (isCurrentAlbumPlaying) {
@@ -55,6 +53,7 @@ export default function AlbumDetail() {
           totalTracks={album.songs.length}
           isPlaying={isCurrentAlbumPlaying}
           onPlayAlbum={handlePlayPause}
+          releaseYear={album.releaseYear}
         />
 
         <SongTable
@@ -62,6 +61,8 @@ export default function AlbumDetail() {
           songs={album.songs}
           activeSongId={currentSong?.id}
           showAction={true}
+          onLike={handleLike}
+          onAddToPlaylist={handleAddToPlaylist}
         />
       </div>
     </div>

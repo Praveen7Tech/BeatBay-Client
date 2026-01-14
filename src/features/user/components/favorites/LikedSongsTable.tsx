@@ -14,8 +14,7 @@ interface LikedSongsTableProps {
 
 const LikedSongsTable = ({
   songs,
-  toggleLike,
-  searchQuery,activeSongId
+  toggleLike,activeSongId
 }: LikedSongsTableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   return (
@@ -104,7 +103,7 @@ const LikedSongsTable = ({
       {songs?.length === 0 && (
         <div className="text-center py-16">
           <p className="text-muted-foreground">
-            No songs found matching "{searchQuery}"
+            no songs added to your favorites.
           </p>
         </div>
       )}

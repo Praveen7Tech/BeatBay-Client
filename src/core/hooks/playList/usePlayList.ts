@@ -35,16 +35,22 @@ export const useAddSongToPlaylist = () => {
   const { toast } = useToaster()
 
   return useMutation({
-    mutationFn: ({ playlistId, songId }: { playlistId: string; songId: string }) => 
-      userApi.addToPlayList(playlistId, songId),
-    
-    onSuccess: (_, variables) => {
-      toast.success("Song added to playlist")
-      queryClient.invalidateQueries({ queryKey: ["playlist", variables.playlistId] });
-    },
-    onError: () => toast.error("Failed to add song")
-  });
-};
+      mutationFn: ({ playlistId, songId }: { playlistId: string; songId: string }) => 
+        userApi.addToPlayList(playlistId, songId),
+      
+      onSuccess: (data) => {
+        toast.success(data.message)
+        queryClient.invalidateQueries({ queryKey: ["playlist"] });
+      },
+      onError: (error:any) =>{
+        if(error.status === 409){
+          toast.error(error.message)
+        }else{
+          toast.error("Failed to add song")
+        }
+      } 
+    });
+  };
 
 // create playlist mutation hook
 export const useCreatePlayList = () => {

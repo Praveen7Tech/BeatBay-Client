@@ -14,9 +14,10 @@ export interface SongTableProps {
   showRemoveFromPlaylist?: boolean;
   onRemoveFromPlaylist?: (songId: string) => void;
   onAddToPlaylist?: (songId: string, playlistId: string) => void;
+  showArtist?:boolean
 }
 
-export const SongTable = ({ songs, title, activeSongId,onLike,showAction,showRemoveFromPlaylist,onRemoveFromPlaylist,onAddToPlaylist }: SongTableProps) => {
+export const SongTable = ({ songs, title, activeSongId,onLike,showAction,showRemoveFromPlaylist,     onRemoveFromPlaylist,onAddToPlaylist,showArtist }: SongTableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   return (
@@ -114,6 +115,7 @@ export const SongTable = ({ songs, title, activeSongId,onLike,showAction,showRem
                     showRemoveFromPlaylist={showRemoveFromPlaylist}
                     onRemoveFromPlaylist={onRemoveFromPlaylist}
                     onAddToPlaylist={onAddToPlaylist}
+                    showArtist={showArtist}
                   />
                 </td>
               )}

@@ -36,6 +36,7 @@ export const userApi ={
 
     AlbumDetails: async(albumId:string): Promise<AlbumResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.ALBUM_DETAILS}/${albumId}`)
+      console.log("gg", response.data)
       return response.data
     },
     
