@@ -9,7 +9,7 @@ const FollowingListing = () => {
   const { type } = useParams<{ type: "following" | "followers" }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
-  const PAGE_SIZE = 2; 
+  const PAGE_SIZE = 10; 
 
   const isFollowingView = type === "following";
 

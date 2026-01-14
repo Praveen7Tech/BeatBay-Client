@@ -3,12 +3,13 @@
 import { Link } from "react-router-dom";
 import { useUserPlayLists } from "@/core/hooks/api/useFetchHooks";
 import { Music } from "lucide-react"; 
+import { SpinnerCustom } from "@/components/ui/spinner";
 
 export function MyPlaylists() {
 
   const { data: playlists, isLoading, isError, error } = useUserPlayLists();
 
-  if (isLoading) return <h1>Loading....</h1>;
+  if (isLoading) return <SpinnerCustom/>;
   if (isError) return <p>{error.message}</p>;
 
   return (
