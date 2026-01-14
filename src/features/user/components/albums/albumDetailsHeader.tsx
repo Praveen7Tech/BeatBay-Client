@@ -1,3 +1,4 @@
+import { format, parseISO } from "date-fns";
 import { Pause, Play } from "lucide-react";
 
 interface AlbumDetailHeaderProps {
@@ -14,7 +15,7 @@ export const AlbumDetailHeader = ({
   title,
   artist,
   coverImageUrl,
-  totalTracks=100, onPlayAlbum, isPlaying
+  totalTracks=100, onPlayAlbum, isPlaying,releaseYear
 }: AlbumDetailHeaderProps) => {
 
   return (
@@ -41,6 +42,8 @@ export const AlbumDetailHeader = ({
             <span className="font-semibold text-white">{artist}</span>
             <span className="text-spotify-secondary">•</span>
             <span className="text-spotify-secondary">{totalTracks} songs</span>
+             <span className="text-spotify-secondary">•</span>
+            <span className="text-spotify-secondary">{format(parseISO(releaseYear), "MMM dd, yyyy")}</span>
           </div>
         </div>
       </div>

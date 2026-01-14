@@ -2,78 +2,54 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { PlaylistHeader } from "../../components/playlist/playList.header";
 import { PlaylistSearchSection } from "../../components/playlist/searchSection";
-import { usePlaylistDetails,useSearchSongs, useAddSongToPlaylist} from "@/core/hooks/playList/usePlayList";
+import { usePlaylistDetails, useSearchSongs } from "@/core/hooks/playList/usePlayList";
 import { SongTable } from "@/core/components/song/SongTable";
 import { useAudioContext } from "@/core/context/useAudioContext";
-import { useRemoveFromPlayList } from "@/core/hooks/playList/useRemoveFromPlayList";
+import { useSongActions } from "@/core/hooks/song/useSongActions";
+import { SpinnerCustom } from "@/components/ui/spinner";
 
 export default function PlaylistDetail() {
+
   const { playlistId } = useParams<{ playlistId: string }>();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  if (!playlistId) {
+  if (!playlistId)
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <p>Invalid playlist</p>
       </div>
     );
-  }
-  const { setPlaylistAndPlay, isPlaying,playPause, currentSong } = useAudioContext();
 
-  // playlist query
-  const {data: playlist,isLoading: isPlaylistLoading,isError: isPlaylistError,} = usePlaylistDetails(playlistId);
+  const { setPlaylistAndPlay, isPlaying, playPause, currentSong } = useAudioContext();
 
-  // search songs query
-  const { data: searchSongs, isFetching: isSearchFetching } = useSearchSongs(searchQuery);
+  // Playlist query
+  const { data: playlist, isLoading, isError,error } = usePlaylistDetails(playlistId);
 
-  // add & remove song mutation
-  const addSongMutation = useAddSongToPlaylist();
-  const removeSongMutation = useRemoveFromPlayList(playlistId)
+  // Search query
+  const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
+  // Song actions (playlist context)
+  const { handleAddToPlaylist, handleRemoveFromPlaylist } = useSongActions("playlist", {playlistId,});
 
-  // add to playlist
-  const handleAddSong = (songId: string) => {
-    console.log("hayoo ", playlistId,songId)
-    addSongMutation.mutate({playlistId,songId});
-  };
-  // remove from playlist
-  const handleRemoveSong = (songId:string)=>{
-    removeSongMutation.mutate(songId)
-  }
+  if (isLoading) return <SpinnerCustom/>
 
-  if (isPlaylistLoading ) {
+  if (isError || !playlist)
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <p>Loading playlist...</p>
+      <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
+        {error instanceof Error ? error.message : "Something went wrong"}
       </div>
     );
-  }
 
-  if (isPlaylistError || !playlist) {
-    return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <p>Failed to load playlist</p>
-      </div>
-    );
-  }
-
-  const songs = playlist.songs
-  const isCurrentSongPlaying = currentSong?.id === songs[0]?.id
+  const songs = playlist.songs;
+  const isCurrentSongPlaying = currentSong?.id === songs[0]?.id;
 
   const handlePlayPause = () => {
-    if (isCurrentSongPlaying) {
-      playPause();
-    } else {
-      const playlist = [
-        ...songs
-      ];
-      setPlaylistAndPlay(playlist, 0);
-    }
+    if (isCurrentSongPlaying) playPause();
+    else setPlaylistAndPlay([...songs], 0);
   };
+
+  const handleSearch = (query: string) => setSearchQuery(query);
 
   return (
     <div className="min-h-screen bg-linear-to-b from-spotify-dark to-[#000000] text-white">
@@ -81,18 +57,20 @@ export default function PlaylistDetail() {
         <PlaylistHeader
           playListData={playlist}
           onAddSongClick={() => setIsSearchOpen(true)}
-          handlePlayPause = {handlePlayPause}
+          handlePlayPause={handlePlayPause}
           isPlaying={isPlaying}
-          totalTracks={playlist.songs.length}
+          totalTracks={songs.length}
           totalDuration={playlist.totalDuration}
         />
-        <SongTable 
-          songs={playlist.songs}
-          title={ "Featured Songs"}
+
+        <SongTable
+          songs={songs}
+          title="Featured Songs"
           activeSongId={currentSong?.id}
-          showAction={true}
-          showRemoveFromPlaylist= {true}
-          onRemoveFromPlaylist={handleRemoveSong}
+          showAction
+          showRemoveFromPlaylist
+          onRemoveFromPlaylist={handleRemoveFromPlaylist}
+          onAddToPlaylist={handleAddToPlaylist}
         />
 
         <PlaylistSearchSection
@@ -103,12 +81,10 @@ export default function PlaylistDetail() {
             setSearchQuery("");
           }}
           onSearch={handleSearch}
-          addSong={handleAddSong}
-          isAddingSong={addSongMutation.isPending}
-          isSearching={isSearchFetching}
+          addSong={handleAddToPlaylist}
+          isAddingSong={false}
+          isSearching={isFetching}
         />
-
-        
       </div>
     </div>
   );

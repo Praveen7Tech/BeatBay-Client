@@ -11,7 +11,7 @@ interface SongCardProps {
 export default function AlbumCard({title, coverImageUrl }: SongCardProps) {
   
   return (
-    <div className="shrink-0 w-42 group cursor-pointer">
+    <div className="shrink-0  w-42 group cursor-pointer">
       <div className={`bg-linear-to-br rounded-lg overflow-hidden mb-3 aspect-square relative`}>
         <img
           src={coverImageUrl}

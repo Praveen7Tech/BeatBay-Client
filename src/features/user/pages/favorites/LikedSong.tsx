@@ -2,19 +2,20 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 import { useLikesSongs } from "@/core/hooks/api/useFetchHooks";
-import { useToggleLikesMutation } from "@/core/hooks/likes/useToggleLikesMutation";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import LikedSongsHeader from "../../components/favorites/LikedSongsHeader";
 import LikedSongsActions from "../../components/favorites/LikedSongsActions";
 import LikedSongsTable from "../../components/favorites/LikedSongsTable";
 import { useAudioContext } from "@/core/context/useAudioContext";
+import { useSongActions } from "@/core/hooks/song/useSongActions";
 
 const LikedSongs = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const userId = useSelector((state: RootState) => state.auth.user?.id);
   const { data, isLoading, isError, error } = useLikesSongs(userId!);
-  const { mutate: toggleLike } = useToggleLikesMutation();
+
+  const { handleLike } = useSongActions("liked");
 
   const {currentSong,setPlaylistAndPlay, isPlaying,playPause} = useAudioContext()
 
@@ -28,7 +29,7 @@ const LikedSongs = () => {
     );
 
   const songs = data?.songs ?? [];
-  const isCurrentSongPlaying =  isPlaying && currentSong?.id === songs[0].id
+  const isCurrentSongPlaying =  isPlaying && currentSong?.id === songs[0]?.id
 
   const HandleSongPlaying = ()=>{
     if(isCurrentSongPlaying){
@@ -51,7 +52,7 @@ const LikedSongs = () => {
        />
       <LikedSongsTable
         songs={songs}
-        toggleLike={toggleLike}
+        toggleLike={handleLike}
         searchQuery={searchQuery}
         activeSongId={currentSong?.id}
       />

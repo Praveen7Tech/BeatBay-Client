@@ -22,10 +22,11 @@ interface SongActionsMenuProps {
   onAddToPlaylist?: (songId: string, playlistId: string) => void;
   playLists?: string;
   isHeader?: boolean;
+  showArtist?:boolean
 }
 
 export const SongActionsMenu = ({ songId,artist,showRemoveFromPlaylist = false,onRemoveFromPlaylist,
-  onAddToPlaylist, isHeader = false,}: SongActionsMenuProps) => {
+  onAddToPlaylist, isHeader = false,showArtist=false}: SongActionsMenuProps) => {
 
     const {data: playlists, isLoading, isError, error} = useUserPlayLists()
 
@@ -35,7 +36,7 @@ export const SongActionsMenu = ({ songId,artist,showRemoveFromPlaylist = false,o
     if(isError ){
         return <p>{error?.message }</p>
     }
-console.log("artist", artist)
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,7 +44,7 @@ console.log("artist", artist)
           className={`p-1.5 rounded-full transition-all focus:outline-none
             ${isHeader ? "opacity-100" : "opacity-0 group-hover:opacity-100 hover:bg-white/10"}`}
         >
-          <Plus className={`h-5 w-5 transition-colors text-[#b3b3b3] hover:text-white`} />
+          <Plus className={`h-5 w-5 transition-colors text-spotify-secondary hover:text-white`} />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -59,8 +60,8 @@ console.log("artist", artist)
             {playlists?.map((playlist) => (
               <DropdownMenuItem
                 key={playlist.id}
-                className="cursor-pointer hover:bg-[#3e3e3e] hover:text-white data-[highlighted]:bg-[#3e3e3e]
-                 data-[highlighted]:text-white"
+                className="cursor-pointer hover:bg-[#3e3e3e] hover:text-white data-highlighted:bg-[#3e3e3e]
+                 data-highlighted:text-white"
                 onClick={() => onAddToPlaylist?.(songId, playlist.id)}
               >
                 {playlist.name}
@@ -78,23 +79,27 @@ console.log("artist", artist)
             <span>Remove from this playlist</span>
           </DropdownMenuItem>
         )}
-
-        <DropdownMenuSeparator className="bg-[#3e3e3e]" />
-        <Link to={`/artist/${artist}`}>
-        <DropdownMenuItem
-          className="hover:bg-[#3e3e3e] focus:bg-[#3e3e3e] cursor-pointer"
-        >
-            <UserPlus className="mr-2 h-4 w-4" />
-            <span>Go to artist</span>
-        </DropdownMenuItem>
-        </Link>
+      
+        <DropdownMenuSeparator className="bg-[#3e3e3e]" /> 
+        {showArtist && (
+          <Link to={`/artist/${artist}`}>
+          <DropdownMenuItem
+            className="hover:bg-[#3e3e3e] focus:bg-[#3e3e3e] cursor-pointer"
+          >
+              <UserPlus className="mr-2 h-4 w-4" />
+              <span>Go to artist</span>
+          </DropdownMenuItem>
+          </Link>
+         )} 
         <DropdownMenuItem
           className="hover:bg-[#3e3e3e] focus:bg-[#3e3e3e] cursor-pointer"
         >
           <Radio className="mr-2 h-4 w-4" />
           <span>Add to queue</span>
         </DropdownMenuItem>
+         
         <DropdownMenuSeparator className="bg-[#3e3e3e]" />
+     
       </DropdownMenuContent>
     </DropdownMenu>
   );

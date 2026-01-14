@@ -48,10 +48,10 @@ interface UsePlaylistEditFormProps {
 
     const handleEdit: SubmitHandler<EditPlaylistData> = (data) => {
         if (!playlistId) return;
-
+console.log("edit -", playlistId)
         const formData = new FormData();
         formData.append("name", data.name);
-        formData.append("description", data.description || "");
+        formData.append("description", data?.description || "");
 
         if (imageFile) {
         formData.append("coverImage", imageFile);

@@ -18,7 +18,7 @@ const TopResultCard = ({ topResult, songs }: TotResult) => {
 
    const { setPlaylistAndPlay, isPlaying, playPause, currentSong } = useAudioContext();
 
-  const isThisSongLoaded = currentSong?._id === topResult.id;
+  const isThisSongLoaded = currentSong?.id === topResult.id;
 
   const handlePlayPause = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click event if you add one later

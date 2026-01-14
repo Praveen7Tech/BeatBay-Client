@@ -28,7 +28,7 @@ export default function ArtistDetail() {
   return (
     <ProfilePageLayout>
       <ProfileHeader
-        id={artist._id}
+        id={artist.id}
         name={artist.name}
         profilePicture={artist.profilePicture}
         role="artist"

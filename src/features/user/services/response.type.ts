@@ -100,25 +100,33 @@ export interface SongDehydration{
 export interface AlbumResponse {
    id: string;
    title: string;
-   artistName: ArtistInfo;
+   artistName: string;
    coverImageUrl: string;
    description: string;
+   releaseYear: string
    songs: SongDetails[]
 }
 
+export interface AlbumResponseRaw {
+  id: string;
+  title: string;
+  coverImageUrl: string;
+}
+
+export interface SongResponseData {
+  id: string;
+  title: string;
+  coverImageUrl: string;
+  artistName: string;
+}
+
 export interface ArtistDetailsResponse {
-  _id: string;
+  id: string;
   name: string;
-  email: string;
-  googleId?: string;
-  role: string
-  bio: string;
   profilePicture: string;
-  albums: AlbumResponse[];
-  songs: SongData[];
-  status: boolean;
-  createdAt: string;     
-  updatedAt: string; 
+  bio: string;
+  albums: AlbumResponseRaw[];
+  songs: SongResponseData[];
 }
 
 export interface FollowingResponse {

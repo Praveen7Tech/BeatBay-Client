@@ -2,65 +2,120 @@ import { userApi } from "@/features/user/services/userApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToaster } from "../toast/useToast";
 
-export const useToggleLikesMutation = () => {
-    const queryClient = useQueryClient();
-    const {toast} = useToaster()
+type TableType = "song" | "album" | "liked" | "playlist"
 
-    return useMutation({
-        mutationFn: (songId: string) => userApi.toggleLike(songId),
+export const useToggleLikesMutation = ( tableType: TableType,albumId?: string) => {
+  const queryClient = useQueryClient();
+  const { toast } = useToaster();
 
-        onMutate: async (songId: string) => {
-            // cancel all related queries to prevent overwrites
-            await queryClient.cancelQueries({ queryKey: ["songDetails"] });
-            await queryClient.cancelQueries({ queryKey: ["liked-songs"] });
+  return useMutation({
+    mutationFn: (songId: string) => userApi.toggleLike(songId),
 
-            // snapshot previous values for rollback
-            const previousDetails = queryClient.getQueryData(["songDetails"]);
-            const previousLibrary = queryClient.getQueryData(["liked-songs"]);
+    onMutate: async (songId: string) => {
+      const context: any = {};
 
-            //  Update Song Details 
-            queryClient.setQueryData(["songDetails"], (old: any) => {
-                if (!old) return old;
-                const isMainSong = old.songs?._id === songId;
-                return {
-                    ...old,
-                    isLiked: isMainSong ? !old.isLiked : old.isLiked,
-                    recomentations: old.recomentations?.map((s: any) =>
-                        s._id === songId ? { ...s, isLiked: !s.isLiked } : s
-                    ),
-                };
-            });
+      // always cancel liked songs
+      await queryClient.cancelQueries({ queryKey: ["liked-songs"] });
 
-            // update Liked Songs page (unlike)
-            queryClient.setQueriesData({ queryKey: ["liked-songs"] }, (old: any) => {
-                if (!old?.songs) return old;
-                return {
-                    ...old,
-                    songs: old.songs.filter((s: any) => s.id !== songId)
-                };
-            });
+      // cancel song query and store old song details for rollback
+      if (tableType === "song") {
+        await queryClient.cancelQueries({ queryKey: ["songDetails"] });
+        context.previousSongDetails = queryClient.getQueryData(["songDetails"]);
+      }
 
-            return { previousDetails, previousLibrary };
-        },
+      // cancel album query and store cache for rollback
+      if (tableType === "album" && albumId) {
+        await queryClient.cancelQueries({queryKey: ["albumDetails", albumId]});
 
-        onSuccess: (isNowLiked) => {
-            toast.success(isNowLiked ? "Added to Liked Songs" : "Removed from Liked Songs")
-        },
+        context.previousAlbumDetails = queryClient.getQueryData(["albumDetails", albumId]);
+      }
 
-        onError: (err, variables, context) => {
-            // Rollback both caches on failure
-            if (context?.previousDetails) {
-                queryClient.setQueryData(["songDetails"], context.previousDetails);
-            }
-            if (context?.previousLibrary) {
-                queryClient.setQueriesData({ queryKey: ["liked-songs"] }, context.previousLibrary);
-            }
-            toast.error("Failed to update like status")
-        },
+      // always store liked song page data for roll back
+      context.previousLikedSongs = queryClient.getQueryData(["liked-songs"]);
 
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ["songDetails"] });
-            queryClient.invalidateQueries({ queryKey: ["liked-songs"] });
-        },
-    });
+      // optimistically update the song header or song table UI
+      if (tableType === "song") {
+        queryClient.setQueryData(["songDetails"], (old: any) => {
+          if (!old) return old;
+          return {
+            ...old,
+            song: {
+              ...old.song,
+              isLiked: !old.song.isLiked,
+            },
+            recommendations: old.recommendations?.map((s: any) =>
+              s.id === songId ? { ...s, isLiked: !s.isLiked } : s
+            ),
+          };
+        });
+      }
+
+      // opstimically update album table
+      if (tableType === "album" && albumId) {
+        queryClient.setQueryData(["albumDetails", albumId],(old: any) => {
+            if (!old) return old;
+            return {
+              ...old,
+              songs: old.songs.map((s: any) =>
+                s.id === songId ? { ...s, isLiked: !s.isLiked } : s
+              ),
+            };
+          }
+        );
+      }
+
+      // liked-songs page - always update
+      queryClient.setQueryData(["liked-songs"], (old: any) => {
+        if (!old?.songs) return old;
+
+        const isAlreadyLiked = old.songs.some(
+          (s: any) => s.id === songId
+        );
+
+        return {
+          ...old,
+          songs: isAlreadyLiked
+            ? old.songs.filter((s: any) => s.id !== songId)
+            : old.songs,
+        };
+      });
+
+      return context;
+    },
+
+    onSuccess: (isNowLiked) => {
+      toast.success( isNowLiked ? "Added to Liked Songs" : "Removed from Liked Songs");
+    },
+
+    // on error roll back to old stored data
+    onError: (_err, _songId, context) => {
+      if (context?.previousSongDetails) {
+        queryClient.setQueryData( ["songDetails"], context.previousSongDetails);
+      }
+
+      if (context?.previousAlbumDetails && albumId) {
+        queryClient.setQueryData( ["albumDetails", albumId], context.previousAlbumDetails );
+      }
+
+      if (context?.previousLikedSongs) {
+        queryClient.setQueryData( ["liked-songs"], context.previousLikedSongs );
+      }
+
+      toast.error("Failed to update like status");
+    },
+
+    // if toggle like success invalidate qury and update dynamically new data
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["liked-songs"] });
+
+      if (tableType === "song") {
+        queryClient.invalidateQueries({ queryKey: ["songDetails"] });
+      }
+
+      if (tableType === "album" && albumId) {
+        queryClient.invalidateQueries({ queryKey: ["albumDetails", albumId] });
+      }
+    },
+  });
 };
+

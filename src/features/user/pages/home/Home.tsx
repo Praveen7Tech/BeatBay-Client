@@ -66,6 +66,7 @@ export default function HomeContent() {
               albums.map((album)=>(
               <Link to={`/album/${album.id}`}>  
                 <AlbumCard key={album.id} {...album} type="album"/>
+                
               </Link>  
               ))
             ):(
