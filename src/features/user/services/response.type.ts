@@ -213,12 +213,13 @@ export interface Follow {
   id: string;
   name: string;
   profilePicture: string;
+  role: string
 }
 
 export interface PlayList{
   id: string;
   name: string;
-  coverImage: string;
+  coverImageUrl: string;
 }
 
 export interface User{
@@ -232,6 +233,7 @@ export interface User{
 export interface UserProfileResponseDTO {
   user: User;
   followingArtists: Follow[];
+  followingUsers:Follow[]
   playlists: PlayList[];
 }
 

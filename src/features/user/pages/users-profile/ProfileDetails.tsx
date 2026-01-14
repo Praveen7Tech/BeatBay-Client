@@ -25,7 +25,9 @@ export default function UserProfile() {
       }
       const user = data.user; 
       const playLists = data.playlists
-      const following = data.followingArtists
+      const artist = data.followingArtists
+      const users = data.followingUsers
+      const following  = [...artist,...users]
     return (
         <ProfilePageLayout>
         <ProfileHeader

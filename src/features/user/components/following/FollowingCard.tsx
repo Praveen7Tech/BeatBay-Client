@@ -5,13 +5,14 @@ interface FollowingCardProps {
   name: string;
   type?: "artist" | "profile";
   profilePicture?: string;
+  role:string
 }
 
-export const FollowingCard = ({ id, name, profilePicture, type }: FollowingCardProps) => {
-  const tag = type === "profile" ? "Profile" : "Artist"
+export const FollowingCard = ({ id, name, profilePicture, type ,role}: FollowingCardProps) => {
+  const path = role == "user" ? "profile" : role
   return (
     <Link
-      to={`/${type}/${id}`}
+      to={`/${path}/${id}`}
       className="group p-4 rounded-md  hover:bg-[#282828] transition-all duration-300 cursor-pointer"
     >
       <div className="relative mb-4">
@@ -30,7 +31,7 @@ export const FollowingCard = ({ id, name, profilePicture, type }: FollowingCardP
         </div>
       </div>
       <h3 className="text-white font-bold text-base truncate mb-1">{name}</h3>
-      <p className="text-[#a7a7a7] text-sm">{tag}</p>
+      <p className="text-[#a7a7a7] text-sm">{role}</p>
     </Link>
   );
 };

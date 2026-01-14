@@ -109,6 +109,7 @@ export const userApi ={
 
     userProfileDetails: async(userId: string):Promise<UserProfileResponseDTO>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.USER_DETAILS}/${userId}`)
+      console.log("red ", response.data)
       return response.data
     },
 
