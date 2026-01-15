@@ -1,38 +1,81 @@
 "use client";
 
-import { useUserFollowers, useUserFollowing } from "@/core/hooks/api/useFetchHooks";
+import { useUserFollowers, useUserFollowing, useUserProfileDetails } from "@/core/hooks/api/useFetchHooks";
 import { FollowingCard } from "../../components/following/FollowingCard"; 
 import { Pagination } from "../../components/pagination/pagination";
 import { useParams, useSearchParams } from "react-router-dom";
+import { SpinnerCustom } from "@/components/ui/spinner";
 
 const FollowingListing = () => {
-  const { type } = useParams<{ type: "following" | "followers" }>();
+  const { type, userId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
   const PAGE_SIZE = 10; 
 
   const isFollowingView = type === "following";
+  const isOtherUserExist = Boolean(userId)
 
-  // Hooks called in the same order every render
-  const followingQuery = useUserFollowing(page, PAGE_SIZE);
-  const followersQuery = useUserFollowers(page, PAGE_SIZE);
+  // CURRENT USER HOOK
+  const myFollowing = useUserFollowing(page, PAGE_SIZE);
+  const myFollowers = useUserFollowers(page, PAGE_SIZE);
 
-  const activeQuery = isFollowingView ? followingQuery : followersQuery;
-  const { data, isLoading, isError, error } = activeQuery;
+  // OTHER USER PROFILE HOOK
+  const otherUserProfile = useUserProfileDetails(userId!)
 
-  const list = data?.docs || []; 
+  // Loading and error
+  const isLoading = isOtherUserExist ? otherUserProfile.isLoading : isFollowingView
+  ? myFollowing.isLoading : myFollowers.isLoading
+  
 
-  const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString() });
-  };
+const isError = isOtherUserExist
+    ? otherUserProfile.isError
+    : isFollowingView
+      ? myFollowing.isError
+      : myFollowers.isError;
 
-  if (isLoading) {
-    return <div className="min-h-screen bg-black text-white flex justify-center items-center">Loading...</div>;
-  }
+  const error = isOtherUserExist
+    ? otherUserProfile.error
+    : isFollowingView
+      ? myFollowing.error
+      : myFollowers.error;
 
+  if (isLoading) return <SpinnerCustom/>
+  
   if (isError) {
-    return <div className="min-h-screen bg-black text-red-600 p-8">Error: {error?.message}</div>;
+    return (
+      <div className="min-h-screen bg-black text-red-600 p-8">
+        Error: {error instanceof Error ? error.message : "Something went wrong"}
+      </div>
+    );
   }
+
+ //////////////////////////
+
+    let list: any[] = [];
+    let totalPages = 1;
+
+    if (isOtherUserExist) {
+      const data = otherUserProfile.data;
+
+      if (isFollowingView) {
+        list = [
+          ...(data?.followingArtists ?? []),
+          ...(data?.followingUsers ?? []),
+        ];
+      } else {
+        list = data?.followers ?? [];
+      }
+    } else {
+      const activeQuery = isFollowingView ? myFollowing : myFollowers;
+      list = activeQuery.data?.docs ?? [];
+      totalPages = activeQuery.data?.totalPages ?? 1;
+    }
+
+    // PAGINATION
+    const handlePageChange = (newPage: number) => {
+      setSearchParams({ page: newPage.toString() });
+    };
+
 
   return (
     <div className="min-h-screen bg-black p-6 flex flex-col">
@@ -49,7 +92,7 @@ const FollowingListing = () => {
                 id={item.id}
                 name={item.name}
                 profilePicture={item.profilePicture}
-                type={item.role === "artist" ? "artist" : "profile"}
+                role={item.role}
               />
             ))
           ) : (
@@ -59,7 +102,7 @@ const FollowingListing = () => {
          <div className="mt-auto py-10">
           <Pagination 
             currentPage={page} 
-            totalPages={data?.totalPages || 1} 
+            totalPages={totalPages || 1} 
             onPageChange={handlePageChange} 
           />
         </div>

@@ -28,18 +28,21 @@ export default function UserProfile() {
       const artist = data.followingArtists
       const users = data.followingUsers
       const following  = [...artist,...users]
+      const followers = data.followers
     return (
         <ProfilePageLayout>
         <ProfileHeader
             id={user.id}
             name={user.name}
             profilePicture={user.profilePicture}
-            subtitle={`${user.followingCount} followers`}
+            followCount={user.followingCount}
+            followersCount={followers.length} playlist={playLists.length}
             role="user"
         />
 
-        <PlaylistsSection playlists={playLists} />
-        <FollowingSection users={following} />
+        <PlaylistsSection playlists={playLists} LinkPath={`/${user.id}/playlists`}/>
+        <FollowingSection users={following} title={"Following"} showAllLink={`/${user.id}/following`}/>
+        <FollowingSection users={followers} title={"Followers"} showAllLink={`/${user.id}/followers`} />
         </ProfilePageLayout>
     );
 }

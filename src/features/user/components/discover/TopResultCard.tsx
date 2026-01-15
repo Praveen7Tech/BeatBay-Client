@@ -1,6 +1,6 @@
 import { useAudioContext } from "@/core/context/useAudioContext";
 import { Pause, Play } from "lucide-react";
-import { SongResponse } from "../../services/response.type";
+import { SongDetails } from "../../services/response.type";
 
 interface TopResultCardProps {
   id:string
@@ -11,7 +11,7 @@ interface TopResultCardProps {
 
 interface TotResult{
   topResult: TopResultCardProps
-  songs: SongResponse
+  songs: SongDetails[]
 }
 
 const TopResultCard = ({ topResult, songs }: TotResult) => {
@@ -55,7 +55,7 @@ const TopResultCard = ({ topResult, songs }: TotResult) => {
           </p>
         </div>
 
-        <button onClick={handlePlayPause} className="absolute bottom-5 right-5 w-12 h-12 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:scale-105">
+        <button onClick={handlePlayPause} className="absolute bottom-5 right-5 w-14 h-14 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:scale-105">
            {isPlaying && isThisSongLoaded ? (
               <Pause className="h-6 w-6 fill-black text-black" />
             ):(

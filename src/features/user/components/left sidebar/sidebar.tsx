@@ -16,7 +16,7 @@ export function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
 
   // fetch playlist and folowerss
-  const {data: playlists, isLoading, isError, error} = useUserPlayLists()
+  const {data: playlistsData, isLoading, isError, error} = useUserPlayLists()
   const { data: followers, isLoading: follow, isError:followError, } = useUserFollowing(1, 6)
   // create PlayList hook
   const createPlayList = useCreatePlayList()
@@ -31,6 +31,7 @@ export function Sidebar() {
     return <p>{error?.message }</p>
   }
 
+  const playlists = playlistsData?.playlists
   const artists = followers?.docs.filter((f:FollowingResponse)=> f.role === "artist")
 
   return (

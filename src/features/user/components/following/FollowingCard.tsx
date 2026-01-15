@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 interface FollowingCardProps {
   id: string;
   name: string;
-  type?: "artist" | "profile";
   profilePicture?: string;
-  role:string
+  role?:string
 }
 
-export const FollowingCard = ({ id, name, profilePicture, type ,role}: FollowingCardProps) => {
+export const FollowingCard = ({ id, name, profilePicture ,role}: FollowingCardProps) => {
   const path = role == "user" ? "profile" : role
   return (
     <Link

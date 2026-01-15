@@ -21,6 +21,7 @@ export const useFollowStatus = (targetId: string, role: string) => {
             // Invalidate with the specific role to keep cache clean
             queryClient.invalidateQueries({ queryKey: ["followStatus", targetId, role] });
             queryClient.invalidateQueries({ queryKey: ["followingList"] });
+            queryClient.invalidateQueries({queryKey: ["userDetails", targetId!]})
             // If it's a user, invalidate mutual friends for your Private Room feature
             if (role === 'user') queryClient.invalidateQueries({ queryKey: ["friendsActivity"] });
             
@@ -35,6 +36,7 @@ export const useFollowStatus = (targetId: string, role: string) => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["followStatus", targetId, role] });
             queryClient.invalidateQueries({ queryKey: ["followingList"] });
+            queryClient.invalidateQueries({queryKey: ["userDetails", targetId!]})
 
             if(role === 'user') queryClient.invalidateQueries({ queryKey: ["friendsActivity"] })
             toast.success(`Unfollowed ${role}`)

@@ -33,7 +33,7 @@ export default function ArtistDetail() {
         profilePicture={artist.profilePicture}
         role="artist"
         verified
-        subtitle={`monthly listeners`}
+        songCount={artist.songs.length} albumCount={artist.albums.length}
       />
 
       <SongsSection songs={artist.songs} />

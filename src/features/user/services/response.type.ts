@@ -154,6 +154,11 @@ export interface PlayListData{
   coverImageUrl?: string | null
 }
 
+export interface PlayListsResposne{
+  playlists: PlayListData[];
+  totalPages: number
+}
+
 export interface PlaylistSong {
   _id: string;
   title: string;
@@ -204,7 +209,7 @@ export interface TopResult {
 export interface SearchResponse{
     topResult: TopResult
     albums: Album[]
-    songs: Song[];
+    songs: SongDetails[];
     artists: Artist[];
     users: Artist[]
 }
@@ -235,6 +240,7 @@ export interface UserProfileResponseDTO {
   followingArtists: Follow[];
   followingUsers:Follow[]
   playlists: PlayList[];
+  followers: Follow[]
 }
 
 export interface Friends{

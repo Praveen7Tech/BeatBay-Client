@@ -6,12 +6,14 @@ import { Music } from "lucide-react";
 import { SpinnerCustom } from "@/components/ui/spinner";
 
 export function MyPlaylists() {
+  const page = 1, limit=5
 
-  const { data: playlists, isLoading, isError, error } = useUserPlayLists();
+  const { data: playlistsData, isLoading, isError, error } = useUserPlayLists(page,limit);
 
   if (isLoading) return <SpinnerCustom/>;
   if (isError) return <p>{error.message}</p>;
 
+  const playlists = playlistsData?.playlists
   return (
     <div className="px-8 py-8">
       <div className="flex items-center justify-between mb-6">
@@ -24,7 +26,7 @@ export function MyPlaylists() {
       </div>      
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {playlists && playlists.length > 0 ? (
-          playlists.slice(0,5).map((playlist) => {
+          playlists.map((playlist) => {
             const imageUrl = playlist.coverImageUrl
               ? playlist.coverImageUrl
               : null;

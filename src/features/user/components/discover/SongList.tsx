@@ -1,15 +1,9 @@
 import { formatTime } from "@/core/utils/formatTime";
-
-interface Song {
-  id: string;
-  title: string;
-  artist: string;
-  duration: string | number;
-  coverImageUrl: string;
-}
+import { SongDetails } from "../../services/response.type";
+import { Link } from "react-router-dom";
 
 interface SongListProps {
-  songs: Song[];
+  songs: SongDetails[];
 }
 
 const SongList = ({ songs }: SongListProps) => {
@@ -19,25 +13,27 @@ const SongList = ({ songs }: SongListProps) => {
 
       <div className="flex-1 space-y-2 overflow-hidden">
         {songs.map((song) => (
+          <Link to={`/song/${song.id}`}>
           <div
             key={song.id}
-            className="flex items-center gap-3 p-2 rounded-md hover:bg-[#282828] cursor-pointer group"
-          >
+            className="flex items-center gap-3 p-2  rounded-md hover:bg-[#282828] cursor-pointer group"
+          >   
             <img
               src={song.coverImageUrl}
               alt={song.title}
-              className="w-10 h-10 rounded"
+              className="w-12 h-12 rounded"
             />
             <div className="flex-1 min-w-0">
               <p className="text-white font-medium truncate">{song.title}</p>
               <p className="text-sm text-spotify-secondary truncate">
-                {song.artist}
+                {song.artistName}
               </p>
             </div>
             <span className="text-sm text-spotify-secondary">
               {formatTime(Number(song.duration))}
             </span>
           </div>
+         </Link>
         ))}
       </div>
     </div>

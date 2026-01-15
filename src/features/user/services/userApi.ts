@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlayListData, PlaylistDetailsResponse, SearchResponse, SongData, SongDehydration, SongDetailsResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlayListData, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SongData, SongDehydration, SongDetailsResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={
@@ -75,8 +75,10 @@ export const userApi ={
       return response.data
     },
 
-    getUserPlayLits: async(): Promise<PlayListData[] | []>=>{
-      const response = await axiosInstance.get(API_ROUTES_USER.GET_USER_PLAYLIST)
+    getUserPlayLits: async(page?:number, limit?:number): Promise<PlayListsResposne>=>{
+      const response = await axiosInstance.get(API_ROUTES_USER.GET_USER_PLAYLIST, {
+        params:{page,limit}
+      })
       return response.data
     },
 
@@ -109,7 +111,6 @@ export const userApi ={
 
     userProfileDetails: async(userId: string):Promise<UserProfileResponseDTO>=>{
       const response = await axiosInstance.get(`${API_ROUTES_USER.USER_DETAILS}/${userId}`)
-      console.log("red ", response.data)
       return response.data
     },
 

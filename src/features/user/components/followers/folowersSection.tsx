@@ -1,4 +1,3 @@
-import { getUserRedirect } from "@/core/utils/follow/get-user-redirect";
 import { UserListSection } from "../following/userListSection";
 import { useUserFollowers } from "@/core/hooks/api/useFetchHooks";
 
@@ -15,7 +14,6 @@ console.log("datu ", data)
       title="FOLLOWERS"
       users={data?.docs ?? []}
       showAllLink="/connections/followers"
-      getRedirect={(user) => getUserRedirect(user.role, user.id)}
     />
   );
 }

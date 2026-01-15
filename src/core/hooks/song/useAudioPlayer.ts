@@ -46,8 +46,9 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
         console.log("palying start")
         audioRef.current = new Audio()
         const audio = audioRef.current
-
+console.log("element ", audio)
         const handleTimeUpdate = ()=> {
+            console.log("time update")
             const time = audio.currentTime
             setCurrentTime(time)
 
