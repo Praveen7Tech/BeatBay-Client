@@ -30,10 +30,12 @@ export const useArtistAlbums = () =>{
     })
 }
 
-export const useUserPlayLists = ()=>{
+export const useUserPlayLists = (page?:number, limit?:number,options = {})=>{
     return useQuery({
-        queryKey: ["userPlayLists"],
-        queryFn: ()=> userApi.getUserPlayLits()
+        queryKey: ["userPlayLists", page, limit],
+        queryFn: ()=> userApi.getUserPlayLits(page, limit),
+        placeholderData: (previousData)=> previousData,
+        ...options
     })
 }
 

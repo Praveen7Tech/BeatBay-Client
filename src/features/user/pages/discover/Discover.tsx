@@ -82,7 +82,7 @@ const Discover = () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {artists.map((artist) => (
-                <FollowingCard key={artist.id} {...artist} type="artist"/>
+                <FollowingCard key={artist.id} {...artist} role="artist"/>
               ))}
             </div>
           </div>
@@ -94,7 +94,7 @@ const Discover = () => {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {users.map((user) => (
-              <FollowingCard key={user.id} {...user} type="profile"/>
+              <FollowingCard key={user.id} {...user} role="user"/>
             ))}
           </div>
         </div>

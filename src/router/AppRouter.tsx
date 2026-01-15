@@ -95,6 +95,7 @@ const AppRouter: React.FC = () => {
           <Route path='/artist/:artistId' element={<ArtistDetail/>}/>
           <Route path='/playList/:playlistId' element={<PlaylistDetail/>}/>
           <Route path='/playLists' element={<Playlists/>}/>
+          <Route path='/:userId/playlists' element={<Playlists/>}/>
           <Route path='/following' element={<Following/>}/>
 
           <Route path='/search/:query' element={<Discover/>}/>
@@ -105,6 +106,7 @@ const AppRouter: React.FC = () => {
 
           <Route path='/showall' element={<ExplorePage/>}/>
           <Route path="/connections/:type" element={<FollowingListing />} />
+          <Route path='/:userId/:type' element={<FollowingListing/>}/>
 
           <Route path='/liked-songs' element={<LikedSongs/>}/>
         </Route>

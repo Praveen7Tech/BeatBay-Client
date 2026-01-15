@@ -1,6 +1,5 @@
 import { useUserFollowing } from "@/core/hooks/api/useFetchHooks";
 import { UserListSection } from "../following/userListSection"; 
-import { getUserRedirect } from "@/core/utils/follow/get-user-redirect"; 
 
 export function FollowingSection() {
   const { data, isLoading, isError, error } = useUserFollowing(1,7);
@@ -13,7 +12,6 @@ export function FollowingSection() {
       title="FOLLOWING"
       users={data?.docs ?? []}
       showAllLink="/connections/following"
-      getRedirect={(user) => getUserRedirect(user.role, user.id)}
     />
   );
 }

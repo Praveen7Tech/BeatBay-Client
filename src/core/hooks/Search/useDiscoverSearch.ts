@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type {
   SearchResponse,
   TopResult,
-  Song as SongType,
+  SongDetails as SongType,
   Artist as ArtistType,
   Album as AlbumType,
 } from "@/features/user/services/response.type";

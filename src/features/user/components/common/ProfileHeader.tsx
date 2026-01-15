@@ -2,13 +2,17 @@ import { User, UserCheck, UserPlus, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFollowStatus } from "@/core/hooks/follow/useFollowStatus";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/core/store/store";
 
 interface ProfileHeaderProps {
   id: string;
   name: string;
   profilePicture?: string;
   verified?: boolean;
-  subtitle?: string; // monthly listeners / followers
+  followCount?: number; 
+  followersCount?:number;playlist?:number;
+  songCount?:number;albumCount?:number
   showFollowButton?: boolean;
   role: "user" | "artist"
 }
@@ -17,13 +21,15 @@ export function ProfileHeader({
   id,
   name,
   profilePicture,
-  verified,
-  subtitle,
+  verified,playlist,
+  followCount,followersCount,songCount,albumCount,
   showFollowButton = true,
   role
 }: ProfileHeaderProps) {
   const { isFollowing, toggleFollow } = useFollowStatus(id, role);
   const [imageError, setImageError] = useState(false);
+  const currentUserId = useSelector((state:RootState)=> state.auth.user?.id)
+  const isCurrentUser = currentUserId === id
 
   return (
     <div className="relative w-full">
@@ -53,13 +59,27 @@ export function ProfileHeader({
               <p className="text-sm font-medium mb-2">✔ Verified</p>
             )}
             <h1 className="text-7xl font-black mb-4">{name}</h1>
-            {subtitle && <p className="font-medium">{subtitle}</p>}
+            <div className="flex gap-6 ">
+              <div >
+                <span className="text-[#00d084] font-semibold">{songCount ? songCount :followCount}</span>
+                <span className="font-medium ml-2">{songCount ? "Songs" : "Following"}</span>
+              </div>
+              <div>
+                <span className="text-[#00d084] font-semibold">{albumCount ? albumCount : followersCount}</span>
+                <span className="font-medium ml-2">{albumCount ? "Albums" : "Followers"}</span>
+              </div>
+              <div>
+                <span className="text-[#00d084] font-semibold">{playlist}</span>
+                <span className="font-medium ml-2">Playlists</span>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
 
       {/* ACTIONS */}
-      {showFollowButton && (
+      {showFollowButton && !isCurrentUser && (
         <div className="mt-6 px-8 flex items-center gap-4">
           <Button
             variant={isFollowing ? "secondary" : "outline"}

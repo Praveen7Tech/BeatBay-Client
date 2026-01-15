@@ -9,7 +9,7 @@ interface PlaylistCardProps {
 }
 
 export const PlaylistCard = ({ id, name, coverImageUrl }: PlaylistCardProps) => {
-  console.log("url", coverImageUrl)
+  
   return (
     <Link
       to={`/playlist/${id}`}
