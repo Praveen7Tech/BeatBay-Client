@@ -32,6 +32,15 @@ export interface SongData {
   updatedAt: string;
 }
 
+export interface SearchSongResponse {
+  id: string;
+  title: string;
+  coverImageUrl: string;
+  artistName: string;
+  duration: number;
+  audioUrl: string;
+}
+
 export interface FetchSongs {
   id: string;
   title: string;

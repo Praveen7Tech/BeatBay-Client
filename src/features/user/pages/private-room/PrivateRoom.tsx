@@ -10,7 +10,8 @@ import { useSearchSongs } from "@/core/hooks/playList/usePlayList";
 import { socket } from "@/core/config/socket";
 import { useDispatch } from "react-redux";
 import { setRoomQueue, SongData } from "../../slice/privateRoomSlice";
-import { showError } from "@/core/utils/toast.config";
+import { useToaster } from "@/core/hooks/toast/useToast";
+import { SearchSongResponse } from "../../services/response.type";
 
 const PrivateRoomPage = () => {
 
@@ -19,8 +20,10 @@ const PrivateRoomPage = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch()
+  const {toast} = useToaster()
 
   const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
+  console.log("song dat", searchSongs)
 
   useEffect(() => {
       socket.on("queue_updated", (updatedQueue: SongData[]) => {
@@ -30,43 +33,58 @@ const PrivateRoomPage = () => {
       return () => { socket.off("queue_updated"); };
   }, [dispatch]);
 
- const addSongToRoom = (song: any) => {
+ const addSongToRoom = (song: SearchSongResponse) => {
     if ( !room.roomId) return;
 
-     const isDuplicate = room.queue.some((item) => item.id === song._id);
+     const isDuplicate = room.queue.some((item) => item.id === song.id);
       if (isDuplicate) {
-        showError("song already exists in the queue")
+        toast.error("song already exists in the queue")
         return;
       }
 
     const payload = {
-      id: song._id,
+      id: song.id,
       title: song.title,
       image: song.coverImageUrl,
       audioUrl: song.audioUrl,
-      artist: song.artistId?.name || "Unknown Artist",
+      artist: song.artistName,
       duration: song.duration,
     };
-console.log("payload ", payload)
+
     // 1. Emit to socket (Server handles the broadcast)
     socket.emit("addTo_queue", { 
       roomId: room.roomId, 
       song: payload 
     });
+
+    toast.success("song added to queue")
   };
 
+  const reoveSongFromRoom = (songId: string)=>{
+    
+     socket.emit("removeFromQueue", {roomId: room.roomId,songId:songId})
+
+     toast.success("song removed from queue")
+  }
+
+  const removeGuestFromRoom = (guestId:string)=>{
+     socket.emit("remove_user",{userId:guestId, roomId:room.roomId})
+
+     toast.success("removed user from room")
+  }
+
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#1a1a1a] to-spotify-dark text-white">
+    <div className="min-h-screen bg-black text-white">
       <RoomHeader />
 
       <div className="p-4 max-w-7xl mx-auto space-y-4">
         <div className="grid lg:grid-cols-2 gap-4">
           <NowPlaying />
-          <SongQueue queue={room.queue} onAddSong={() => setIsSearchOpen(true)}/>
+          <SongQueue queue={room.queue} onAddSong={() => setIsSearchOpen(true)} onRemoveSong={reoveSongFromRoom}/>
         </div>
          {/* 🔍 REUSED SEARCH COMPONENT */}
         <PlaylistSearchSection
-          songs={searchSongs || []}
+          songs={searchSongs! }
           isOpen={isSearchOpen}
           onClose={() => {
             setIsSearchOpen(false);
@@ -74,12 +92,12 @@ console.log("payload ", payload)
           }}
           onSearch={setSearchQuery}
           addSong={(songId) => {
-          const selectedSong = searchSongs?.find(s => s._id === songId);
+          const selectedSong = searchSongs?.find((s )=> s.id === songId);
             if (selectedSong) addSongToRoom(selectedSong);
           }}
           isSearching={isFetching}
         />
-        <RoomMembers />
+        <RoomMembers removeUser={removeGuestFromRoom}/>
       </div>
     </div>
   );

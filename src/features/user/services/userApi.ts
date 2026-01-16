@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlayListData, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SongData, SongDehydration, SongDetailsResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={
@@ -87,7 +87,7 @@ export const userApi ={
       return response.data;
     },
 
-    searchSongs: async (query: string): Promise<SongData[]> => {
+    searchSongs: async (query: string): Promise<SearchSongResponse[]> => {
       const response = await axiosInstance.get(API_ROUTES_USER.SEARCH_SONGS, {
         params: { q: query },
       });
