@@ -2,8 +2,11 @@ import { Crown, User, X, Users } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 
+interface RoomMemberProps{
+  removeUser: (guestId:string)=> void
+}
 
-const RoomMembers = () => {
+const RoomMembers = ({removeUser}: RoomMemberProps) => {
 
   const members = useSelector((state:RootState)=> state.privateRoom.members)
   
@@ -28,7 +31,9 @@ const RoomMembers = () => {
               <p className="text-sm">{member.name}</p>
               {member.role === "host" ? <Crown size={12} /> : <User size={12} />}
             </div>
-            {member.role !== "host" && <X size={14} />}
+            {member.role !== "host" &&
+            <div onClick={()=> removeUser(member.id)}><X size={14} /></div>
+            }
           </div>
         ))}
       </div>

@@ -2,11 +2,11 @@ import { Search, X } from "lucide-react";
 import { Input } from "@/features/artist/components/song/Input";
 import { useRef, useState, KeyboardEvent } from "react";
 import { ThreeDots } from "react-loader-spinner";
-import { SongData } from "../../services/response.type";
+import { SearchSongResponse } from "../../services/response.type";
 import { formatTime } from "@/core/utils/formatTime";
 
 interface PlaylistSearchSectionProps {
-  songs: SongData[];
+  songs: SearchSongResponse[];
   isOpen: boolean;
   onClose: () => void;
   onSearch: (query: string) => void;
@@ -96,9 +96,9 @@ export const PlaylistSearchSection = ({
           </div>
         ) : (
           <>
-            {songs.map((song) => (
+            {songs?.map((song) => (
               <div
-                key={song._id}
+                key={song.id}
                 className="flex items-center gap-2 p-2 rounded hover:bg-[#282828] transition-colors group"
               >
                 <img
@@ -118,7 +118,7 @@ export const PlaylistSearchSection = ({
                 <span className="text-spotify-secondary text-sm mr-4">{formatTime(Number(song.duration))}</span>
 
                 <button
-                  onClick={() => addSong(song._id)}
+                  onClick={() => addSong(song.id)}
                   disabled={isAddingSong}
                   className="px-6 py-1.5 rounded-full border border-[#535353] text-white text-sm font-medium hover:border-white hover:scale-105 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-60"
                 >
@@ -127,7 +127,7 @@ export const PlaylistSearchSection = ({
               </div>
             ))}
 
-            {songs.length === 0 && localQuery && (
+            {songs?.length === 0 && localQuery && (
               <p className="text-spotify-secondary text-sm">No songs found.</p>
             )}
           </>

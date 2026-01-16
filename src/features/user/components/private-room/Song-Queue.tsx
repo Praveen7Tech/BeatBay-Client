@@ -5,10 +5,11 @@ import { SongData } from "../../slice/privateRoomSlice";
 
 interface SongQueueHeader {
   onAddSong: () => void;
-  queue:SongData[]
+  queue:SongData[];
+  onRemoveSong: (songId:string) => void
 }
 
-const SongQueue = ({onAddSong,queue}:SongQueueHeader) => {
+const SongQueue = ({onAddSong,queue, onRemoveSong}:SongQueueHeader) => {
   return (
     <div className="bg-[#1a1a1a] rounded-2xl border border-white/5 flex flex-col">
       <div className="flex justify-between p-4 border-b border-white/5">
@@ -29,7 +30,9 @@ const SongQueue = ({onAddSong,queue}:SongQueueHeader) => {
               <p className="text-xs text-spotify-secondary">{song.artist}</p>
             </div>
             <GripVertical size={14} />
-            <X size={14} />
+            <div onClick={()=> onRemoveSong(song.id)}>
+              <X size={14} />
+            </div>
           </div>
          ))} 
       </ScrollArea>

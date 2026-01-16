@@ -3,7 +3,7 @@ import {
   userApi,
 } from "@/features/user/services/userApi"
 import { useNavigate } from "react-router-dom"
-import { PlaylistDetailsResponse, SongData } from "@/features/user/services/response.type"
+import { PlaylistDetailsResponse, SearchSongResponse } from "@/features/user/services/response.type"
 import { useToaster } from "../toast/useToast"
 
 const playlistKey = (id: string) => ["playlist", id] as const
@@ -21,7 +21,7 @@ export const usePlaylistDetails = (playlistId: string) => {
 
 // search songs
 export const useSearchSongs = (query: string) => {
-  return useQuery<SongData[]>({
+  return useQuery<SearchSongResponse[]>({
     queryKey: searchSongsKey(query),
     queryFn: () => userApi.searchSongs(query),
     enabled: !!query,

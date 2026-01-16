@@ -28,7 +28,7 @@ interface SongActionsMenuProps {
 export const SongActionsMenu = ({ songId,artist,showRemoveFromPlaylist = false,onRemoveFromPlaylist,
   onAddToPlaylist, isHeader = false,showArtist=false}: SongActionsMenuProps) => {
 
-    const {data: playlists, isLoading, isError, error} = useUserPlayLists()
+    const {data: playlistsData, isLoading, isError, error} = useUserPlayLists()
 
     if(isLoading ){
         return <SidebarShimmer/>
@@ -36,6 +36,8 @@ export const SongActionsMenu = ({ songId,artist,showRemoveFromPlaylist = false,o
     if(isError ){
         return <p>{error?.message }</p>
     }
+
+    const playlists = playlistsData?.playlists
 
   return (
     <DropdownMenu>
