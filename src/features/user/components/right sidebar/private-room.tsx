@@ -35,7 +35,7 @@ const PrivateRooms = () => {
 
         // only manage the user left action
         if(type === "left" && leftUserId === user?.id) {
-          console.log("only user left")
+          
             dispatch(clearPrivateRoom());
             dispatch(setBulkInvite({}));
             return;
@@ -51,7 +51,7 @@ const PrivateRooms = () => {
                 }
             });
         } else if (type === "left" && leftUserId ) {
-          console.log("only user remove")
+          
             if (leftUserId !== user?.id) {
                 dispatch(setInviteState({ friendId: leftUserId, state: "none" }));
             }

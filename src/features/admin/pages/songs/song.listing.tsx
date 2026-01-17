@@ -31,7 +31,7 @@ const AdminSongs = () => {
     placeholderData: (prev) => prev,
   });
 
-  console.log("dannn ", data?.songs)
+  
 
   return (
     <div className="min-h-screen p-6 lg:p-8">

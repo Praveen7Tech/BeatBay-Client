@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Check, User, X } from "lucide-react";
-import { Friends, userApi } from "../../services/userApi";
+import {  userApi } from "../../services/userApi";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useEffect,  useCallback } from "react";
 import { socket } from "@/core/config/socket";
@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setBulkInvite, setInviteState } from "../../slice/inviteState.slice";
 import { showError } from "@/core/utils/toast.config";
 import { setPrivateRoom } from "../../slice/privateRoomSlice";
+import { Friends } from "../../services/response.type";
 
 
 const FriendsActivity = () => {
@@ -39,16 +40,16 @@ useEffect(() => {
 
   const handleInviteReceived = (fromUserId: string ) => {
     dispatch(setInviteState({ friendId: fromUserId, state: "recieved" }));
-    console.log("make", fromUserId, "pending status")
+    
   };
   const handleInviteRejected = ({ guestId }: { guestId: string }) => {
-    console.log("invite rjected ", guestId)
+    
     dispatch(setInviteState({ friendId: guestId, state: "none" }));
   };
 
   const handleInviteError = ({ message,  friendId }: { message: string, friendId: string }) => {
     showError(message)
-    console.log("friend id  ",friendId)
+    
     dispatch(setInviteState({ friendId, state: "none" }));
   };
 
@@ -108,7 +109,7 @@ const acceptInvite = useCallback((hostId: string) => {
       image: user.profilePicture,
     },
   });
-  console.log("accept trigger ", hostId)
+  
 }, [user?.id]);
 
 const rejectInvite = useCallback((hostId: string) => {

@@ -9,9 +9,11 @@ import { useEffect, useState } from "react";
 import { useSearchSongs } from "@/core/hooks/playList/usePlayList";
 import { socket } from "@/core/config/socket";
 import { useDispatch } from "react-redux";
-import { setRoomQueue, SongData } from "../../slice/privateRoomSlice";
+import { setRoomQueue, setRoomSongData, SongData } from "../../slice/privateRoomSlice";
 import { useToaster } from "@/core/hooks/toast/useToast";
 import { SearchSongResponse } from "../../services/response.type";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { useAudioContext } from "@/core/context/useAudioContext";
 
 const PrivateRoomPage = () => {
 
@@ -23,11 +25,11 @@ const PrivateRoomPage = () => {
   const {toast} = useToaster()
 
   const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
-  console.log("song dat", searchSongs)
 
   useEffect(() => {
-      socket.on("queue_updated", (updatedQueue: SongData[]) => {
-          dispatch(setRoomQueue(updatedQueue));
+      socket.on("queue_updated", (updatedQueue: SongData) => {
+        console.log("que update", updatedQueue)
+          dispatch(setRoomSongData(updatedQueue));
       });
 
       return () => { socket.off("queue_updated"); };
@@ -76,7 +78,7 @@ const PrivateRoomPage = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <RoomHeader />
-
+      <TooltipProvider>
       <div className="p-4 max-w-7xl mx-auto space-y-4">
         <div className="grid lg:grid-cols-2 gap-4">
           <NowPlaying />
@@ -99,6 +101,7 @@ const PrivateRoomPage = () => {
         />
         <RoomMembers removeUser={removeGuestFromRoom}/>
       </div>
+      </TooltipProvider>
     </div>
   );
 };

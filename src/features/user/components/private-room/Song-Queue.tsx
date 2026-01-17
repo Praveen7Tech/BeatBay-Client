@@ -2,6 +2,7 @@ import { X, GripVertical, Plus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { SongData } from "../../slice/privateRoomSlice";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface SongQueueHeader {
   onAddSong: () => void;
@@ -30,9 +31,19 @@ const SongQueue = ({onAddSong,queue, onRemoveSong}:SongQueueHeader) => {
               <p className="text-xs text-spotify-secondary">{song.artist}</p>
             </div>
             <GripVertical size={14} />
-            <div onClick={()=> onRemoveSong(song.id)}>
-              <X size={14} />
-            </div>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => onRemoveSong(song.id)}
+                    className="p-1 rounded-full hover:bg-red-500/20 transition"
+                  >
+                    <X size={14} className="text-red-400 hover:text-red-500"/>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" sideOffset={6}>
+                  Remove song
+                </TooltipContent>
+              </Tooltip>
           </div>
          ))} 
       </ScrollArea>

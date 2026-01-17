@@ -27,7 +27,7 @@ const TopResultCard = ({ topResult, songs }: TotResult) => {
       playPause();
     } else {
       const playlist = Array.isArray(songs) ? songs : [songs];
-      console.log("working..", playlist)
+      
       setPlaylistAndPlay(playlist, 0);
     }
   };

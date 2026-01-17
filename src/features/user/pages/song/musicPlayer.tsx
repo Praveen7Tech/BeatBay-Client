@@ -1,146 +1,167 @@
-import { Music, Pause, Play, Repeat1, SkipBack, SkipForward, Volume2 } from "lucide-react";
+import {
+  Music,
+  Pause,
+  Play,
+  SkipBack,
+  SkipForward,
+  Repeat1,
+  Volume2,
+} from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import React from "react";
-import { useAudioContext } from "@/core/context/useAudioContext"; 
+import { useAudioContext } from "@/core/context/useAudioContext";
 import { formatTime } from "@/core/utils/formatTime";
-import { useSelector } from "react-redux";
-import { RootState } from "@/core/store/store";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-type SliderProps = React.ComponentProps<typeof Slider>
+type SliderProps = React.ComponentProps<typeof Slider>;
 
-export const MusicPlayer = ({ className, ...props }: SliderProps) => {
+export const MusicPlayer = ({ className }: SliderProps) => {
 
-  const room = useSelector((state:RootState)=> state.privateRoom)
-  const {currentSong, currentTime, isPlaying, playPause, volume, setVolume, seekTime,
-    skipForward, skipBackward, isRepeating, RepeatSong
-  } = useAudioContext()
+  const {
+    currentSong,
+    currentTime,
+    isPlaying,
+    playPause,
+    volume,
+    setVolume,
+    seekTime,
+    skipForward,
+    skipBackward,
+    isRepeating,
+    RepeatSong,isRoomActive
+  } = useAudioContext();
 
-  // music progress bar changing
-  const HandleProgressChange = (value: number[])=>{
-    if(!currentSong) return;
-    const newPercentage = value[0]
-    const Duration = Number(currentSong?.duration)
-    const newTime = (newPercentage / 100) * Duration
-    seekTime(newTime)
-  }
+  const duration = Number(currentSong?.duration) || 0;
+  const progress = duration ? (currentTime / duration) * 100 : 0;
 
-   const displaySong = room.isActive && room.songData ? {
-      title: room.songData.title,
-      artistName: room.songData.artist,
-      coverImageUrl: room.songData.image,
-      duration: currentSong?.duration // Keep duration from context or songData
-  } : {
-      title: currentSong?.title,
-      artistName: currentSong?.artist?.name,
-      coverImageUrl: currentSong?.coverImageUrl,
-      duration: currentSong?.duration
+  const handleSeek = (value: number[]) => {
+    if (!currentSong || isRoomActive) return;
+    seekTime((value[0] / 100) * duration);
   };
 
-  // volume updation
-  const handleVolumeChange = (value: number[])=>{
-    setVolume(value)
-  }
-
-  const currentDuration = Number(currentSong?.duration) || 0
-  const progressPercentage = (currentTime / currentDuration) * 100 || 0
-
+  const isDisabled = isRoomActive;
 
   return (
-    <div
-      className="fixed bottom-0 left-0 right-0 bg-background border-t border-[#282828] shadow-lg m-2 px-4 py-3 z-50"
-      style={{ height: "90px" }}
-    >
-      <div className="max-w-screen-2xl mx-auto flex items-center justify-between gap-4">
-        {/* Left: Song Info */}
-        <div className="flex items-center gap-3 min-w-[180px] w-[30%]">
-         <div className="w-14 h-14 rounded overflow-hidden bg-[#222] flex items-center justify-center">
-            {currentSong?.coverImageUrl ? (
-              <img
-                src={displaySong.coverImageUrl}
-                alt="cover"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = "none"; 
-                }}
-              />
-            ) : (
-              <Music className="text-gray-400 w-7 h-7" />
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div
+            className={cn(
+              "fixed bottom-0 left-0 right-0 bg-background border-t border-[#282828] px-4 py-3 z-50 h-[90px]",
+              isDisabled && "opacity-40 cursor-not-allowed"
             )}
-          </div>
-          <div className="flex flex-col overflow-hidden">
-            <span className="text-sm text-white font-medium truncate">
-              {displaySong?.title }
-            </span>
-            <span className="text-xs text-spotify-secondary truncate">
-              {displaySong?.artistName}
-            </span>
-          </div>
-        </div>
+          >
+            {/* 🔒 Interaction Blocker */}
+            {isDisabled && (
+              <div className="absolute inset-0 z-50 pointer-events-auto" />
+            )}
 
-        {/* Center: Player Controls */}
-       <div className={`flex flex-col items-center gap-2 flex-1 max-w-[722px] ${ !currentSong ? "pointer-events-none opacity-40 cursor-not-allowed" : ""  }`}  >
-          <div className="flex items-center gap-8">
-            <button className="text-spotify-secondary hover:text-white transition-colors"
-            onClick={skipBackward}>
-              <SkipBack  />
-            </button>
+            <div
+              className={cn(
+                "max-w-screen-2xl mx-auto flex items-center justify-between gap-4",
+                isDisabled && "pointer-events-none"
+              )}
+            >
+              {/* LEFT — SONG INFO */}
+              <div className="flex items-center gap-3 min-w-[180px] w-[30%]">
+                <div className="w-14 h-14 rounded bg-[#222] flex items-center justify-center overflow-hidden">
+                  {currentSong?.coverImageUrl ? (
+                    <img
+                      src={currentSong.coverImageUrl}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <Music className="w-6 h-6 text-gray-400" />
+                  )}
+                </div>
 
-            <button className="w-12 h-12 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg" 
-            onClick={playPause}>
-              {isPlaying ? 
-              <Pause className="h-5 w-5 fill-black text-black"/> :
-              <Play size={18} className="h-5 w-5 fill-black text-black" />
-              }
-            </button>
+                <div className="overflow-hidden">
+                  <p className="text-sm font-medium truncate">
+                    {currentSong?.title || "No song playing"}
+                  </p>
+                  <p className="text-xs text-spotify-secondary truncate">
+                    {currentSong?.artist?.name || ""}
+                  </p>
+                </div>
+              </div>
 
-            <button className="text-spotify-secondary hover:text-white transition-colors"
-            onClick={skipForward}>
-              <SkipForward />
-            </button>
+              {/* CENTER — CONTROLS */}
+              <div className="flex flex-col items-center gap-2 flex-1 max-w-[720px]">
+                <div className="flex items-center gap-8">
+                  <button onClick={skipBackward}>
+                    <SkipBack />
+                  </button>
 
-            <div className="flex items-center">
-              <button className={isRepeating ? "text-[#1DB954] hover:text-[#1DB954]" : "text-spotify-secondary hover:text-white transition-colors"}
-             onClick={RepeatSong}>
-              <Repeat1 />
-            </button>
+                  <button
+                    onClick={playPause}
+                    className="w-12 h-12 rounded-full bg-[#1DB954] flex items-center justify-center hover:scale-105 transition"
+                  >
+                    {isPlaying ? (
+                      <Pause className="text-black fill-black" />
+                    ) : (
+                      <Play className="text-black fill-black" />
+                    )}
+                  </button>
+
+                  <button onClick={skipForward}>
+                    <SkipForward />
+                  </button>
+
+                  <button
+                    onClick={RepeatSong}
+                    className={isRepeating ? "text-[#1DB954]" : "text-gray-400"}
+                  >
+                    <Repeat1 />
+                  </button>
+                </div>
+
+                {/* PROGRESS BAR */}
+                <div className="flex items-center gap-2 w-full">
+                  <span className="text-xs w-10 text-right">
+                    {formatTime(currentTime)}
+                  </span>
+
+                  <Slider
+                    value={[progress]}
+                    onValueChange={handleSeek}
+                    max={100}
+                    step={0.1}
+                    className={cn("w-full", className)}
+                  />
+
+                  <span className="text-xs w-10">
+                    {formatTime(duration)}
+                  </span>
+                </div>
+              </div>
+
+              {/* RIGHT — VOLUME */}
+              <div className="flex items-center gap-2 min-w-[180px] w-[30%] justify-end">
+                <Volume2 />
+                <Slider
+                  value={[volume]}
+                  onValueChange={(v) => setVolume(v)}
+                  max={100}
+                  step={1}
+                  className="w-[100px]"
+                />
+              </div>
             </div>
-            
           </div>
+        </TooltipTrigger>
 
-          {/* Progress Bar */}
-          <div className="flex items-center gap-2 w-full">
-            <span className="text-xs text-[#a7a7a7] min-w-10 text-right">{formatTime(currentTime)}</span>
-
-            <Slider
-              value={[progressPercentage]}
-              onValueChange={HandleProgressChange}
-              defaultValue={[50]}
-              max={100}
-              step={0.1}
-              className={cn("w-full", className)}
-              {...props}
-            />
-
-            <span className="text-xs text-[#a7a7a7] min-w-10">
-              {formatTime(currentDuration)}
-            </span>
-          </div>
-        </div>
-
-        {/* Right: Volume Control */}
-        <div className="flex items-center gap-2 justify-end min-w-[180px] w-[30%]">
-          <Volume2 size={20} className="text-spotify-secondary hover:text-white transition-colors" />
-           <Slider
-            value={[volume]}
-            onValueChange={handleVolumeChange}
-            max={100}
-            step={1}
-            className={cn("w-[20%]", className)}
-          />
-        </div>
-
-      </div>
-    </div>
+        {isDisabled && (
+          <TooltipContent side="top">
+            <p>You are currently in a private room</p>
+          </TooltipContent>
+        )}
+      </Tooltip>
+    </TooltipProvider>
   );
 };

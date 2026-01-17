@@ -60,7 +60,7 @@ const PrivateRoomSlice = createSlice({
             return initialState;
         },
         setRoomSongData: (state, action: PayloadAction<SongData>) => {
-            state.songData = action.payload;
+            state.queue.push(action.payload);
         },
         setRoomQueue: (state, action: PayloadAction<SongData[]>) => {
             state.queue = action.payload;

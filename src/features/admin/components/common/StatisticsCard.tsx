@@ -18,7 +18,7 @@ interface StatisticsCardProps {
 export default function StatisticsCard({ type, data }: StatisticsCardProps) {
   // Determine grid columns
   const gridCols = type === "artist" ? "grid-cols-2" : "grid-cols-4";
-console.log("hhhhhh", data)
+
   // Auto-generate stats based on type
   const stats =
     type === "artist"
