@@ -3,10 +3,16 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { useAudioPlayer } from "../hooks/song/useAudioPlayer";
 import { clearPlayBackState, getPlaybackState } from "../service/playerStorageService";
 import { SongDetails } from "@/features/user/services/response.type";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { useToaster } from "../hooks/toast/useToast";
+
+type PlayBackType = "GLOBAL" | "ROOM"
 
 interface AudioContextType{
     currentSong: SongDetails | null
     setPlaylistAndPlay: (songs: SongDetails[], startIndex?: number)=> void
+    startRoomPlayback: (songs: SongDetails[], startIndex?: number)=> void;
     isPlaying: boolean
     currentTime: number
     playPause: ()=> void
@@ -21,6 +27,9 @@ interface AudioContextType{
     isRepeating: boolean
     RepeatSong: ()=> void
     onTrackLoaded?: ()=> void
+    isRoomActive: boolean;
+    isHost:boolean;
+    appendSongToPlaylist: (song:SongDetails)=> void
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined)
@@ -32,6 +41,15 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
     const [playList, setPlayList] = useState<SongDetails[]>([])
     const [initialTime, setInitialTime] = useState<number>(0)
     const [isRepeating, setIsrepeating] = useState(false)
+    const {toast} = useToaster()
+    const [PlayBackType, setPlaybackType] = useState<PlayBackType>("GLOBAL")
+
+    const user = useSelector((state:RootState)=> state.auth.user)
+    const room = useSelector((state:RootState)=> state.privateRoom)
+    const isRoomActive = room.isActive 
+    const isHost = room.hostId === user?.id
+
+    const canControl = (PlayBackType === "GLOBAL" && !isRoomActive) || (PlayBackType === "ROOM" && isRoomActive)
 
     // Safe currentSong with bounds checking
     const currentSong: SongDetails | null = 
@@ -54,11 +72,13 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
 
     // Skip forward song - use functional update to avoid stale closures
     const skipForward = useCallback(()=>{
+        if(!canControl) return;
+
         setCurrentIndex(prev => {
             if(playList.length === 0) return prev
             return (prev + 1) % playList.length
         })
-    },[playList.length])
+    },[playList.length, canControl])
 
     // initiate the audio player hook
     const {isPlaying, currentTime, playPause, seekTime, setVolume} = useAudioPlayer(
@@ -96,14 +116,57 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
         RestoreLastPlayedSong();
     }, []);
 
+    const playPauseGuarded = () => {
+        if (!canControl) return;
+        playPause();
+    };
+
+    const seekTimeGuarded = (time: number) => {
+        if (!canControl) return;
+        seekTime(time);
+    };
+
+    const skipForwardGuarded = () => {
+        if (!canControl) return;
+        skipForward();
+    };
+
+    const skipBackwardGuarded = () => {
+        if (!canControl) return;
+        skipBackward();
+    };
+
+
     // setting playlist and play first song
     const setPlaylistAndPlay = useCallback((songs: SongDetails[], index = 0)=>{
-        console.log("played",songs)
+        if(isRoomActive) {
+            toast.error("you are in a room")
+            return ;
+        }
+        setPlaybackType("GLOBAL")
         setPlayList(songs)
         setCurrentIndex(index)
         setInitialTime(0)
         clearPlayBackState()
+    },[isRoomActive])
+
+    const startRoomPlayback = useCallback((song:SongDetails[],index=0)=>{
+        console.log("start ")
+        setPlaybackType("ROOM")
+        setPlayList(song)
+        setCurrentIndex(index)
+        setInitialTime(0)
+        clearPlayBackState()
     },[])
+
+    // add new song to room playlist
+    const appendSongToPlaylist = (song:SongDetails)=>{
+        console.log("initial", playList)
+        setPlayList(prev=>{
+            return [...prev,song]
+        })
+        console.log("playlist update",playList)
+    }
 
     // volume adjustment
     const handleSetVolume = (value: number[])=>{
@@ -114,14 +177,35 @@ export const AudioPlayerProvider = ({children}:{children: React.ReactNode})=>{
 
     // skip song backward - use functional update to avoid stale closures
     const skipBackward = useCallback(()=>{
+        if(!canControl) return;
+
         setCurrentIndex(prevIndex => {
             if(playList.length === 0) return prevIndex
             return (prevIndex - 1 + playList.length) % playList.length
         })
-    },[playList.length])
+    },[playList.length, canControl])
 
     return(
-        <AudioContext.Provider value={{currentSong, currentTime, playList, playPause, isPlaying, seekTime, setVolume: handleSetVolume, volume, skipForward, skipBackward, setPlaylistAndPlay, isRepeating, RepeatSong}}>
+        <AudioContext.Provider value={{
+            currentSong, 
+            currentTime, 
+            playList, 
+            playPause: playPauseGuarded, 
+            isPlaying, 
+            seekTime: seekTimeGuarded, 
+            setVolume: handleSetVolume, 
+            volume, 
+            skipForward:skipForwardGuarded, 
+            skipBackward:skipBackwardGuarded, 
+            setPlaylistAndPlay, 
+            startRoomPlayback,
+            isRepeating, 
+            RepeatSong, 
+            isRoomActive,
+            isHost,
+            appendSongToPlaylist
+        }}
+            >
             {children}
         </AudioContext.Provider>
     )

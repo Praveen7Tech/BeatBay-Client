@@ -5,6 +5,7 @@ import { PlaylistDetailsResponse } from "../../services/response.type";
 import { formatTime } from "@/core/utils/formatTime";
 import { PlaylistActionsMenu } from "@/core/components/action-menu/PlayListActionMenu";
 import { useDeletePlayList } from "@/core/hooks/playList/useDeletePlaylist";
+import { RoomGuard } from "@/core/components/tooltTip/roomguard";
 
 interface PlaylistHeaderProps {
   playListData: PlaylistDetailsResponse
@@ -62,7 +63,7 @@ export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handle
       </div>
 
       <div className="flex items-center gap-4 mb-6">
-        {isPlaying }
+        <RoomGuard>
         <button onClick={handlePlayPause}
           className="w-14 h-14 rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center shadow-lg"
         >
@@ -72,6 +73,7 @@ export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handle
               <Play className="h-6 w-6 fill-black text-black ml-1" />
             )} 
         </button>
+        </RoomGuard>
 
         <button
           onClick={onAddSongClick}

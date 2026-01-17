@@ -51,7 +51,7 @@ const AdminAlbumDetail = () => {
   if (isError || !album)
     return <div className="text-red-500">Failed to load song details</div>;
 
-  console.log("is active ", album)
+  
 
   return (
     <div className="min-h-screen bg-background">

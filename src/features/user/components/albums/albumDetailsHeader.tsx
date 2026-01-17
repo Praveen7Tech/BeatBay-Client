@@ -1,3 +1,4 @@
+import { RoomGuard } from "@/core/components/tooltTip/roomguard";
 import { format, parseISO } from "date-fns";
 import { Pause, Play } from "lucide-react";
 
@@ -49,6 +50,7 @@ export const AlbumDetailHeader = ({
       </div>
 
       <div className="flex items-center gap-8 mt-8">
+        <RoomGuard>
         <button className="w-14 h-14 rounded-full bg-[#1DB954] hover:bg-spotify-green hover:scale-105 transition-all flex items-center justify-center shadow-lg"
           style={{ border: "none", cursor: "pointer" }}
          onClick={onPlayAlbum}>
@@ -58,6 +60,7 @@ export const AlbumDetailHeader = ({
               <Play className="h-6 w-6 fill-black text-black ml-1" />
             )}  
         </button>
+        </RoomGuard>
       </div>
     </div>
   );

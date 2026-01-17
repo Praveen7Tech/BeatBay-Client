@@ -8,7 +8,7 @@ export function FollowersSection() {
 
   if (isLoading) return <p className="p-8">Loading...</p>;
   if (isError) return <p className="p-8 text-red-500">{error?.message}</p>;
-console.log("datu ", data)
+
   return (
     <UserListSection
       title="FOLLOWERS"

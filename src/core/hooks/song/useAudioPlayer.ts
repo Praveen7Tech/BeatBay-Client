@@ -43,12 +43,12 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
 
     // initial audio element creation when component mount
     useEffect(()=>{
-        console.log("palying start")
+        
         audioRef.current = new Audio()
         const audio = audioRef.current
-console.log("element ", audio)
+
         const handleTimeUpdate = ()=> {
-            console.log("time update")
+           
             const time = audio.currentTime
             setCurrentTime(time)
 
@@ -125,7 +125,7 @@ console.log("element ", audio)
 
         socket.on("receive_player_sync", (data: SongData) => {
             if (audioRef.current) {
-                console.log("song updated", data)
+                
                 dispatch(setRoomSongData(data));
 
                 if (audioRef.current.src !== data.audioUrl) {
@@ -174,22 +174,25 @@ console.log("element ", audio)
 
 
     // manage play and pause action
-    const playPause = useCallback(()=>{
-        if(audioRef.current){
-            if(isPlaying){
-                audioRef.current.pause()
-            }else{
-                // check the source file exist before playing
-                if(audioRef.current.src && !audioRef.current.src.includes("undefined")){
-                    audioRef.current.play()
-                }
-            }
-            setIsPlaying(!isPlaying)
+   const playPause = useCallback(() => {
+    console.log("pause start")
+        if (!audioRef.current) return;
 
-            // broadcast sync
-            //broadcastSync(!isPlaying, audioRef.current.currentTime)
+        if (isPlaying) {
+            audioRef.current.pause();
+            console.log("pause start 1")
+        } else {
+            if (audioRef.current.src && !audioRef.current.src.includes("undefined")) {
+                audioRef.current.play();
+                console.log("pause start 2")
+            }
+            console.log("pause start 3")
         }
-    },[isPlaying])
+
+        setIsPlaying(prev => !prev);
+        console.log("pause start 4")
+    }, [isPlaying]);
+
 
 
     // Realtime current time updation

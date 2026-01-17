@@ -1,6 +1,7 @@
 
 import { Pause, Play, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { RoomGuard } from "@/core/components/tooltTip/roomguard";
 
 interface LikedSongsActionsProps {
   searchQuery: string;
@@ -12,6 +13,7 @@ interface LikedSongsActionsProps {
 const LikedSongsActions = ({ searchQuery, setSearchQuery, onPlaySong, isPlaying }: LikedSongsActionsProps) => {
   return (
     <div className="px-6 py-4 flex items-center gap-4">
+      <RoomGuard>
       <button 
       onClick={onPlaySong}
           className="w-14 h-14 rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center shadow-lg"
@@ -22,6 +24,7 @@ const LikedSongsActions = ({ searchQuery, setSearchQuery, onPlaySong, isPlaying 
               <Play className="h-6 w-6 fill-black text-black ml-1" />
             )}  
         </button>
+        </RoomGuard>
       <div className="ml-auto relative w-64">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
