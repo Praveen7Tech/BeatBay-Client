@@ -2,7 +2,7 @@ import { socket } from "@/core/config/socket"
 import { savePlayBackState } from "@/core/service/playerStorageService"
 import { RootState } from "@/core/store/store"
 import { SongDetails } from "@/features/user/services/response.type"
-import { setRoomSongData, SongData } from "@/features/user/slice/privateRoomSlice"
+import { setRoomSongQueueData, SongData } from "@/features/user/slice/privateRoomSlice"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
@@ -126,7 +126,7 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
         socket.on("receive_player_sync", (data: SongData) => {
             if (audioRef.current) {
                 
-                dispatch(setRoomSongData(data));
+                dispatch(setRoomSongQueueData(data));
 
                 if (audioRef.current.src !== data.audioUrl) {
                     audioRef.current.src = data.audioUrl;
