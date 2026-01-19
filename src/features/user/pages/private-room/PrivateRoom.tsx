@@ -9,11 +9,10 @@ import { useEffect, useState } from "react";
 import { useSearchSongs } from "@/core/hooks/playList/usePlayList";
 import { socket } from "@/core/config/socket";
 import { useDispatch } from "react-redux";
-import { setRoomQueue, setRoomSongData, SongData } from "../../slice/privateRoomSlice";
+import { removeSongFromQueue, setRoomSongQueueData, SongData } from "../../slice/privateRoomSlice";
 import { useToaster } from "@/core/hooks/toast/useToast";
 import { SearchSongResponse } from "../../services/response.type";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useAudioContext } from "@/core/context/useAudioContext";
 
 const PrivateRoomPage = () => {
 
@@ -27,18 +26,28 @@ const PrivateRoomPage = () => {
   const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
 
   useEffect(() => {
+    // add single song to queue
       socket.on("queue_updated", (updatedQueue: SongData) => {
         console.log("que update", updatedQueue)
-          dispatch(setRoomSongData(updatedQueue));
+          dispatch(setRoomSongQueueData(updatedQueue));
       });
+    
+      // remove song data from queue
+      socket.on("song_removed", (songId:string)=>{
+        dispatch(removeSongFromQueue(songId))
+      })
 
-      return () => { socket.off("queue_updated"); };
+      return () => { 
+        socket.off("queue_updated"); 
+        socket.off("song_removed")
+      };
+      
   }, [dispatch]);
 
  const addSongToRoom = (song: SearchSongResponse) => {
     if ( !room.roomId) return;
 
-     const isDuplicate = room.queue.some((item) => item.id === song.id);
+     const isDuplicate = room.queue.some((item:SongData) => item.id === song.id);
       if (isDuplicate) {
         toast.error("song already exists in the queue")
         return;
@@ -63,6 +72,10 @@ const PrivateRoomPage = () => {
   };
 
   const reoveSongFromRoom = (songId: string)=>{
+     if(songId == room.songData?.id){
+       toast.error(" song currently playing!")
+       return;
+     }
     
      socket.emit("removeFromQueue", {roomId: room.roomId,songId:songId})
 

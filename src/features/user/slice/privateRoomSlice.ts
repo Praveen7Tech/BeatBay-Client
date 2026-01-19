@@ -13,6 +13,7 @@ export interface SongData{
     audioUrl: string
     artist: string
     timestamp: number
+    duration: number
     isPlaying: boolean
     updatedAt:number
 }
@@ -59,14 +60,20 @@ const PrivateRoomSlice = createSlice({
         clearPrivateRoom: () => {
             return initialState;
         },
-        setRoomSongData: (state, action: PayloadAction<SongData>) => {
+        setRoomSongQueueData: (state, action: PayloadAction<SongData>) => {
             state.queue.push(action.payload);
         },
         setRoomQueue: (state, action: PayloadAction<SongData[]>) => {
             state.queue = action.payload;
         },
+        setCurrentSong:(state,action: PayloadAction<SongData>)=>{
+            state.songData = action.payload
+        },
+        removeSongFromQueue: (state, action:PayloadAction<string>)=>{
+            state.queue = state.queue.filter(song => song.id !== action.payload)
+        }
     }
 })
 
-export const {setPrivateRoom,clearPrivateRoom, setRoomSongData, setRoomQueue} = PrivateRoomSlice.actions
+export const {setPrivateRoom,clearPrivateRoom, setRoomSongQueueData, setRoomQueue, setCurrentSong, removeSongFromQueue} = PrivateRoomSlice.actions
 export default PrivateRoomSlice.reducer
