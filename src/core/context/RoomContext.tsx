@@ -184,6 +184,26 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
     return () => clearInterval(interval);
   }, [isHost, isPlaying, room.roomId]);
 
+
+  // FORCE STOP WHEN EXIT / REMOVE FROM ROOM AND ROOM NOT ACTIVE
+  useEffect(()=>{
+    if(!room.isActive){
+      stopAndResetAudio()
+    }
+  },[room.isActive])
+
+  const stopAndResetAudio = ()=>{
+    const audio = audioRef.current;
+
+    audio.pause()
+    audio.src = ""
+    audio.load()
+
+    setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
+  }
+
   /* ----------------------------------------
      CONTROLS (HOST ONLY)
   ---------------------------------------- */
