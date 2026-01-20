@@ -12,7 +12,20 @@ const NowPlaying = () => {
   const songData = room.songData
   const isHost = user?.id == room.hostId
 
-  const {isPlaying,handlePlayPause,skipNext,skipPrev,currentTime,seek,duration} = useRoomContext()
+   const {
+    isPlaying,
+    handlePlayPause,
+    skipNext,
+    skipPrev,
+    currentTime,
+    duration,
+    seek,
+    userSync,
+    setUserSync,
+    audioRef
+  } = useRoomContext();
+
+
 
   return (
     <div className="bg-linear-to-br from-[#282828] to-[#1a1a1a] rounded-2xl p-5 border border-white/5 flex flex-col">
@@ -54,6 +67,27 @@ const NowPlaying = () => {
               </>
             ) : (
               <span className="text-xs text-zinc-500 italic">Only the Host can control playback</span>
+            )}
+
+            {userSync && !isHost && (
+              <button
+              className="mb-3 px-4 py-2 text-sm bg-[#1DB954] text-black rounded-full"
+              onClick={() => {
+                const audio = audioRef.current;
+
+                audio
+                  .play()
+                  .then(() => {
+                    setUserSync(false);
+                  })
+                  .catch(err => {
+                    console.error("Manual play failed", err);
+                  });
+              }}
+            >
+              Tap to sync playback
+            </button>
+
             )}
           </div>
         </div>

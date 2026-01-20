@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useContext,
   useEffect,
@@ -18,6 +18,9 @@ interface RoomPlayerContextType {
   seek: (time: number) => void;
   skipNext: () => void;
   skipPrev: () => void;
+  audioRef: React.RefObject<HTMLAudioElement>;
+  userSync: boolean;
+  setUserSync: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const RoomPlayerContext = createContext<RoomPlayerContextType | null>(null);
@@ -35,29 +38,109 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [userSync, setUserSync] = useState(false)
+
+  /* =========================================
+   RESTORE / JOIN / REFRESH PLAYBACK SYNC
+    ========================================= */
+    useEffect(() => {
+      if (!songData?.audioUrl) return;
+
+      const audio = audioRef.current;
+
+      // set audio source
+      if (audio.src !== songData.audioUrl) {
+        audio.src = songData.audioUrl;
+        audio.load();
+      }
+
+      // sync time
+      const latency = (Date.now() - songData.updatedAt) / 1000;
+      console.log("latency", latency)
+      const adjustedTime = songData.timestamp + latency;
+
+      // Sync Time if drift > 2s
+      if (Math.abs(audio.currentTime - adjustedTime) > 2) {
+          audio.currentTime = adjustedTime;
+      }
+
+      // 🔑 enforce play state
+      if (songData.isPlaying) {
+        audio
+        .play()
+        .then(() => {
+          console.log("play success", {
+            paused: audio.paused,
+            currentTime: audio.currentTime
+          });
+          setIsPlaying(true);
+          setUserSync(false)
+        })
+        .catch((err) => {
+          console.error("play failed", err);
+          if(err.name == "NotAllowedError"){
+            console.log("user syncing")
+            setUserSync(true)
+          }
+        });
+      } else {
+        audio.pause();
+        setIsPlaying(false);
+      }
+
+    }, [songData?.id]);
+
 
   /* ----------------------------------------
-     LOAD SONG (HOST + GUEST)
+     APPLY AUTHORITATIVE ACTIONS (HOST → ALL)
   ---------------------------------------- */
   useEffect(() => {
-    if (!songData?.audioUrl) return;
-
     const audio = audioRef.current;
 
-    if (audio.src !== songData.audioUrl) {
-      audio.src = songData.audioUrl;
-      audio.load();
-      audio.currentTime = songData.timestamp || 0;
-    }
+    socket.on("player_action", (songData) => {
+      dispatch(setCurrentSong(songData));
 
-    if (songData.isPlaying) {
-      audio.play().catch(() => {});
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setIsPlaying(false);
-    }
-  }, [songData?.id]);
+      if (audio.src !== songData.audioUrl) {
+        audio.src = songData.audioUrl;
+        audio.load();
+      }
+
+      audio.currentTime = songData.timestamp || 0;
+
+      if (songData.isPlaying) {
+        audio.play().catch(() => {});
+        setIsPlaying(true);
+      } else {
+        audio.pause();
+        setIsPlaying(false);
+      }
+    });
+
+    return () => {
+      socket.off("player_action");
+    };
+  }, [dispatch]);
+
+  /* ----------------------------------------
+     DRIFT CORRECTION syncing with host time
+  ---------------------------------------- */
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    socket.on("player_tick", ({ time, isPlaying }) => {
+      console.log("tick recieve ", time)
+      if (Math.abs(audio.currentTime - time) > 0.7) {
+        audio.currentTime = time;
+      }
+
+      if (isPlaying && audio.paused) audio.play().catch(() => {});
+      if (!isPlaying && !audio.paused) audio.pause();
+    });
+
+    return () => {
+      socket.off("player_tick");
+    };
+  }, []);
 
   /* ----------------------------------------
      AUDIO EVENTS
@@ -69,7 +152,7 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
     const onLoadedMetadata = () => setDuration(audio.duration || 0);
 
     const onEnded = () => {
-      if (isHost) skipNext();
+      if (isHost) skip("next");
     };
 
     audio.addEventListener("timeupdate", onTimeUpdate);
@@ -84,116 +167,89 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
   }, [isHost, songData]);
 
   /* ----------------------------------------
-     HOST → SYNC TO GUESTS
+     HOST → SEND DRIFT TICKS FOR ALIGN TIME TO ALL THE GUEST WITH HOST TIME
   ---------------------------------------- */
   useEffect(() => {
-    if (!isHost || !room.roomId || !songData) return;
+    if (!isHost || !room.roomId) return;
 
     const interval = setInterval(() => {
-      socket.emit("player_sync", {
+      socket.emit("player_tick", {
         roomId: room.roomId,
-        songData: {
-            ...songData,
-            isPlaying,
-            timestamp: audioRef.current.currentTime,
-            updatedAt: Date.now()
-        }
-     });
-
-    }, 300);
+        time: audioRef.current.currentTime,
+        isPlaying
+      });
+      console.log("tick ", audioRef.current.currentTime)
+    }, 800);
 
     return () => clearInterval(interval);
-  }, [isHost, isPlaying, songData, room.roomId]);
+  }, [isHost, isPlaying, room.roomId]);
 
   /* ----------------------------------------
-     GUEST ← RECEIVE SYNC
-  ---------------------------------------- */
-  useEffect(() => {
-    console.log("guest reach sync")
-    if (isHost) return;
-
-    socket.on("player_sync", (data) => {
-
-      if (!songData || data.songId !== songData.id) return;
-
-      const audio = audioRef.current;
-
-      if (Math.abs(audio.currentTime - data.currentTime) > 1) {
-        audio.currentTime = data.currentTime;
-      }
-
-      if (data.isPlaying) {
-        audio.play().catch(() => {});
-        setIsPlaying(true);
-      } else {
-        audio.pause();
-        setIsPlaying(false);
-      }
-    });
-
-    return () => {
-      socket.off("player_sync");
-    };
-  }, [songData, isHost]);
-
-  /* ----------------------------------------
-     CONTROLS
+     CONTROLS (HOST ONLY)
   ---------------------------------------- */
   const handlePlayPause = () => {
-    if (!songData) {
-      if (room.queue.length === 0) return;
+      if (!isHost) return;
 
-      const firstSong = room.queue[0];
+      /* START FIRST SONG */
+      if (!songData) {
+        if (room.queue.length === 0) return;
 
-      dispatch(
-        setCurrentSong({
-          ...firstSong,
-          isPlaying: true,
-          timestamp: 0,
+        const firstSong = room.queue[0];
+
+        socket.emit("player_action", {
+          roomId: room.roomId,
+          songData: {
+            ...firstSong,
+            isPlaying: true,
+            timestamp: 0,
+            updatedAt: Date.now()
+          }
+        });
+
+        return;
+      }
+
+      /* TOGGLE PLAY / PAUSE */
+      const nextState = !isPlaying;
+
+      nextState ? audioRef.current.play(): audioRef.current.pause();
+
+      setIsPlaying(nextState);
+
+      socket.emit("player_action", {
+        roomId: room.roomId,
+        songData: {
+          ...songData,
+          isPlaying: nextState,
+          timestamp: audioRef.current.currentTime,
           updatedAt: Date.now()
-        })
-      );
-      return;
-    }
-
-    if (!isHost) return;
-
-    const nextState = !isPlaying;
-
-    if (nextState) audioRef.current.play();
-    else audioRef.current.pause();
-
-    setIsPlaying(nextState);
-
-    dispatch(
-      setCurrentSong({
-        ...songData,
-        isPlaying: nextState,
-        timestamp: audioRef.current.currentTime,
-        updatedAt: Date.now()
-      })
-    );
+        }
+      });
   };
 
+
+  // SEEK HOST ACTION 
   const seek = (time: number) => {
-    if (!isHost) return;
+    if (!isHost || !songData) return;
 
     audioRef.current.currentTime = time;
     setCurrentTime(time);
 
-    dispatch(
-      setCurrentSong({
-        ...songData!,
+    socket.emit("player_action", {
+      roomId: room.roomId,
+      songData: {
+        ...songData,
         timestamp: time,
         updatedAt: Date.now()
-      })
-    );
+      }
+    });
   };
 
+  // SKIP FORWARD / BACKWARD
   const skip = (dir: "next" | "prev") => {
-    if (!songData || room.queue.length === 0) return;
+    if (!isHost || !songData || room.queue.length === 0) return;
 
-    const index = room.queue.findIndex((s) => s.id === songData.id);
+    const index = room.queue.findIndex(s => s.id === songData.id);
     if (index === -1) return;
 
     const nextIndex =
@@ -203,14 +259,15 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
 
     const nextSong = room.queue[nextIndex];
 
-    dispatch(
-      setCurrentSong({
+    socket.emit("player_action", {
+      roomId: room.roomId,
+      songData: {
         ...nextSong,
         isPlaying: true,
         timestamp: 0,
         updatedAt: Date.now()
-      })
-    );
+      }
+    });
   };
 
   return (
@@ -222,7 +279,10 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
         handlePlayPause,
         seek,
         skipNext: () => skip("next"),
-        skipPrev: () => skip("prev")
+        skipPrev: () => skip("prev"),
+        audioRef,
+        userSync,
+        setUserSync
       }}
     >
       {children}
