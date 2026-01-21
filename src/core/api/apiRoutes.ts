@@ -31,7 +31,10 @@ export const API_ROUTE_ADMIN = {
 
   GET_ALBUMS: '/admin/get-allalbums',
   GET_ALBUM_BYID: '/admin/get-albumbyid/:id',
-  TOGGLE_ALBUM_STATUS:'/admin/album/:id/status'
+  TOGGLE_ALBUM_STATUS:'/admin/album/:id/status',
+
+  DEMOGRAPHICS: '/admin/demographics',
+  GET_DASHBOARD_ENTITY_DATA: '/admin/dashboard-entity'
 }
 
 export const API_ROUTE_ARTIST = {

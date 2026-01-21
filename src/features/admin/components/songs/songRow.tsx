@@ -12,16 +12,6 @@ import { Link } from "react-router-dom";
 import { formatTime } from "@/core/utils/formatTime";
 import { AdminSong } from "../../services/adminApi";
 
-// export interface AdminSong {
-//   id: string;
-//   title: string;
-//   genre: string;
-//   coverImageUrl: string;
-//   duration: number;
-//   likesCount: number;
-//   uploadDate: string;
-//   status: boolean; 
-
 
 const AdminSongRow = ({ song, index }: { song: AdminSong; index: number }) => {
   const isActive = song.status === true;
@@ -36,7 +26,7 @@ const AdminSongRow = ({ song, index }: { song: AdminSong; index: number }) => {
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded overflow-hidden shrink-0">
             <img
-              src={song.coverImage}
+              src={song.coverImageUrl}
               alt={song.title}
               className="w-full h-full object-cover"
             />

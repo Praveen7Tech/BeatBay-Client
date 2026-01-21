@@ -110,7 +110,7 @@ export interface AdminSong {
   title: string;
   artist: string;
   album: string;
-  coverImage: string;
+  coverImageUrl: string;
   duration: number;
   streams: number;
   status: boolean;
@@ -123,6 +123,31 @@ export interface SongResponse {
   songs: AdminSong[];
   totalCount: number;
   totalPages: number;
+}
+
+export interface DemographicsResponse{
+    entity: string
+    range:string
+    data: DemoGraphics[]
+    totalDocs: number
+}
+
+export interface DemoGraphics{
+    date: string
+    total: number
+}
+
+export interface EntityItem{
+    label: string
+    count: number
+}
+
+export interface EntityBreakDownResponse{
+    users: EntityItem[]
+    artists: EntityItem[]
+    songs: EntityItem[]
+    albums:EntityItem[]
+    playlists: EntityItem[]
 }
 
 
@@ -207,6 +232,19 @@ export const adminApi = {
         const path = API_ROUTE_ADMIN.TOGGLE_ALBUM_STATUS.replace(':id', id);
         const response = await axiosInstance.put(path, { status });
         return response.data;
+    },
+
+    demogarphics: async(entity:string, range:string): Promise<DemographicsResponse>=>{
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.DEMOGRAPHICS,{
+        params:{entity, range}
+      })
+      return response.data
+    },
+
+    dashBoardEntity: async(): Promise<EntityBreakDownResponse>=>{
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_DASHBOARD_ENTITY_DATA)
+console.log("hai", response.data)
+      return response.data
     }
 
 

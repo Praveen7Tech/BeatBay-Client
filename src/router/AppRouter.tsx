@@ -57,6 +57,7 @@ import AdminAlbums from '@/features/admin/pages/album/adminAlbumListing';
 import AdminAlbumDetail from '@/features/admin/pages/album/adminAlbumDetails';
 import LikedSongs from '@/features/user/pages/favorites/LikedSong';
 import { Toaster } from '@/components/ui/sonner';
+import AdminDashboardNew from '@/features/admin/pages/dashboard/dashBoardNew';
 
 const AppRouter: React.FC = () => {
   return (
@@ -114,6 +115,7 @@ const AppRouter: React.FC = () => {
         {/* admin routes */}
         <Route element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminLayout/> </ProtectedRoute>}>
           <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
+          <Route path='/admin/dash' element={<AdminDashboardNew/>}/>
           <Route path='/admin/users' element={<UserListing/>}/>
           <Route path='/admin/users/:userId' element={<UserDetails/>}/>
 

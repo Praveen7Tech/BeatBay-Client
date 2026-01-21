@@ -2,6 +2,8 @@ import { Users,UserStar, Music, Album,  } from "lucide-react";
 import { AdminStatsCard } from "../../components/dashboard/admin.statusCard"; 
 import { AdminGrowthChart } from "../../components/dashboard/admin.growthChart"; 
 import { useDasboard } from "@/core/hooks/admin/useDashBoard";
+import { AdminActivityTable } from "../../components/dashboard/admin.activityTable";
+import { TopPerformersTable } from "../../components/dashboard/top.perfomerTable";
 
 export default function AdminDashboard() {
   const {loading, totalUser, totalArtist, totalSongs, totalAlbums} = useDasboard()
@@ -85,8 +87,8 @@ export default function AdminDashboard() {
 
         {/* Tables Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* <AdminActivityTable />
-          <TopPerformersTable /> */}
+          <AdminActivityTable />
+          <TopPerformersTable />
         </div>
       </div>
     </div>
