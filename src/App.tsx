@@ -12,9 +12,7 @@ import { API_ROUTES } from "./core/api/apiRoutes";
 
 const AppContext: React.FC = () => {
   const dispatch = useDispatch();
-  const { initialHydrationComplete } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { initialHydrationComplete } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -25,43 +23,6 @@ const AppContext: React.FC = () => {
         console.log("hydra ", response.data);
         dispatch(completeInitialHydration({ user, accessToken }));
 
-        // const bulkInviteStates: Record<string, InviteState> = {};
-
-        // if (roomState) {
-        //   dispatch(setPrivateRoom(roomState));
-        //   const isHost = roomState.hostId === user.id;
-
-        //   // Room is Active (Jamming)
-        //   if (roomState.status === "jamming") {
-        //     roomState.members.forEach((m: any) => {
-        //       if (m.id !== user.id) bulkInviteStates[m.id] = "connected";
-        //     });
-        //   }
-        //   //  Host interface show pending state of guets (users)
-        //   if (
-        //     isHost &&
-        //     roomState.pendingGuests &&
-        //     Array.isArray(roomState.pendingGuests)
-        //   ) {
-        //     roomState.pendingGuests.forEach((guestId: string) => {
-        //       if (!bulkInviteStates[guestId]) {
-        //         bulkInviteStates[guestId] = "pending";
-        //       }
-        //     });
-        //   }
-        // }
-
-        // // Guest persistence (Before  join any room)
-        // // If the backend found a pending invite key in Redis for this user
-        // if (pendingInvite) {
-        //   bulkInviteStates[pendingInvite.hostId] = "recieved";
-        // }
-
-        // dispatch(setBulkInvite(bulkInviteStates));
-
-        // if (!roomState) {
-        //   dispatch(clearPrivateRoom());
-        // }
       } catch (error) {
         console.error("Hydration error:", error);
       }
