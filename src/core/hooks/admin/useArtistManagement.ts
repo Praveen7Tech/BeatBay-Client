@@ -2,9 +2,11 @@ import { adminApi } from "@/features/admin/services/adminApi"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import { queryClient } from "../artist/queryClientSetup"
+import { useToaster } from "../toast/useToast"
 
 
 export const useArtistManagement = (artistId: string) =>{
+    const {toast} =useToaster()
     // initial artist details
     const { data: artist, isLoading: fetchLoading, isError} = useQuery({
         queryKey: ["artistDatabyId", artistId],
@@ -19,10 +21,13 @@ export const useArtistManagement = (artistId: string) =>{
         onSuccess: ()=>{
             queryClient.invalidateQueries({queryKey: ["artistDatabyId", artistId]})
             queryClient.invalidateQueries({queryKey: ["allArtists"]})
+            queryClient.invalidateQueries({queryKey: ["dashboard-entity-breakdown"]})
+            toast.success("Artist blocked successfully.")
             setIsLoading(false)
         },
         onError: (error)=>{
-            console.error("error in blocking artist", error)
+            console.error(error)
+            toast.error("error in blocking artist")
             setIsLoading(false)
         }
     })
@@ -30,13 +35,15 @@ export const useArtistManagement = (artistId: string) =>{
     const UnBlockArtistMutation = useMutation({
         mutationFn: (userId: string)=> adminApi.unBlockArtist(userId!),
         onSuccess: ()=>{
-        queryClient.invalidateQueries({queryKey: ["artistDatabyId", artistId]})
-        queryClient.invalidateQueries({queryKey: ["allArtists"]})
-        setIsLoading(false)
+            queryClient.invalidateQueries({queryKey: ["artistDatabyId", artistId]})
+            queryClient.invalidateQueries({queryKey: ["allArtists"]})
+            queryClient.invalidateQueries({queryKey: ["dashboard-entity-breakdown"]})
+            setIsLoading(false)
+            toast.success("Artist un-blocked successfully.")
         },
         onError: (error)=>{
-        console.error("error in unBlock artist",error)
-        setIsLoading(false)
+            console.error("error in unBlock artist",error)
+            setIsLoading(false)
         }
     })
 

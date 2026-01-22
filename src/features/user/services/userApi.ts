@@ -11,6 +11,7 @@ export const userApi ={
      
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
        const response = await axiosInstance.put(API_ROUTES_USER.CHANGE_PASSWORD, data)
+       console.log("error", response.data)
        return response.data
     },
     

@@ -209,6 +209,7 @@ export const adminApi = {
     getSongDetails: async (id: string) => {
       const path = API_ROUTE_ADMIN.GET_SONG_BYID.replace(':id', id);
       const response = await axiosInstance.get(path);;
+      console.log("admin song data ", response.data)
       return response.data.data; 
     },
 
@@ -244,7 +245,6 @@ export const adminApi = {
 
     dashBoardEntity: async(): Promise<EntityBreakDownResponse>=>{
       const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_DASHBOARD_ENTITY_DATA)
-console.log("hai", response.data)
       return response.data
     }
 

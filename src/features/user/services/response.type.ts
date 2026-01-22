@@ -99,6 +99,7 @@ export interface SongResponse {
     duration: number; 
     isLiked?:boolean
     likesCount: number;
+    createdAt: string
 }
 
 

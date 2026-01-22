@@ -12,11 +12,13 @@ import { AlertDialog,AlertDialogAction,AlertDialogCancel,AlertDialogContent,Aler
 import { useMutation } from "@tanstack/react-query";
 import { adminApi } from "../../services/adminApi";
 import { queryClient } from "@/core/hooks/artist/queryClientSetup";
-import { showError, showSuccess } from "@/core/utils/toast.config";
 import { format, parseISO } from "date-fns";
 import { formatTime } from "@/core/utils/formatTime";
+import { useToaster } from "@/core/hooks/toast/useToast";
 
 const AdminSongDetail = () => {
+
+  const {toast} = useToaster()
   const { id } = useParams();
 
   const { data: song, isLoading, isError } = useSongDetails(id!);
@@ -24,18 +26,15 @@ const AdminSongDetail = () => {
   const isBlocked = song ? !song.status : false;
 
   const mutation = useMutation({
-    mutationFn: (newStatus: boolean) =>
-      adminApi.toggleSongStatus(id!, newStatus),
+    mutationFn: (newStatus: boolean) => adminApi.toggleSongStatus(id!, newStatus),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["song", id] });
       queryClient.invalidateQueries({ queryKey: ["songs"] });
-
-      showSuccess(
-        data.status ? "Song unblocked successfully" : "Song blocked successfully"
-      );
+      queryClient.invalidateQueries({queryKey: ["dashboard-entity-breakdown"]})
+      toast.success(data.status ? "Song unblocked successfully" : "Song blocked successfully")
     },
     onError: () => {
-      showError("Failed to update song status");
+      toast.error("Failed to update song status");
     },
   });
 

@@ -73,6 +73,7 @@ export interface ArtistDashboardResponse{
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
+        console.log("pass ", response.data)
         return response.data
     },
 
@@ -103,6 +104,7 @@ export const artistApi ={
 
     getSongById: async(songId: string): Promise<SongResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTE_ARTIST.GET_SONG_BY_ID}/${songId}`)
+      console.log("song data ", response.data)
       return response.data
     },
 

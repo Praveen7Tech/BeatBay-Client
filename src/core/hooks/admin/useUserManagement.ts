@@ -2,9 +2,12 @@ import { adminApi } from "@/features/admin/services/adminApi"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { queryClient } from "../artist/queryClientSetup"
 import { useState } from "react"
+import { useToaster } from "../toast/useToast"
 
 
 export const useUserManagement = (userId: string) =>{
+
+    const {toast} = useToaster()
 
     // initial user details
     const { data: user, isLoading: fetchLoading, isError, error} = useQuery({
@@ -20,24 +23,30 @@ export const useUserManagement = (userId: string) =>{
         onSuccess: ()=>{
             queryClient.invalidateQueries({queryKey: ["userDatabyId", userId]})
             queryClient.invalidateQueries({queryKey: ["allUsers"]})
+            queryClient.invalidateQueries({queryKey: ["dashboard-entity-breakdown"]})
             setIsLoading(false)
+            toast.success("blocked user successfully.")
         },
         onError: (error)=>{
             console.error("error in blocking user", error)
             setIsLoading(false)
+            toast.error("error in blocking user")
         }
     })
 
     const UnBlockUserMutation = useMutation({
         mutationFn: (userId: string)=> adminApi.unBlockUser(userId!),
         onSuccess: ()=>{
-        queryClient.invalidateQueries({queryKey: ["userDatabyId", userId]})
-        queryClient.invalidateQueries({queryKey: ["allUsers"]})
-        setIsLoading(false)
+            queryClient.invalidateQueries({queryKey: ["userDatabyId", userId]})
+            queryClient.invalidateQueries({queryKey: ["allUsers"]})
+            queryClient.invalidateQueries({queryKey: ["dashboard-entity-breakdown"]})
+            setIsLoading(false)
+            toast.success("un-blocked user successfully.")
         },
-        onError: (error)=>{
-        console.error("error in unBlock user",error)
-        setIsLoading(false)
+            onError: (error)=>{
+            console.error("error in unBlock user",error)
+            setIsLoading(false)
+            toast.error("error in blocking user")
         }
     })
 

@@ -50,10 +50,10 @@ export default function ArtistSongDetail() {
         </div>
 
         {/* Demographics & Sources */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <SongDemographics />
           <SongSourceBreakdown />
-        </div>
+        </div> */}
       {/* </div> */}
     </div>
     
