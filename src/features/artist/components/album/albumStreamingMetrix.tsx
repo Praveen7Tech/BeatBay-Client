@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts"
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts"
 
 
 const CHART_COLORS = {
@@ -14,7 +14,7 @@ const CHART_COLORS = {
 }
 
 export function AlbumStreamingMetrics() {
-  // Mock data - replace with actual API call
+  
   const chartData = [
     { date: "Jun 15", streams: 125000, listeners: 45000 },
     { date: "Jun 22", streams: 185000, listeners: 68000 },
@@ -65,36 +65,6 @@ export function AlbumStreamingMetrics() {
         </CardContent>
       </Card>
 
-      <Card className="border-border">
-        <CardHeader>
-          <CardTitle>Listener Growth</CardTitle>
-          <CardDescription>Cumulative unique listeners over time</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.border} />
-              <XAxis dataKey="date" stroke={CHART_COLORS.muted} />
-              <YAxis stroke={CHART_COLORS.muted} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: CHART_COLORS.card,
-                  border: `1px solid ${CHART_COLORS.border}`,
-                  borderRadius: "8px",
-                }}
-                labelStyle={{ color: CHART_COLORS.foreground }}
-              />
-              <Line
-                type="monotone"
-                dataKey="listeners"
-                stroke={CHART_COLORS.secondary}
-                strokeWidth={2}
-                dot={{ fill: CHART_COLORS.secondary }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
     </div>
   )
 }

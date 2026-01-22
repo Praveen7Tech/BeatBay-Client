@@ -29,7 +29,7 @@ export function EditPassword() {
           await handleChange(data)
           navigate('/artist/profile')
       } catch (error:any) {
-          if(error.response.data.message === "incorrect"){
+          if(error.message === "incorrect"){
               setError("currentPassword", {message:"Incorrect current password"})
           }
       }

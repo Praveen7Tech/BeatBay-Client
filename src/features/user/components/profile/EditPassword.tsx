@@ -30,7 +30,7 @@ export function EditPassword({ onCancel }: EditPasswordProps) {
         await handleChange(data)
         onCancel()
     } catch (error:any) {
-        if(error.response.data.message === "incorrect"){
+        if(error.message === "incorrect"){
             setError("currentPassword", {message:"Incorrect current password"})
         }
     }

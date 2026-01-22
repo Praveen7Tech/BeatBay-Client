@@ -3,6 +3,8 @@ import { AlertDialogDemo } from "../song/ui/Alert-Dialouge";
 import { ArrowLeft } from "lucide-react";
 import { useSongDetails } from "@/core/hooks/artist/useSongDetails";
 import { useDeleteSong } from "@/core/hooks/artist/useDeleteSong";
+import { formatTime } from "@/core/utils/formatTime";
+import { format, parseISO } from "date-fns";
 
 
 export function DetailHeader() {
@@ -40,13 +42,10 @@ export function DetailHeader() {
           <div className="flex-1">
             <p className="text-sm text-muted-foreground mb-2">Song Performance</p>
             <h1 className="text-4xl font-bold mb-2">{song?.title}</h1>
-            <p className="text-lg text-muted-foreground mb-4">
-               • {"song.album"}
-            </p>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Released {song?.releaseDate}</span>
+              <span>Released {format(parseISO(song?.createdAt), "MMM dd, yyyy")}</span>
               <span>•</span>
-              <span>{song?.duration}</span>
+              <span>Duration {formatTime(song?.duration)}</span>
             </div>
           </div>
           {/* Delete button */}

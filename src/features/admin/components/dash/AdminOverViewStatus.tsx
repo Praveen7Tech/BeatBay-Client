@@ -1,88 +1,47 @@
 import { SpinnerCustom } from '@/components/ui/spinner';
 import { useDasboard } from '@/core/hooks/admin/useDashBoard';
-import { Users, Mic2, Music, Album, ListMusic, TrendingUp, TrendingDown } from 'lucide-react';
+import { Users, Mic2, Music, Album, ListMusic } from 'lucide-react';
 
 interface StatCardProps {
   title: string;
   value: number;
-  change: string;
-  changeType: 'positive' | 'negative';
   icon: React.ElementType;
   color: string;
 }
 
-const StatCard = ({ title, value, change, changeType, icon: Icon, color }: StatCardProps) => {
-  return (
-    <div className="bg-surface p-5 rounded-lg border border-border hover:border-primary/50 transition-colors">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm text-muted-foreground">{title}</p>
-          <p className="text-3xl font-bold text-foreground mt-1">{value}</p>
-          <div className={`flex items-center gap-1 mt-2 text-sm ${
-            changeType === 'positive' ? 'text-primary' : 'text-red-500'
-          }`}>
-            {changeType === 'positive' ? (
-              <TrendingUp className="w-4 h-4" />
-            ) : (
-              <TrendingDown className="w-4 h-4" />
-            )}
-            <span>{change} vs last month</span>
-          </div>
-        </div>
-        <div 
-          className="p-3 rounded-lg"
-          style={{ backgroundColor: `${color}20` }}
-        >
-          <Icon className="w-6 h-6" style={{ color }} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
 export const AdminOverviewStats = () => {
-  const {loading, totalUser, totalArtist, totalSongs, totalAlbums, totalPlaylists} = useDasboard()
+  const { isLoading,totalUser, totalArtist, totalSongs,totalAlbums,totalPlaylists,} = useDasboard();
 
-  if(loading) return <SpinnerCustom/>
+  if (isLoading) return <SpinnerCustom />;
 
   const stats: StatCardProps[] = [
     {
       title: 'Total Users',
       value: totalUser,
-      change: '+12.5%',
-      changeType: 'positive',
       icon: Users,
       color: '#1DB954',
     },
     {
       title: 'Total Artists',
       value: totalArtist,
-      change: '+9.1%',
-      changeType: 'positive',
       icon: Mic2,
       color: '#ec4899',
     },
     {
       title: 'Total Songs',
       value: totalSongs,
-      change: '+8.3%',
-      changeType: 'positive',
       icon: Music,
       color: '#8b5cf6',
     },
     {
       title: 'Total Albums',
       value: totalAlbums,
-      change: '+5.7%',
-      changeType: 'positive',
       icon: Album,
       color: '#f59e0b',
     },
     {
       title: 'Total Playlists',
       value: totalPlaylists,
-      change: '+15.2%',
-      changeType: 'positive',
       icon: ListMusic,
       color: '#10b981',
     },
@@ -93,6 +52,34 @@ export const AdminOverviewStats = () => {
       {stats.map((stat) => (
         <StatCard key={stat.title} {...stat} />
       ))}
+    </div>
+  );
+};
+
+const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => {
+  return (
+    <div
+      className="bg-surface p-6rounded-lgborder border-border hover:border-primary/50 transition-colors
+        min-h-40flexflex-coljustify-between">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm text-muted-foreground">{title}</p>
+          <p className="text-3xl font-bold text-foreground mt-2">
+            {value}
+          </p>
+        </div>
+
+        <div
+          className="p-3 rounded-lg"
+          style={{ backgroundColor: `${color}20` }}
+        >
+          <Icon className="w-6 h-6" style={{ color }} />
+        </div>
+      </div>
+
+      <p className="text-xs text-muted-foreground mt-4">
+        Updated in real time
+      </p>
     </div>
   );
 };

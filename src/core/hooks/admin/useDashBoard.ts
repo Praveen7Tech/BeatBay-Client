@@ -1,22 +1,12 @@
 import { adminApi } from "@/features/admin/services/adminApi"
-import { useApi } from "../api/useApi"
-import { useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 export const useDasboard = () =>{
     
-    const {execute: fetchDashboardData, data, loading} = useApi(adminApi.getDahsboardDetils)
-
-    useEffect(()=>{
-        LoadStatus()
-    },[fetchDashboardData])
-
-    const LoadStatus = async () => {
-      try {
-        await fetchDashboardData({}); 
-      } catch (error) {
-        console.error("Dashboard fetch failed in component:", error);
-      }
-    };
+    const {data, isLoading} = useQuery({
+      queryKey: ["admin-dashboard"],
+      queryFn: ()=> adminApi.getDahsboardDetils()
+    })
 
     const totalUser = data?.totalUser ?? 0;
     const totalArtist = data?.totalArtist ?? 0;
@@ -25,7 +15,7 @@ export const useDasboard = () =>{
     const totalPlaylists = data?.totalPlaylists ?? 0
 
     return{
-        loading,
+        isLoading,
         totalUser,
         totalArtist,
         totalAlbums,

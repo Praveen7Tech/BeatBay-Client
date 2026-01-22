@@ -18,7 +18,8 @@ export function UserListing() {
 
   const {data: usersData, isLoading, isError, error} = useQuery({
     queryKey:["allUsers", page, searchValue],
-    queryFn: ()=> adminApi.fetchUser(page, limit, searchValue)
+    queryFn: ()=> adminApi.fetchUser(page, limit, searchValue),
+    placeholderData: (prev) => prev,
   })
 
   if(isError) return <div>{error.message}</div>

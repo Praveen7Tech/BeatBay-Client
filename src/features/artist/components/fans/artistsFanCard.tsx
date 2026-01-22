@@ -11,7 +11,7 @@ interface ArtistFanCardProps {
 
 export const ArtistFanCard = ({ fan, onView }: ArtistFanCardProps) => {
   return (
-    <div className="bg-[#181818] rounded-lg p-4 hover:bg-[#282828] transition-colors group">
+    <div className="bg-linear-to-b from-gray-900 to-black rounded-lg p-4 hover:bg-[#282828] transition-colors group">
       <div className="flex items-center gap-4">
         {/* Profile Image */}
         <div className="w-14 h-14 rounded-full overflow-hidden bg-[#282828] shrink-0">
@@ -50,7 +50,7 @@ export const ArtistFanCard = ({ fan, onView }: ArtistFanCardProps) => {
             <p className="text-white text-sm">{format(parseISO(fan.followerdSince),"MMM dd, yyyy") }</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <Music size={14} className="text-[#1DB954]" />
           <div>
             <p className="text-[#a7a7a7] text-xs">Top Song</p>
@@ -60,7 +60,7 @@ export const ArtistFanCard = ({ fan, onView }: ArtistFanCardProps) => {
         <div className="text-right">
           <p className="text-[#a7a7a7] text-xs">Total Streams</p>
           <p className="text-white text-sm font-semibold">{0}</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

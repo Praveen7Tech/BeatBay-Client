@@ -19,7 +19,8 @@ export function ArtistListing() {
   
     const {data: artistData, isLoading, isError, error} = useQuery({
       queryKey:["allArtists", page, searchValue],
-      queryFn: ()=> adminApi.fetchArtists(page, limit, searchValue)
+      queryFn: ()=> adminApi.fetchArtists(page, limit, searchValue),
+      placeholderData: (prev) => prev,
     })
   
     if(isError) return <div>{error.message}</div>

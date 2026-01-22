@@ -28,13 +28,6 @@ export function AlbumDemographics() {
     { name: "45+", value: 7 },
   ]
 
-  const topCountries = [
-    { name: "United States", listeners: "38%", trend: "↑" },
-    { name: "United Kingdom", listeners: "14%", trend: "↑" },
-    { name: "Canada", listeners: "10%", trend: "↑" },
-    { name: "Australia", listeners: "8%", trend: "→" },
-    { name: "Germany", listeners: "7%", trend: "↓" },
-  ]
 
   return (
     <div className="space-y-4">
@@ -70,26 +63,6 @@ export function AlbumDemographics() {
               />
             </PieChart>
           </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      <Card className="border-border">
-        <CardHeader>
-          <CardTitle>Top Countries</CardTitle>
-          <CardDescription>By listener percentage</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {topCountries.map((country, idx) => (
-              <div key={idx} className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium text-foreground text-sm">{country.name}</p>
-                  <p className="text-xs text-muted-foreground">{country.listeners}</p>
-                </div>
-                <span className="text-sm text-muted-foreground">{country.trend}</span>
-              </div>
-            ))}
-          </div>
         </CardContent>
       </Card>
     </div>

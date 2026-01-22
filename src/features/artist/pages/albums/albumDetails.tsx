@@ -3,7 +3,6 @@ import { AlbumStatsOverview } from "../../components/album/albumStatusOverView"
 import { AlbumStreamingMetrics } from "../../components/album/albumStreamingMetrix"  
 import { TrackListing } from "../../components/album/trackListing"  
 import { AlbumDemographics } from "../../components/album/albumDemoGraphics"  
-import { AlbumEngagement } from "../../components/album/albumEngagement"  
 import { useAlbumDetails } from "@/core/hooks/artist/useAlbumDetails"
 import { Link } from "react-router-dom"
 import AlbumCard from "@/features/user/components/home/album-card"
@@ -33,15 +32,14 @@ export default function AlbumDetailsPage() {
         )}
         </div>
         <AlbumStatsOverview />
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <AlbumStreamingMetrics />
-            <TrackListing />
+            {/* <TrackListing /> */}
           </div>
-          <div className="space-y-6">
+          {/* <div className="space-y-6">
             <AlbumDemographics  />
-            <AlbumEngagement  />
-          </div>
+          </div> */}
         </div>
       </div>
     </main>
