@@ -56,15 +56,7 @@ const BreakdownCard = ({ title, icon, data }: BreakdownCardProps) => {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--surface))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px',
-                  color: 'hsl(var(--foreground))',
-                }}
-                formatter={(value: number) => value?.toLocaleString()}
-              />
+              <Tooltip />
             </PieChart>
           </ResponsiveContainer>
         </div>

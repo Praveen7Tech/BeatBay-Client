@@ -185,10 +185,7 @@ const AdminSongDetail = () => {
                     { label: "Artist", value: song.artistName },
                     {
                       label: "Release Date",
-                      value: format(
-                        parseISO(song.updatedAt),
-                        "MMM dd, yyyy"
-                      ),
+                      value: format(parseISO(song.updatedAt),"MMM dd, yyyy"),
                     },
                   ].map((item) => (
                     <div

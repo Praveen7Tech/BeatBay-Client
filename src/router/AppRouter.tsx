@@ -13,7 +13,6 @@ import { ROLES } from '../core/types/roles';
 import NotFound from '../pages/page-notFound';
 import Unauthorized from '../pages/unAutharized-page';
 import AdminLogin from '../features/admin/pages/auth/Login';
-import AdminDashboard from '../features/admin/pages/dashboard/dashBoard'; 
 import SignupPageArtist from '../features/artist/pages/auth/Signup.artist';
 import VerifyOTPartist from '../features/artist/pages/auth/VerifyOTP.artist';
 import ArtistDashboard from '../features/artist/pages/dashboard/Dashboard.artist'; 
@@ -57,7 +56,8 @@ import AdminAlbums from '@/features/admin/pages/album/adminAlbumListing';
 import AdminAlbumDetail from '@/features/admin/pages/album/adminAlbumDetails';
 import LikedSongs from '@/features/user/pages/favorites/LikedSong';
 import { Toaster } from '@/components/ui/sonner';
-import AdminDashboardNew from '@/features/admin/pages/dashboard/dashBoardNew';
+import AdminDashboard from '@/features/admin/pages/dashboard/dashBoardNew';
+import ArtistFans from '@/features/artist/pages/fans/ArtistFansPageListing';
 
 const AppRouter: React.FC = () => {
   return (
@@ -115,7 +115,6 @@ const AppRouter: React.FC = () => {
         {/* admin routes */}
         <Route element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminLayout/> </ProtectedRoute>}>
           <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
-          <Route path='/admin/dash' element={<AdminDashboardNew/>}/>
           <Route path='/admin/users' element={<UserListing/>}/>
           <Route path='/admin/users/:userId' element={<UserDetails/>}/>
 
@@ -144,6 +143,8 @@ const AppRouter: React.FC = () => {
           <Route path='/artist/albums' element={<Albums/>}/>
           <Route path='/artist/edit-album/:albumId' element={<CreateAlbumRaw/>}/>
           <Route path='/artist/album-details/:albumId' element={<AlbumDetailsPage/>}/>
+
+          <Route path='/artist/fans' element={<ArtistFans/>}/>
         </Route>
    
         {/* un authorized */}

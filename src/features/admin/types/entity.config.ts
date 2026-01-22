@@ -19,7 +19,7 @@ export type ChartType = "area" | "line" | "bar";
 
 export const ENTITY_COLORS: Record<string, string> = {
   "Free Users": "#6366f1",
-  "Premium": "#1DB954",
+  "Premium": "#FFA500",
   "Active": "#22c55e",
   "Blocked": "#ef4444",
   "Public": "#10b981",

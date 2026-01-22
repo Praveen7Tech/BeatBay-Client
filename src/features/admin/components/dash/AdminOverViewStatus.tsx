@@ -1,8 +1,10 @@
+import { SpinnerCustom } from '@/components/ui/spinner';
+import { useDasboard } from '@/core/hooks/admin/useDashBoard';
 import { Users, Mic2, Music, Album, ListMusic, TrendingUp, TrendingDown } from 'lucide-react';
 
 interface StatCardProps {
   title: string;
-  value: string;
+  value: number;
   change: string;
   changeType: 'positive' | 'negative';
   icon: React.ElementType;
@@ -39,10 +41,14 @@ const StatCard = ({ title, value, change, changeType, icon: Icon, color }: StatC
 };
 
 export const AdminOverviewStats = () => {
+  const {loading, totalUser, totalArtist, totalSongs, totalAlbums, totalPlaylists} = useDasboard()
+
+  if(loading) return <SpinnerCustom/>
+
   const stats: StatCardProps[] = [
     {
       title: 'Total Users',
-      value: '5,342',
+      value: totalUser,
       change: '+12.5%',
       changeType: 'positive',
       icon: Users,
@@ -50,7 +56,7 @@ export const AdminOverviewStats = () => {
     },
     {
       title: 'Total Artists',
-      value: '2,156',
+      value: totalArtist,
       change: '+9.1%',
       changeType: 'positive',
       icon: Mic2,
@@ -58,7 +64,7 @@ export const AdminOverviewStats = () => {
     },
     {
       title: 'Total Songs',
-      value: '11,847',
+      value: totalSongs,
       change: '+8.3%',
       changeType: 'positive',
       icon: Music,
@@ -66,7 +72,7 @@ export const AdminOverviewStats = () => {
     },
     {
       title: 'Total Albums',
-      value: '1,523',
+      value: totalAlbums,
       change: '+5.7%',
       changeType: 'positive',
       icon: Album,
@@ -74,7 +80,7 @@ export const AdminOverviewStats = () => {
     },
     {
       title: 'Total Playlists',
-      value: '8,291',
+      value: totalPlaylists,
       change: '+15.2%',
       changeType: 'positive',
       icon: ListMusic,

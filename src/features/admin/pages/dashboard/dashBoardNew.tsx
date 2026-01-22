@@ -1,12 +1,10 @@
-import { LayoutDashboard, BarChart3, PieChart, Activity } from 'lucide-react';
+import { BarChart3, PieChart, Activity } from 'lucide-react';
 import { AdminOverviewStats } from '../../components/dash/AdminOverViewStatus';
 import { AdminDemographicsChart } from '../../components/dash/AdminDemographicsChart';
 import { AdminEntityBreakdown } from '../../components/dash/AdminEntityBreakDown';
 import { AdminGrowthChart } from '../../components/dash/AdminGrowthChart';
-import { AdminActivityTable } from '../../components/dash/AdminActivityTable';
-import { TopPerformersTable } from '../../components/dash/TopPerformanceTable';
 
-export default function AdminDashboardNew() {
+export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-background p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-10">
@@ -49,19 +47,6 @@ export default function AdminDashboardNew() {
             <h2 className="text-xl font-semibold">Growth</h2>
           </div>
           <AdminGrowthChart />
-        </section>
-
-        {/* Activity Section */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2">
-            <LayoutDashboard className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-semibold">Activity</h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <AdminActivityTable />
-            <TopPerformersTable />
-          </div>
         </section>
 
       </div>

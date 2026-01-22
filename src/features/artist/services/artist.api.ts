@@ -51,6 +51,25 @@ export interface EditAlbumDetailsResponse{
   songs: InitialAlbumSongs[];
 }
 
+export interface Fans{
+    id:string
+    name:string
+    profilePicture:string
+    followerdSince: string
+}
+
+export interface FansResponse{
+    fans: Fans[]
+    totalCount: number
+    totalPages: number
+}
+
+export interface ArtistDashboardResponse{
+    totalSongs: number
+    totalAlbums:number
+    totalFans: number
+}
+
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
@@ -104,6 +123,19 @@ export const artistApi ={
 
     deleteAlbum: async(albumId: string): Promise<boolean>=>{
       const response = await axiosInstance.delete(`${API_ROUTE_ARTIST.DELETE_ALBUM}/${albumId}`)
+      return response.data
+    },
+
+    getAllFans: async(page:number, limit: number):Promise<FansResponse>=>{
+      const response = await axiosInstance.get(API_ROUTE_ARTIST.GET_FANS,{
+        params:{page, limit}
+      })
+      return response.data
+    },
+
+    artistDashBoard: async():Promise<ArtistDashboardResponse>=> {
+      const response = await axiosInstance.get(API_ROUTE_ARTIST.DASHBOARD)
+      console.log("dashu ", response.data)
       return response.data
     }
 }

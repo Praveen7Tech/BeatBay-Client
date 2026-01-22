@@ -58,7 +58,10 @@ export const API_ROUTE_ARTIST = {
   GET_ALBUM_BY_ID: '/artist/get-album',
   EDIT_ALBUM: '/artist/edit-album',
   DELETE_SONG: '/artist/delete-song',
-  DELETE_ALBUM: '/artist/delete-album'
+  DELETE_ALBUM: '/artist/delete-album',
+
+  GET_FANS: '/artist/get-allfans',
+  DASHBOARD: '/artist/dashboard'
 }
 
 export const API_ROUTES_USER ={

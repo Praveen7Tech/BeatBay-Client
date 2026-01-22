@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { AlertDialogDemo } from "../song/ui/Alert-Dialouge"
 import { useDeleteAlbum } from "@/core/hooks/artist/useDeleteAlbum"
 import { useAlbumDetails } from "@/core/hooks/artist/useAlbumDetails"
+import { SpinnerCustom } from "@/components/ui/spinner"
 
 
 export function AlbumDetailsHeader() {
@@ -12,7 +13,7 @@ export function AlbumDetailsHeader() {
   const {deleteSongMutation} = useDeleteAlbum()
 
   if (isLoading ) {
-    return <div>Loading...</div>;
+    return <SpinnerCustom/>
   }
 
   if (isError || !album) { 
