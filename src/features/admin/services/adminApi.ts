@@ -102,7 +102,8 @@ export interface  DashBordResponse{
   totalArtist: number
   totalSongs: number
   totalAlbums: number
-  message?: string
+  totalPlaylists: number
+  message?:string
 }
 
 export interface AdminSong {

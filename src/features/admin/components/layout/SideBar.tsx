@@ -23,7 +23,6 @@ export default function Sidebar() {
 
   const items = [
     { name: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
-    { name: "Dash", icon: LayoutDashboard, path: "/admin/dash" },
     { name: "Users", icon: Users, path: "/admin/users" },
     { name: "Artists", icon: UserStar, path: "/admin/artists" },
     { name: "Songs", icon: Music, path: "/admin/songs" },

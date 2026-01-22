@@ -5,14 +5,13 @@ import { useArtistAlbums } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Pagination } from "@/features/admin/components/common/Pagination";
+import { SpinnerArtist } from "@/components/ui/spinner";
 
 export default function Albums() {
   const [currentPage, setCurrentPage] = useState(1)
   const { data: albumsData, isLoading, isError, error } = useArtistAlbums();
 
-  if (isLoading) {
-    return <div className="min-h-screen bg-black text-white p-8">Loading albums...</div>;
-  }
+  if (isLoading) return <SpinnerArtist/>
 
   if (isError) {
     return <div className="min-h-screen bg-black text-red-500 p-8">Error: {error.message}</div>;

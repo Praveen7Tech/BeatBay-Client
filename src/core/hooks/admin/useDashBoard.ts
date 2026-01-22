@@ -22,12 +22,14 @@ export const useDasboard = () =>{
     const totalArtist = data?.totalArtist ?? 0;
     const totalSongs = data?.totalSongs ?? 0;
     const totalAlbums = data?.totalAlbums ?? 0;
+    const totalPlaylists = data?.totalPlaylists ?? 0
 
     return{
         loading,
         totalUser,
         totalArtist,
         totalAlbums,
-        totalSongs
+        totalSongs,
+        totalPlaylists
     }
 }

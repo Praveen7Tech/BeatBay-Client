@@ -5,22 +5,13 @@ import { Link } from "react-router-dom";
 import { FetchSong, } from "../../services/artist.api";
 import { Pagination } from "@/features/admin/components/common/Pagination";
 import { useState } from "react";
+import { SpinnerArtist } from "@/components/ui/spinner";
 
 const SongList = () => {
    const [currentPage, setCurrentPage] = useState(1)
     const {data: songs, isLoading, isError, error}= useArtistSongs()
 
-   if (isLoading) {
-        return (
-          <div className="min-h-screen bg-linear-to-b from-gray-900 to-black text-white p-8">
-            <div className="flex items-center justify-center h-96">
-              <div className="animate-spin">
-                <div className="w-12 h-12 border-4 border-gray-700 border-t-green-500 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-        );
-    }
+   if (isLoading) return <SpinnerArtist/>
 
     if (isError) {
         return (
