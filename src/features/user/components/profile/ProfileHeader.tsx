@@ -8,6 +8,7 @@ import { authApi } from "@/features/auth/services/authApi"
 import type { RootState } from "@/core/store/store"
 import { Button } from "@/core/components/button/Button"
 import { clearPlayBackState } from "@/core/service/playerStorageService"
+import { Link } from "react-router-dom"
 interface profileHeaderProps {
   onEditClick: () => void
   onEditPasswordClick?: () => void
@@ -71,6 +72,13 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
           </div>
 
           {/* Logout Button */}
+          <div className="flex gap-3 pb-2">
+            <Link to={'/subscription'}>
+            <Button theme="user" variant="dashboard">
+              Premium
+            </Button>
+            </Link>
+          </div>
           <div className="flex gap-3 pb-2">
             <Button theme="user" variant="dashboard" onClick={handleLogout}>
               Log Out →

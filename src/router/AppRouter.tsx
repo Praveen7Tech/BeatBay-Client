@@ -58,6 +58,9 @@ import LikedSongs from '@/features/user/pages/favorites/LikedSong';
 import { Toaster } from '@/components/ui/sonner';
 import AdminDashboard from '@/features/admin/pages/dashboard/dashBoardNew';
 import ArtistFans from '@/features/artist/pages/fans/ArtistFansPageListing';
+import Premium from '@/features/user/pages/premium/Premium';
+import SubscriptionError from '@/features/user/pages/premium/SubscriptionError';
+import SubscriptionSuccess from '@/features/user/pages/premium/SubscriptionSuccess';
 
 const AppRouter: React.FC = () => {
   return (
@@ -110,6 +113,10 @@ const AppRouter: React.FC = () => {
           <Route path='/:userId/:type' element={<FollowingListing/>}/>
 
           <Route path='/liked-songs' element={<LikedSongs/>}/>
+
+          <Route path='/subscription' element={<Premium/>}/>
+          <Route path='/payment-success' element={<SubscriptionSuccess/>}/>
+          <Route path='/payment-failed' element={<SubscriptionError/>}/>
         </Route>
 
         {/* admin routes */}

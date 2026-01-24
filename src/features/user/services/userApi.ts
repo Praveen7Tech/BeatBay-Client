@@ -150,5 +150,11 @@ export const userApi ={
       const path = API_ROUTES_USER.DELETE_PLAYLIST.replace(":playlistId", playlistId)
       const response = await axiosInstance.delete(path)
       return response.data
+    },
+
+    subscriptionCheckout: async(priceId:string)=>{
+      const response = await axiosInstance.post(API_ROUTES_USER.SUBSCRIPTION_CHECKOUT,{priceId})
+      console.log("resuman ", response.data)
+      return response.data
     }
 }
