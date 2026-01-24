@@ -89,5 +89,7 @@ export const API_ROUTES_USER ={
   FRIENDS: '/user/friends',
   SONG_LIKE:'/user/song/:id/toggle-like',
   LIKED_SONGS: '/user/liked-songs',
-  REMOVE_FROM_PLAYLIST: '/user/playlist/:playlistId/song/:songId'
+  REMOVE_FROM_PLAYLIST: '/user/playlist/:playlistId/song/:songId',
+
+  SUBSCRIPTION_CHECKOUT: '/user/subscription/checkout'
 }

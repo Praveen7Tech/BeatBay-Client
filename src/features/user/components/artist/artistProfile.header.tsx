@@ -17,7 +17,7 @@ export const ArtistProfileHeader = ({
 
   let verified = true;
 
-  const { isFollowing, toggleFollow } = useFollowStatus(_id);
+  const { isFollowing, toggleFollow } = useFollowStatus(_id,"artist");
 
   const hasImage = !!profilePicture;
 
