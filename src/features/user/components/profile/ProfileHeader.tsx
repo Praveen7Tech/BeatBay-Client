@@ -94,6 +94,13 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
           <Button theme="artist" variant="dashboard" onClick={onEditPasswordClick}>
             Edit password
           </Button>
+          
+          <Button theme="artist" variant="dashboard">
+            <Link to={'/premium/details'}>
+            Premium Info
+            </Link>
+          </Button>
+          
         </div>
       </div>
     </div>

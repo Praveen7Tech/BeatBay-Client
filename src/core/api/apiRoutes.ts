@@ -91,5 +91,7 @@ export const API_ROUTES_USER ={
   LIKED_SONGS: '/user/liked-songs',
   REMOVE_FROM_PLAYLIST: '/user/playlist/:playlistId/song/:songId',
 
-  SUBSCRIPTION_CHECKOUT: '/user/subscription/checkout'
+  SUBSCRIPTION_CHECKOUT: '/user/subscription/checkout',
+  SUBSCRIPTION: '/user/subscription',
+  AUTO_SUBSCRIPTION_TOGGLE: '/user/auto-subscription-toggle'
 }

@@ -280,3 +280,14 @@ export interface LikedSondResponse{
   limit: number;
   totalPages: number;
 }
+
+export interface SubscriptionResponse{
+    id:string
+    planName: string
+    amount: number
+    nextBillingDate: Date
+    autoReniewEnable: boolean
+    cardInfo: string
+    subscriptionId: string
+    status: string
+}

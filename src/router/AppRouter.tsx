@@ -61,6 +61,7 @@ import ArtistFans from '@/features/artist/pages/fans/ArtistFansPageListing';
 import Premium from '@/features/user/pages/premium/Premium';
 import SubscriptionError from '@/features/user/pages/premium/SubscriptionError';
 import SubscriptionSuccess from '@/features/user/pages/premium/SubscriptionSuccess';
+import PremiumDetails from '@/features/user/pages/premium/PremiumDetails';
 
 const AppRouter: React.FC = () => {
   return (
@@ -117,6 +118,7 @@ const AppRouter: React.FC = () => {
           <Route path='/subscription' element={<Premium/>}/>
           <Route path='/payment-success' element={<SubscriptionSuccess/>}/>
           <Route path='/payment-failed' element={<SubscriptionError/>}/>
+          <Route path='/premium/details' element={<PremiumDetails/>}/>
         </Route>
 
         {/* admin routes */}

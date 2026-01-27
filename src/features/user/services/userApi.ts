@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, SubscriptionResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={
@@ -154,7 +154,18 @@ export const userApi ={
 
     subscriptionCheckout: async(priceId:string)=>{
       const response = await axiosInstance.post(API_ROUTES_USER.SUBSCRIPTION_CHECKOUT,{priceId})
-      console.log("resuman ", response.data)
+      return response.data
+    },
+
+    subscriptionDetails: async(): Promise<SubscriptionResponse>=>{
+       const response = await axiosInstance.get(API_ROUTES_USER.SUBSCRIPTION)
+       return response.data
+    },
+
+    autoSubscriptionToggle: async(subscriptionId: string, newValue: boolean)=>{
+      const response = await axiosInstance.put(API_ROUTES_USER.AUTO_SUBSCRIPTION_TOGGLE,{
+        subscriptionId, newValue
+      })
       return response.data
     }
 }
