@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { userApi } from "../../services/userApi";
+import React from "react";
 
 interface PricingCardProps {
   name: string;
@@ -9,26 +10,31 @@ interface PricingCardProps {
   savings?: string;
   features: string[];
   popular?: boolean;
+  setIsProcessing:React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PricingCard = ({ name, price, priceId, period, savings, features, popular }: PricingCardProps) => {
+const PricingCard = ({ name, price, priceId, period, savings, features, popular,setIsProcessing }: PricingCardProps) => {
 
   const handleSubscribe = async (priceId:string) => {
+    setIsProcessing(true)
     try {
         const res =await userApi.subscriptionCheckout(priceId)
         console.log("sub ", res)
        if(res.url){
          window.location.href = res.url
        }
+       setIsProcessing(false)
     } catch (error) {
+       setIsProcessing(false)
         console.error("error in payment subscription")
     }
   };
 
   return (
-    <div className={`relative flex flex-col p-6 rounded-2xl border ${
-      popular 
-        ? "border-primary bg-primary/5 scale-105" 
+    <div className={`relative flex flex-col p-6 rounded-2xl border transition-all duration-300 ease-out cursor-pointer
+      hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(29,185,84,0.3)] hover:border-primary
+      ${popular 
+        ? "border-primary bg-primary/5 scale-105 shadow-[0_0_20px_rgba(29,185,84,0.2)]" 
         : "border-border bg-card"
     }`}>
       {popular && (
