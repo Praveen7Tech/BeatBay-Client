@@ -291,3 +291,12 @@ export interface SubscriptionResponse{
     subscriptionId: string
     status: string
 }
+
+export interface PaymentHistory{
+    id: string
+    date: Date
+    amount: number
+    currency: string
+    status: string
+    receiptUrl: string
+}

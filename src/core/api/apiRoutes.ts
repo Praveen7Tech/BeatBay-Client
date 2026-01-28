@@ -93,5 +93,7 @@ export const API_ROUTES_USER ={
 
   SUBSCRIPTION_CHECKOUT: '/user/subscription/checkout',
   SUBSCRIPTION: '/user/subscription',
-  AUTO_SUBSCRIPTION_TOGGLE: '/user/auto-subscription-toggle'
+  AUTO_SUBSCRIPTION_TOGGLE: '/user/auto-subscription-toggle',
+  CANCELL_SUBSCRIPTION: '/user/subscription/cancel',
+  SUBSCRIPTION_HISTORY: '/user/subscription/history'
 }

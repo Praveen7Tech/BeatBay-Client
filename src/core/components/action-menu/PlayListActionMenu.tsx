@@ -53,7 +53,7 @@ export const PlaylistActionsMenu = ({
         >
           <DropdownMenuItem 
             onClick={onEdit}
-            className="gap-3 py-3 px-4 cursor-pointer hover:bg-white/10 focus:bg-white/100"
+            className="gap-3 py-3 px-4 cursor-pointer hover:bg-white/10 focus:bg-white"
           >
             <Pencil className="h-4 w-4" />
             <span>Edit details</span>
