@@ -9,6 +9,7 @@ export interface User {
   profilePicture?:string
   followingCount?: number
   status?: boolean
+  isPremium: boolean
 }
 
 export interface AuthState {
@@ -70,11 +71,16 @@ const authSlice = createSlice({
         state.accessToken = null
       }
       state.initialHydrationComplete = true
+    },
+    setPremiumStatus(state, action:PayloadAction<boolean>){
+      if(state.user){
+        state.user.isPremium = action.payload
+      }
     }
   }
 
 });
 
-export const { loginSuccess, loginFailure, logout, setAuthLoading, setAuthFailure, completeInitialHydration, setAccessToken, update } = authSlice.actions;
+export const { loginSuccess, loginFailure, logout, setAuthLoading, setAuthFailure, completeInitialHydration, setAccessToken, update, setPremiumStatus } = authSlice.actions;
 export default authSlice.reducer;
 

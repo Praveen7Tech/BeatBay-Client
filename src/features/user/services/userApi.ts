@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, SubscriptionResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PaymentHistory, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, SubscriptionResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={
@@ -159,6 +159,7 @@ export const userApi ={
 
     subscriptionDetails: async(): Promise<SubscriptionResponse>=>{
        const response = await axiosInstance.get(API_ROUTES_USER.SUBSCRIPTION)
+       console.log("subu ", response.data)
        return response.data
     },
 
@@ -166,6 +167,16 @@ export const userApi ={
       const response = await axiosInstance.put(API_ROUTES_USER.AUTO_SUBSCRIPTION_TOGGLE,{
         subscriptionId, newValue
       })
+      return response.data
+    },
+
+    cancelSubscription: async(subscriptionId: string)=>{
+      const response = await axiosInstance.post(API_ROUTES_USER.CANCELL_SUBSCRIPTION,{subscriptionId})
+      return response.data
+    },
+
+    subscriptionHistory: async(): Promise<PaymentHistory[]>=>{
+      const response = await axiosInstance.get(API_ROUTES_USER.SUBSCRIPTION_HISTORY)
       return response.data
     }
 }

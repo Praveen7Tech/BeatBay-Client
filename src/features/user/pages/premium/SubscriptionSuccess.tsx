@@ -44,16 +44,16 @@ const SubscriptionSuccess = () => {
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
             className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(29,185,84,0.4)]"
           >
             Start Listening
           </button>
           <button
-            onClick={() => navigate("/playlists")}
+            onClick={() => navigate("/premium/details")}
             className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all duration-300 hover:scale-105"
           >
-            My Playlists
+            Go To premium Page
           </button>
         </div>
       </div>
