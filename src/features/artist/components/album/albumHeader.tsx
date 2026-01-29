@@ -1,42 +1,58 @@
-import { Plus } from "lucide-react";
+import { Plus, Disc3, Music } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface AlbumHeaderProps{
-  totalAlbums: number
-  totalSongs: number
+interface AlbumHeaderProps {
+  totalAlbums: number;
+  totalSongs: number;
 }
 
-export const AlbumHeader = ({totalAlbums,totalSongs}: AlbumHeaderProps) => {
+export const AlbumHeader = ({
+  totalAlbums,
+  totalSongs,
+}: AlbumHeaderProps) => {
   return (
-    <div className="relative mb-8">
-      <div
-        className=" flex items-end gap-6 p-8 rounded-lg bg-linear-to-b from-[#282828] to-transparent " >
-        <div className="flex-1">
-          <p className="text-sm font-medium text-spotify-secondary mb-2">Albums</p>
+    <div className="mb-10 p-6">
+      {/* Top row */}
+      <div className="flex items-center justify-between">
+        {/* Left */}
+        <div>
+          <h1 className="text-3xl font-bold text-white">
+            Your Albums
+          </h1>
+          <p className="text-sm text-[#a7a7a7] mt-1">
+            Manage and view your album dashboard
+          </p>
+        </div>
 
-          <h1 className="text-5xl font-bold mb-4 text-white">Your Albums</h1>
+        {/* Right stats */}
+        <div className="flex items-center gap-6 text-sm text-[#a7a7a7]">
+          <div className="flex items-center gap-2">
+            <Disc3 size={20} className="text-[#1DB954]"/>
+            <span className="font-medium text-white">
+              {totalAlbums}
+            </span>
+            <span>Albums</span>
+          </div>
 
-          <div className="flex items-center gap-6 text-sm text-spotify-secondary">
-            <span className="font-medium">{totalAlbums} albums</span>
-            <span>•</span>
-            <span>{totalSongs} songs</span>
+          <div className="flex items-center gap-2">
+            <Music size={20} className="text-[#1DB954]"/>
+            <span className="font-medium text-white">
+              {totalSongs}
+            </span>
+            <span>Songs</span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-6 px-8">
-        {/* Play All Button */}
-        {/* <button
-          className=" rounded-full h-14 px-8 bg-[#1DB954] text-black font-semibold  flex items-center gap-2 cursor-pointer transition-transform duration-300 hover:scale-105 hover:bg-spotify-green "    >
-          <Play size={20} fill="currentColor" />
-          Play All
-        </button> */}
-
-        {/* New Album Button */}
+      {/* Actions */}
+      <div className="flex items-center gap-4 mt-6">
         <Link to="/artist/createAlbum">
-          <button
-            className=" rounded-full h-14 px-8 bg-transparent border border-spotify-secondary text-white font-semibold flex items-center gap-2 cursor-pointer transition-colors duration-300 hover:border-[#1DB954] "  >
-            <Plus size={20} />
+          <button  className="flex items-center gap-2 h-12 px-6 rounded-full
+              border border-[#a7a7a7] text-white font-medium
+              hover:border-[#1DB954] hover:text-[#1DB954]
+              transition-colors"
+          >
+            <Plus size={18} />
             New Album
           </button>
         </Link>

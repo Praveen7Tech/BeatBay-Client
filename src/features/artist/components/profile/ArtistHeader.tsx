@@ -30,7 +30,7 @@ export function ArtistHeader() {
   }
 
   return (
-    <div className="bg-linear-to-b from-gray-900 to-black py-8 px-6">
+    <div className="py-8 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex gap-8 items-start justify-between">
           {/* Left Side: Profile Image + Info */}

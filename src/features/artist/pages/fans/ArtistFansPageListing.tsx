@@ -12,7 +12,7 @@ export default function ArtistFans() {
   if(isLoading) return <SpinnerArtist/>
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-900 to-black p-6">
+    <div className="min-h-screen p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">

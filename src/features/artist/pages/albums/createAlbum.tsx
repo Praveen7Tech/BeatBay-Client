@@ -27,7 +27,7 @@ export default function CreateAlbumRaw() {
 
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
+    <div className="min-h-screen text-white p-8">
       <h1 className="text-4xl font-bold mb-12 text-center">
         {isEdit ? "Edit Album" : "Create Album"}
       </h1>
