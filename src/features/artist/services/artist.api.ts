@@ -70,6 +70,11 @@ export interface ArtistDashboardResponse{
     totalFans: number
 }
 
+export interface OnboardLinkResponse{
+  success: boolean
+  link: string
+}
+
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
@@ -137,7 +142,12 @@ export const artistApi ={
 
     artistDashBoard: async():Promise<ArtistDashboardResponse>=> {
       const response = await axiosInstance.get(API_ROUTE_ARTIST.DASHBOARD)
-      console.log("dashu ", response.data)
+      return response.data
+    },
+
+    getOnBoardingLink: async(): Promise<OnboardLinkResponse>=>{
+      const response = await axiosInstance.post(API_ROUTE_ARTIST.ONBOARDING)
+      console.log("linku ", response.data)
       return response.data
     }
 }

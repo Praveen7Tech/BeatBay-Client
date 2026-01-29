@@ -62,6 +62,7 @@ import Premium from '@/features/user/pages/premium/Premium';
 import SubscriptionError from '@/features/user/pages/premium/SubscriptionError';
 import SubscriptionSuccess from '@/features/user/pages/premium/SubscriptionSuccess';
 import PremiumDetails from '@/features/user/pages/premium/PremiumDetails';
+import ArtistRevenue from '@/features/artist/pages/revenue/ArtistRevenue';
 
 const AppRouter: React.FC = () => {
   return (
@@ -154,6 +155,8 @@ const AppRouter: React.FC = () => {
           <Route path='/artist/album-details/:albumId' element={<AlbumDetailsPage/>}/>
 
           <Route path='/artist/fans' element={<ArtistFans/>}/>
+
+          <Route path='/artist/revenue' element={<ArtistRevenue/>}/>
         </Route>
    
         {/* un authorized */}

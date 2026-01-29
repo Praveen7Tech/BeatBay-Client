@@ -61,7 +61,9 @@ export const API_ROUTE_ARTIST = {
   DELETE_ALBUM: '/artist/delete-album',
 
   GET_FANS: '/artist/get-allfans',
-  DASHBOARD: '/artist/dashboard'
+  DASHBOARD: '/artist/dashboard',
+
+  ONBOARDING: '/artist/payouts/onboard'
 }
 
 export const API_ROUTES_USER ={
