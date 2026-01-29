@@ -9,7 +9,9 @@ export interface User {
   profilePicture?:string
   followingCount?: number
   status?: boolean
-  isPremium: boolean
+  isPremium?: boolean
+  stripeConnectId?: string
+  payOutEnabled?: boolean
 }
 
 export interface AuthState {
