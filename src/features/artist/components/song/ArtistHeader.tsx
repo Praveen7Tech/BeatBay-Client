@@ -1,62 +1,47 @@
-import {  Plus } from "lucide-react";
-// import { Button } from "./Button"; 
+import { Plus, Music } from "lucide-react";
 import { Link } from "react-router-dom";
-interface Props{
-  songCount: number| undefined
+
+interface ArtistHeaderProps {
+  songCount?: number;
 }
 
-export const ArtistHeader = ({songCount}: Props) => {
+export const ArtistHeader = ({ songCount = 0 }: ArtistHeaderProps) => {
   return (
-    <div className="relative mb-8">
-      <div className="flex items-end gap-6 p-8 bg-linear-to-b from-surface to-background rounded-lg">
-        
-        <div className="flex-1">
-          <p className="text-sm font-medium text-muted-foreground mb-2">Songs</p>
-          <h1 className="text-5xl font-bold mb-4 text-foreground">Your Songs</h1>
-          
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <span className="font-medium">{songCount} songs</span>
-            {/* <span>•</span> */}
-            {/* <span>1.2M monthly listeners</span> */}
-          </div>
+    <div className="mb-10 p-2">
+      {/* Top row */}
+      <div className="flex items-center justify-between">
+        {/* Left */}
+        <div>
+          <h1 className="text-3xl font-bold text-white">
+            Your Songs
+          </h1>
+          <p className="text-sm text-[#a7a7a7] mt-1">
+            Manage and view your uploaded tracks
+          </p>
+        </div>
+
+        {/* Right stats */}
+        <div className="flex items-center gap-2 text-sm text-[#a7a7a7]">
+          <Music size={20} className="text-[#1DB954]"/>
+          <span className="font-medium text-white">
+            {songCount}
+          </span>
+          <span>Songs</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-6 px-8">
-        {/* <Button 
-          size="lg" 
-          className="rounded-full h-14 px-8 bg-primary hover:bg-primary/90 hover:scale-105 transition-all"
-        >
-          <Play className="h-5 w-5 mr-2 fill-current" />
-          Play
-        </Button> */}
-        
-        <Link to={'/artist/uploadTrack'}>
-        <button
-          style={{
-            borderRadius: "9999px",
-            height: "56px",
-            padding: "0 2rem",
-            backgroundColor: "transparent",
-            border: "1px solid #b3b3b3",
-            color: "#ffffff",
-            fontWeight: "600",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            transition: "all 0.3s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#1DB954";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#b3b3b3";
-          }}
-        >
-          <Plus size={20} />
-          New Song
-        </button>
+      {/* Actions */}
+      <div className="flex items-center gap-4 mt-6">
+        <Link to="/artist/uploadTrack">
+          <button
+            className="flex items-center gap-2 h-12 px-6 rounded-full
+              border border-[#a7a7a7] text-white font-medium
+              hover:border-[#1DB954] hover:text-[#1DB954]
+              transition-colors"
+          >
+            <Plus size={18} />
+            New Song
+          </button>
         </Link>
       </div>
     </div>

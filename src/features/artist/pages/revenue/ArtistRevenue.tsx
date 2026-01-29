@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft, Settings, Download } from "lucide-react";
+import { Settings, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import album1 from "/src/assets/bg.png";
 import album2 from "/src/assets/bg.png";
@@ -64,19 +63,10 @@ export default function ArtistRevenue() {
   };
 
   return (
-    <div className="min-h-screen bg-[#121212] p-6">
+    <div className="min-h-screen p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
-          <Link to="/artist/dashboard">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-[#a7a7a7] hover:text-white hover:bg-[#282828]"
-            >
-              <ArrowLeft size={20} />
-            </Button>
-          </Link>
           <div>
             <h1 className="text-white text-3xl font-bold">Revenue</h1>
             <p className="text-[#a7a7a7]">Track your earnings and payouts</p>

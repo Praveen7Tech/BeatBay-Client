@@ -16,7 +16,7 @@ export default function UploadTrack() {
   } = useSongUpload( isEdit);
 
   return (
-    <main className="min-h-screen bg-linear-to-b from-gray-900 to-black p-8">
+    <main className="min-h-screen p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-12">
           {isEdit ? "Edit Track" : "Upload New Track"}
