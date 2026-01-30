@@ -285,6 +285,7 @@ export interface SubscriptionResponse{
     id:string
     planName: string
     amount: number
+    currency: string
     nextBillingDate: Date
     autoReniewEnable: boolean
     cardInfo: string

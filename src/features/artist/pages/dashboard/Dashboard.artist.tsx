@@ -5,7 +5,7 @@ import { ArtistTopContent } from "../../components/dashboard/artistTopContents";
 
 export default function ArtistDashboard() {
   return (
-    <div className="min-h-screen p-6">
+    <div className="p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">

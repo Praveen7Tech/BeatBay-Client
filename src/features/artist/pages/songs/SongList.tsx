@@ -26,7 +26,7 @@ const SongList = () => {
 
 
  return (
-    <div className="min-h-screen">
+    <div className="">
       <div className="p-4 ">
         <ArtistHeader songCount={songs?.length}/>
 
