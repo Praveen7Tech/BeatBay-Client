@@ -36,7 +36,7 @@ export function EditPassword() {
     }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white p-6">
+    <div className=" text-white p-6">
       <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
         <h2 className="text-3xl font-bold">Change Password</h2>
         <button className="text-zinc-400 hover:text-white transition">

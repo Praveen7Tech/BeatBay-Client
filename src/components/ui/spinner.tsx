@@ -25,7 +25,7 @@ export function SpinnerCustom() {
 
 export function SpinnerArtist(){
    return (
-          <div className="min-h-screen bg-linear-to-b from-gray-900 to-black text-white p-8">
+          <div className="text-white p-8">
             <div className="flex items-center justify-center h-96">
               <div className="animate-spin">
                 <div className="w-12 h-12 border-4 border-gray-700 border-t-green-500 rounded-full"></div>

@@ -7,7 +7,15 @@ interface Props {
   plan: SubscriptionResponse;
 }
 
-const CurrentPlanCard = ({ plan }: Props) => (
+
+const CurrentPlanCard = ({ plan }: Props) => {
+
+   const formattedPrice = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: plan.currency.toUpperCase(),
+  }).format(plan.amount);
+
+ return(
   <Card className="bg-card border-border">
     <CardHeader>
       <CardTitle className="text-lg text-foreground">Current Plan</CardTitle>
@@ -16,7 +24,7 @@ const CurrentPlanCard = ({ plan }: Props) => (
       <div className="flex items-center justify-between p-4 rounded-lg bg-primary/10 border border-primary/20">
         <div>
           <p className="font-semibold text-foreground">{plan?.planName}</p>
-          <p className="text-2xl font-bold text-primary">${plan?.amount}</p>
+          <p className="text-2xl font-bold text-primary">{formattedPrice}</p>
         </div>
         <span className="px-3 py-1 text-xs font-medium rounded-full bg-primary/20 text-primary">
           {plan?.status}
@@ -40,6 +48,7 @@ const CurrentPlanCard = ({ plan }: Props) => (
       </div>
     </CardContent>
   </Card>
-);
+ )
+};
 
 export default CurrentPlanCard;

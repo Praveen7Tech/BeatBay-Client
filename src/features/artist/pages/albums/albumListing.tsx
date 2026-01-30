@@ -31,7 +31,7 @@ export default function Albums() {
   const hasAlbums = albums.length > 0;
 
   return (
-    <div className="min-h-screen text-white">
+    <div className=" text-white">
       <div className="max-w-[1400px] mx-auto">
         <AlbumHeader totalAlbums={totalAlbum} totalSongs={totalSongs} />
 
