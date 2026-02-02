@@ -60,6 +60,8 @@ export const API_ROUTE_ARTIST = {
   DELETE_SONG: '/artist/delete-song',
   DELETE_ALBUM: '/artist/delete-album',
 
+  GET_SONGUPLOAD_URLS: '/artist/song/upload-urls',
+
   GET_FANS: '/artist/get-allfans',
   DASHBOARD: '/artist/dashboard',
 
