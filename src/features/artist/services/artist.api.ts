@@ -1,6 +1,7 @@
 import { API_ROUTE_ARTIST } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
 import { SongResponse } from "@/features/user/services/response.type";
+import axios from "axios";
 
 interface Data{
   currentPassword: string;
@@ -75,6 +76,29 @@ export interface OnboardLinkResponse{
   link: string
 }
 
+export interface FileType {
+  type: "cover" | "audio" | "lrc";
+  mime: string;
+}
+
+export interface UploadUrlItem {
+  uploadUrl: string;
+  key: string;
+}
+
+export interface UploadSongPayload {
+  title: string;
+  description?: string;
+  genre: string;
+  tags: string;
+  coverKey: string;
+  audioKey: string;
+  lyricsKey: string;
+}
+
+
+export type UploadUrlResponse = Record<FileType["type"], UploadUrlItem>;
+
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
@@ -82,9 +106,26 @@ export const artistApi ={
         return response.data
     },
 
-    uploadSong: async(data: FormData): Promise<UploadResponse>=>{
+    uploadSong: async(data: UploadSongPayload): Promise<UploadResponse>=>{
        const response = await axiosInstance.post(API_ROUTE_ARTIST.UPLOAD_SONG, data)
        return response.data
+    },
+
+    getSongUploadUrls: async(files: { type: string; mime: string }[]): Promise<UploadUrlResponse>=>{
+      console.log("reach api call")
+      const response = await axiosInstance.post(API_ROUTE_ARTIST.GET_SONGUPLOAD_URLS, {
+        files
+      })
+
+      return response.data
+    },
+
+    uploadToS3: async(url: string, data: File)=>{
+      return await axios.put(url,data,{
+        headers:{
+          "Content-Type": data.type
+        }
+      })
     },
 
     fetchSongs: async(): Promise<FetchSong[]> =>{
@@ -102,7 +143,7 @@ export const artistApi ={
       return response.data
     },
 
-    updateSong: async (songId: string, data: FormData): Promise<any> => {
+    updateSong: async (songId: string, data: UploadSongPayload): Promise<any> => {
         const response = await axiosInstance.put(`${API_ROUTE_ARTIST.EDIT_SONG}/${songId}`, data);
         return response.data;
     },

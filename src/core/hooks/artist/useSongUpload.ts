@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "./queryClientSetup";
 import { artistApi } from "@/features/artist/services/artist.api";
 import { SongResponse } from "@/features/user/services/response.type";
@@ -14,6 +14,25 @@ const extractFilenameFromUrl = (url: string | undefined | null): string | null =
   const parts = url.split('/');
   return parts[parts.length - 1];
 };
+export const getAudioDuration = (file: File): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    const audio = document.createElement("audio");
+    const url = URL.createObjectURL(file);
+
+    audio.preload = "metadata";
+    audio.src = url;
+
+    audio.onloadedmetadata = () => {
+      URL.revokeObjectURL(url);
+      resolve(audio.duration); // duration in seconds
+    };
+
+    audio.onerror = () => {
+      reject("Failed to load audio metadata");
+    };
+  });
+};
+
 
 export const useSongUpload = (isEdit: boolean) => {
   const navigate = useNavigate();
@@ -29,6 +48,7 @@ export const useSongUpload = (isEdit: boolean) => {
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [trackFileName, setTrackFileName] = useState<string | null>(null);
   const [lrcFileName, setLrcFileName] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false)
 
 
   // setup the dynamic image selection based on edit and upload
@@ -104,41 +124,72 @@ export const useSongUpload = (isEdit: boolean) => {
     }
   }, [coverImageField]);
 
- // Song Mutation function when editing the song
-  const SongMutation = useMutation({
-    mutationFn: (formData: FormData) => {
-      if (isEdit && songId) {
-        return artistApi.updateSong(songId, formData);
-      } else {
-        return artistApi.uploadSong(formData);
+ 
+  const Onsubmit: SubmitHandler<SongUploadData> = async(data)=>{
+    try {
+      console.log("reach")
+      const filesForUrl: { type: "cover" | "audio" | "lrc"; mime: string }[] = [];
+   
+      setIsLoading(true)
+
+      if (data.coverImage instanceof File) {
+        filesForUrl.push({ type: "cover", mime: data.coverImage.type });
       }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["songs"] });
-      navigate("/artist/songs");
-    },
-    onError: (error) => {
-      console.error("song mutation error", error);
-    },
-  });
+      if (data.trackFile instanceof File) {
+        filesForUrl.push({ type: "audio", mime: data.trackFile.type });
+      }
+      if (data.lrcFile instanceof File) {
+        filesForUrl.push({ type: "lrc", mime: data.lrcFile.type });
+      }
 
-  // submit edit/ upload function
-  const Onsubmit: SubmitHandler<SongUploadData> = async (data) => {
-    const formData = new FormData();
+      const urls = await artistApi.getSongUploadUrls(filesForUrl)
 
-    if (isEdit) formData.append("songId", songId!);
+      if (data.coverImage instanceof File) {
+        await artistApi.uploadToS3(urls.cover.uploadUrl, data.coverImage);
+      }
 
-    formData.append("title", data.title);
-    formData.append("description", data.description || "");
-    formData.append("genre", data.genre);
-    formData.append("tags", data.tags);
+      if (data.trackFile instanceof File) {
+        await artistApi.uploadToS3(urls.audio.uploadUrl, data.trackFile);
+      }
 
-    if (data.coverImage instanceof File) formData.append("coverImage", data.coverImage);
-    if (data.trackFile instanceof File) formData.append("trackFile", data.trackFile);
-    if (data.lrcFile instanceof File) formData.append("lrcFile", data.lrcFile);
+      if (data.lrcFile instanceof File) {
+        await artistApi.uploadToS3(urls.lrc.uploadUrl, data.lrcFile);
+      }
 
-    SongMutation.mutate(formData);
-  };
+      let duration;
+      if (data.trackFile instanceof File) {
+         duration = await getAudioDuration(data.trackFile);
+        console.log("Audio duration:", duration);
+      }
+
+
+      const payload = {
+        title: data.title,
+        description: data.description,
+        genre: data.genre,
+        tags: data.tags,
+        duration,
+        
+        coverKey: urls.cover?.key,
+        audioKey: urls.audio?.key,
+        lyricsKey: urls.lrc?.key,
+      };
+
+      if(isEdit && songId){
+        await artistApi.updateSong(songId,payload)
+      }else{
+        await artistApi.uploadSong(payload)
+      }
+
+      queryClient.invalidateQueries({queryKey: ["songs"]})
+      setIsLoading(false)
+      navigate('/artist/songs')
+      
+    } catch (error) {
+      setIsLoading(false)
+      console.log("Failed to song upload",error)
+    }
+  }
 
   return {
     register,
@@ -153,7 +204,7 @@ export const useSongUpload = (isEdit: boolean) => {
     handleFileChange,
     Onsubmit,
     setInitialFormData,
-    isLoading: SongMutation.isPending,
+    isLoading,
     CoverImageURL,
     dataLoading,
   };
