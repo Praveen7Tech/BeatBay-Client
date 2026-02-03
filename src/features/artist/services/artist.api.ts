@@ -76,33 +76,45 @@ export interface OnboardLinkResponse{
   link: string
 }
 
-export interface FileType {
-  type: "cover" | "audio" | "lrc";
-  mime: string;
+export interface FileForUploadUrl {
+  field: "cover" | "audio" | "lrc";   
+  fileName: string;                   
+  mimeType: string;                   
 }
+
+
+export interface GetSongUploadUrlsRequest {
+  files: FileForUploadUrl[];
+  uploadId?: string;
+}
+
+
+export type UploadField = "cover" | "audio" | "lrc";
 
 export interface UploadUrlItem {
   uploadUrl: string;
   key: string;
 }
 
+export interface UploadUrlResponse {
+  uploadId: string;
+  links: Partial<Record<UploadField, UploadUrlItem>>;
+}
+
+
 export interface UploadSongPayload {
   title: string;
   description?: string;
   genre: string;
   tags: string;
-  coverKey: string;
-  audioKey: string;
-  lyricsKey: string;
+  coverKey?: string;
+  audioKey?: string;
+  lyricsKey?: string;
 }
-
-
-export type UploadUrlResponse = Record<FileType["type"], UploadUrlItem>;
 
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
-        console.log("pass ", response.data)
         return response.data
     },
 
@@ -111,12 +123,10 @@ export const artistApi ={
        return response.data
     },
 
-    getSongUploadUrls: async(files: { type: string; mime: string }[]): Promise<UploadUrlResponse>=>{
-      console.log("reach api call")
+    getSongUploadUrls: async(files: FileForUploadUrl[], uploadId?:string): Promise<UploadUrlResponse>=>{
       const response = await axiosInstance.post(API_ROUTE_ARTIST.GET_SONGUPLOAD_URLS, {
-        files
+        files,uploadId
       })
-
       return response.data
     },
 
@@ -150,7 +160,6 @@ export const artistApi ={
 
     getSongById: async(songId: string): Promise<SongResponse>=>{
       const response = await axiosInstance.get(`${API_ROUTE_ARTIST.GET_SONG_BY_ID}/${songId}`)
-      console.log("song data ", response.data)
       return response.data
     },
 

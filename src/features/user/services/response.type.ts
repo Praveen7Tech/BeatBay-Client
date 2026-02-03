@@ -88,6 +88,7 @@ export interface ArtistInfo {
 
 export interface SongResponse {
     _id: string;
+    uploadId: string
     description: string
     title: string;
     genre: string

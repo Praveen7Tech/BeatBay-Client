@@ -5,15 +5,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "./queryClientSetup";
-import { artistApi } from "@/features/artist/services/artist.api";
+import { artistApi, FileForUploadUrl } from "@/features/artist/services/artist.api";
 import { SongResponse } from "@/features/user/services/response.type";
 
-const extractFilenameFromUrl = (url: string | undefined | null): string | null => {
-  if (!url) return null;
-  // This extracts the path segment after the last slash
-  const parts = url.split('/');
-  return parts[parts.length - 1];
-};
+// const extractFilenameFromUrl = (url: string | undefined | null): string | null => {
+//   if (!url) return null;
+//   // This extracts the path segment after the last slash
+//   const parts = url.split('/');
+//   return parts[parts.length - 1];
+// };
 export const getAudioDuration = (file: File): Promise<number> => {
   return new Promise((resolve, reject) => {
     const audio = document.createElement("audio");
@@ -103,8 +103,8 @@ export const useSongUpload = (isEdit: boolean) => {
     setValue("lrcFile", song.lyricsUrl ?? "existing");
 
     setCoverPreview(song.coverImageUrl);
-    setTrackFileName(extractFilenameFromUrl(song.audioUrl));
-    setLrcFileName(extractFilenameFromUrl(song.lyricsUrl));
+    setTrackFileName(song.audioUrl);
+    setLrcFileName(song.lyricsUrl);
   };
 
  // update the initial song details when edit song
@@ -125,71 +125,74 @@ export const useSongUpload = (isEdit: boolean) => {
   }, [coverImageField]);
 
  
-  const Onsubmit: SubmitHandler<SongUploadData> = async(data)=>{
-    try {
-      console.log("reach")
-      const filesForUrl: { type: "cover" | "audio" | "lrc"; mime: string }[] = [];
-   
-      setIsLoading(true)
+  const Onsubmit: SubmitHandler<SongUploadData> = async (data) => {
+      try {
+        setIsLoading(true);
+       const filesForUrl: FileForUploadUrl[] = [];
 
-      if (data.coverImage instanceof File) {
-        filesForUrl.push({ type: "cover", mime: data.coverImage.type });
+        if (data.coverImage instanceof File)
+          filesForUrl.push({
+            field: "cover", fileName: data.coverImage.name, mimeType: data.coverImage.type, });
+
+        if (data.trackFile instanceof File)
+          filesForUrl.push({
+            field: "audio",  fileName: data.trackFile.name,  mimeType: data.trackFile.type, });
+
+        if (data.lrcFile instanceof File)
+          filesForUrl.push({
+            field: "lrc", fileName: data.lrcFile.name, mimeType: data.lrcFile.type,  });
+
+
+        // Get URLs only for the new files
+       const response = filesForUrl.length > 0 
+          ? await artistApi.getSongUploadUrls(filesForUrl, isEdit ? initialSongData?.uploadId : undefined) 
+          : null;
+
+        const urls = response?.links;
+        const finalSongId = response?.uploadId || initialSongData?.uploadId
+
+        //  upload only the new files
+        if (data.coverImage instanceof File && urls?.cover) {
+          await artistApi.uploadToS3(urls.cover.uploadUrl, data.coverImage);
+        }
+        if (data.trackFile instanceof File && urls?.audio) {
+          await artistApi.uploadToS3(urls.audio.uploadUrl, data.trackFile);
+        }
+        if (data.lrcFile instanceof File && urls?.lrc) {
+          await artistApi.uploadToS3(urls.lrc.uploadUrl, data.lrcFile);
+        }
+
+        // construct Payload: Use NEW key if uploaded, else keep OLD key from initial data
+        const payload = {
+          uploadId:finalSongId,
+          title: data.title,
+          description: data.description,
+          genre: data.genre,
+          tags: data.tags,
+          //  duration is calculated for new file, use it; otherwise, backend keeps old
+          duration: data.trackFile instanceof File ? await getAudioDuration(data.trackFile) : initialSongData?.duration,
+
+          // key selection based on u[date/edit]
+          coverKey: urls?.cover?.key,
+          audioKey: urls?.audio?.key,
+          lyricsKey: urls?.lrc?.key ,
+        };
+
+        if (isEdit && songId) {
+          await artistApi.updateSong(songId, payload);
+        } else {
+          await artistApi.uploadSong(payload);
+        }
+
+        queryClient.invalidateQueries({ queryKey: ["songs"] });
+        navigate('/artist/songs');
+      } catch (error) {
+        console.error("Failed to song upload", error);
+      } finally {
+        setIsLoading(false);
       }
-      if (data.trackFile instanceof File) {
-        filesForUrl.push({ type: "audio", mime: data.trackFile.type });
-      }
-      if (data.lrcFile instanceof File) {
-        filesForUrl.push({ type: "lrc", mime: data.lrcFile.type });
-      }
+  };
 
-      const urls = await artistApi.getSongUploadUrls(filesForUrl)
-
-      if (data.coverImage instanceof File) {
-        await artistApi.uploadToS3(urls.cover.uploadUrl, data.coverImage);
-      }
-
-      if (data.trackFile instanceof File) {
-        await artistApi.uploadToS3(urls.audio.uploadUrl, data.trackFile);
-      }
-
-      if (data.lrcFile instanceof File) {
-        await artistApi.uploadToS3(urls.lrc.uploadUrl, data.lrcFile);
-      }
-
-      let duration;
-      if (data.trackFile instanceof File) {
-         duration = await getAudioDuration(data.trackFile);
-        console.log("Audio duration:", duration);
-      }
-
-
-      const payload = {
-        title: data.title,
-        description: data.description,
-        genre: data.genre,
-        tags: data.tags,
-        duration,
-        
-        coverKey: urls.cover?.key,
-        audioKey: urls.audio?.key,
-        lyricsKey: urls.lrc?.key,
-      };
-
-      if(isEdit && songId){
-        await artistApi.updateSong(songId,payload)
-      }else{
-        await artistApi.uploadSong(payload)
-      }
-
-      queryClient.invalidateQueries({queryKey: ["songs"]})
-      setIsLoading(false)
-      navigate('/artist/songs')
-      
-    } catch (error) {
-      setIsLoading(false)
-      console.log("Failed to song upload",error)
-    }
-  }
 
   return {
     register,
