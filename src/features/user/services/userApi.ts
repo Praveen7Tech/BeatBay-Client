@@ -178,5 +178,10 @@ export const userApi ={
     subscriptionHistory: async(): Promise<PaymentHistory[]>=>{
       const response = await axiosInstance.get(API_ROUTES_USER.SUBSCRIPTION_HISTORY)
       return response.data
+    },
+
+    trackPlay: async(songId:string): Promise<void>=>{
+      const response = await axiosInstance.post(API_ROUTES_USER.TRACK_PLAY, {songId})
+      return response.data
     }
 }

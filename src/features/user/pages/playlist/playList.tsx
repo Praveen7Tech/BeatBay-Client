@@ -4,12 +4,12 @@ import { PlaylistHeader } from "../../components/playlist/playList.header";
 import { PlaylistSearchSection } from "../../components/playlist/searchSection";
 import { usePlaylistDetails, useSearchSongs } from "@/core/hooks/playList/usePlayList";
 import { SongTable } from "@/core/components/song/SongTable";
-import { useAudioContext } from "@/core/context/useAudioContext";
+
+import { usePlayer } from "@/core/context/AudioProvider"; 
 import { useSongActions } from "@/core/hooks/song/useSongActions";
 import { SpinnerCustom } from "@/components/ui/spinner";
 
 export default function PlaylistDetail() {
-
   const { playlistId } = useParams<{ playlistId: string }>();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,18 +21,13 @@ export default function PlaylistDetail() {
       </div>
     );
 
-  const { setPlaylistAndPlay, isPlaying, playPause, currentSong } = useAudioContext();
+  const { startPlayback, isPlaying, playPause, currentSong } = usePlayer();
 
-  // Playlist query
-  const { data: playlist, isLoading, isError,error } = usePlaylistDetails(playlistId);
-
-  // Search query
+  const { data: playlist, isLoading, isError, error } = usePlaylistDetails(playlistId);
   const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
+  const { handleAddToPlaylist, handleRemoveFromPlaylist } = useSongActions("playlist", { playlistId });
 
-  // Song actions (playlist context)
-  const { handleAddToPlaylist, handleRemoveFromPlaylist } = useSongActions("playlist", {playlistId,});
-
-  if (isLoading) return <SpinnerCustom/>
+  if (isLoading) return <SpinnerCustom />;
 
   if (isError || !playlist)
     return (
@@ -42,11 +37,17 @@ export default function PlaylistDetail() {
     );
 
   const songs = playlist.songs;
-  const isCurrentSongPlaying = currentSong?.id === songs[0]?.id;
+
+  // Is the current player session playing THIS playlist?
+  const isThisPlaylistActive = currentSong && songs.some(s => s.id === currentSong.id);
+  const isPlayingActual = isThisPlaylistActive && isPlaying;
 
   const handlePlayPause = () => {
-    if (isCurrentSongPlaying) playPause();
-    else setPlaylistAndPlay([...songs], 0);
+    if (isThisPlaylistActive) {
+      playPause();
+    } else if (songs.length > 0) {
+      startPlayback([...songs], 0);
+    }
   };
 
   const handleSearch = (query: string) => setSearchQuery(query);
@@ -58,7 +59,7 @@ export default function PlaylistDetail() {
           playListData={playlist}
           onAddSongClick={() => setIsSearchOpen(true)}
           handlePlayPause={handlePlayPause}
-          isPlaying={isPlaying}
+          isPlaying={isPlayingActual!}
           totalTracks={songs.length}
           totalDuration={playlist.totalDuration}
         />

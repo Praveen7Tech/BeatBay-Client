@@ -100,5 +100,7 @@ export const API_ROUTES_USER ={
   SUBSCRIPTION: '/user/subscription',
   AUTO_SUBSCRIPTION_TOGGLE: '/user/auto-subscription-toggle',
   CANCELL_SUBSCRIPTION: '/user/subscription/cancel',
-  SUBSCRIPTION_HISTORY: '/user/subscription/history'
+  SUBSCRIPTION_HISTORY: '/user/subscription/history',
+
+  TRACK_PLAY: '/user/song/track-play'
 }

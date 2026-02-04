@@ -33,15 +33,6 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
         isRepeatingRef.current = isRepeating
     }, [isRepeating])
 
-    // initail song updation and action s managing
-    // useEffect(() => {
-    //     // When the host switches the song (audioUrl changes), broadcast immediately
-    //     if (isHost && audioUrl && room.roomId && currentSong) {
-    //         broadcastSync(true, 0); // Start at 0 seconds, isPlaying: true
-    //     }
-    // }, [audioUrl, isHost, room.roomId]); 
-
-    // initial audio element creation when component mount
     useEffect(()=>{
         
         audioRef.current = new Audio()
@@ -153,24 +144,6 @@ export const useAudioPlayer = ({ currentSongId, initialTime = 0, audioUrl, onEnd
 
         return () => { socket.off("receive_player_sync"); };
     }, [socket, isHost]);
-
-    // broadcast event when host action change
-    // const broadcastSync = (playing: boolean, time: number) => {
-    //     if (isHost && room.roomId && currentSong) {
-    //         console.log("here we gooooooo-",room.roomId)
-    //         const syncPayload: any = {
-    //             id: currentSong._id,
-    //             title: currentSong.title,
-    //             image: currentSong.coverImageUrl,
-    //             audioUrl: currentSong.audioUrl,
-    //             artist: currentSong.artistId.name,
-    //             isPlaying: playing,
-    //             timestamp: time,
-    //             updatedAt: Date.now()
-    //         };
-    //         socket.emit("player_sync", { roomId: room.roomId, songData: syncPayload });
-    //     }
-    // };
 
 
     // manage play and pause action

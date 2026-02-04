@@ -7,12 +7,14 @@ import { AudioPlayerProvider } from "@/core/context/useAudioContext"
 import { Sidebar } from "../../components/left sidebar/sidebar"
 import { useSocket } from "@/core/hooks/socket/useSocket"
 import { RoomPlayerProvider } from "@/core/context/RoomContext"
+import { AudioPlayerProviderNew } from "@/core/context/AudioProvider"
 
 export default function UserLayout() {
   useSocket()
   return (
     <AudioPlayerProvider>
       <RoomPlayerProvider>
+        <AudioPlayerProviderNew>
       <div className="h-screen bg-[#0f0f0f] text-white overflow-hidden flex flex-col">
         <Navbar />
         <div className="flex flex-1 overflow-hidden pt-24 pb-20">
@@ -22,8 +24,9 @@ export default function UserLayout() {
           </div>
           <RightPanel />
         </div>
-          <MusicPlayer defaultValue={[33]} max={100} step={1}/>      
+          <MusicPlayer />      
       </div>
+       </AudioPlayerProviderNew>
       </RoomPlayerProvider>
     </AudioPlayerProvider>
   )

@@ -2,19 +2,24 @@ import { useParams } from "react-router-dom";
 import { AlbumDetailHeader } from "../../components/albums/albumDetailsHeader";
 import { SongTable } from "@/core/components/song/SongTable";
 import { SpinnerCustom } from "@/components/ui/spinner";
-import { useAudioContext } from "@/core/context/useAudioContext";
+//import { useAudioContext } from "@/core/context/useAudioContext";
 import { useSongActions } from "@/core/hooks/song/useSongActions";
 import { useAlbumDetails } from "@/core/hooks/api/useFetchHooks";
+import { usePlayer } from "@/core/context/AudioProvider";
 
 export default function AlbumDetail() {
 
   const { albumId } = useParams<{ albumId: string }>();
 
   const { data: album, isLoading, isError, error } = useAlbumDetails(albumId!)
-
   const { handleLike, handleAddToPlaylist } = useSongActions("album", {albumId});
 
-  const { setPlaylistAndPlay, currentSong, isPlaying, playPause, playList } = useAudioContext();
+  const { 
+    startPlayback, 
+    currentSong, 
+    isPlaying, 
+    playPause 
+  } = usePlayer();
 
   if (isLoading) {
     return (
@@ -32,14 +37,14 @@ export default function AlbumDetail() {
     );
   }
 
-  const isCurrentAlbumPlaying =  isPlaying &&  playList.length === album.songs.length &&
-    playList.every((s, i) => s.id === album.songs[i].id);
+  const isThisAlbumActive = currentSong && album.songs.some(s => s.id === currentSong.id);
+  const isPlayingActual = isThisAlbumActive && isPlaying;
 
   const handlePlayPause = () => {
-    if (isCurrentAlbumPlaying) {
+    if (isThisAlbumActive) {
       playPause();
     } else {
-      setPlaylistAndPlay(album.songs, 0);
+      startPlayback(album.songs, 0);
     }
   };
 
@@ -51,7 +56,7 @@ export default function AlbumDetail() {
           artist={album.artistName}
           coverImageUrl={album.coverImageUrl}
           totalTracks={album.songs.length}
-          isPlaying={isCurrentAlbumPlaying}
+          isPlaying={isPlayingActual!}
           onPlayAlbum={handlePlayPause}
           releaseYear={album.releaseYear}
         />
