@@ -65,7 +65,8 @@ export const API_ROUTE_ARTIST = {
   GET_FANS: '/artist/get-allfans',
   DASHBOARD: '/artist/dashboard',
 
-  ONBOARDING: '/artist/payouts/onboard'
+  ONBOARDING: '/artist/payouts/onboard',
+  GET_REVENUE: '/artist/get-revenue'
 }
 
 export const API_ROUTES_USER ={

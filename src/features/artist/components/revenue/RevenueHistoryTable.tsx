@@ -9,22 +9,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { PayOuts } from "../../services/artist.api";
 
-export interface PayoutHistory {
-  id: string;
-  date: string;
-  amount: number;
-  status: "completed" | "pending" | "failed";
-  method: string;
-  reference: string;
-}
 
 interface RevenueHistoryTableProps {
-  payouts: PayoutHistory[];
+  payouts: PayOuts[];
 }
 
 export const RevenueHistoryTable = ({ payouts }: RevenueHistoryTableProps) => {
-  const getStatusBadge = (status: PayoutHistory["status"]) => {
+  const getStatusBadge = (status: PayOuts["status"]) => {
     switch (status) {
       case "completed":
         return (
@@ -49,8 +42,9 @@ export const RevenueHistoryTable = ({ payouts }: RevenueHistoryTableProps) => {
         );
     }
   };
+  console.log("payoutes", payouts)
 
-  if (payouts.length === 0) {
+  if (payouts?.length === 0) {
     return (
       <div className="bg-[#181818] rounded-lg p-6">
         <h3 className="text-white text-lg font-semibold mb-1">Payout History</h3>
@@ -85,7 +79,7 @@ export const RevenueHistoryTable = ({ payouts }: RevenueHistoryTableProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {payouts.map((payout) => (
+          {payouts?.map((payout) => (
             <TableRow
               key={payout.id}
               className="border-[#282828] hover:bg-[#282828] transition-colors"

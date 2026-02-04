@@ -4,14 +4,14 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Disc, ChevronLeft, ChevronRight } from "lucide-react"
-import { ArtistAlbum } from "../../services/adminApi"
+import { Album } from "../../services/adminApi"
 import { Pagination } from "../common/Pagination"
-import { format, parseISO } from "date-fns"
+import { format } from "date-fns"
 import { Link } from "react-router-dom"
 
 
 interface ArtistAlbumsGridProps {
-  albums: ArtistAlbum[] | []
+  albums: Album[]
   itemsPerPage : number
   isLoading?: boolean
 }
@@ -54,9 +54,9 @@ export function ArtistAlbumsGrid({ albums, itemsPerPage , isLoading = false }: A
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {displayedAlbums.map((album) => (
-            <Link to={`/admin/album/${album._id}`}>
+            <Link to={`/admin/album/${album.id}`}>
             <div
-              key={album._id}
+              key={album.id}
               className="group p-4 rounded-lg bg-spotify-black border border-spotify-tertiary hover:bg-spotify-black/80 transition-colors cursor-pointer"
             >
               {/* Album Cover */}
@@ -79,13 +79,13 @@ export function ArtistAlbumsGrid({ albums, itemsPerPage , isLoading = false }: A
               {/* Album Info */}
               <div>
                 <h4 className="text-sm font-medium text-spotify-text mb-2 line-clamp-2">{album.title}</h4>
-                <p className="text-xs text-spotify-secondary mb-3">{format(parseISO(album.createdAt!), "MMM dd, yyyy")}</p>
+                <p className="text-xs text-spotify-secondary mb-3">{format(album.createdAt, "MMM dd, yyyy")}</p>
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-2 mb-3">
                   <div className="p-2 rounded bg-spotify-tertiary/10">
                     <p className="text-xs text-spotify-tertiary">Songs</p>
-                    <p className="text-sm font-bold text-spotify-green">{album.songs.length}</p>
+                    <p className="text-sm font-bold text-spotify-green">{album.songsCount || 0}</p>
                   </div>
                   {/* <div className="p-2 rounded bg-spotify-tertiary/10">
                     <p className="text-xs text-spotify-tertiary">Plays</p>

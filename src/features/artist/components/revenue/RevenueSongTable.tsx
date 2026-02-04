@@ -7,18 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import album1 from "/src/assets/bg.png";
+import { SongRevenue } from "../../services/artist.api";
 
-export interface SongRevenue {
-  id: string;
-  title: string;
-  albumCover: string;
-  streams: number;
-  revenue: number;
-  change: number;
-}
 
 interface RevenueSongTableProps {
-  songs: SongRevenue[];
+  songs: SongRevenue[]
 }
 
 export const RevenueSongTable = ({ songs }: RevenueSongTableProps) => {
@@ -38,9 +32,9 @@ export const RevenueSongTable = ({ songs }: RevenueSongTableProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {songs.map((song, index) => (
+          {songs?.map((song, index) => (
             <TableRow
-              key={song.id}
+              key={index}
               className="border-[#282828] hover:bg-[#282828] transition-colors"
             >
               <TableCell className="text-[#a7a7a7] font-medium">
@@ -50,34 +44,34 @@ export const RevenueSongTable = ({ songs }: RevenueSongTableProps) => {
                 <div className="flex items-center gap-3">
                   <div className="relative group">
                     <img
-                      src={song.albumCover}
-                      alt={song.title}
+                      src={album1}
+                      alt={song.songTitle}
                       className="w-10 h-10 rounded object-cover"
                     />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded">
                       <Play size={16} className="text-white" fill="white" />
                     </div>
                   </div>
-                  <span className="text-white font-medium">{song.title}</span>
+                  <span className="text-white font-medium">{song.songTitle}</span>
                 </div>
               </TableCell>
               <TableCell className="text-[#a7a7a7] text-right">
-                {song.streams.toLocaleString()}
+                {song.playCount.toLocaleString()}
               </TableCell>
               <TableCell className="text-white text-right font-medium">
-                ${song.revenue.toLocaleString()}
+                ${song.estimatedRevenue.toLocaleString()}
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-1">
-                  {song.change >= 0 ? (
+                  {9 >= 0 ? (
                     <>
                       <TrendingUp size={14} className="text-[#1DB954]" />
-                      <span className="text-[#1DB954]">+{song.change}%</span>
+                      <span className="text-[#1DB954]">+{0}%</span>
                     </>
                   ) : (
                     <>
                       <TrendingDown size={14} className="text-red-500" />
-                      <span className="text-red-500">{song.change}%</span>
+                      <span className="text-red-500">{0}%</span>
                     </>
                   )}
                 </div>

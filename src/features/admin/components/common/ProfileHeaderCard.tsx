@@ -6,10 +6,11 @@ interface ProfileHeaderProps {
   bio?: string;
   profileImage?: string | null;
   status?: boolean;
+  email?: string
   isArtist?: boolean; 
 }
 
-export default function ProfileHeaderCard({ name, bio, profileImage, status, isArtist = false }: ProfileHeaderProps) {
+export default function ProfileHeaderCard({ name, bio,email, profileImage, status, isArtist = false }: ProfileHeaderProps) {
   const fallbackInitial = name?.charAt(0)?.toUpperCase();
 
   return (
@@ -43,6 +44,7 @@ export default function ProfileHeaderCard({ name, bio, profileImage, status, isA
           </div>
 
           {bio && <p className="text-spotify-secondary mb-4">{bio}</p>}
+          <p className="text-spotify-secondary mb-4">{email}</p>
 
           <Badge
             variant={status ? "default" : "destructive"}

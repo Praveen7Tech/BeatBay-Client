@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { ArtistProfileResponse } from "../../services/adminApi";
 
 interface ArtistData {
   songs?: any[];
@@ -7,12 +8,13 @@ interface ArtistData {
 
 interface UserData {
   followingCount?: number;
+  followersCount: number
   playLists?: any[];
 }
 
 interface StatisticsCardProps {
   type: "artist" | "user";
-  data: ArtistData | UserData;
+  data: ArtistProfileResponse | UserData;
 }
 
 export default function StatisticsCard({ type, data }: StatisticsCardProps) {
@@ -44,7 +46,7 @@ export default function StatisticsCard({ type, data }: StatisticsCardProps) {
       <CardContent>
         <div className={`grid ${gridCols} gap-4`}>
           {stats.map((item, idx) => (
-            <StatItem key={idx} label={item.label} value={item.value} />
+            <StatItem key={idx} label={item.label} value={Number(item.value)} />
           ))}
         </div>
       </CardContent>

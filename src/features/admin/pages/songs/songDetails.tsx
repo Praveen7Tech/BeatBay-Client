@@ -157,7 +157,7 @@ const AdminSongDetail = () => {
               </span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />{" "}
-                {format(parseISO(song.updatedAt), "MMM dd, yyyy")}
+                {format(parseISO(song.releaseDate), "MMM dd, yyyy")}
               </span>
               <span className="flex items-center gap-1.5">
                 <Globe className="w-4 h-4" /> {song.genre}
@@ -184,7 +184,7 @@ const AdminSongDetail = () => {
                     { label: "Artist", value: song.artistName },
                     {
                       label: "Release Date",
-                      value: format(parseISO(song.updatedAt),"MMM dd, yyyy"),
+                      value: format(parseISO(song.releaseDate),"MMM dd, yyyy"),
                     },
                   ].map((item) => (
                     <div
