@@ -12,14 +12,15 @@ import BlockStatusCard from "../../components/common/BlockUnblockCard"
 
 export function ArtistDetails() {
   const {artistId} = useParams()
-  const {artist, isLoading, HanleTooglrBlock, fetchLoading, isError}= 
-  useArtistManagement(artistId!)
+  const {artist, isLoading, HanleTooglrBlock, fetchLoading, isError}= useArtistManagement(artistId!)
 
   if(fetchLoading) return <div>Loading..</div>
   if(isError) return <div>Loading..</div>
   const handleToggleBlock =() => {
     HanleTooglrBlock()
   }
+  const songs = artist?.songs
+  const albums = artist?.albums
 
   return (
     <div className="space-y-6">
@@ -46,12 +47,13 @@ export function ArtistDetails() {
               profileImage={artist?.profilePicture}
               status={artist?.status}
               isArtist={true}
+              email={artist?.email}
           />
 
           {/* Account Information card*/}
           <AccountInfoCard
             email={artist?.email}
-            createdAt={artist?.createdAt}
+            joinDate={artist?.joinDate}
             showId={false}
           />
           {/* Statistics */}
@@ -60,7 +62,7 @@ export function ArtistDetails() {
           {/* <TopSongsCard/> */}
           
           {/* album listing card */}
-          <ArtistAlbumsGrid albums={artist?.albums || []} itemsPerPage={3} />
+          <ArtistAlbumsGrid albums={albums!} itemsPerPage={3} />
         </div>
 
         {/* Right Column - Actions */}
@@ -73,7 +75,7 @@ export function ArtistDetails() {
             onToggle={handleToggleBlock}
           />
            {/* Song listing card */}
-          <ArtistSongsList songs={artist?.songs || []} itemsPerPage={5} />
+          <ArtistSongsList songs={songs!} itemsPerPage={5} />
           {/* <FansList  itemsPerPage={5} /> */}
          
         </div>

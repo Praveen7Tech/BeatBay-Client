@@ -4,11 +4,13 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Music, ChevronLeft, ChevronRight } from "lucide-react"
-import { ArtistSong } from "../../services/adminApi"
+import {  Song } from "../../services/adminApi"
 import { Pagination } from "../common/Pagination"
+import { formatTime } from "@/core/utils/formatTime"
+import { Link } from "react-router-dom"
 
 interface ArtistSongsListProps {
-  songs: ArtistSong[] | []
+  songs: Song[] 
   itemsPerPage : number
   isLoading?: boolean
 }
@@ -51,8 +53,9 @@ export function ArtistSongsList({ songs, itemsPerPage , isLoading = false }: Art
       <CardContent>
         <div className="space-y-3">
           {displayedSongs.map((song) => (
+            <Link to={`/admin/songs/${song.id}`}>
             <div
-              key={song._id}
+              key={song.id}
               className="flex items-center justify-between p-4 rounded-lg bg-spotify-black border border-spotify-tertiary hover:bg-spotify-black/80 transition-colors"
             >
               <div className="flex items-center gap-4 flex-1">
@@ -64,21 +67,22 @@ export function ArtistSongsList({ songs, itemsPerPage , isLoading = false }: Art
 
                 <div>
                   <h4 className="text-sm font-medium text-spotify-text mb-1">{song.title}</h4>
-                  <p className="text-xs text-spotify-secondary">{song.duration}</p>
+                  <p className="text-xs text-spotify-secondary">{formatTime(song.duration)}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="text-sm font-medium text-spotify-text">{ 0}</p>
+                  <p className="text-sm font-medium text-spotify-text">{0}</p>
                   <p className="text-xs text-spotify-secondary">Plays</p>
                 </div>
 
                 <Badge className="bg-spotify-green text-spotify-black">
-                  Active
+                  {song.status}
                 </Badge>
               </div>
             </div>
+            </Link>
           ))}
 
         </div>

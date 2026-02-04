@@ -51,20 +51,35 @@ export interface UserDataResponse {
   updatedAt: string;            
 }
 
-export interface ArtistDataResponse {
-  _id: string;
-  name: string;
-  email: string;
-  googleId?: string | null;
-  role: "artist";
-  bio: string;
-  profilePicture: string;
-  status: boolean;
-  createdAt: string;
-  updatedAt: string;
-  songs: ArtistSong[];
-  albums: ArtistAlbum[];
+export interface Song{
+    id: string;
+    title: string
+    coverImageUrl: string;
+    status: boolean;
+    duration: number
 }
+export interface Album{
+    id: string;
+    title: string;
+    coverImageUrl: string; 
+    status: boolean
+    createdAt: Date
+    songsCount: number
+}
+
+export interface ArtistProfileResponse {
+  name: string;
+  bio: string ;
+  profilePicture: string
+  status: boolean;
+  email: string;
+  joinDate: Date;
+  followersCount: string
+
+  songs: Song[]
+  albums: Album[]
+}
+
 
 /* ---------------- SONG ---------------- */
 export interface ArtistSong {
@@ -178,7 +193,7 @@ export const adminApi = {
       return response.data
     },
 
-    getArtistById: async(artistId: string): Promise<ArtistDataResponse>=>{
+    getArtistById: async(artistId: string): Promise<ArtistProfileResponse>=>{
         const response = await axiosInstance.get(`${API_ROUTE_ADMIN.GET_ARTIST_BYID}/${artistId}`)
         return response.data
     },

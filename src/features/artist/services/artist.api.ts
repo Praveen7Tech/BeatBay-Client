@@ -112,6 +112,43 @@ export interface UploadSongPayload {
   lyricsKey?: string;
 }
 
+export interface SongRevenue {
+    songId: string;
+    songTitle: string; 
+    playCount: number;
+    estimatedRevenue: number;
+}
+
+export interface chartData{
+    month: string;
+    revenue: number;
+}
+
+export interface Summary{
+    totalRevenue: number;
+    revenueThisMonth: number;
+    pendingPayout: number;
+    nextPayoutDate: string;
+    currency: string
+}
+
+export interface PayOuts{
+     id: string;
+    date: string;
+    amount: number;
+    status: "completed" | "pending" | "failed";
+    method: string;
+    reference: string;
+}
+
+export interface ArtistRevenueDashboard {
+    summary: Summary
+    chartData: chartData[]
+    songStats: SongRevenue[]
+    payOutsHistory: PayOuts[]
+    stripeLoginLink: string
+}
+
 export const artistApi ={
     changePassword: async(data: Data): Promise<EditPassResponse >=> {
         const response = await axiosInstance.put(API_ROUTE_ARTIST.CHANGE_PASSWORD, data)
@@ -198,6 +235,11 @@ export const artistApi ={
     getOnBoardingLink: async(): Promise<OnboardLinkResponse>=>{
       const response = await axiosInstance.post(API_ROUTE_ARTIST.ONBOARDING)
       console.log("linku ", response.data)
+      return response.data
+    },
+
+    getRevenue : async(): Promise<ArtistRevenueDashboard>=>{
+      const response = await axiosInstance.get(API_ROUTE_ARTIST.GET_REVENUE)
       return response.data
     }
 }

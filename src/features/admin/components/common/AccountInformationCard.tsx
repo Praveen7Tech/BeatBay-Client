@@ -1,6 +1,6 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 interface InfoField {
   label?: string;
@@ -9,20 +9,20 @@ interface InfoField {
 
 interface AccountInfoProps {
   email?: string;
-  createdAt?: string;
+  joinDate?: Date;
   id?: string;
   showId?: boolean;
 }
 
 export default function AccountInfoCard({
   email,
-  createdAt,
+  joinDate,
   id,
   showId = false,
 }: AccountInfoProps) {
   const fields: InfoField[] = [
     { label: "Email Address", value: email },
-    { label: "Join Date", value: format(parseISO(createdAt!), "MMM dd, yyyy") },
+    { label: "Join Date", value: format(joinDate!, "MMM dd, yyyy") },
   ];
 
   if (showId && id) {

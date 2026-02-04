@@ -1,16 +1,10 @@
 import { DollarSign, TrendingUp, Wallet, Calendar } from "lucide-react";
 import { RevenueStatsCard } from "./RevenueStatusCard";
-
-interface RevenueStats {
-  totalRevenue: number;
-  thisMonth: number;
-  pendingPayout: number;
-  nextPayoutDate: string;
-  monthlyChange: number;
-}
+import { format } from "date-fns";
+import { Summary } from "../../services/artist.api";
 
 interface RevenueOverviewProps {
-  stats: RevenueStats;
+  stats: Summary;
 }
 
 export const RevenueOverview = ({ stats }: RevenueOverviewProps) => {
@@ -26,9 +20,7 @@ export const RevenueOverview = ({ stats }: RevenueOverviewProps) => {
       />
       <RevenueStatsCard
         title="This Month"
-        value={`$${stats.thisMonth.toLocaleString()}`}
-        change={`${stats.monthlyChange >= 0 ? "+" : ""}${stats.monthlyChange}%`}
-        changeType={stats.monthlyChange >= 0 ? "positive" : "negative"}
+        value={`$${stats.revenueThisMonth.toLocaleString()}`}
         icon={TrendingUp}
         subtitle="vs last month"
       />
@@ -42,7 +34,7 @@ export const RevenueOverview = ({ stats }: RevenueOverviewProps) => {
       />
       <RevenueStatsCard
         title="Next Payout"
-        value={stats.nextPayoutDate}
+        value={format(stats.nextPayoutDate, "MMM dd, yyyy")}
         icon={Calendar}
         subtitle="Estimated date"
       />

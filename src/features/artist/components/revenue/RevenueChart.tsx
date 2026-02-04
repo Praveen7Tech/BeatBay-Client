@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { chartData } from "../../services/artist.api";
 
 export interface RevenueDataPoint {
   month: string;
@@ -17,12 +18,14 @@ export interface RevenueDataPoint {
 }
 
 interface RevenueChartProps {
-  data: RevenueDataPoint[];
+  data: chartData[];
+  currency: string
 }
 
 type TimeRange = "6m" | "1y" | "all";
 
-export const RevenueChart = ({ data }: RevenueChartProps) => {
+
+export const RevenueChart = ({ data,currency }: RevenueChartProps) => {
   const [timeRange, setTimeRange] = useState<TimeRange>("6m");
 
   const getFilteredData = () => {
@@ -35,6 +38,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       default:
         return data;
     }
+  };
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: currency.toUpperCase(),
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(value);
   };
 
   return (
@@ -57,7 +69,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               onClick={() => setTimeRange(range)}
               className={`px-3 py-1 text-xs ${
                 timeRange === range
-                  ? "bg-[#1DB954] text-black hover:bg-[#1ed760]"
+                  ? "bg-[#1DB954] text-black hover:bg-spotify-green"
                   : "text-[#a7a7a7] hover:text-white hover:bg-[#3e3e3e]"
               }`}
             >
@@ -81,7 +93,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             <YAxis
               stroke="#a7a7a7"
               fontSize={12}
-              tickFormatter={(value) => `$${value}`}
+              tickFormatter={(value) => formatCurrency(value)}
             />
             <Tooltip
               contentStyle={{

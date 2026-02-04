@@ -8,7 +8,7 @@ import { DetailHeader } from "../../components/common/DeatailsHeader";
 export default function ArtistSongDetail() {
 
   return (
-    <div className="min-h-screen bg-background text-foreground mx-auto p-8">
+    <div className="min-h-screen text-foreground mx-auto p-8">
         {/* Header */}
         <DetailHeader/>
 
