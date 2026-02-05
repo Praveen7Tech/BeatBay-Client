@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { useSongDetails } from "@/core/hooks/artist/useSongDetails";
 import { useDeleteSong } from "@/core/hooks/artist/useDeleteSong";
 import { formatTime } from "@/core/utils/formatTime";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 
 export function DetailHeader() {
@@ -43,9 +43,9 @@ export function DetailHeader() {
             <p className="text-sm text-muted-foreground mb-2">Song Performance</p>
             <h1 className="text-4xl font-bold mb-2">{song?.title}</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Released {format(parseISO(song?.createdAt), "MMM dd, yyyy")}</span>
+              <span>Released {format(song.createdAt, "MMM dd, yyyy")}</span>
               <span>•</span>
-              <span>Duration {formatTime(song?.duration)}</span>
+              <span>Duration {formatTime(song.duration)}</span>
             </div>
           </div>
           {/* Delete button */}

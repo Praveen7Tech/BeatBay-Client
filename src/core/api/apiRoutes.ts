@@ -69,7 +69,9 @@ export const API_ROUTE_ARTIST = {
   GROWTH_ANALYTICS: '/artist/growth-analytics',
 
   ONBOARDING: '/artist/payouts/onboard',
-  GET_REVENUE: '/artist/get-revenue'
+  GET_REVENUE: '/artist/get-revenue',
+  SONG_PERFORMANCE: '/artist/song-performance',
+  SONG_REVENUE: '/artist/song-revenue'
 }
 
 export const API_ROUTES_USER ={

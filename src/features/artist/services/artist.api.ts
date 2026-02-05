@@ -1,6 +1,5 @@
 import { API_ROUTE_ARTIST } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { SongResponse } from "@/features/user/services/response.type";
 import axios from "axios";
 
 interface Data{
@@ -49,6 +48,7 @@ export interface EditAlbumDetailsResponse{
   title: string;
   description: string;
   coverImageUrl: string;
+  totalPlays: string;
   songs: InitialAlbumSongs[];
 }
 
@@ -132,6 +132,7 @@ export interface UploadSongPayload {
 export interface SongRevenue {
     songId: string;
     songTitle: string; 
+    coverImageUrl: string
     playCount: number;
     estimatedRevenue: number;
 }
@@ -173,6 +174,27 @@ export interface ArtistGrowthChartData {
   revenue: number;
   songs: number;
   albums: number
+}
+
+export interface ArtistSongDetails{
+    id:string;
+    uploadId: string
+    title:string
+    description:string
+    tags: string[];
+    genre:string
+    coverImageUrl:string;
+    audioUrl:string;
+    lyricsUrl:string;
+    createdAt:Date
+    duration: number
+    totalPlays: string;
+    likes: string
+}
+
+export interface SongPerformance {
+  label: string;     
+  streams: number;
 }
 
 export const artistApi ={
@@ -221,7 +243,7 @@ export const artistApi ={
         return response.data;
     },
 
-    getSongById: async(songId: string): Promise<SongResponse>=>{
+    getSongById: async(songId: string): Promise<ArtistSongDetails>=>{
       const response = await axiosInstance.get(`${API_ROUTE_ARTIST.GET_SONG_BY_ID}/${songId}`)
       return response.data
     },
@@ -272,6 +294,21 @@ export const artistApi ={
     growthAnalytics: async(days:number): Promise<ArtistGrowthChartData[]>=>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.GROWTH_ANALYTICS,{
         params:{ days}
+      })
+      return response.data
+    },
+
+    getSongPerformance: async(songId: string, days: number): Promise<SongPerformance[]>=> {
+      const response = await axiosInstance.get(`${API_ROUTE_ARTIST.SONG_PERFORMANCE}/${songId}`,{
+        params: {filter: days}
+      });
+
+      return response.data
+    },
+
+    getSongRevenue: async(songId:string, year: number)=>{
+      const response = await axiosInstance.get(`${API_ROUTE_ARTIST.SONG_REVENUE}/${songId}`,{
+        params: {year}
       })
       return response.data
     }
