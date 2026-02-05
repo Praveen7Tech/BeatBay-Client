@@ -1,5 +1,4 @@
-import { Download, CheckCircle, Clock, XCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle, Clock, XCircle } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -10,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { PayOuts } from "../../services/artist.api";
+import { format, parseISO } from "date-fns";
 
 
 interface RevenueHistoryTableProps {
@@ -42,7 +42,6 @@ export const RevenueHistoryTable = ({ payouts }: RevenueHistoryTableProps) => {
         );
     }
   };
-  console.log("payoutes", payouts)
 
   if (payouts?.length === 0) {
     return (
@@ -75,7 +74,6 @@ export const RevenueHistoryTable = ({ payouts }: RevenueHistoryTableProps) => {
             <TableHead className="text-[#a7a7a7]">Method</TableHead>
             <TableHead className="text-[#a7a7a7]">Status</TableHead>
             <TableHead className="text-[#a7a7a7] text-right">Amount</TableHead>
-            <TableHead className="text-[#a7a7a7] text-right">Invoice</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -84,7 +82,7 @@ export const RevenueHistoryTable = ({ payouts }: RevenueHistoryTableProps) => {
               key={payout.id}
               className="border-[#282828] hover:bg-[#282828] transition-colors"
             >
-              <TableCell className="text-white">{payout.date}</TableCell>
+              <TableCell className="text-white">{format(parseISO(payout.date),"MMM dd, yyyy")}</TableCell>
               <TableCell className="text-[#a7a7a7] font-mono text-sm">
                 {payout.reference}
               </TableCell>
@@ -94,14 +92,6 @@ export const RevenueHistoryTable = ({ payouts }: RevenueHistoryTableProps) => {
                 ${payout.amount.toLocaleString()}
               </TableCell>
               <TableCell className="text-right">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-[#a7a7a7] hover:text-white hover:bg-[#282828]"
-                  disabled={payout.status !== "completed"}
-                >
-                  <Download size={16} />
-                </Button>
               </TableCell>
             </TableRow>
           ))}

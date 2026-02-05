@@ -1,15 +1,7 @@
-import { Play, TrendingUp, TrendingDown } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import album1 from "/src/assets/bg.png";
-import { SongRevenue } from "../../services/artist.api";
 
+import {Table,TableBody,TableCell,TableHead, TableHeader,TableRow,} from "@/components/ui/table";
+import { SongRevenue } from "../../services/artist.api";
+import { Link } from "react-router-dom";
 
 interface RevenueSongTableProps {
   songs: SongRevenue[]
@@ -28,7 +20,6 @@ export const RevenueSongTable = ({ songs }: RevenueSongTableProps) => {
             <TableHead className="text-[#a7a7a7]">Song</TableHead>
             <TableHead className="text-[#a7a7a7] text-right">Streams</TableHead>
             <TableHead className="text-[#a7a7a7] text-right">Revenue</TableHead>
-            <TableHead className="text-[#a7a7a7] text-right">Change</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -41,40 +32,24 @@ export const RevenueSongTable = ({ songs }: RevenueSongTableProps) => {
                 {index + 1}
               </TableCell>
               <TableCell>
+                <Link to={`/artist/song-details/${song.songId}`}>
                 <div className="flex items-center gap-3">
                   <div className="relative group">
                     <img
-                      src={album1}
+                      src={song.coverImageUrl}
                       alt={song.songTitle}
                       className="w-10 h-10 rounded object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded">
-                      <Play size={16} className="text-white" fill="white" />
-                    </div>
                   </div>
                   <span className="text-white font-medium">{song.songTitle}</span>
                 </div>
+                </Link>
               </TableCell>
               <TableCell className="text-[#a7a7a7] text-right">
                 {song.playCount.toLocaleString()}
               </TableCell>
-              <TableCell className="text-white text-right font-medium">
-                ${song.estimatedRevenue.toLocaleString()}
-              </TableCell>
-              <TableCell className="text-right">
-                <div className="flex items-center justify-end gap-1">
-                  {9 >= 0 ? (
-                    <>
-                      <TrendingUp size={14} className="text-[#1DB954]" />
-                      <span className="text-[#1DB954]">+{0}%</span>
-                    </>
-                  ) : (
-                    <>
-                      <TrendingDown size={14} className="text-red-500" />
-                      <span className="text-red-500">{0}%</span>
-                    </>
-                  )}
-                </div>
+              <TableCell className="text-[#1DB954] text-right font-medium">
+                {song.estimatedRevenue.toLocaleString()}
               </TableCell>
             </TableRow>
           ))}

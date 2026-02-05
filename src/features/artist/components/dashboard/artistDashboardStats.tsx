@@ -1,5 +1,4 @@
 import { TrendingUp, TrendingDown } from "lucide-react";
-import { SpinnerArtist } from "@/components/ui/spinner";
 
 interface StatCardProps {
   title: string;
