@@ -3,6 +3,7 @@ import { store } from '../store/store';
 import { logout, setAccessToken } from '../../features/auth/slices/authSlice';
 import { AuthState } from '../../features/auth/slices/authSlice'; 
 import { API_ROUTES } from './apiRoutes';
+import { StatusCodeEnum } from '../enum/statuscode.enym';
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -42,14 +43,14 @@ axiosInstance.interceptors.response.use(
     const statusCode = error.response?.status;
     // hanle blocked users when using the page
     const StatusCode = error.response?.status
-    if(StatusCode === 403){
+    if(StatusCode === StatusCodeEnum.FORBIDDEN){
       console.log("403")
-      window.location.href ='/unauthorized'
+      window.location.href = API_ROUTES.UNAUTHARIZED
       return Promise.reject(error)
     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url?.includes('/auth-status')) {
+    if (error.response?.status === StatusCodeEnum.UNAUTHORIZED && !originalRequest._retry) {
+      if (originalRequest.url?.includes(API_ROUTES.AUTH_CHECK)) {
         // If the refresh token itself failed, log out
         store.dispatch(logout());
         return Promise.reject(error);

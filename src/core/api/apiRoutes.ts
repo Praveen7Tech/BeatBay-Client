@@ -7,7 +7,9 @@ export const API_ROUTES = {
   VERIFY_EMAIL: '/user/verify-email',
   RESET_PASSWORD: '/user/reset-password',
   GOOGLE_SIGNUP: '/user/google-signup',
-  AUTH_STATUS: '/user/auth-status'
+  AUTH_STATUS: '/user/auth-status',
+  AUTH_CHECK: '/auth-status',
+  UNAUTHARIZED : '/unauthorized'
 };
 
 export const API_ROUTE_ADMIN = {
@@ -64,6 +66,7 @@ export const API_ROUTE_ARTIST = {
 
   GET_FANS: '/artist/get-allfans',
   DASHBOARD: '/artist/dashboard',
+  GROWTH_ANALYTICS: '/artist/growth-analytics',
 
   ONBOARDING: '/artist/payouts/onboard',
   GET_REVENUE: '/artist/get-revenue'

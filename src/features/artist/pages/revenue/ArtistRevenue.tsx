@@ -5,39 +5,15 @@ import { RevenueSongTable } from "../../components/revenue/RevenueSongTable";
 import { RevenueHistoryTable } from "../../components/revenue/RevenueHistoryTable";
 import { RevenueEmptyState } from "../../components/revenue/RevenueEmptyState";
 import { RevenueOverview } from "../../components/revenue/RevenueOverwiew";
-import { useSelector } from "react-redux";
-import { RootState } from "@/core/store/store";
-import { useArtistOnBoarding } from "@/core/hooks/artist/revenue/useArtistOnboarding";
-import { useQuery } from "@tanstack/react-query";
-import { artistApi } from "../../services/artist.api";
 import { SpinnerArtist } from "@/components/ui/spinner";
+import { useArtistRevenue } from "@/core/hooks/artist/revenue/useArtistRevenue";
 
 export default function ArtistRevenue() {
 
-  const artist = useSelector((state:RootState)=> state.auth.user)
-  const isPayoutEnabled = artist?.payOutEnabled;
+  const {isLoadingChart, isPayoutEnabled,loginLink,chartData,currency,handleActivateMonetization,overView,payOuts,songData} = useArtistRevenue()
 
-  const { data: revenue, isLoading} = useQuery({
-    queryKey:["revenue", artist?.id!],
-    queryFn: artistApi.getRevenue,
-    enabled: !!artist?.id
-  })
-
-  const {onBoarding} = useArtistOnBoarding()
-
-  const handleActivateMonetization = () => {  
-    onBoarding()
-  };
-
-
-  if(isLoading) return <SpinnerArtist/>
-  const overView = revenue?.summary
-  const currency = revenue?.summary.currency;
-  const chartData = revenue?.chartData
-  const songData = revenue?.songStats
-  const payOuts = revenue?.payOutsHistory
-  const loginLink = revenue?.stripeLoginLink
-console.log("ppp", payOuts)
+  if(isLoadingChart) return <SpinnerArtist/>
+  
   return (
     <div className="p-6">
       {/* Header */}

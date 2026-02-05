@@ -1,18 +1,17 @@
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { SpinnerArtist } from "@/components/ui/spinner";
-import { useArtistDashboard } from "@/core/hooks/artist/dashboard/useDashboard";
 
 interface StatCardProps {
   title: string;
   value: number | string;
   icon: React.ReactNode;
 }
+interface ArtistDashboardStatsProps {
+  stats: StatCardProps[];
+}
 
-export const ArtistDashboardStats = () => {
+export const ArtistDashboardStats = ({ stats }: ArtistDashboardStatsProps) => {
 
-  const {stats, isLoading} = useArtistDashboard()
-
-  if(isLoading) return <SpinnerArtist/>
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
