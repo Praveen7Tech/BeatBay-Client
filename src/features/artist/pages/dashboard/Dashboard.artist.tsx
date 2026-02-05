@@ -1,9 +1,20 @@
+import { useArtistDashboard } from "@/core/hooks/artist/dashboard/useDashboard";
 import { ArtistDashboardStats } from "../../components/dashboard/artistDashboardStats";
-import { ArtistRevenueChart } from "../../components/dashboard/artistRevenueChart";
 import { ArtistGrowthChart } from "../../components/dashboard/artistGrowthChart";
 import { ArtistTopContent } from "../../components/dashboard/artistTopContents";
+import { RevenueChart } from "../../components/revenue/RevenueChart";
+import { useArtistRevenue } from "@/core/hooks/artist/revenue/useArtistRevenue";
+import { SpinnerArtist } from "@/components/ui/spinner";
+import { useState } from "react";
 
 export default function ArtistDashboard() {
+
+  const [days, setDays] = useState<number>(7);
+  const {stats, isLoading, topSongs, topAlbums, growthAnalytics} = useArtistDashboard(days)
+  //const {chartData, currency, isLoadingChart} = useArtistRevenue()
+
+   if(isLoading ) return <SpinnerArtist/>
+
   return (
     <div className="p-6">
       {/* Header */}
@@ -18,17 +29,17 @@ export default function ArtistDashboard() {
 
       {/* Stats Overview */}
       <div className="mb-8">
-        <ArtistDashboardStats />
+        <ArtistDashboardStats stats={stats}/>
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <ArtistRevenueChart />
-        <ArtistGrowthChart />
+      <div className=" mb-8">
+        {/* <RevenueChart data={chartData!} currency={currency!}/> */}
+        <ArtistGrowthChart data={growthAnalytics} days={days} setDays={setDays}/>
       </div>
 
       {/* Top Content */}
-      <ArtistTopContent />
+      <ArtistTopContent songs={topSongs!} albums={topAlbums!}/>
     </div>
   );
 }

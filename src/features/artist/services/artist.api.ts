@@ -64,11 +64,28 @@ export interface FansResponse{
     totalCount: number
     totalPages: number
 }
+export interface TopPlayedSong {
+    songId: string;
+    title: string;
+    playCount: number;
+    coverImageUrl: string;
+}
+
+export interface TopPlayedAlbums{
+    albumId: string
+    title: string
+    playCount: number
+    coverImageUrl:string
+    songs: number
+}
 
 export interface ArtistDashboardResponse{
     totalSongs: number
     totalAlbums:number
     totalFans: number
+    totalRevenue: number
+    topPlayedSongs:TopPlayedSong[];
+    topPlayedAlbums:TopPlayedAlbums[]
 }
 
 export interface OnboardLinkResponse{
@@ -147,6 +164,15 @@ export interface ArtistRevenueDashboard {
     songStats: SongRevenue[]
     payOutsHistory: PayOuts[]
     stripeLoginLink: string
+}
+
+export interface ArtistGrowthChartData {
+  label: string;
+  fans: number;
+  streams: number;
+  revenue: number;
+  songs: number;
+  albums: number
 }
 
 export const artistApi ={
@@ -240,6 +266,13 @@ export const artistApi ={
 
     getRevenue : async(): Promise<ArtistRevenueDashboard>=>{
       const response = await axiosInstance.get(API_ROUTE_ARTIST.GET_REVENUE)
+      return response.data
+    },
+
+    growthAnalytics: async(days:number): Promise<ArtistGrowthChartData[]>=>{
+      const response = await axiosInstance.get(API_ROUTE_ARTIST.GROWTH_ANALYTICS,{
+        params:{ days}
+      })
       return response.data
     }
 }

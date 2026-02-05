@@ -37,7 +37,7 @@ export const RevenueEmptyState = ({ onActivate }: RevenueEmptyStateProps) => {
         <ul className="space-y-3">
           {benefits.map((benefit, index) => (
             <li key={index} className="flex items-center gap-3 text-left">
-              <CheckCircle size={18} className="text-[#1DB954] flex-shrink-0" />
+              <CheckCircle size={18} className="text-[#1DB954] shrink-0" />
               <span className="text-[#a7a7a7]">{benefit}</span>
             </li>
           ))}
@@ -46,7 +46,7 @@ export const RevenueEmptyState = ({ onActivate }: RevenueEmptyStateProps) => {
 
       <Button
         onClick={onActivate}
-        className="bg-[#1DB954] hover:bg-[#1ed760] text-black font-semibold px-8 py-6 text-lg"
+        className="bg-[#1DB954] hover:bg-spotify-green text-black font-semibold px-8 py-6 text-lg"
       >
         Activate Monetization
         <ArrowRight size={20} className="ml-2" />

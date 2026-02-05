@@ -7,8 +7,6 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { chartData } from "../../services/artist.api";
 
 export interface RevenueDataPoint {
@@ -19,26 +17,10 @@ export interface RevenueDataPoint {
 
 interface RevenueChartProps {
   data: chartData[];
-  currency: string
+  currency: string;
 }
 
-type TimeRange = "6m" | "1y" | "all";
-
-
-export const RevenueChart = ({ data,currency }: RevenueChartProps) => {
-  const [timeRange, setTimeRange] = useState<TimeRange>("6m");
-
-  const getFilteredData = () => {
-    switch (timeRange) {
-      case "6m":
-        return data.slice(-6);
-      case "1y":
-        return data.slice(-12);
-      case "all":
-      default:
-        return data;
-    }
-  };
+export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-IN", {
@@ -60,28 +42,11 @@ export const RevenueChart = ({ data,currency }: RevenueChartProps) => {
             Monthly earnings overview
           </p>
         </div>
-        <div className="flex gap-1 bg-[#282828] rounded-lg p-1">
-          {(["6m", "1y", "all"] as TimeRange[]).map((range) => (
-            <Button
-              key={range}
-              variant="ghost"
-              size="sm"
-              onClick={() => setTimeRange(range)}
-              className={`px-3 py-1 text-xs ${
-                timeRange === range
-                  ? "bg-[#1DB954] text-black hover:bg-spotify-green"
-                  : "text-[#a7a7a7] hover:text-white hover:bg-[#3e3e3e]"
-              }`}
-            >
-              {range === "6m" ? "6 Months" : range === "1y" ? "1 Year" : "All Time"}
-            </Button>
-          ))}
-        </div>
       </div>
 
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={getFilteredData()}>
+          <AreaChart data={data}>
             <defs>
               <linearGradient id="revenueGradientNew" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#1DB954" stopOpacity={0.3} />
