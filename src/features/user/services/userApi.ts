@@ -183,5 +183,10 @@ export const userApi ={
     trackPlay: async(songId:string): Promise<void>=>{
       const response = await axiosInstance.post(API_ROUTES_USER.TRACK_PLAY, {songId})
       return response.data
+    },
+
+    getPrices: async(priceIds:string[])=>{
+      const response = await axiosInstance.post(API_ROUTES_USER.GET_PRICES,{priceIds})
+      return response.data.prices
     }
 }

@@ -107,5 +107,6 @@ export const API_ROUTES_USER ={
   CANCELL_SUBSCRIPTION: '/user/subscription/cancel',
   SUBSCRIPTION_HISTORY: '/user/subscription/history',
 
-  TRACK_PLAY: '/user/song/track-play'
+  TRACK_PLAY: '/user/song/track-play',
+  GET_PRICES: '/user/get-prices'
 }
