@@ -1,6 +1,6 @@
 "use client"
 
-import { User } from "lucide-react"
+import { Crown, User } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "@/features/auth/slices/authSlice"
 import { useApi } from "@/core/hooks/api/useApi"
@@ -9,6 +9,7 @@ import type { RootState } from "@/core/store/store"
 import { Button } from "@/core/components/button/Button"
 import { clearPlayBackState } from "@/core/service/playerStorageService"
 import { Link } from "react-router-dom"
+import { SpinnerCustom } from "@/components/ui/spinner"
 interface profileHeaderProps {
   onEditClick: () => void
   onEditPasswordClick?: () => void
@@ -30,7 +31,7 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
     }
   }
 
-  if (!user) return <div>Loading user data...</div>
+  if (!user) return <SpinnerCustom/>;
 
   return (
     <div className="relative min-h-80 bg-linear-to-b from-[#1a4d2e] to-[#0f0f0f] mt-0">
@@ -74,8 +75,8 @@ export function ProfileHeader({ onEditClick, onEditPasswordClick }: profileHeade
           {/* Logout Button */}
           <div className="flex gap-3 pb-2">
             <Link to={'/subscription'}>
-            <Button theme="user" variant="dashboard">
-              Premium
+            <Button theme="user" variant="dashboard" >
+              <Crown className="w-4 h-4 text-yellow-400" /> Premium Plans
             </Button>
             </Link>
           </div>

@@ -1,12 +1,13 @@
 "use client"
 import { SearchBar } from "@/core/components/search/SearchBar"
 import { RootState } from "@/core/store/store"
-import { Bell, ChevronDown} from "lucide-react"
+import { Bell, ChevronDown, Crown} from "lucide-react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
 export default function Navbar() {
   const user = useSelector((state: RootState)=> state.auth.user)
+  const isPremium = user?.isPremium
   return (
     <nav className="fixed top-0 left-0 right-0 h-24 bg-background shadow-lg m-2 border border-b border-gray-800 z-50">
       <div className="flex items-center justify-between h-full px-6 gap-4">
@@ -65,7 +66,12 @@ export default function Navbar() {
             
             <div className="hidden sm:flex flex-col items-start">
               <span className="text-white font-semibold text-lg">{user?.name}</span>
-              <span className="text-gray-400 text-xs">Premium</span>
+                {isPremium && (
+                  <div className="flex items-center gap-1 text-yellow-400 text-xs">
+                    <Crown className="w-4 h-4" />
+                    <span>Premium</span>
+                  </div>
+                )}
             </div>
             
 

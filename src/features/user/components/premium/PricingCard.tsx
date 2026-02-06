@@ -1,11 +1,15 @@
 import { Check } from "lucide-react";
 import { userApi } from "../../services/userApi";
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/core/store/store";
+import { useToaster } from "@/core/hooks/toast/useToast";
 
 interface PricingCardProps {
   name: string;
   priceId: string
   price: number;
+  currency: string
   period: string;
   savings?: string;
   features: string[];
@@ -13,9 +17,20 @@ interface PricingCardProps {
   setIsProcessing:React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PricingCard = ({ name, price, priceId, period, savings, features, popular,setIsProcessing }: PricingCardProps) => {
+const PricingCard = ({ name, price, priceId, period, savings, features, popular, currency,setIsProcessing }: PricingCardProps) => {
+ const isPremuim = useSelector((state:RootState)=> state.auth.user?.isPremium)
+ const {toast} = useToaster()
+  const formattedPrice = new Intl.NumberFormat(undefined, {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0, 
+  }).format(price);
 
   const handleSubscribe = async (priceId:string) => {
+    if(isPremuim){
+      toast.error("You already have a Premium Plan")
+      return;
+    }
     setIsProcessing(true)
     try {
         const res =await userApi.subscriptionCheckout(priceId)
@@ -47,7 +62,7 @@ const PricingCard = ({ name, price, priceId, period, savings, features, popular,
       <p className="mt-1 text-sm text-muted-foreground">{period}</p>
       
       <div className="mt-4">
-        <span className="text-4xl font-bold text-foreground">${price}</span>
+        <span className="text-4xl font-bold text-foreground">{formattedPrice}</span>
         {savings && (
           <span className="ml-2 text-sm text-primary font-medium">{savings}</span>
         )}

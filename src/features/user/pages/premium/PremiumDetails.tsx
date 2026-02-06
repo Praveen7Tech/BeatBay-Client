@@ -12,6 +12,7 @@ import PremiumFeaturesCard from "../../components/premium/PremiumFeaturesCard";
 import PaymentHistoryCard from "../../components/premium/PaymentHistoryCard";
 import CancelSubscriptionDialog from "../../components/premium/CancelSubscriptionDialog";
 import PremiumHeader from "../../components/premium/PremiumHeader";
+import { getPlansForUser } from "../../helpers/subscription.data";
 
 const PremiumDetails = () => {
 
@@ -30,8 +31,11 @@ const PremiumDetails = () => {
      cancelSubscription(plan?.subscriptionId!)
      setShowCancelDialog(false);
   };
+  console.log("plan", plan)
  
   const hasPaymentHistory = (paymentHistory ?? []).length > 0;
+  const plans = getPlansForUser()
+  const monthlyPlan = plans.find(p => p.name === plan?.planName);
 
   // Fallback UI for non-premium users
   if (!hasPremium) {
@@ -51,7 +55,7 @@ const PremiumDetails = () => {
              setShowCancelDialog={setShowCancelDialog} 
              toggleAutoRenew={toggleAutoRenew}
           />
-          <PremiumFeaturesCard/>
+          <PremiumFeaturesCard features={monthlyPlan?.features}/>
           <PaymentHistoryCard 
              hasPaymentHistory={hasPaymentHistory} 
              paymentHistory={paymentHistory!}

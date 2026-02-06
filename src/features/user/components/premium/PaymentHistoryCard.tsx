@@ -53,9 +53,9 @@ const PaymentHistoryCard = ({ paymentHistory,hasPaymentHistory }: Props) => (
             ))}
           </div>
 
-          <Button variant="ghost" className="w-full mt-4 text-muted-foreground">
+          {/* <Button variant="ghost" className="w-full mt-4 text-muted-foreground">
             View All Transactions
-          </Button>
+          </Button> */}
         </>
       ) : (
         <div className="flex flex-col items-center justify-center py-8 text-center">

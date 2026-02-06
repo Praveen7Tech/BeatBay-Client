@@ -16,7 +16,7 @@ const PremiumFeaturesCard = ({ features }: PremiumFeaturesCardProps) => {
       </CardHeader>
       <CardContent>
         <ul className="space-y-3">
-          {premiumFeatures.map((feature, index) => (
+          {features?.map((feature, index) => (
             <li key={index} className="flex items-center gap-3">
                   <div className="p-1 rounded-full bg-primary/20">
                 <Check className="w-3 h-3 text-primary" />
