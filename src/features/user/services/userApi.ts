@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PaymentHistory, PlaylistDetailsResponse, PlayListsResposne, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, SubscriptionResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PaymentHistory, PlaylistDetailsResponse, PlayListsResposne, PremiumPrice, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, SubscriptionResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={
@@ -185,8 +185,12 @@ export const userApi ={
       return response.data
     },
 
-    getPrices: async(priceIds:string[])=>{
+    getPrices: async(priceIds:string[]):Promise<PremiumPrice[]>=>{
       const response = await axiosInstance.post(API_ROUTES_USER.GET_PRICES,{priceIds})
-      return response.data.prices
+      return response.data
+    },
+    upgradeSubscription: async():Promise<{url:string}>=>{
+      const response = await axiosInstance.post(API_ROUTES_USER.UPGRADE_SUBSCRIPTION)
+      return response.data
     }
 }

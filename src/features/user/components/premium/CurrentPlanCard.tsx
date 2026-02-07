@@ -2,13 +2,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, CreditCard } from "lucide-react";
 import { format } from "date-fns";
 import { SubscriptionResponse } from "../../services/response.type";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   plan: SubscriptionResponse;
+  upgradePlan: ()=> void
 }
 
 
-const CurrentPlanCard = ({ plan }: Props) => {
+const CurrentPlanCard = ({ plan,upgradePlan }: Props) => {
 
    const formattedPrice = new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -46,6 +48,9 @@ const CurrentPlanCard = ({ plan }: Props) => {
           <span>{plan?.cardInfo}</span>
         </div>
       </div>
+       <Button onClick={upgradePlan} variant="outline" className="w-full mt-4">
+             Change Plan
+      </Button>
     </CardContent>
   </Card>
  )

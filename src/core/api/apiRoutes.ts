@@ -108,5 +108,6 @@ export const API_ROUTES_USER ={
   SUBSCRIPTION_HISTORY: '/user/subscription/history',
 
   TRACK_PLAY: '/user/song/track-play',
-  GET_PRICES: '/user/get-prices'
+  GET_PRICES: '/user/get-prices',
+  UPGRADE_SUBSCRIPTION: '/user/upgrade-subscription'
 }

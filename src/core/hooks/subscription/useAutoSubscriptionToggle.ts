@@ -4,7 +4,7 @@ import { userApi } from "@/features/user/services/userApi";
 import { useToaster } from "../toast/useToast";
 import { SubscriptionResponse } from "@/features/user/services/response.type";
 
-export const useSubscription = (userId: string, isPremium:boolean) => {
+export const useAutoSubscriptionToggle = (userId: string, isPremium:boolean) => {
     const queryClient = useQueryClient();
     const { toast } = useToaster();
 

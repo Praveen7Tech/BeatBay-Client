@@ -302,3 +302,10 @@ export interface PaymentHistory{
     status: string
     receiptUrl: string
 }
+
+export type  PremiumPrice = {
+  priceId: string;
+  amount: number;     
+  currency: string;   
+  displayPrice: string;
+};
