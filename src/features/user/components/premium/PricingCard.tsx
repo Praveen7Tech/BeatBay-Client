@@ -1,15 +1,11 @@
 import { Check } from "lucide-react";
-import { userApi } from "../../services/userApi";
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/core/store/store";
-import { useToaster } from "@/core/hooks/toast/useToast";
+import UpgradeSubscriptionDialog from "./ui/PlanUpgradeDialog";
+import { useSubscription } from "@/core/hooks/subscription/useSubscriptionUpgrade";
 
 interface PricingCardProps {
   name: string;
   priceId: string
-  price: number;
-  currency: string
+  price?: string;
   period: string;
   savings?: string;
   features: string[];
@@ -17,33 +13,10 @@ interface PricingCardProps {
   setIsProcessing:React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PricingCard = ({ name, price, priceId, period, savings, features, popular, currency,setIsProcessing }: PricingCardProps) => {
- const isPremuim = useSelector((state:RootState)=> state.auth.user?.isPremium)
- const {toast} = useToaster()
-  const formattedPrice = new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: currency,
-    minimumFractionDigits: 0, 
-  }).format(price);
+const PricingCard = ({ name, price, priceId, period, savings, features, popular, setIsProcessing }: PricingCardProps) => {
 
-  const handleSubscribe = async (priceId:string) => {
-    if(isPremuim){
-      toast.error("You already have a Premium Plan")
-      return;
-    }
-    setIsProcessing(true)
-    try {
-        const res =await userApi.subscriptionCheckout(priceId)
-        console.log("sub ", res)
-       if(res.url){
-         window.location.href = res.url
-       }
-       setIsProcessing(false)
-    } catch (error) {
-       setIsProcessing(false)
-        console.error("error in payment subscription")
-    }
-  };
+    const { handleSubscribe, handleUpgradeSubscription,showUpgradeDialog, 
+      setShowUpgradeDialog,} = useSubscription();
 
   return (
     <div className={`relative flex flex-col p-6 rounded-2xl border transition-all duration-300 ease-out cursor-pointer
@@ -62,7 +35,7 @@ const PricingCard = ({ name, price, priceId, period, savings, features, popular,
       <p className="mt-1 text-sm text-muted-foreground">{period}</p>
       
       <div className="mt-4">
-        <span className="text-4xl font-bold text-foreground">{formattedPrice}</span>
+        <span className="text-4xl font-bold text-foreground">{price}</span>
         {savings && (
           <span className="ml-2 text-sm text-primary font-medium">{savings}</span>
         )}
@@ -78,7 +51,7 @@ const PricingCard = ({ name, price, priceId, period, savings, features, popular,
       </ul>
 
       <button
-        onClick={()=>handleSubscribe(priceId)}
+         onClick={() => handleSubscribe(priceId, setIsProcessing)}
         className={`mt-6 w-full py-3 rounded-lg font-semibold transition-colors ${
           popular
             ? "bg-primary text-primary-foreground hover:bg-primary/90"
@@ -87,6 +60,12 @@ const PricingCard = ({ name, price, priceId, period, savings, features, popular,
       >
         Get Started
       </button>
+
+      <UpgradeSubscriptionDialog
+        showUpgradeDialog={showUpgradeDialog}
+        setShowUpgradeDialog={setShowUpgradeDialog}
+       handleUpgrade={handleUpgradeSubscription}
+      />
     </div>
   );
 };

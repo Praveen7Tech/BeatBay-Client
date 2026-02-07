@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 import { SpinnerCustom } from "@/components/ui/spinner";
-import { useSubscription } from "@/core/hooks/subscription/useAutoSubscriptionToggle";
+import { useAutoSubscriptionToggle } from "@/core/hooks/subscription/useAutoSubscriptionToggle";
 import { useState } from "react";
 import { useCancelSubscription } from "@/core/hooks/subscription/useCancelSubscription";
 import { useSubscriptionHistory } from "@/core/hooks/subscription/useSubscriptionHistory";
@@ -13,17 +13,20 @@ import PaymentHistoryCard from "../../components/premium/PaymentHistoryCard";
 import CancelSubscriptionDialog from "../../components/premium/CancelSubscriptionDialog";
 import PremiumHeader from "../../components/premium/PremiumHeader";
 import { getPlansForUser } from "../../helpers/subscription.data";
+import { useSubscription } from "@/core/hooks/subscription/useSubscriptionUpgrade";
 
 const PremiumDetails = () => {
 
   const user = useSelector((state:RootState)=> state.auth.user)
   const [showCancelDialog, setShowCancelDialog] = useState(false);
+
   const userId = user?.id
   const hasPremium = !!user?.isPremium
 
-  const { plan, isLoading, toggleAutoRenew, isToggling } = useSubscription(userId!, hasPremium);
+  const { plan, isLoading, toggleAutoRenew, isToggling } = useAutoSubscriptionToggle(userId!, hasPremium);
   const { cancelSubscription } = useCancelSubscription(userId!)
   const {paymentHistory, isLoadingHistory} = useSubscriptionHistory(userId!)
+  const {handleUpgradeSubscription } = useSubscription()
 
   if(isLoading || isLoadingHistory) return <SpinnerCustom/>
   
@@ -31,10 +34,9 @@ const PremiumDetails = () => {
      cancelSubscription(plan?.subscriptionId!)
      setShowCancelDialog(false);
   };
-  console.log("plan", plan)
  
   const hasPaymentHistory = (paymentHistory ?? []).length > 0;
-  const plans = getPlansForUser()
+  const plans = getPlansForUser("feature")
   const monthlyPlan = plans.find(p => p.name === plan?.planName);
 
   // Fallback UI for non-premium users
@@ -47,7 +49,7 @@ const PremiumDetails = () => {
       <div className="max-w-5xl mx-auto">
         <PremiumHeader/>
         <div className="grid md:grid-cols-2 gap-6">
-          <CurrentPlanCard plan={plan!}/>
+          <CurrentPlanCard plan={plan!} upgradePlan={handleUpgradeSubscription}/>
           <PaymentSettingsCard 
              autoRenew={plan?.autoReniewEnable!} 
              billingDate={plan?.nextBillingDate!} 

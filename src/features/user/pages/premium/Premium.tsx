@@ -2,11 +2,17 @@ import { Crown } from "lucide-react";
 import PricingCard from "../../components/premium/PricingCard";
 import { PaymentProcessing } from "@/core/components/loading/PaymentProcessing";
 import { useState } from "react";
-import { getPlansForUser } from "../../helpers/subscription.data";
+import {  getPlansForUser } from "../../helpers/subscription.data";
+import { useSubscriptionPlanPrices } from "@/core/hooks/subscription/useGetsubscriptionPrices";
 
 const Premium = () => {
-  const [isProcessing, setIsProcessing] = useState(false)
-  const plans = getPlansForUser();
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  const { priceData, loading } = useSubscriptionPlanPrices();
+
+  if (loading) return <PaymentProcessing />; 
+
+  const plans = getPlansForUser("card",priceData!);
   return (
     <div className="min-h-screen p-6 md:p-10 bg-black">
       <div className="max-w-5xl mx-auto">
@@ -24,8 +30,8 @@ const Premium = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 items-start">
-          {plans.map((plan) => (
-            <PricingCard key={plan.name} {...plan} setIsProcessing={setIsProcessing}/>
+          {plans?.map((plan) => (
+            <PricingCard key={plan.name} {...plan} priceId={plan.id} setIsProcessing={setIsProcessing}/>
           ))}
         </div>
 
