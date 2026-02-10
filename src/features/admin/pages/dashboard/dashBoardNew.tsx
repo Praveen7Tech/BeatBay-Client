@@ -6,7 +6,7 @@ import { AdminGrowthChart } from '../../components/dash/AdminGrowthChart';
 
 export default function AdminDashboard() {
   return (
-    <div className="min-h-screen bg-background p-6 md:p-8">
+    <div className="min-h-screen p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-10">
 
         {/* Header */}
