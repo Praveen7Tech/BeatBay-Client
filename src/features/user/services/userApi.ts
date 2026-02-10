@@ -30,8 +30,8 @@ export const userApi ={
       return response.data
     },
 
-    SongDetailHydration: async(songId:string): Promise<SongDehydration>=>{
-      const response = await axiosInstance.get(`${API_ROUTES_USER. SONG_HYDRATION}/${songId}`)
+    SongDetailHydration: async(songId:string): Promise<SongDetailsResponse>=>{
+      const response = await axiosInstance.get(`${API_ROUTES_USER.SONG_HYDRATION}/${songId}`)
       return response.data
     },
 

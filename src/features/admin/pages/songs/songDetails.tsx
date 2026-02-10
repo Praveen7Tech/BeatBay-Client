@@ -11,10 +11,10 @@ import { AlertDialog,AlertDialogAction,AlertDialogCancel,AlertDialogContent,Aler
   AlertDialogFooter,AlertDialogHeader,AlertDialogTitle,AlertDialogTrigger,} from "@/components/ui/alert-dialog";
 import { useMutation } from "@tanstack/react-query";
 import { adminApi } from "../../services/adminApi";
-import { queryClient } from "@/core/hooks/artist/queryClientSetup";
 import { format, parseISO } from "date-fns";
 import { formatTime } from "@/core/utils/formatTime";
 import { useToaster } from "@/core/hooks/toast/useToast";
+import { queryClient } from "@/core/config/query.client";
 
 const AdminSongDetail = () => {
 

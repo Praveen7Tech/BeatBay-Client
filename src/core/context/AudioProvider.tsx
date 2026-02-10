@@ -9,6 +9,7 @@ import {
 import { useAudioEngine } from "../hooks/song/useAudioEngine";
 import { SongDetails } from "@/features/user/services/response.type";
 import { userApi } from "@/features/user/services/userApi";
+import { getPlaybackState, savePlayBackState } from "../service/playerStorageService";
 
 interface MusicPlayerContextType {
   currentSong: SongDetails | null;
@@ -32,6 +33,7 @@ const MusicPlayerContext = createContext<MusicPlayerContextType | undefined>(
 
 export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode;}) => {
   const engine = useAudioEngine();
+  
   const [playlist, setPlaylist] = useState<SongDetails[]>([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [volume, setVolumeState] = useState(50);
@@ -44,7 +46,42 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
   const hasReportedRef = useRef(false);
   const currentSong = playlist[currentIndex] || null;
 
-  // 1. REVENUE TRACKING
+  // SONG HYDRATION TO GET LAST ACTIVE SONG STATE
+  useEffect(() => {
+    const session = getPlaybackState();
+    if (!session) return;
+
+    const hydratePlayer = async () => {
+      try {
+        const response = await userApi.SongDetailHydration(session.songId);
+        const newQueue = [response.song, ...response.recommendations.filter((s)=> s.id !== response.song.id)];
+
+        setPlaylist(newQueue);
+        setCurrentIndex(0);
+
+        await engine.loadAndPlay(
+          newQueue[0].audioUrl,
+          session.currentTime
+        );
+      } catch (error) {
+        console.error("Hydration Failed", error);
+      }
+    };
+
+    hydratePlayer();
+  }, []);
+
+  // UPDATE LOCAL STORAGE TO TRACK LASP PLAYED SONG AND TIME
+  useEffect(()=>{
+    if(currentSong){
+      savePlayBackState({
+        songId: currentSong.id,
+        currentTime: engine.currentTime
+      })
+    }
+  },[engine.currentTime])
+
+  //  REVENUE TRACKING
   useEffect(() => {
     if (!currentSong || !engine.isPlaying) return;
 
@@ -65,16 +102,11 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
     return () => clearInterval(tracker);
   }, [currentSong?.id, engine.isPlaying]);
 
-  // 2. HARDWARE SYNC & REPEAT
-  useEffect(() => {
-    if (currentSong?.audioUrl) engine.loadAndPlay(currentSong.audioUrl);
-  }, [currentSong?.id]);
-
   useEffect(() => {
     engine.setLoop(isRepeating);
   }, [isRepeating, engine]);
 
-  // 3. AUTO-ADVANCE (Only if not repeating)
+  //  AUTO-ADVANCE (Only if not repeating)
   useEffect(() => {
     const handleEnded = () => {
       if (!isRepeating) skipForward();
@@ -83,18 +115,28 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
     return () => engine.audio.removeEventListener("ended", handleEnded);
   }, [currentIndex, playlist, isRepeating]);
 
+  // SKIP TO NEXT SONG
   const skipForward = useCallback(() => {
-    if (playlist.length > 0)
-      setCurrentIndex((prev) => (prev + 1) % playlist.length);
-  }, [playlist.length]);
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % playlist.length;
+      engine.loadAndPlay(playlist[nextIndex].audioUrl, 0);
+      return nextIndex;
+    });
+  }, [playlist, engine]);
 
+  // SKIP TO PREVIOUS SONG
   const skipBackward = useCallback(() => {
-    if (playlist.length > 0)
-      setCurrentIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
-  }, [playlist.length]);
+    setCurrentIndex((prevIndex) => {
+      const prev =(prevIndex - 1 + playlist.length) % playlist.length;
+      engine.loadAndPlay(playlist[prev].audioUrl, 0);
+      return prev;
+    });
+  }, [playlist, engine]);
 
+  // TOGGLE REPEAT SONG
   const toggleRepeat = useCallback(() => setIsRepeating((p) => !p), []);
 
+  // HANDLE SET VOLUME
   const handleSetVolume = useCallback(
     (v: number) => {
       setVolumeState(v);
@@ -103,6 +145,7 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
     [engine],
   );
 
+  // REVENUE TRACKING API
   const registerRevenuePlay = async (songId: string) => {
     try {
       const res = await userApi.trackPlay(songId)
@@ -125,9 +168,11 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
         setVolume: handleSetVolume,
         skipForward,
         skipBackward,
-        startPlayback: (songs, idx = 0) => {
-          setPlaylist(songs);
-          setCurrentIndex(idx);
+        startPlayback: async (songs, idx = 0) => {
+            setPlaylist(songs);
+            setCurrentIndex(idx);
+
+            await engine.loadAndPlay(songs[idx].audioUrl, 0);
         },
         isRepeating,
         toggleRepeat,

@@ -6,6 +6,6 @@
     NOT_FOUND : 404,
     CONFLICT : 409,
     INTERNAL_SERVER_ERROR : 500,
-    EXPIRED : 410   ,
+    EXPIRED : 410  ,
     FORBIDDEN : 403 
 }

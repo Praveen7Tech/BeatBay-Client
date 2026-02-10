@@ -1,7 +1,7 @@
 import { userApi } from "@/features/user/services/userApi"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { queryClient } from "../artist/queryClientSetup"
 import { useToaster } from "../toast/useToast"
+import { queryClient } from "@/core/config/query.client"
 
 export const useFollowStatus = (targetId: string, role: string) => {
     const {toast} = useToaster()

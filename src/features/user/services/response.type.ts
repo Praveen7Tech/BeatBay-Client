@@ -105,7 +105,7 @@ export interface SongResponse {
 
 
 export interface SongDehydration{
-  songs: SongDetails
+  songs: SongDetails[]
 }
 
 export interface AlbumResponse {

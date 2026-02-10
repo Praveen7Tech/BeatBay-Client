@@ -6,7 +6,7 @@ import { CreateAlbumSchema, CreateAlbumData } from "@/features/artist/schema-val
 import { artistApi, EditAlbumDetailsResponse, InitialAlbumSongs } from "@/features/artist/services/artist.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useArtistSongs } from "../api/useFetchHooks";
-import { queryClient } from "./queryClientSetup";
+import { queryClient } from "@/core/config/query.client";
 
 export const useCreateAlbum = (isEdit: boolean) => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { store } from '../store/store';
 import { logout, setAccessToken } from '../../features/auth/slices/authSlice';
 import { AuthState } from '../../features/auth/slices/authSlice'; 
 import { API_ROUTES } from './apiRoutes';
-import { StatusCodeEnum } from '../enum/statuscode.enym';
+import { StatusCodeEnum } from '../enum/statuscode.enum';
 
 const API_URL = import.meta.env.VITE_API_URL
 
