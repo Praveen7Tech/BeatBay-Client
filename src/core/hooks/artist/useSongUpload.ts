@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { queryClient } from "./queryClientSetup";
 import { artistApi, FileForUploadUrl } from "@/features/artist/services/artist.api";
 import { SongResponse } from "@/features/user/services/response.type";
+import { queryClient } from "@/core/config/query.client";
 
 // const extractFilenameFromUrl = (url: string | undefined | null): string | null => {
 //   if (!url) return null;

@@ -1,8 +1,8 @@
 import { adminApi } from "@/features/admin/services/adminApi"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useState } from "react"
-import { queryClient } from "../artist/queryClientSetup"
 import { useToaster } from "../toast/useToast"
+import { queryClient } from "@/core/config/query.client"
 
 
 export const useArtistManagement = (artistId: string) =>{

@@ -1,8 +1,8 @@
 import { adminApi } from "@/features/admin/services/adminApi"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { queryClient } from "../artist/queryClientSetup"
 import { useState } from "react"
 import { useToaster } from "../toast/useToast"
+import { queryClient } from "@/core/config/query.client"
 
 
 export const useUserManagement = (userId: string) =>{
