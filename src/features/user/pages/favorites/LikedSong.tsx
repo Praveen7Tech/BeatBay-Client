@@ -6,8 +6,8 @@ import { SpinnerCustom } from "@/components/ui/spinner";
 import LikedSongsHeader from "../../components/favorites/LikedSongsHeader";
 import LikedSongsActions from "../../components/favorites/LikedSongsActions";
 import LikedSongsTable from "../../components/favorites/LikedSongsTable";
-import { useAudioContext } from "@/core/context/useAudioContext";
 import { useSongActions } from "@/core/hooks/song/useSongActions";
+import { usePlayer } from "@/core/context/AudioProvider";
 
 const LikedSongs = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,7 +17,7 @@ const LikedSongs = () => {
 
   const { handleLike } = useSongActions("liked");
 
-  const {currentSong,setPlaylistAndPlay, isPlaying,playPause} = useAudioContext()
+  const {currentSong,startPlayback, isPlaying,playPause} = usePlayer()
 
   if (isLoading) return <SpinnerCustom />;
 
@@ -35,7 +35,7 @@ const LikedSongs = () => {
     if(isCurrentSongPlaying){
       playPause()
     }else{
-      setPlaylistAndPlay(songs, 0)
+      startPlayback(songs)
     }
   }
 

@@ -7,7 +7,7 @@ import { update } from "@/features/auth/slices/authSlice"
 import { ProfileDetailsData, ProfileDetailsSchema } from "@/features/user/schemas/editProfile.Schema" 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { EditProfileResponse } from "@/features/user/services/userApi"
+import { EditProfileResponse } from "@/features/user/services/response.type"
 
 export const useProfileEdit = (editApi: (data: FormData)=> Promise<EditProfileResponse>) => {
     const [image, setImage] = useState<File | null>(null)
