@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { AlbumDetailHeader } from "../../components/albums/albumDetailsHeader";
 import { SongTable } from "@/core/components/song/SongTable";
 import { SpinnerCustom } from "@/components/ui/spinner";
-//import { useAudioContext } from "@/core/context/useAudioContext";
 import { useSongActions } from "@/core/hooks/song/useSongActions";
 import { useAlbumDetails } from "@/core/hooks/api/useFetchHooks";
 import { usePlayer } from "@/core/context/AudioProvider";
@@ -13,13 +12,7 @@ export default function AlbumDetail() {
 
   const { data: album, isLoading, isError, error } = useAlbumDetails(albumId!)
   const { handleLike, handleAddToPlaylist } = useSongActions("album", {albumId});
-
-  const { 
-    startPlayback, 
-    currentSong, 
-    isPlaying, 
-    playPause 
-  } = usePlayer();
+  const { startPlayback,currentSong,isPlaying, playPause,currentContextId } = usePlayer();
 
   if (isLoading) {
     return (
@@ -37,14 +30,14 @@ export default function AlbumDetail() {
     );
   }
 
-  const isThisAlbumActive = currentSong && album.songs.some(s => s.id === currentSong.id);
+  const isThisAlbumActive = currentContextId == albumId
   const isPlayingActual = isThisAlbumActive && isPlaying;
 
   const handlePlayPause = () => {
     if (isThisAlbumActive) {
       playPause();
     } else {
-      startPlayback(album.songs, 0);
+      startPlayback(album.songs,albumId!, 0);
     }
   };
 

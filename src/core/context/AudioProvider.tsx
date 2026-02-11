@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import {createContext,useCallback,useContext,useEffect,useRef,useState,} from "react";
 import { useAudioEngine } from "../hooks/song/useAudioEngine";
 import { SongDetails } from "@/features/user/services/response.type";
 import { userApi } from "@/features/user/services/userApi";
@@ -23,8 +16,9 @@ interface MusicPlayerContextType {
   setVolume: (volume: number) => void;
   skipForward: () => void;
   skipBackward: () => void;
-  startPlayback: (songs: SongDetails[], startIndex?: number) => void;
+  startPlayback: (songs: SongDetails[],contextId: string, startIndex?: number) => void;
   toggleRepeat: () => void;
+  currentContextId: string | null;
 }
 
 const MusicPlayerContext = createContext<MusicPlayerContextType | undefined>(
@@ -38,6 +32,7 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [volume, setVolumeState] = useState(50);
   const [isRepeating, setIsRepeating] = useState(false);
+  const [currentContextId, setCurrentContextId] = useState<string | null>(null)
 
   const playTimerRef = useRef<{ songId: string; startTime: number }>({
     songId: "",
@@ -155,6 +150,14 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
     }
   };
 
+  // START PLAYBACK
+  const startPlayBack = async(songs:SongDetails[], contextId: string, idx=0)=>{
+    setPlaylist(songs)
+    setCurrentIndex(idx)
+    setCurrentContextId(contextId)
+    await engine.loadAndPlay(songs[0].audioUrl,0)
+  }
+
   return (
     <MusicPlayerContext.Provider
       value={{
@@ -168,14 +171,10 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
         setVolume: handleSetVolume,
         skipForward,
         skipBackward,
-        startPlayback: async (songs, idx = 0) => {
-            setPlaylist(songs);
-            setCurrentIndex(idx);
-
-            await engine.loadAndPlay(songs[idx].audioUrl, 0);
-        },
+        startPlayback:startPlayBack,
         isRepeating,
         toggleRepeat,
+        currentContextId
       }}
     >
       {children}

@@ -12,12 +12,14 @@ import { setBulkInvite, setInviteState } from "../../slice/inviteState.slice";
 import { showError } from "@/core/utils/toast.config";
 import { setPrivateRoom } from "../../slice/privateRoomSlice";
 import { Friends } from "../../services/response.type";
+import { useToaster } from "@/core/hooks/toast/useToast";
 
 
 const FriendsActivity = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const inviteState = useSelector((state: RootState)=> state.inviteState.invites)
   const dispatch = useDispatch()
+  const {toast} = useToaster()
 
   const {data: friends, isLoading, isError,error,} = useQuery({
     queryKey: ["friendsActivity"],
@@ -31,6 +33,7 @@ useEffect(() => {
   if (!user?.id) return;
 
   const SyncFriendsStatus = (friedsState:any)=>{
+    console.log("bulk invite ", friedsState)
     dispatch(setBulkInvite(friedsState))
   }
 

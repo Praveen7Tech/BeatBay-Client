@@ -12,14 +12,7 @@ export default function SongDetail() {
   const { songId } = useParams<{ songId: string }>();
 
   const { data, isLoading, isError, error } = useFetchsongById(songId!);
-  const { 
-    startPlayback, 
-    currentSong, 
-    isPlaying, 
-    playPause, 
-    currentTime 
-  } = usePlayer();
-
+  const { startPlayback, currentSong, isPlaying, playPause, currentTime,currentContextId } = usePlayer();
   // song actions 
   const { handleLike, handleAddToPlaylist } = useSongActions("song");
 
@@ -35,9 +28,10 @@ export default function SongDetail() {
 
   const song = data!.song;
   const recommendedSongs = data!.recommendations;
+  const isCurrentSongPlaying = isPlaying && currentSong?.id === song.id
   
   //  determine if "this specific page song" is what's in the player
-  const isThisSongInPlayer = currentSong?.id === song.id;
+  const isThisSongInPlayer = currentContextId === songId!;
   const activeCurrentTime = isThisSongInPlayer ? currentTime : 0;
 
   const handlePlayPause = () => {
@@ -45,7 +39,7 @@ export default function SongDetail() {
         playPause();
     } else {
         const newQueue = [song, ...recommendedSongs.filter((s) => s.id !== song.id)];
-        startPlayback(newQueue, 0); 
+        startPlayback(newQueue,songId!, 0); 
     }
   };
 
@@ -56,7 +50,7 @@ export default function SongDetail() {
           title={song.title}
           coverImageUrl={song.coverImageUrl}
           duration={song.duration}
-          isPlaying={isPlaying}
+          isPlaying={isCurrentSongPlaying}
           onPlayPause={handlePlayPause}
           isLiked={song.isLiked}
           onLike={() => handleLike(song.id)}

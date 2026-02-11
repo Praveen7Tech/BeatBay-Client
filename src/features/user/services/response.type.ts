@@ -136,6 +136,7 @@ export interface ArtistDetailsResponse {
   name: string;
   profilePicture: string;
   bio: string;
+  fans: number
   albums: AlbumResponseRaw[];
   songs: SongResponseData[];
 }

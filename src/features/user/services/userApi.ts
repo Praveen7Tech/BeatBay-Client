@@ -1,6 +1,6 @@
 import { API_ROUTES_USER } from "@/core/api/apiRoutes";
 import { axiosInstance } from "@/core/api/axios";
-import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PaymentHistory, PlaylistDetailsResponse, PlayListsResposne, PremiumPrice, SearchResponse, SearchSongResponse, SongDehydration, SongDetailsResponse, SubscriptionResponse, UserProfileResponseDTO } from "./response.type";
+import { AlbumResponse, ArtistDetailsResponse, Data, EditPassResponse, EditProfileResponse, FetchAlbum, FetchSongs, FollowersResponse, FriendsResponse, LikedSondResponse, NewPlayListResponse, PaymentHistory, PlaylistDetailsResponse, PlayListsResposne, PremiumPrice, SearchResponse, SearchSongResponse, SongDetailsResponse, SubscriptionResponse, UserProfileResponseDTO } from "./response.type";
 
 
 export const userApi ={

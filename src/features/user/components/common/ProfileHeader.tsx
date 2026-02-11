@@ -14,6 +14,7 @@ interface ProfileHeaderProps {
   followersCount?:number;playlist?:number;
   songCount?:number;albumCount?:number
   showFollowButton?: boolean;
+  fans?: number
   role: "user" | "artist"
 }
 
@@ -22,7 +23,7 @@ export function ProfileHeader({
   name,
   profilePicture,
   verified,playlist,
-  followCount,followersCount,songCount,albumCount,
+  followCount,followersCount,songCount,albumCount,fans,
   showFollowButton = true,
   role
 }: ProfileHeaderProps) {
@@ -69,8 +70,8 @@ export function ProfileHeader({
                 <span className="font-medium ml-2">{albumCount ? "Albums" : "Followers"}</span>
               </div>
               <div>
-                <span className="text-[#00d084] font-semibold">{playlist}</span>
-                <span className="font-medium ml-2">Playlists</span>
+                <span className="text-[#00d084] font-semibold">{playlist ? playlist : fans}</span>
+                <span className="font-medium ml-2">{playlist ? "PlayList" : "Fans"}</span>
               </div>
             </div>
           </div>
