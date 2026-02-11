@@ -1,6 +1,4 @@
 import { Pause, Play } from "lucide-react";
-import { SongDetails } from "../../services/response.type";
-import { usePlayer } from "@/core/context/AudioProvider"; 
 import React from "react";
 
 interface TopResultCardProps {
@@ -12,29 +10,20 @@ interface TopResultCardProps {
 
 interface TotResult {
   topResult: TopResultCardProps;
-  songs: SongDetails[];
+  isPlaying: boolean;
+  isActive: boolean;
+  onPlayPause: (id: string) => void;
 }
 
-const TopResultCard = ({ topResult, songs }: TotResult) => {
-
-  const { startPlayback, isPlaying, playPause, currentSong } = usePlayer();
-
-  // Check if this specific song is what's currently loaded in the engine
-  const isThisSongLoaded = currentSong?.id === topResult.id;
-
+const TopResultCard = ({
+  topResult,
+  isPlaying,
+  isActive,
+  onPlayPause,
+}: TotResult) => {
   const handlePlayPause = (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    if (isThisSongLoaded) {
-      playPause();
-    } else {
-      const playlist = Array.isArray(songs) ? songs : [];
-      
-      if (playlist.length > 0) {
-        const startIndex = playlist.findIndex(s => s.id === topResult.id);
-        startPlayback(playlist, startIndex >= 0 ? startIndex : 0);
-      }
-    }
+    onPlayPause(topResult.id);
   };
 
   return (
@@ -63,15 +52,15 @@ const TopResultCard = ({ topResult, songs }: TotResult) => {
           </div>
         </div>
 
-        <button 
-          onClick={handlePlayPause} 
+        <button
+          onClick={handlePlayPause}
           className="absolute bottom-5 right-5 w-14 h-14 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl hover:scale-105 active:scale-95"
         >
-           {isPlaying && isThisSongLoaded ? (
-              <Pause className="h-6 w-6 fill-black text-black" />
-            ):(
-              <Play className="h-6 w-6 fill-black text-black ml-1" />
-            )} 
+          {isPlaying && isActive ? (
+            <Pause className="h-6 w-6 fill-black text-black" />
+          ) : (
+            <Play className="h-6 w-6 fill-black text-black ml-1" />
+          )}
         </button>
       </div>
     </div>

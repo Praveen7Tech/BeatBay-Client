@@ -34,6 +34,7 @@ export default function ArtistDetail() {
         role="artist"
         verified
         songCount={artist.songs.length} albumCount={artist.albums.length}
+        fans={artist.fans}
       />
 
       <SongsSection songs={artist.songs} />

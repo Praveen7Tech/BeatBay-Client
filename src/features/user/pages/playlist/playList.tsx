@@ -21,7 +21,7 @@ export default function PlaylistDetail() {
       </div>
     );
 
-  const { startPlayback, isPlaying, playPause, currentSong } = usePlayer();
+  const { startPlayback, isPlaying, playPause, currentSong,currentContextId } = usePlayer();
 
   const { data: playlist, isLoading, isError, error } = usePlaylistDetails(playlistId);
   const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
@@ -39,14 +39,14 @@ export default function PlaylistDetail() {
   const songs = playlist.songs;
 
   // Is the current player session playing THIS playlist?
-  const isThisPlaylistActive = currentSong && songs.some(s => s.id === currentSong.id);
+  const isThisPlaylistActive = currentContextId === playlistId!;
   const isPlayingActual = isThisPlaylistActive && isPlaying;
 
   const handlePlayPause = () => {
     if (isThisPlaylistActive) {
       playPause();
     } else if (songs.length > 0) {
-      startPlayback([...songs], 0);
+      startPlayback([...songs],playlistId!, 0);
     }
   };
 
