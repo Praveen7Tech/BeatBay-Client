@@ -179,7 +179,7 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
         isPlaying
       });
       console.log("tick ", audioRef.current.currentTime)
-    }, 800);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [isHost, isPlaying, room.roomId]);

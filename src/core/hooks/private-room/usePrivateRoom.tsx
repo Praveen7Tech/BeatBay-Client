@@ -1,7 +1,7 @@
 import { socket } from "@/core/config/socket";
 import { RootState } from "@/core/store/store";
 import { setBulkInvite, setInviteState } from "@/features/user/slice/inviteState.slice";
-import { clearPrivateRoom, setPrivateRoom } from "@/features/user/slice/privateRoomSlice";
+import { clearPrivateRoom, removeSongFromQueue, setPrivateRoom, setRoomSongQueueData, SongData } from "@/features/user/slice/privateRoomSlice";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -27,11 +27,8 @@ export const usePrivateRoom = () => {
       navigate("/home");
     };
 
-    const handleRoomMembersUpdated = (
-      type: string,
-      updatedRoom: any,
-      leftUserId?: string
-    ) => {
+    const handleRoomMembersUpdated = (type: string,updatedRoom: any,leftUserId?: string) => {
+      
       if (type === "left" && leftUserId === user.id) {
         dispatch(clearPrivateRoom());
         dispatch(setBulkInvite({}));
@@ -62,16 +59,30 @@ export const usePrivateRoom = () => {
       }
     };
 
+    const queueUpdation = (updatedQueue: SongData)=>{
+       dispatch(setRoomSongQueueData(updatedQueue));
+    }
+
+    const songRemove = (songId:string)=>{
+      dispatch(removeSongFromQueue(songId))
+    }
+
     socket.on("restore_room_state", restoreRoomState);
     socket.on("room_deleted", handleRoomDeleted);
     socket.on("room_members_updated", handleRoomMembersUpdated);
+
+    socket.on("queue_updated", queueUpdation)
+    socket.on("song_removed", songRemove)
 
     return () => {
       socket.off("restore_room_state", restoreRoomState);
       socket.off("room_deleted", handleRoomDeleted);
       socket.off("room_members_updated", handleRoomMembersUpdated);
+
+      socket.off("queue_updated"), queueUpdation;
+      socket.off("song_removed", songRemove)
     };
-  }, [user?.id]);
+  }, [user?.id,dispatch]);
 
   const leaveRoom = useCallback(() => {
     if (!user?.id || !room.roomId) return;
