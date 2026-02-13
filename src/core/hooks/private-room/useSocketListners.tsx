@@ -44,7 +44,7 @@ export const useSocketListeners = () => {
         };
 
         const handleGlobalStatusChange = ({ friendId, status }: any) => {
-            // Updates "connected" status globally
+            console.log("frine status ", friendId, status)
             dispatch(setInviteState({ friendId, state: status }));
         };
 

@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { socket } from "@/core/config/socket";
 import { RootState } from "@/core/store/store";
 import { setInviteState } from "@/features/user/slice/inviteState.slice";
+import { useNavigate } from "react-router-dom";
 
 export const useFriendActions = () => {
     const user = useSelector((state: RootState) => state.auth.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const sendInvite = useCallback((friendId: string) => {
         if (!user?.id) return;
@@ -19,6 +21,7 @@ export const useFriendActions = () => {
         });
 
         dispatch(setInviteState({ friendId, state: "pending" }));
+        navigate("/private-room")
     }, [user?.id]);
 
     const acceptInvite = useCallback((hostId: string) => {
@@ -32,7 +35,7 @@ export const useFriendActions = () => {
             image: user.profilePicture,
             },
         });
-    
+        navigate("/private-room")
     }, [user?.id]);
 
     const rejectInvite = useCallback((hostId: string) => {
