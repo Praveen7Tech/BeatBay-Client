@@ -1,10 +1,12 @@
-import { usePrivateRoom } from "@/core/hooks/private-room/usePrivateRoom";
 import { ArrowLeft, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const RoomHeader = () => {
+interface RoomHeaderProps {
+  leaveRoom: () => void
+}
+
+const RoomHeader = ({leaveRoom} : RoomHeaderProps) => {
   const navigate = useNavigate();
-  const {leaveRoom} = usePrivateRoom()
 
   return (
     <div className="sticky top-0 z-10 bg-[#1a1a1a]/80 backdrop-blur-lg border-b border-white/5">

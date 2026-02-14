@@ -6,8 +6,10 @@ import { setBulkInvite, setInviteState } from "@/features/user/slice/inviteState
 import { setPrivateRoom } from "@/features/user/slice/privateRoomSlice";
 import { useToaster } from "@/core/hooks/toast/useToast";
 import { showError } from "@/core/utils/toast.config";
+import { addNotification, Notification, setNotifications } from "@/features/user/slice/notificationSlice";
 
-export const useSocketListeners = () => {
+
+export const useFriendsActivityListeners = () => {
     const user = useSelector((state: RootState) => state.auth.user);
     const dispatch = useDispatch();
     const { toast } = useToaster();
@@ -48,8 +50,16 @@ export const useSocketListeners = () => {
             dispatch(setInviteState({ friendId, state: status }));
         };
 
-        const handleNotification = (message: string)=>{
-            toast.info(message)
+        const handleNotification = (notification: Notification)=>{
+            toast.info(notification.message)
+            if(!notification.isTemp){
+                dispatch(addNotification(notification))
+            }
+            
+        }
+
+        const handleFullNotifications = (notifications: Notification[])=>{
+            dispatch(setNotifications(notifications))
         }
 
         socket.on("room_created", handleRoomCreation)
@@ -62,6 +72,7 @@ export const useSocketListeners = () => {
         socket.on("invite_expired_host", handleInviteExpiredHost);
 
         socket.on("notification_recieved", handleNotification)
+        socket.on("update_notifications", handleFullNotifications)
 
         return () => {
             socket.off("room_created", handleRoomCreation)
@@ -73,7 +84,8 @@ export const useSocketListeners = () => {
             socket.off("invite_expired", handleInviteError);
             socket.off("invite_expired_host", handleInviteExpiredHost);
 
-            socket.off("notification_recieved", handleNotification)
+            socket.off("notification_recieved", handleNotification);
+            socket.off("update_notifications", handleFullNotifications)
         };
         }, [user?.id]);
     };

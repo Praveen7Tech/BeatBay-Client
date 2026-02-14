@@ -15,8 +15,6 @@ export const useFriendActions = () => {
 
         socket.emit("invite_send", {
             fromUserId: user.id,
-            fromUserName: user.name,
-            fromUserImage: user.profilePicture,
             toUserId: friendId,
         });
 

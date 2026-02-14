@@ -124,23 +124,23 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
   /* ----------------------------------------
      DRIFT CORRECTION syncing with host time
   ---------------------------------------- */
-  useEffect(() => {
-    const audio = audioRef.current;
+  // useEffect(() => {
+  //   const audio = audioRef.current;
 
-    socket.on("player_tick", ({ time, isPlaying }) => {
-      console.log("tick recieve ", time)
-      if (Math.abs(audio.currentTime - time) > 0.7) {
-        audio.currentTime = time;
-      }
+  //   socket.on("player_tick", ({ time, isPlaying }) => {
+  //     console.log("tick recieve ", time)
+  //     if (Math.abs(audio.currentTime - time) > 0.7) {
+  //       audio.currentTime = time;
+  //     }
 
-      if (isPlaying && audio.paused) audio.play().catch(() => {});
-      if (!isPlaying && !audio.paused) audio.pause();
-    });
+  //     if (isPlaying && audio.paused) audio.play().catch(() => {});
+  //     if (!isPlaying && !audio.paused) audio.pause();
+  //   });
 
-    return () => {
-      socket.off("player_tick");
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("player_tick");
+  //   };
+  // }, []);
 
   /* ----------------------------------------
      AUDIO EVENTS
@@ -169,20 +169,20 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
   /* ----------------------------------------
      HOST → SEND DRIFT TICKS FOR ALIGN TIME TO ALL THE GUEST WITH HOST TIME
   ---------------------------------------- */
-  useEffect(() => {
-    if (!isHost || !room.roomId) return;
+  // useEffect(() => {
+  //   if (!isHost || !room.roomId) return;
 
-    const interval = setInterval(() => {
-      socket.emit("player_tick", {
-        roomId: room.roomId,
-        time: audioRef.current.currentTime,
-        isPlaying
-      });
-      console.log("tick ", audioRef.current.currentTime)
-    }, 1000);
+  //   const interval = setInterval(() => {
+  //     socket.emit("player_tick", {
+  //       roomId: room.roomId,
+  //       time: audioRef.current.currentTime,
+  //       isPlaying
+  //     });
+  //     console.log("tick ", audioRef.current.currentTime)
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, [isHost, isPlaying, room.roomId]);
+  //   return () => clearInterval(interval);
+  // }, [isHost, isPlaying, room.roomId]);
 
 
   // FORCE STOP WHEN EXIT / REMOVE FROM ROOM AND ROOM NOT ACTIVE
