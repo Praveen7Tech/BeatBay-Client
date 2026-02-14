@@ -8,9 +8,9 @@ import { RootState } from "@/core/store/store";
 import { useState } from "react";
 import { useSearchSongs } from "@/core/hooks/playList/usePlayList";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { usePrivateRoom } from "@/core/hooks/private-room/usePrivateRoom";
-import { useRoomActions } from "@/core/hooks/private-room/useRoomActions";
+import { usePrivateRoomListners } from "@/core/hooks/private-room/listners/usePrivateRoomListner";
 import EmptyRoom from "../../components/private-room/emptyRoom";
+import { useRoomActions } from "@/core/hooks/private-room/actions/useRoomActions";
 
 const PrivateRoomPage = () => {
 
@@ -22,14 +22,14 @@ const PrivateRoomPage = () => {
   const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
 
   /* ---------- SOCKET LISTENERS AND ACTIONS---------- */
-  usePrivateRoom()
-  const {addSongToRoom, reoveSongFromRoom, removeGuestFromRoom} = useRoomActions()
+  usePrivateRoomListners()
+  const {addSongToRoom, reoveSongFromRoom, removeGuestFromRoom, leaveRoom} = useRoomActions()
 
   if (!room.isActive) return <EmptyRoom/>
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <RoomHeader />
+      <RoomHeader leaveRoom={leaveRoom}/>
       <TooltipProvider>
       <div className="p-4 max-w-7xl mx-auto space-y-4">
         <div className="grid lg:grid-cols-2 gap-4">

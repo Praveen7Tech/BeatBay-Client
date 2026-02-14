@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { RootState } from "@/core/store/store";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { Friends } from "../../services/response.type";
-import { useSocketListeners } from "@/core/hooks/private-room/useSocketListners";
-import { useFriendActions } from "@/core/hooks/private-room/useFriendsActions";
+import { useFriendsActivityListeners } from "@/core/hooks/private-room/listners/useFriendsActivityListner";
+import { useFriendActions } from "@/core/hooks/private-room/actions/useFriendsActions";
 import { useFriendsActivity } from "./useFriendsActivity";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ const FriendsActivity = () => {
   const inviteState = useSelector((state: RootState) => state.inviteState.invites);
 
   const { friends, isLoading, isError, error } = useFriendsActivity();
-  useSocketListeners();
+  useFriendsActivityListeners();
   const { sendInvite, acceptInvite, rejectInvite } = useFriendActions();
 
   // Status Weighting Logic

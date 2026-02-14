@@ -1,9 +1,10 @@
 "use client"
 import { SearchBar } from "@/core/components/search/SearchBar"
 import { RootState } from "@/core/store/store"
-import { Bell, ChevronDown, Crown} from "lucide-react"
+import { ChevronDown, Crown} from "lucide-react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { NotificationDropdown } from "./NotificationComponent"
 
 export default function Navbar() {
   const user = useSelector((state: RootState)=> state.auth.user)
@@ -38,9 +39,7 @@ export default function Navbar() {
         {/* Right Section - Notification and Profile */}
         <div className="flex items-center gap-4 min-w-fit">
           {/* Notification Bell */}
-          <button className="p-2 hover:bg-gray-900 rounded-lg transition-colors" aria-label="Notifications">
-            <Bell className="w-5 h-5 text-gray-400 hover:text-white transition-colors" />
-          </button>
+          <NotificationDropdown/>
 
           {/* Profile Section */}
           <Link to='/profile'>

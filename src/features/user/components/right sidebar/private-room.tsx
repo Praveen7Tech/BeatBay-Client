@@ -1,9 +1,10 @@
-import { usePrivateRoom } from "@/core/hooks/private-room/usePrivateRoom";
+
 import { Crown, User, X, Users, LogOut } from "lucide-react";
 import PrivateRoomsEmpty from "./privateRoom-empty";
+import { useRoomActions } from "@/core/hooks/private-room/actions/useRoomActions";
 
 const PrivateRooms = () => {
-  const { room, isHost, leaveRoom, removeUser } = usePrivateRoom();
+  const {room, leaveRoom, isHost, removeGuestFromRoom} = useRoomActions()
   const members = room.members;
 
   if (!room.isActive) return <PrivateRoomsEmpty />;
@@ -67,7 +68,7 @@ const PrivateRooms = () => {
 
             {isHost && member.role !== "host" && (
               <button
-                onClick={() => removeUser(member.id)}
+                onClick={() => removeGuestFromRoom(member.id)}
                 className="opacity-0 group-hover:opacity-100 p-1.5 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400"
               >
                 <X size={12} />
