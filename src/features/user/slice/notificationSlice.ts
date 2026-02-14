@@ -15,11 +15,13 @@ export interface Notification{
 interface Notifications{
     list : Notification[]
     unreadCount: number
+    isDeleting: boolean
 }
 
 const initialState : Notifications ={
     list: [],
-    unreadCount: 0
+    unreadCount: 0,
+    isDeleting: false
 }
 
 const notificationSlice = createSlice({
@@ -43,9 +45,17 @@ const notificationSlice = createSlice({
                 }
                 state.list = state.list.filter(n=> n.id !== notificationId)
             }
+        },
+        markAllRead(state){
+            state.list = []
+            state.unreadCount = 0
+            state.isDeleting = false
+        },
+        setDeleting(state, action: PayloadAction<boolean>){
+            state.isDeleting = action.payload
         }
     }
 })
 
-export const {addNotification,setNotifications, markAsRead} = notificationSlice.actions
+export const {addNotification,setNotifications, markAsRead, markAllRead, setDeleting} = notificationSlice.actions
 export default notificationSlice.reducer

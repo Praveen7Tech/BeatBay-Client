@@ -192,5 +192,15 @@ export const userApi ={
     upgradeSubscription: async():Promise<{url:string}>=>{
       const response = await axiosInstance.post(API_ROUTES_USER.UPGRADE_SUBSCRIPTION)
       return response.data
+    },
+
+    deleteNotification: async(id: string): Promise<boolean>=>{
+      const response = await axiosInstance.delete(`${API_ROUTES_USER.DELETE_NOTIFICATION}/${id}`)
+      return response.data
+    },
+
+    deleteAllNotifications: async():Promise<boolean>=>{
+      const response = await axiosInstance.delete(API_ROUTES_USER.DELETE_ALL_NOTIFICATIONS)
+      return response.data
     }
 }

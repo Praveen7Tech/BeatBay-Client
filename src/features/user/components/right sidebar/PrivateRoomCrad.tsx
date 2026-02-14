@@ -3,7 +3,7 @@ import { Crown, User, X, Users, LogOut } from "lucide-react";
 import PrivateRoomsEmpty from "./privateRoom-empty";
 import { useRoomActions } from "@/core/hooks/private-room/actions/useRoomActions";
 
-const PrivateRooms = () => {
+const PrivateRoomCrad = () => {
   const {room, leaveRoom, isHost, removeGuestFromRoom} = useRoomActions()
   const members = room.members;
 
@@ -81,4 +81,4 @@ const PrivateRooms = () => {
   );
 };
 
-export default PrivateRooms;
+export default PrivateRoomCrad;

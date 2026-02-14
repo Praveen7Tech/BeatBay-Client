@@ -47,7 +47,7 @@ const FriendsActivity = () => {
   if (isError) return <p className="text-red-500 text-sm p-4">Error: {error?.message}</p>;
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-6 px-2">
         <h2 className="text-sm font-bold text-spotify-secondary uppercase tracking-widest">
           Friends Activity

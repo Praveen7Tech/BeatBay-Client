@@ -109,5 +109,8 @@ export const API_ROUTES_USER ={
 
   TRACK_PLAY: '/user/song/track-play',
   GET_PRICES: '/user/get-prices',
-  UPGRADE_SUBSCRIPTION: '/user/upgrade-subscription'
+  UPGRADE_SUBSCRIPTION: '/user/upgrade-subscription',
+
+  DELETE_NOTIFICATION: '/user/notification',
+  DELETE_ALL_NOTIFICATIONS: '/user/delete-all/notifications'
 }

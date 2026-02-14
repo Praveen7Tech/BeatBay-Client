@@ -1,6 +1,6 @@
 "use client"
 import NowPlayingCard from "./now-playing-card"
-import PrivateRoomCard from "./private-room" 
+import PrivateRoomCard from "./PrivateRoomCrad" 
 import FriendsActivityCard from "./friends-activity" 
 import { Link } from "react-router-dom"
 
@@ -11,7 +11,6 @@ export default function RightPanel() {
       <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-transparent scrollbar-hide">
         {/* Now Playing */}
         <div className="p-6 border-b border-[#2a2a2a]">
-          
           <NowPlayingCard />
         </div>
 
