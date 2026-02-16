@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { artistApi, FileForUploadUrl } from "@/features/artist/services/artist.api";
+import { artistApi, ArtistSongDetails, FileForUploadUrl } from "@/features/artist/services/artist.api";
 import { SongResponse } from "@/features/user/services/response.type";
 import { queryClient } from "@/core/config/query.client";
 
@@ -92,7 +92,7 @@ export const useSongUpload = (isEdit: boolean) => {
   };
 
   // set initial song details to the fields
-  const setInitialFormData = (song: SongResponse) => {
+  const setInitialFormData = (song: ArtistSongDetails) => {
     setValue("title", song.title);
     setValue("description", song.description);
     setValue("genre", song.genre);
