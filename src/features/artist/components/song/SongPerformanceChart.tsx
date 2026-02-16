@@ -1,34 +1,13 @@
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer
-} from "recharts";
-import { useState } from "react";
-import { SpinnerArtist } from "@/components/ui/spinner";
-import { useSongPerformance } from "@/core/hooks/song/useSongPerformance";
-import { useQuery } from "@tanstack/react-query";
-import { artistApi } from "../../services/artist.api";
+import {LineChart, Line,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
+import { SongPerformance } from "../../services/artist.api";
 
 interface Props {
-  songId: string;
+  data: SongPerformance[];
+  days: number;
+  setDays: (value: number) => void;
 }
 
-export const SongPerformanceChart = ({ songId }: Props) => {
-  const [days, setDays] = useState<number>(7);
-  const year = new Date().getFullYear();
-
-  const { data = [], isLoading } = useSongPerformance(songId, days);
-
-  const { data: revenue, isLoading:revenueLoading } = useQuery({
-    queryKey: ["songRevenue", songId, year],
-    queryFn: () => artistApi.getSongRevenue(songId, year)
-  });
-
-  if (isLoading || revenueLoading) return <SpinnerArtist />;
+export const SongPerformanceChart = ({ data, days, setDays }: Props) => {
 
   return (
     <div className="bg-surface p-6 rounded-lg border border-border relative">

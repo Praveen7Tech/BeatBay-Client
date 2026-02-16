@@ -9,3 +9,12 @@ export const useSongPerformance = (songId: string, days: number) => {
     enabled: !!songId
   });
 };
+
+
+export const useSongRevenueData = (songId: string, currentYear:number)=>{
+  return useQuery({
+    queryKey: ["songRevenue", songId, currentYear],
+    queryFn: () => artistApi.getSongRevenue(songId!, currentYear),
+    enabled: !!songId,
+  })
+}

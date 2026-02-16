@@ -5,6 +5,7 @@ import { useSongUpload } from "@/core/hooks/artist/useSongUpload";
 import { Input } from "@/core/components/input/Input";
 import { Button } from "@/core/components/button/Button";
 import { useParams } from "react-router-dom";
+import UploadAnimation from "../../components/song/animation/SongUploadAnimation";
 
 export default function UploadTrack() {
   const { songId } = useParams();
@@ -17,6 +18,7 @@ export default function UploadTrack() {
 
   return (
     <main className="min-h-screen p-8">
+      <UploadAnimation isVisible={isLoading} />
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-12">
           {isEdit ? "Edit Track" : "Upload New Track"}
