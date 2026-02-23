@@ -50,21 +50,22 @@ export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
             <YAxis
               stroke="#a7a7a7"
               fontSize={12}
-              tickFormatter={(value) => formatCurrency(value)}
+              tickFormatter={(value) => formatCurrency(value ?? 0)}
             />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#282828",
-                border: "none",
-                borderRadius: "8px",
-                color: "#fff",
-              }}
-              formatter={(value: number, name: string) => [
-                name === "revenue"
-                  ? `$${!value.toLocaleString()}`
-                  : value.toLocaleString(),
-                name === "revenue" ? "Revenue" : "Streams",
-              ]}
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#282828",
+                  border: "none",
+                  borderRadius: "8px",
+                  color: "#fff",
+                }}
+                formatter={(value: number | string) => {
+                  const numericValue = Number(value) || 0;
+                  return [
+                    formatCurrency(numericValue), 
+                    "Revenue"
+                  ];
+                }}
             />
             <Area
               type="monotone"
