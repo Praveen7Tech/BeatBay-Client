@@ -1,5 +1,7 @@
 import {AreaChart,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
 import { chartData } from "../../services/artist.api";
+import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent";
+
 
 export interface RevenueDataPoint {
   month: string;
@@ -52,20 +54,24 @@ export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
               fontSize={12}
               tickFormatter={(value) => formatCurrency(value)}
             />
-            <Tooltip
+           <Tooltip
               contentStyle={{
                 backgroundColor: "#282828",
                 border: "none",
                 borderRadius: "8px",
                 color: "#fff",
               }}
-              formatter={(value: number, name: string) => [
-                name === "revenue"
-                  ? `$${value?.toLocaleString() ?? 0}`
-                  : value?.toLocaleString() ?? 0,
-                name === "revenue" ? "Revenue" : "Streams",
-              ]}
+              formatter={(value: ValueType, name: NameType) => {
+                const numericValue = Array.isArray(value) ? Number(value[0]) : Number(value);
+                const safeValue = isNaN(numericValue) ? 0 : numericValue;
+
+                if (name === "revenue") {
+                  return [formatCurrency(safeValue), "Revenue"];
+                }
+                return [safeValue.toLocaleString(), "Streams"];
+              }}
             />
+
             <Area
               type="monotone"
               dataKey="revenue"
