@@ -9,7 +9,7 @@ import { Pagination } from "../../components/common/Pagination"
 import { UserTable } from "../../components/user/userTable"
 import { SpinnerCustom } from "@/components/ui/spinner"
 
-export function UserListing() {
+const UserListing =()=> {
   const [search, setSearchValue] = useState("")
   const [page, setPage] = useState(1)
   const limit = 5
@@ -52,3 +52,5 @@ export function UserListing() {
     </div>
   )
 }
+
+export default UserListing

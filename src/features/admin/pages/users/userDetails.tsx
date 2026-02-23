@@ -9,7 +9,7 @@ import AccountInfoCard from "../../components/common/AccountInformationCard"
 import StatisticsCard from "../../components/common/StatisticsCard"
 import BlockStatusCard from "../../components/common/BlockUnblockCard"
 
-export function UserDetails() {
+const UserDetails =()=> {
   const {userId} = useParams()
 
   const {user, isLoading, HanleTooglrBlock, fetchLoading, isError, error} = useUserManagement(userId!)
@@ -90,3 +90,5 @@ export function UserDetails() {
     </div>
   )
 }
+
+export default UserDetails

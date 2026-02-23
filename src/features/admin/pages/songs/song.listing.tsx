@@ -35,7 +35,7 @@ const AdminSongs = () => {
 
   return (
     <div className="min-h-screen p-6 lg:p-8">
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto max-w-350">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-3">
