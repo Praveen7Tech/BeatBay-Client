@@ -61,7 +61,7 @@ export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
               }}
               formatter={(value: number, name: string) => [
                 name === "revenue"
-                  ? `$${value.toLocaleString()}`
+                  ? `$${value?.toLocaleString() || 0}`
                   : value.toLocaleString(),
                 name === "revenue" ? "Revenue" : "Streams",
               ]}
