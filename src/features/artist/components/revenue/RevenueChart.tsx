@@ -1,6 +1,5 @@
 import {AreaChart,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
 import { chartData } from "../../services/artist.api";
-import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent";
 
 
 export interface RevenueDataPoint {
@@ -61,7 +60,7 @@ export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
                 borderRadius: "8px",
                 color: "#fff",
               }}
-              formatter={(value: ValueType, name: NameType) => {
+              formatter={(value, name) => {
                 const numericValue = Array.isArray(value) ? Number(value[0]) : Number(value);
                 const safeValue = isNaN(numericValue) ? 0 : numericValue;
 
