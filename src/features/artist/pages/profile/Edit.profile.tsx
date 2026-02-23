@@ -7,7 +7,7 @@ import { Input } from "@/core/components/input/Input";
 import { useProfileEdit } from "@/core/hooks/profile/useEditProfile";
 import { ProfileDetailsData} from "../../schema-validator/EditProfile.Schema";
 
-export function EditArtistProfile() {
+const EditArtistProfile =()=> {
     const navigate = useNavigate() 
 
     // handle edit profile
@@ -85,3 +85,5 @@ export function EditArtistProfile() {
     </div>
   )
 }
+
+export default EditArtistProfile

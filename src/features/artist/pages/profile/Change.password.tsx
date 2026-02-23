@@ -13,7 +13,7 @@ import { useState } from "react"
 
 
 
-export function EditPassword() {
+const EditPassword = ()=> {
     const [showCurrentPassword, setCurrentPassword] = useState(false)
     const [showNewPassword, setNewPassword] = useState(false)
     const [showConfirmPassword, setConfirmPassword] = useState(false)
@@ -107,3 +107,5 @@ export function EditPassword() {
     </div>
   )
 }
+
+export default EditPassword

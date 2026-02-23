@@ -10,7 +10,7 @@ import AccountInfoCard from "../../components/common/AccountInformationCard"
 import StatisticsCard from "../../components/common/StatisticsCard"
 import BlockStatusCard from "../../components/common/BlockUnblockCard"
 
-export function ArtistDetails() {
+const ArtistDetails =()=> {
   const {artistId} = useParams()
   const {artist, isLoading, HanleTooglrBlock, fetchLoading, isError}= useArtistManagement(artistId!)
 
@@ -83,3 +83,5 @@ export function ArtistDetails() {
     </div>
   )
 }
+
+export default ArtistDetails

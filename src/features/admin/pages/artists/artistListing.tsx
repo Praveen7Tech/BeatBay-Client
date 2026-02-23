@@ -9,7 +9,7 @@ import { Pagination } from "../../components/common/Pagination"
 import { ArtistCardGrid } from "../../components/artists/artistCard"
 import { SpinnerCustom } from "@/components/ui/spinner"
 
-export function ArtistListing() {
+const ArtistListing = ()=> {
 
     const [search, setSearchValue] = useState("")
     const [page, setPage] = useState(1)
@@ -54,3 +54,4 @@ export function ArtistListing() {
   )
 }
 
+export default ArtistListing
