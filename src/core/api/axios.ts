@@ -71,7 +71,7 @@ axiosInstance.interceptors.response.use(
             return Promise.reject(error);
         }
 
-      } catch (refreshError: any) {
+      } catch (refreshError) {
         store.dispatch(logout());
         return Promise.reject(refreshError);
       }
