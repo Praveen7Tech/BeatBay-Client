@@ -47,7 +47,8 @@ export interface UserDataResponse {
   playLists: string[];          
   followingArtists: string[];   
   followingCount: number;
-  createdAt: string;            
+  followersCount: number
+  createdAt: Date;            
   updatedAt: string;            
 }
 

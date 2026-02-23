@@ -96,7 +96,6 @@ export default function ExplorePage() {
               <Link key={item.id} to={`/${isSongs ? "song" : "album"}/${item.id}`}>
                 <AlbumCard
                   title={item.title}
-                  album={isSongs ? item.albumName : item.artistName}
                   coverImageUrl={item.coverImageUrl}
                   type={isSongs ? "song" : "album"}
                 />

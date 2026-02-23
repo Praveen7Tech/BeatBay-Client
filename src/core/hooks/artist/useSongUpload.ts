@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { artistApi, ArtistSongDetails, FileForUploadUrl } from "@/features/artist/services/artist.api";
-import { SongResponse } from "@/features/user/services/response.type";
 import { queryClient } from "@/core/config/query.client";
 
 // const extractFilenameFromUrl = (url: string | undefined | null): string | null => {

@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ArtistProfileResponse } from "../../services/adminApi";
+import { ArtistProfileResponse, UserDataResponse } from "../../services/adminApi";
 
 interface ArtistData {
   songs?: any[];
@@ -14,7 +14,7 @@ interface UserData {
 
 interface StatisticsCardProps {
   type: "artist" | "user";
-  data: ArtistProfileResponse | UserData;
+  data: ArtistProfileResponse | UserDataResponse;
 }
 
 export default function StatisticsCard({ type, data }: StatisticsCardProps) {
@@ -31,8 +31,8 @@ export default function StatisticsCard({ type, data }: StatisticsCardProps) {
         ]
       : [
           { label: "Following", value: (data as UserData)?.followingCount || 0 },
+          { label: "Followers", value: data.followersCount || 0 },
           { label: "Playlists", value: (data as UserData)?.playLists?.length || 0 },
-          { label: "Total Plays", value: 0 },
         ];
 
   return (

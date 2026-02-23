@@ -2,8 +2,8 @@ import { useArtistDashboard } from "@/core/hooks/artist/dashboard/useDashboard";
 import { ArtistDashboardStats } from "../../components/dashboard/artistDashboardStats";
 import { ArtistGrowthChart } from "../../components/dashboard/artistGrowthChart";
 import { ArtistTopContent } from "../../components/dashboard/artistTopContents";
-import { RevenueChart } from "../../components/revenue/RevenueChart";
-import { useArtistRevenue } from "@/core/hooks/artist/revenue/useArtistRevenue";
+// import { RevenueChart } from "../../components/revenue/RevenueChart";
+// import { useArtistRevenue } from "@/core/hooks/artist/revenue/useArtistRevenue";
 import { SpinnerArtist } from "@/components/ui/spinner";
 import { useState } from "react";
 

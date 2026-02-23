@@ -49,7 +49,7 @@ export function UserDetails() {
           {/* Account Information card*/}
           <AccountInfoCard
             email={user?.email}
-            createdAt={user?.createdAt}
+            joinDate={user?.createdAt}
             id={user?._id}
             showId={true}
           />

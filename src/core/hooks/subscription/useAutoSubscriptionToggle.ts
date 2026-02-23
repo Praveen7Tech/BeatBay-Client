@@ -35,6 +35,7 @@ export const useAutoSubscriptionToggle = (userId: string, isPremium:boolean) => 
             toast.success(autoRenew ? "Auto-renewal enabled" : "Auto-renewal disabled");
         },
         onError: (err,newValue, context) => {
+            newValue
             queryClient.setQueryData(["subscription", userId], context?.previousData)
             toast.error(err.message || "Failed to update payment settings");
         },

@@ -1,8 +1,8 @@
 import { Play, Heart, DollarSign} from "lucide-react";
 import { SongStatsCard } from "../../components/song/SongStatusCard"; 
 import { SongPerformanceChart } from "../../components/song/SongPerformanceChart"; 
-import { SongDemographics } from "../../components/song/SongDemoGraphics"; 
-import { SongSourceBreakdown } from "../../components/song/SongSourceBreakDown"; 
+// import { SongDemographics } from "../../components/song/SongDemoGraphics"; 
+// import { SongSourceBreakdown } from "../../components/song/SongSourceBreakDown"; 
 import { DetailHeader } from "../../components/common/DeatailsHeader";
 import { useSongDetails } from "@/core/hooks/artist/useSongDetails";
 import { SpinnerArtist } from "@/components/ui/spinner";

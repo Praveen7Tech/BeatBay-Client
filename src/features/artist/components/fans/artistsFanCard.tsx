@@ -1,4 +1,4 @@
-import { Eye, Calendar, Music } from "lucide-react";
+import { Eye, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Fans } from "../../services/artist.api";
 import { format, parseISO } from "date-fns";

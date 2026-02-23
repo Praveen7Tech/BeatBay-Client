@@ -1,15 +1,11 @@
 "use client"
 
 import { usePlayer } from "@/core/context/AudioProvider"
-//import { useAudioContext } from "@/core/context/useAudioContext"
-import { RootState } from "@/core/store/store"
 import { ChartNoAxesColumn, Music } from "lucide-react"
-import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
 export default function NowPlayingCard() {
   const { currentSong } = usePlayer()
-  const room = useSelector((state: RootState) => state.privateRoom)
 
   // const isUsingRoom = room.isActive && room.songData;
   // const activeSong = isUsingRoom ? room.songData : currentSong;

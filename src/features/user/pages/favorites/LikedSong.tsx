@@ -35,7 +35,7 @@ const LikedSongs = () => {
     if(isCurrentSongPlaying){
       playPause()
     }else{
-      startPlayback(songs)
+      startPlayback(songs,songs[0].id)
     }
   }
 
