@@ -1,12 +1,4 @@
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import {AreaChart,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
 import { chartData } from "../../services/artist.api";
 
 export interface RevenueDataPoint {
@@ -69,7 +61,7 @@ export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
               }}
               formatter={(value: number, name: string) => [
                 name === "revenue"
-                  ? `$${value.toLocaleString()}`
+                  ? `$${!value.toLocaleString()}`
                   : value.toLocaleString(),
                 name === "revenue" ? "Revenue" : "Streams",
               ]}

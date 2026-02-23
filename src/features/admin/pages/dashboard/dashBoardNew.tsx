@@ -2,7 +2,7 @@ import { BarChart3, PieChart, Activity } from 'lucide-react';
 import { AdminOverviewStats } from '../../components/dash/AdminOverViewStatus';
 import { AdminDemographicsChart } from '../../components/dash/AdminDemographicsChart';
 import { AdminEntityBreakdown } from '../../components/dash/AdminEntityBreakDown';
-import { AdminGrowthChart } from '../../components/dash/AdminGrowthChart';
+//import { AdminGrowthChart } from '../../components/dash/AdminGrowthChart';
 
 export default function AdminDashboard() {
   return (
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
             <Activity className="w-5 h-5 text-primary" />
             <h2 className="text-xl font-semibold">Growth</h2>
           </div>
-          <AdminGrowthChart />
+          {/* <AdminGrowthChart /> */}
         </section>
 
       </div>
