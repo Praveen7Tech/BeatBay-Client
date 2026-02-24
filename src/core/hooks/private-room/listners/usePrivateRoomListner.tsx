@@ -1,7 +1,7 @@
 import { socket } from "@/core/config/socket";
 import { RootState } from "@/core/store/store";
 import { setBulkInvite, setInviteState } from "@/features/user/slice/inviteState.slice";
-import { clearPrivateRoom, removeSongFromQueue, setPrivateRoom, setRoomSongQueueData, SongData } from "@/features/user/slice/privateRoomSlice";
+import { clearPrivateRoom, PrivateRoomState, removeSongFromQueue, RoomMember, setPrivateRoom, setRoomSongQueueData, SongData } from "@/features/user/slice/privateRoomSlice";
 import {  useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ export const usePrivateRoomListners = () => {
   useEffect(() => {
     if (!user?.id) return;
 
-    const restoreRoomState = (roomData: any) => {
+    const restoreRoomState = (roomData: PrivateRoomState) => {
       roomData && dispatch(setPrivateRoom(roomData));
     };
 
@@ -24,7 +24,7 @@ export const usePrivateRoomListners = () => {
       navigate("/home");
     };
 
-    const handleRoomMembersUpdated = (type: string,updatedRoom: any,leftUserId?: string) => {
+    const handleRoomMembersUpdated = (type: string,updatedRoom: PrivateRoomState,leftUserId?: string) => {
       
       if (type === "left" && leftUserId === user.id) {
         dispatch(clearPrivateRoom());
@@ -35,12 +35,8 @@ export const usePrivateRoomListners = () => {
       dispatch(setPrivateRoom(updatedRoom));
 
       if (type === "join") {
-        updatedRoom.members.forEach((m: any) => {
-          if (m.id !== user.id) {
-            dispatch(
-              setInviteState({ friendId: m.id, state: "connected" })
-            );
-          }
+        updatedRoom.members.forEach((m:RoomMember) => {
+            dispatch(setInviteState({ friendId: m.id, state: "connected" }));
         });
       }
 
@@ -71,8 +67,6 @@ export const usePrivateRoomListners = () => {
     socket.on("queue_updated", queueUpdation)
     socket.on("song_removed", songRemove)
 
-    //socket.on("host_playback_pause", handleHostPause);
-
     return () => {
       socket.off("restore_room_state", restoreRoomState);
       socket.off("room_deleted", handleRoomDeleted);
@@ -80,8 +74,6 @@ export const usePrivateRoomListners = () => {
 
       socket.off("queue_updated", queueUpdation);
       socket.off("song_removed", songRemove)
-
-      //socket.off("host_playback_pause", handleHostPause);
     };
   }, [user?.id,dispatch]);
 

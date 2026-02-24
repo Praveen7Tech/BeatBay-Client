@@ -11,6 +11,7 @@ export const useArtistRevenue = () =>{
     const { data: revenue, isLoading:isLoadingChart} = useQuery({
         queryKey:["revenue", ],
         queryFn: artistApi.getRevenue,
+        enabled: !!isPayoutEnabled
     })
 
     const {onBoarding} = useArtistOnBoarding()
