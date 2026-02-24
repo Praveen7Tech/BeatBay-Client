@@ -166,6 +166,23 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
     };
   }, [isHost, songData]);
 
+    /* ----------------------------------------
+     STOP PLAYBACH WHEN HOST GOT REFRESH/DISCONNECTED
+  ---------------------------------------- */
+    useEffect(() => {
+      const handleHostPause = () => {
+        const audio = audioRef.current;
+        audio.pause();
+        setIsPlaying(false);
+      };
+
+      socket.on("host_playback_pause", handleHostPause);
+
+      return () => {
+        socket.off("host_playback_pause", handleHostPause);
+      };
+    }, []);
+
   /* ----------------------------------------
      HOST → SEND DRIFT TICKS FOR ALIGN TIME TO ALL THE GUEST WITH HOST TIME
   ---------------------------------------- */

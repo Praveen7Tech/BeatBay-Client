@@ -96,8 +96,20 @@ const NowPlaying = () => {
           <button
             className="w-full py-2.5 text-sm font-bold bg-[#21be58] hover:bg-[#07d34f] text-white rounded-xl transition-all shadow-lg active:scale-95"
             onClick={() => {
+              if (!songData) return;
+
               const audio = audioRef.current;
-              audio?.play().then(() => setUserSync(false)).catch(err => console.error(err));
+
+              const latency = (Date.now() - songData.updatedAt) / 1000;
+              const adjustedTime = songData.timestamp + latency;
+
+              audio.currentTime = adjustedTime;
+
+              audio.play()
+                .then(() => {
+                  setUserSync(false);
+                })
+                .catch(err => console.error(err));
             }}
           >
             Tap to sync playback

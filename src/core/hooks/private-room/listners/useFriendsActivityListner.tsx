@@ -7,12 +7,14 @@ import { setPrivateRoom } from "@/features/user/slice/privateRoomSlice";
 import { useToaster } from "@/core/hooks/toast/useToast";
 import { showError } from "@/core/utils/toast.config";
 import { addNotification, Notification, setNotifications } from "@/features/user/slice/notificationSlice";
+import { useNavigate } from "react-router-dom";
 
 
 export const useFriendsActivityListeners = () => {
     const user = useSelector((state: RootState) => state.auth.user);
     const dispatch = useDispatch();
     const { toast } = useToaster();
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (!user?.id) return;
@@ -24,6 +26,7 @@ export const useFriendsActivityListeners = () => {
 
         const handleRoomCreation = (roomData: any)=>{
             dispatch(setPrivateRoom(roomData))
+            navigate('/private-room')
         }
 
         const handleInviteReceived = (fromUserId: string ) => {
