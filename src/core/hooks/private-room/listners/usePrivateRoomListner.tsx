@@ -71,6 +71,8 @@ export const usePrivateRoomListners = () => {
     socket.on("queue_updated", queueUpdation)
     socket.on("song_removed", songRemove)
 
+    //socket.on("host_playback_pause", handleHostPause);
+
     return () => {
       socket.off("restore_room_state", restoreRoomState);
       socket.off("room_deleted", handleRoomDeleted);
@@ -78,6 +80,8 @@ export const usePrivateRoomListners = () => {
 
       socket.off("queue_updated", queueUpdation);
       socket.off("song_removed", songRemove)
+
+      //socket.off("host_playback_pause", handleHostPause);
     };
   }, [user?.id,dispatch]);
 
