@@ -35,9 +35,12 @@ export const usePrivateRoomListners = () => {
       dispatch(setPrivateRoom(updatedRoom));
 
       if (type === "join") {
-        updatedRoom.members.forEach((m:RoomMember) => {
+        console.log("room mem", updatedRoom.members);
+
+        updatedRoom.members.filter((m: RoomMember) => m.id !== user.id)
+          .forEach((m: RoomMember) => {
             dispatch(setInviteState({ friendId: m.id, state: "connected" }));
-        });
+          });
       }
 
       if ((type === "left" || type === "remove") && leftUserId) {

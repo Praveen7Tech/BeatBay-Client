@@ -282,7 +282,6 @@ export const artistApi ={
 
     getOnBoardingLink: async(): Promise<OnboardLinkResponse>=>{
       const response = await axiosInstance.post(API_ROUTE_ARTIST.ONBOARDING)
-      console.log("linku ", response.data)
       return response.data
     },
 

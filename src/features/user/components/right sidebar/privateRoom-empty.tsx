@@ -13,7 +13,7 @@ const PrivateRoomsEmpty = () => {
       <h3 className="text-white font-semibold text-sm mb-1">
         Start a Private Room
       </h3>
-      <p className="text-zinc-400 text-xs mb-4 max-w-[180px]">
+      <p className="text-zinc-400 text-xs mb-4 max-w-45">
         send invites to your fiends to start a room
       </p>
       <p className="text-zinc-400 text-xs">

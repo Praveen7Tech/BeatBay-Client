@@ -8,7 +8,6 @@ import { RootState } from "@/core/store/store";
 import { useState } from "react";
 import { useSearchSongs } from "@/core/hooks/playList/usePlayList";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { usePrivateRoomListners } from "@/core/hooks/private-room/listners/usePrivateRoomListner";
 import EmptyRoom from "../../components/private-room/emptyRoom";
 import { useRoomActions } from "@/core/hooks/private-room/actions/useRoomActions";
 
@@ -22,7 +21,7 @@ const PrivateRoomPage = () => {
   const { data: searchSongs, isFetching } = useSearchSongs(searchQuery);
 
   /* ---------- SOCKET LISTENERS AND ACTIONS---------- */
-  usePrivateRoomListners()
+  //usePrivateRoomListners()
   const {addSongToRoom, reoveSongFromRoom, removeGuestFromRoom, leaveRoom} = useRoomActions()
 
   if (!room.isActive) return <EmptyRoom/>

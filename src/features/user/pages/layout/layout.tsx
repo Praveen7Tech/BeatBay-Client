@@ -7,9 +7,13 @@ import { Sidebar } from "../../components/left sidebar/sidebar"
 import { useSocket } from "@/core/hooks/socket/useSocket"
 import { RoomPlayerProvider } from "@/core/context/RoomContext"
 import { AudioPlayerProviderNew } from "@/core/context/AudioProvider"
+import { usePrivateRoomListners } from "@/core/hooks/private-room/listners/usePrivateRoomListner"
+import { useFriendsActivityListeners } from "@/core/hooks/private-room/listners/useFriendsActivityListner"
 
 export default function UserLayout() {
   useSocket()
+  useFriendsActivityListeners()
+  usePrivateRoomListners()
   return (
       <RoomPlayerProvider>
         <AudioPlayerProviderNew>
