@@ -59,7 +59,7 @@ export const LyricsSection = ({ lyricsUrl, currentTime }: LyricsSectionProps) =>
       const visibleLyrics = lyrics.slice(start, end);
 
       return (
-        <div className="text-white leading-relaxed whitespace-pre-wrap text-xl font-medium min-h-[200px]">
+        <div className="text-white leading-relaxed whitespace-pre-wrap text-xl font-medium min-h-50">
           {visibleLyrics.map((line, index) => {
             const realIndex = start + index; // real position in array
 

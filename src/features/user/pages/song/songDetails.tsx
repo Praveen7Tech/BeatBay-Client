@@ -7,8 +7,13 @@ import { SpinnerCustom } from "@/components/ui/spinner";
 import { useFetchsongById } from "@/core/hooks/api/useFetchHooks";
 import { useSongActions } from "@/core/hooks/song/useSongActions";
 import { usePlayer } from "@/core/context/AudioProvider";
+import { PremiumGuardLyrics } from "../../components/song/LyricsPremiumGuard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/core/store/store";
 
 export default function SongDetail() {
+  const user = useSelector((state:RootState)=> state.auth.user)
+  const isPremium = !!user?.isPremium
   const { songId } = useParams<{ songId: string }>();
 
   const { data, isLoading, isError, error } = useFetchsongById(songId!);
@@ -44,8 +49,8 @@ export default function SongDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-spotify-dark to-black text-white">
-      <div className="max-w-7xl mx-auto p-8">
+    <div className="min-h-screen text-white">
+      <div className="max-w-7xl mx-auto">
         <SongHeader
           title={song.title}
           coverImageUrl={song.coverImageUrl}
@@ -55,7 +60,7 @@ export default function SongDetail() {
           isLiked={song.isLiked}
           onLike={() => handleLike(song.id)}
           showAction
-          songId={song.id}
+          songId={song.id} streams={song.streams}
           addToPlaylist={handleAddToPlaylist}
         />
 
@@ -64,7 +69,12 @@ export default function SongDetail() {
             <ArtistSection artist={song.artist} />
           </Link>
 
-          <LyricsSection lyricsUrl={song.lyricsUrl} currentTime={activeCurrentTime} />
+          <PremiumGuardLyrics isPremium={isPremium}>
+            <LyricsSection
+              lyricsUrl={song.lyricsUrl}
+              currentTime={activeCurrentTime}
+            />
+          </PremiumGuardLyrics>
         </div>
 
         <SongTable

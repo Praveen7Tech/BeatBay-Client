@@ -61,7 +61,7 @@ const Playlists = () => {
 
   /* ---------------- UI ---------------- */
   return (
-    <div className="min-h-screen bg-black p-6 flex flex-col">
+    <div className="min-h-screen p-6 flex flex-col">
       <div className="max-w-7xl mx-auto grow">
         <h1 className="text-white text-3xl font-bold mx-6 my-10">
          Playlists

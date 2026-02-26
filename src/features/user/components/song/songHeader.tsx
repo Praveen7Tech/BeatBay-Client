@@ -16,6 +16,7 @@ interface SongHeaderProps {
   showAction?: boolean;
   addToPlaylist: (songId: string, playlistId: string) => void;
   songId: string;
+  streams: number
 }
 
 export const SongHeader = ({
@@ -28,13 +29,13 @@ export const SongHeader = ({
   isLiked,
   showAction,
   songId,
-  addToPlaylist,
+  addToPlaylist,streams
 }: SongHeaderProps) => {
   const room = useSelector((state: RootState) => state.privateRoom);
   const isRoomActive = room.isActive;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-start">
+    <div className="flex flex-col lg:flex-row gap-8 items-start bg-linear-to-b from-spotify-red to-bg-black p-8">
       {/* Song Cover */}
       <div className="shrink-0">
         <img
@@ -113,7 +114,7 @@ export const SongHeader = ({
         </h1>
 
         <div className="flex items-center gap-2 text-sm mb-6">
-          <span className="text-white">{"100 strams"}</span>
+          <span className="text-white">{streams} streams</span>
           <span className="text-spotify-secondary">•</span>
           <span className="text-spotify-secondary">{formatTime(duration)}</span>
         </div>

@@ -50,7 +50,7 @@ console.log("hh ", monthlyData)
             Revenue Breakdown — {currentYear}
           </h3>
           <p className="text-[#a7a7a7] text-sm">
-            Monthly earnings this year
+            Monthly earnings last one year
           </p>
         </div>
 
@@ -115,9 +115,7 @@ console.log("hh ", monthlyData)
           <p className="text-[#a7a7a7] text-xs">Avg / Month</p>
           <p className="text-white font-bold text-lg">
             $
-            {Math.round(
-              revenue.thisYearRevenue / monthlyData.length
-            ).toLocaleString()}
+            {Math.round(revenue.thisYearRevenue / monthlyData.length).toLocaleString()}
           </p>
         </div>
 
@@ -137,7 +135,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-[#282828] rounded-lg px-4 py-3 shadow-xl">
         <p className="text-[#a7a7a7] text-xs mb-1">
-          {label} {currentYear}
+          {label} 
         </p>
         <p className="text-white font-semibold text-sm">
           ${payload[0].value.toLocaleString()}

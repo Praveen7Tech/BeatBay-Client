@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 export default function RightPanel() {
   return (
-    <div className="w-80 bg-sidebar border-l border-[#2a2a2a] flex-col overflow-hidden hidden xl:flex ">
+    <div className="w-80 h-full bg-spotify-dark border border-[#2a2a2a] rounded-xl overflow-hidden hidden xl:flex flex-col">
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-transparent scrollbar-hide">
         {/* Now Playing */}

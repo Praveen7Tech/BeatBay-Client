@@ -12,7 +12,7 @@ export const FollowingCard = ({ id, name, profilePicture ,role}: FollowingCardPr
   return (
     <Link
       to={`/${path}/${id}`}
-      className="group p-4 rounded-md  hover:bg-[#282828] transition-all duration-300 cursor-pointer"
+      className="group p-4 rounded-md hover:bg-[#282828] transition-all duration-300 cursor-pointer"
     >
       <div className="relative mb-4">
         <div className="aspect-square rounded-full overflow-hidden bg-[#282828] flex items-center justify-center">

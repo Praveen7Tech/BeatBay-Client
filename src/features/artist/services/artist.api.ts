@@ -140,6 +140,7 @@ export interface SongRevenue {
 export interface chartData{
     month: string;
     revenue: number;
+    streams: number;
 }
 
 export interface Summary{

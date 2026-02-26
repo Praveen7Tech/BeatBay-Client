@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -21,6 +22,8 @@ interface RoomPlayerContextType {
   audioRef: React.RefObject<HTMLAudioElement>;
   userSync: boolean;
   setUserSync: React.Dispatch<React.SetStateAction<boolean>>
+  volume: number;
+  setVolume: (v: number) => void;
 }
 
 const RoomPlayerContext = createContext<RoomPlayerContextType | null>(null);
@@ -39,6 +42,7 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [userSync, setUserSync] = useState(false)
+  const [volume, setVolumeState] = useState(50);
 
   /* =========================================
    RESTORE / JOIN / REFRESH PLAYBACK SYNC
@@ -122,27 +126,6 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
   }, [dispatch]);
 
   /* ----------------------------------------
-     DRIFT CORRECTION syncing with host time
-  ---------------------------------------- */
-  // useEffect(() => {
-  //   const audio = audioRef.current;
-
-  //   socket.on("player_tick", ({ time, isPlaying }) => {
-  //     console.log("tick recieve ", time)
-  //     if (Math.abs(audio.currentTime - time) > 0.7) {
-  //       audio.currentTime = time;
-  //     }
-
-  //     if (isPlaying && audio.paused) audio.play().catch(() => {});
-  //     if (!isPlaying && !audio.paused) audio.pause();
-  //   });
-
-  //   return () => {
-  //     socket.off("player_tick");
-  //   };
-  // }, []);
-
-  /* ----------------------------------------
      AUDIO EVENTS
   ---------------------------------------- */
   useEffect(() => {
@@ -182,25 +165,6 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
         socket.off("host_playback_pause", handleHostPause);
       };
     }, []);
-
-  /* ----------------------------------------
-     HOST → SEND DRIFT TICKS FOR ALIGN TIME TO ALL THE GUEST WITH HOST TIME
-  ---------------------------------------- */
-  // useEffect(() => {
-  //   if (!isHost || !room.roomId) return;
-
-  //   const interval = setInterval(() => {
-  //     socket.emit("player_tick", {
-  //       roomId: room.roomId,
-  //       time: audioRef.current.currentTime,
-  //       isPlaying
-  //     });
-  //     console.log("tick ", audioRef.current.currentTime)
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [isHost, isPlaying, room.roomId]);
-
 
   // FORCE STOP WHEN EXIT / REMOVE FROM ROOM AND ROOM NOT ACTIVE
   useEffect(()=>{
@@ -307,6 +271,16 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
     });
   };
 
+    // HANDLE SET VOLUME
+  const handleSetVolume = useCallback(
+      (v: number) => {
+        setVolumeState(v);
+        audioRef.current.volume = v/100
+      },
+      [audioRef.current],
+  );
+
+
   return (
     <RoomPlayerContext.Provider
       value={{
@@ -319,7 +293,9 @@ export const RoomPlayerProvider = ({ children }: { children: React.ReactNode }) 
         skipPrev: () => skip("prev"),
         audioRef,
         userSync,
-        setUserSync
+        setUserSync,
+        volume,
+        setVolume: handleSetVolume
       }}
     >
       {children}

@@ -1,8 +1,14 @@
 import { userApi } from "@/features/user/services/userApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToaster } from "../toast/useToast";
+import { AlbumResponse, LikedSondResponse, SongDetailsResponse } from "@/features/user/services/response.type";
 
 type TableType = "song" | "album" | "liked" | "playlist"
+type ToggleLikeContext = {
+  previousSongDetails?: SongDetailsResponse;
+  previousAlbumDetails?: AlbumResponse;
+  previousLikedSongs?: LikedSondResponse;
+};
 
 export const useToggleLikesMutation = ( tableType: TableType,albumId?: string) => {
   const queryClient = useQueryClient();
@@ -12,7 +18,7 @@ export const useToggleLikesMutation = ( tableType: TableType,albumId?: string) =
     mutationFn: (songId: string) => userApi.toggleLike(songId),
 
     onMutate: async (songId: string) => {
-      const context: any = {};
+      const context: ToggleLikeContext = {};
 
       // always cancel liked songs
       await queryClient.cancelQueries({ queryKey: ["liked-songs"] });
@@ -35,7 +41,7 @@ export const useToggleLikesMutation = ( tableType: TableType,albumId?: string) =
 
       // optimistically update the song header or song table UI
       if (tableType === "song") {
-        queryClient.setQueryData(["songDetails"], (old: any) => {
+        queryClient.setQueryData< SongDetailsResponse>(["songDetails"], (old) => {
           if (!old) return old;
           return {
             ...old,
@@ -43,7 +49,7 @@ export const useToggleLikesMutation = ( tableType: TableType,albumId?: string) =
               ...old.song,
               isLiked: !old.song.isLiked,
             },
-            recommendations: old.recommendations?.map((s: any) =>
+            recommendations: old.recommendations?.map((s) =>
               s.id === songId ? { ...s, isLiked: !s.isLiked } : s
             ),
           };
@@ -52,11 +58,11 @@ export const useToggleLikesMutation = ( tableType: TableType,albumId?: string) =
 
       // opstimically update album table
       if (tableType === "album" && albumId) {
-        queryClient.setQueryData(["albumDetails", albumId],(old: any) => {
+        queryClient.setQueryData<AlbumResponse>(["albumDetails", albumId],(old) => {
             if (!old) return old;
             return {
               ...old,
-              songs: old.songs.map((s: any) =>
+              songs: old.songs.map((s) =>
                 s.id === songId ? { ...s, isLiked: !s.isLiked } : s
               ),
             };
@@ -65,17 +71,17 @@ export const useToggleLikesMutation = ( tableType: TableType,albumId?: string) =
       }
 
       // liked-songs page - always update
-      queryClient.setQueryData(["liked-songs"], (old: any) => {
+      queryClient.setQueryData<LikedSondResponse>(["liked-songs"], (old) => {
         if (!old?.songs) return old;
 
         const isAlreadyLiked = old.songs.some(
-          (s: any) => s.id === songId
+          (s) => s.id === songId
         );
 
         return {
           ...old,
           songs: isAlreadyLiked
-            ? old.songs.filter((s: any) => s.id !== songId)
+            ? old.songs.filter((s) => s.id !== songId)
             : old.songs,
         };
       });

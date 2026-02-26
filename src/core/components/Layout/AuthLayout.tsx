@@ -31,16 +31,18 @@ export default function AuthLayout({ children, title, subtitle, googleRole }: Sp
         </div>
         {/* Devider */}
         <Devider/>
-        {/* Google Button */}
-          <button type="button"
-              className="w-full py-3 border border-white/20 rounded-full text-white font-semibold hover:bg-white/10 transition-colors">
-              Sign up with Google
-          </button>
-        {googleRole ?
-        <div className="px-8 pt-6">
-            <GoogleAuthButton role={googleRole}/>
-        </div>
-        : ""}
+        {googleRole && (
+          <>
+            <div className="px-8 text-center">
+              <span className="text-white font-semibold block mb-3">
+                Sign up with Google
+              </span>
+            </div>
+            <div className="px-8">
+              <GoogleAuthButton role={googleRole} />
+            </div>
+          </>
+        )}
       
         {/* Footer */}
         <div className="mt-10">

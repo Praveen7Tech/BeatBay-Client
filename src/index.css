@@ -57,9 +57,11 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-spotify-black: #0a0a0a;
-  --color-spotify-dark: #121212;
+  --color-spotify-dark: oklch(15.907% 0.00002 271.152);
   --color-spotify-light-black: #1db954;
   --color-spotify-green: #1ed760;
+  --color-spotify-red: #a71111;
+  --color-spotify-blue: #3b82f6;
   --color-spotify-text: #ffffff;
   --color-spotify-secondary: #b3b3b3;
   --color-spotify-tertiary: #7f7f7f;
@@ -103,9 +105,9 @@
     --surface: 0 0% 12%;
     --surface-hover: 0 0% 16%;
    
-  --sidebar: #000000;
+  --sidebar: #121212;
   --sidebar-foreground: #b3b3b3;
-  --sidebar-accent: #1a1a1a;
+  --sidebar-accent: #3a3737;
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #282828;
 
@@ -141,5 +143,31 @@
 
 .toaster {
   bottom: 140px !important;
+}
+
+ /* page float animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease forwards;
 }
 

@@ -14,17 +14,11 @@ export default function AlbumDetail() {
   const { handleLike, handleAddToPlaylist } = useSongActions("album", {albumId});
   const { startPlayback,currentSong,isPlaying, playPause,currentContextId } = usePlayer();
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <SpinnerCustom />
-      </div>
-    );
-  }
-
+  if (isLoading) return <SpinnerCustom />
+  
   if (isError || !album) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
+      <div className="min-h-screen flex items-center justify-center text-red-500">
         {error instanceof Error ? error.message : "Something went wrong"}
       </div>
     );
@@ -42,8 +36,8 @@ export default function AlbumDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-spotify-dark to-black text-white">
-      <div className="max-w-7xl mx-auto p-8">
+    <div className="min-h-screen text-white">
+      <div className="max-w-7xl mx-auto">
         <AlbumDetailHeader
           title={album.title}
           artist={album.artistName}

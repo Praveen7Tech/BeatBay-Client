@@ -47,7 +47,7 @@ export const PlaylistSearchSection = ({
   };
 
   return (
-    <div className="mt-8 mb-6">
+    <div className=" mb-6 p-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-white">
           Let's find something for your playlist
@@ -83,7 +83,7 @@ export const PlaylistSearchSection = ({
       </div>
 
       {/* Search results section */}
-      <div className="space-y-2 min-h-[100px] flex flex-col">
+      <div className="space-y-2 min-h-25 flex flex-col">
         {isSearching ? (
           <div className="flex items-center justify-center h-10">
             <ThreeDots

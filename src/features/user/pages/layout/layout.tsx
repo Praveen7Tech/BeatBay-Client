@@ -1,8 +1,8 @@
 "use client"
-import Navbar from "../../components/common/Navbar" 
-import RightPanel from "../../components/right sidebar/right-sidebar" 
+import Navbar from "../../components/common/Navbar"
+import RightPanel from "../../components/right sidebar/right-sidebar"
 import { Outlet } from "react-router-dom"
-import { MusicPlayer } from "../song/musicPlayer"
+import { MusicPlayer } from "../music_player/musicPlayer"
 import { Sidebar } from "../../components/left sidebar/sidebar"
 import { useSocket } from "@/core/hooks/socket/useSocket"
 import { RoomPlayerProvider } from "@/core/context/RoomContext"
@@ -14,21 +14,37 @@ export default function UserLayout() {
   useSocket()
   useFriendsActivityListeners()
   usePrivateRoomListners()
+
   return (
-      <RoomPlayerProvider>
-        <AudioPlayerProviderNew>
-      <div className="h-screen bg-[#0f0f0f] text-white overflow-hidden flex flex-col">
-        <Navbar />
-        <div className="flex flex-1 overflow-hidden pt-24 pb-20">
-          <Sidebar />
-          <div className="flex-1 overflow-y-auto bg-[#0f0f0f] scrollbar-hide">
-            <Outlet />
+    <RoomPlayerProvider>
+      <AudioPlayerProviderNew>
+        <div className="h-screen bg-black text-white overflow-hidden">
+
+          {/* Navbar */}
+          <Navbar />
+
+          {/* Main layout area */}
+          <div className="pt-24 pb-25 px-3 h-full">
+            <div className="flex gap-3 h-full">
+
+              {/* Left Sidebar */}
+              <Sidebar />
+
+              {/* Main Content */}
+              <main className="flex-1 bg-spotify-dark rounded-xl overflow-y-auto scrollbar-hide">
+                <Outlet />
+              </main>
+
+              {/* Right Sidebar */}
+              <RightPanel />
+
+            </div>
           </div>
-          <RightPanel />
+
+          {/* Player */}
+          <MusicPlayer />
         </div>
-          <MusicPlayer />      
-      </div>
-       </AudioPlayerProviderNew>
-      </RoomPlayerProvider>
+      </AudioPlayerProviderNew>
+    </RoomPlayerProvider>
   )
 }
