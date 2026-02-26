@@ -18,7 +18,7 @@ const LikedSongsTable = ({
 }: LikedSongsTableProps) => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   return (
-    <div className="px-6">
+    <div className="px-6 bg-spotify-dark">
       <table className="w-full">
         <thead>
           <tr className="border-b border-border text-muted-foreground text-sm">

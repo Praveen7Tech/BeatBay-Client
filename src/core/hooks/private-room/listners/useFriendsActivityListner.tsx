@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "@/core/config/socket";
 import { RootState } from "@/core/store/store";
-import { setBulkInvite, setInviteState } from "@/features/user/slice/inviteState.slice";
-import { setPrivateRoom } from "@/features/user/slice/privateRoomSlice";
+import { InviteState, InviteStateMap, setBulkInvite, setInviteState } from "@/features/user/slice/inviteState.slice";
+import { PrivateRoomState, setPrivateRoom } from "@/features/user/slice/privateRoomSlice";
 import { useToaster } from "@/core/hooks/toast/useToast";
 import { showError } from "@/core/utils/toast.config";
 import { addNotification, Notification, setNotifications } from "@/features/user/slice/notificationSlice";
@@ -19,12 +19,12 @@ export const useFriendsActivityListeners = () => {
     useEffect(() => {
         if (!user?.id) return;
 
-        const SyncFriendsStatus = (friedsState:any)=>{
+        const SyncFriendsStatus = (friedsState:InviteStateMap)=>{
             console.log("bulk invite ", friedsState)
             dispatch(setBulkInvite(friedsState))
         }
 
-        const handleRoomCreation = (roomData: any)=>{
+        const handleRoomCreation = (roomData: PrivateRoomState)=>{
             dispatch(setPrivateRoom(roomData))
             navigate('/private-room')
         }
@@ -48,7 +48,7 @@ export const useFriendsActivityListeners = () => {
             dispatch(setInviteState({ friendId: guestId, state: "none" }));
         };
 
-        const handleGlobalStatusChange = ({ friendId, status }: any) => {
+        const handleGlobalStatusChange = ({ friendId, status }: {friendId: string, status: InviteState}) => {
             console.log("frine status ", friendId, status)
             dispatch(setInviteState({ friendId, state: status }));
         };

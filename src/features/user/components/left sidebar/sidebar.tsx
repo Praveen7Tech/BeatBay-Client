@@ -35,11 +35,7 @@ export function Sidebar() {
   const artists = followers?.docs.filter((f:FollowingResponse)=> f.role === "artist")
 
   return (
-    <aside
-      className={`${
-        isOpen ? "w-75" : "w-25" }
-        bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col relative `}
-    >
+    <aside className={`${isOpen ? "w-72" : "w-24"} h-full bg-spotify-dark border border-[#2a2a2a] rounded-xl transition-all duration-300 flex flex-col relative`}>
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -125,40 +121,52 @@ export function Sidebar() {
         )}
 
         {/* Artists */}
-        {isOpen && <h3 className="text-xs font-semibold text-sidebar-foreground mt-3 px-3">Artists</h3>}
-        {artists?.length! > 0 && (
-        <div className="overflow-y-auto h-[25vh] pr-2 space-y-1">
-          {artists?.map((artist) => (
-            <NavLink
-              key={artist.id}
-              to={`/artist/${artist.id}`}
-              className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
-              activeClassName="bg-sidebar-accent text-white"
-            >
-             <div className="relative h-10 w-10 rounded-full overflow-hidden bg-sidebar-accent flex items-center justify-center">
-              {artist.profilePicture && artist.profilePicture !== null ? (
-                <img
-                  src={artist.profilePicture}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <User className="h-5 w-5 text-white opacity-70" />
-              )}
+          {isOpen && (
+            <h3 className="text-xs font-semibold text-sidebar-foreground mt-3 px-3">
+              Artists
+            </h3>
+          )}
 
-              {/* Hover Play Overlay */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-full">
-                <Play className="h-5 w-5 text-white fill-white" />
-              </div>
+          {artists && artists.length > 0 ? (
+            <div className="overflow-y-auto h-[25vh] pr-2 space-y-1">
+              {artists.map((artist) => (
+                <NavLink
+                  key={artist.id}
+                  to={`/artist/${artist.id}`}
+                  className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
+                  activeClassName="bg-sidebar-accent text-white"
+                >
+                  <div className="relative h-10 w-10 rounded-full overflow-hidden bg-sidebar-accent flex items-center justify-center">
+                    {artist.profilePicture ? (
+                      <img
+                        src={artist.profilePicture}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <User className="h-5 w-5 text-white opacity-70" />
+                    )}
+
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-full">
+                      <Play className="h-5 w-5 text-white fill-white" />
+                    </div>
+                  </div>
+
+                  {isOpen && (
+                    <span className="text-sm text-sidebar-foreground">
+                      {artist.name}
+                    </span>
+                  )}
+                </NavLink>
+              ))}
             </div>
-              {isOpen && <span className="text-sm text-sidebar-foreground">{artist.name}</span>}
-            </NavLink>
-          ))}
-        </div>
-        )}
+          ) : (
+            isOpen && (
+              <div className="px-3 py-6 text-center text-xs text-zinc-400 rounded-lg border border-[#2a2a2a] animate-fadeIn">
+                No followed artists yet
+              </div>
+            )
+          )}
       </div>
-
-      {/* Fade Bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none bg-linear-to-t from-black to-transparent" />
     </aside>
   );
 }

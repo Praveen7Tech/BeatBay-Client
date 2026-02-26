@@ -16,7 +16,7 @@ export default function PlaylistDetail() {
 
   if (!playlistId)
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen text-white flex items-center justify-center">
         <p>Invalid playlist</p>
       </div>
     );
@@ -31,7 +31,7 @@ export default function PlaylistDetail() {
 
   if (isError || !playlist)
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-red-500">
+      <div className="min-h-screen flex items-center justify-center text-red-500">
         {error instanceof Error ? error.message : "Something went wrong"}
       </div>
     );
@@ -53,8 +53,8 @@ export default function PlaylistDetail() {
   const handleSearch = (query: string) => setSearchQuery(query);
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-spotify-dark to-[#000000] text-white">
-      <div className="max-w-7xl mx-auto p-8">
+    <div className="min-h-screen bg-linear-to-b text-white">
+      <div className="max-w-7xl mx-auto">
         <PlaylistHeader
           playListData={playlist}
           onAddSongClick={() => setIsSearchOpen(true)}

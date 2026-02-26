@@ -70,6 +70,7 @@ export interface SongDetails {
   duration: number;
   artist: ArtistDTO;
   artistName?:string
+  streams: number
   isLiked: boolean;
   likedAt?:string
 }

@@ -43,7 +43,7 @@ const isError = isOtherUserExist
   
   if (isError) {
     return (
-      <div className="min-h-screen bg-black text-red-600 p-8">
+      <div className="min-h-screen text-red-600 p-8">
         Error: {error instanceof Error ? error.message : "Something went wrong"}
       </div>
     );
@@ -78,7 +78,7 @@ const isError = isOtherUserExist
 
 
   return (
-    <div className="min-h-screen bg-black p-6 flex flex-col">
+    <div className="min-h-screen p-6 flex flex-col">
       <div className="max-w-7xl mx-auto w-full grow">
         <h1 className="text-white text-3xl font-bold mx-8 my-10 capitalize">
           {type}

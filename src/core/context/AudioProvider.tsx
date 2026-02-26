@@ -3,6 +3,8 @@ import { useAudioEngine } from "../hooks/song/useAudioEngine";
 import { SongDetails } from "@/features/user/services/response.type";
 import { userApi } from "@/features/user/services/userApi";
 import { getPlaybackState, savePlayBackState } from "../service/playerStorageService";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 interface MusicPlayerContextType {
   currentSong: SongDetails | null;
@@ -33,6 +35,7 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
   const [volume, setVolumeState] = useState(50);
   const [isRepeating, setIsRepeating] = useState(false);
   const [currentContextId, setCurrentContextId] = useState<string | null>(null)
+  const room = useSelector((state: RootState)=> state.privateRoom)
 
   const playTimerRef = useRef<{ songId: string; startTime: number }>({
     songId: "",
@@ -65,6 +68,13 @@ export const AudioPlayerProviderNew = ({ children,}: { children: React.ReactNode
 
     hydratePlayer();
   }, []);
+
+  // PAUSE THE MAIN SONG CONTEX PLAYING WHEN ROOM IS ACTIVE
+  useEffect(()=>{
+    if(room.isActive && engine.isPlaying){
+      engine.audio.pause()
+    }
+  },[room.isActive])
 
   // UPDATE LOCAL STORAGE TO TRACK LASP PLAYED SONG AND TIME
   useEffect(()=>{

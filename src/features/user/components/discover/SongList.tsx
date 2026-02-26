@@ -16,7 +16,7 @@ const SongList = ({ songs, activeSongId }: SongListProps) => {
       <div className="flex-1 space-y-2 overflow-hidden">
         {songs.map((song) => (
           <Link to={`/song/${song.id}`} key={song.id}>
-            <div className="flex items-center gap-3 p-2 rounded-md hover:bg-[#282828] cursor-pointer group">
+            <div className="flex items-center gap-3 p-2 rounded-md bg-blend-color hover:bg-[#282828] cursor-pointer group">
               
               <div className="w-12 h-12 flex items-center justify-center rounded bg-[#1a1a1a]">
                 {activeSongId === song.id ? (

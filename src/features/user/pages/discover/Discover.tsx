@@ -1,3 +1,4 @@
+import { useState } from "react";
 import TopResultCard from "../../components/discover/TopResultCard";
 import SongList from "../../components/discover/SongList";
 import AlbumCard from "../../components/home/album-card";
@@ -10,7 +11,11 @@ import { useSearch } from "@/core/hooks/Search/useDiscoverSearch";
 import SearchEmptyState from "./EmptyResult";
 import { usePlayer } from "@/core/context/AudioProvider";
 
+const filters = ["All", "Songs", "Albums", "Artists", "Profiles"];
+
 const Discover = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+
   const searchQueryRedux = useSelector(
     (state: RootState) => state.search.query
   );
@@ -31,6 +36,8 @@ const Discover = () => {
     }
   };
 
+  if (loading) return <SpinnerCustom />;
+
   const hasResults =
     !!topResult ||
     songs.length > 0 ||
@@ -38,74 +45,172 @@ const Discover = () => {
     artists.length > 0 ||
     users.length > 0;
 
-  const shouldShowEmpty =
-    !loading &&
-    !hasResults &&
-    searchQueryRedux.trim().length > 0;
+  const shouldShowGlobalEmpty =
+    !hasResults && searchQueryRedux.trim().length > 0;
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      {loading && (
-        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
-          <SpinnerCustom />
-        </div>
-      )}
+    <div className="min-h-screen p-6">
+      {shouldShowGlobalEmpty && <SearchEmptyState />}
 
-      {shouldShowEmpty && <SearchEmptyState />}
+      {!shouldShowGlobalEmpty && (
+        <>
+          {/* Filters */}
+          <div className="flex gap-2 mb-8 flex-wrap">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeFilter === filter
+                    ? "bg-white text-black"
+                    : "bg-[#232323] text-white hover:bg-[#2a2a2a]"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
 
-      {(topResult || songs.length > 0) && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-stretch">
-          {topResult && (
-            <TopResultCard
-              topResult={topResult}
-              isPlaying={isPlaying}
-              isActive={currentSong?.id === topResult.id}
-              onPlayPause={handleTopResultPlayPause}
-            />
+          {/* ALL */}
+          {activeFilter === "All" && (
+            <>
+              {(topResult || songs.length > 0) && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-stretch">
+                  {topResult && (
+                    <TopResultCard
+                      topResult={topResult}
+                      isPlaying={isPlaying}
+                      isActive={currentSong?.id === topResult.id}
+                      onPlayPause={handleTopResultPlayPause}
+                    />
+                  )}
+
+                  {songs.length > 0 && (
+                    <SongList
+                      songs={songs}
+                      activeSongId={currentSong?.id}
+                    />
+                  )}
+                </div>
+              )}
+
+              {albums.length > 0 && (
+                <div className="px-8 py-8">
+                  <h2 className="text-2xl font-bold mb-6 text-foreground">
+                    Albums
+                  </h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    {albums.map((album) => (
+                      <Link key={album.id} to={`/album/${album.id}`}>
+                        <AlbumCard {...album} type="album" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {artists.length > 0 && (
+                <div className="px-8 py-8">
+                  <h2 className="text-2xl font-bold text-white mb-4">
+                    Artists
+                  </h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    {artists.map((artist) => (
+                      <FollowingCard key={artist.id} {...artist} role="artist" />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {users.length > 0 && (
+                <div className="px-8 py-8">
+                  <h2 className="text-2xl font-bold text-white mb-4">
+                    Users
+                  </h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    {users.map((user) => (
+                      <FollowingCard key={user.id} {...user} role="user" />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
-          {songs.length > 0 && (
-            <SongList
-              songs={songs}
-              activeSongId={currentSong?.id}
-            />
+          {/* SONGS FILTER (Top Result + Songs) */}
+          {activeFilter === "Songs" && (
+            <>
+              {!topResult && songs.length === 0 ? (
+                <SearchEmptyState />
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {topResult && (
+                    <TopResultCard
+                      topResult={topResult}
+                      isPlaying={isPlaying}
+                      isActive={currentSong?.id === topResult.id}
+                      onPlayPause={handleTopResultPlayPause}
+                    />
+                  )}
+
+                  {songs.length > 0 && (
+                    <SongList
+                      songs={songs}
+                      activeSongId={currentSong?.id}
+                    />
+                  )}
+                </div>
+              )}
+            </>
           )}
-        </div>
-      )}
 
-      {albums.length > 0 && (
-        <div className="px-8 py-8">
-          <h2 className="text-2xl font-bold mb-6 text-foreground">Albums</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {albums.map((album) => (
-              <Link key={album.id} to={`/album/${album.id}`}>
-                <AlbumCard {...album} type="album" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+          {/* ALBUMS */}
+          {activeFilter === "Albums" && (
+            <>
+              {albums.length === 0 ? (
+                <SearchEmptyState />
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-8">
+                  {albums.map((album) => (
+                    <Link key={album.id} to={`/album/${album.id}`}>
+                      <AlbumCard {...album} type="album" />
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
 
-      {artists.length > 0 && (
-        <div className="px-8 py-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Artists</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {artists.map((artist) => (
-              <FollowingCard key={artist.id} {...artist} role="artist" />
-            ))}
-          </div>
-        </div>
-      )}
+          {/* ARTISTS */}
+          {activeFilter === "Artists" && (
+            <>
+              {artists.length === 0 ? (
+                <SearchEmptyState />
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-7">
+                  {artists.map((artist) => (
+                    <FollowingCard key={artist.id} {...artist} role="artist" />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
 
-      {users.length > 0 && (
-        <div className="px-8 py-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Users</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {users.map((user) => (
-              <FollowingCard key={user.id} {...user} role="user" />
-            ))}
-          </div>
-        </div>
+          {/* PROFILES */}
+          {activeFilter === "Profiles" && (
+            <>
+              {users.length === 0 ? (
+                <SearchEmptyState />
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-7">
+                  {users.map((user) => (
+                    <FollowingCard key={user.id} {...user} role="user" />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </>
       )}
     </div>
   );

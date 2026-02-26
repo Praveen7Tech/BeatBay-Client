@@ -44,7 +44,7 @@ export const ArtistGrowthChart = ({data,days,setDays}:Props) => {
       </div>
 
       {/* Chart */}
-      <div className="h-[300px]">
+      <div className="h-75">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" stroke="#282828" />

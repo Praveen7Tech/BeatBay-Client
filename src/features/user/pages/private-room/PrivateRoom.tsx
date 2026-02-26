@@ -27,7 +27,7 @@ const PrivateRoomPage = () => {
   if (!room.isActive) return <EmptyRoom/>
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white">
       <RoomHeader leaveRoom={leaveRoom}/>
       <TooltipProvider>
       <div className="p-4 max-w-7xl mx-auto space-y-4">

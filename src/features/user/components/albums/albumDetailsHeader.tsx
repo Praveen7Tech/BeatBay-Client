@@ -20,8 +20,8 @@ export const AlbumDetailHeader = ({
 }: AlbumDetailHeaderProps) => {
 
   return (
-    <div>
-      <div className="flex flex-col lg:flex-row gap-8 items-end">
+    <div className="bg-linear-to-b from-primary/40 to-transparent p-8">
+      <div className="flex flex-col lg:flex-row gap-8 items-end ">
         <img
           src={coverImageUrl}
           alt={title}

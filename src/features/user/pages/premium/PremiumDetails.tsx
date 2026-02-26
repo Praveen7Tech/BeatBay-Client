@@ -45,7 +45,7 @@ const PremiumDetails = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 md:p-10 bg-black">
+    <div className="min-h-screen p-6 md:p-10">
       <div className="max-w-5xl mx-auto">
         <PremiumHeader/>
         <div className="grid md:grid-cols-2 gap-6">

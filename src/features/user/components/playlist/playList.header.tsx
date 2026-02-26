@@ -27,8 +27,8 @@ export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handle
   
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-6 mb-8">
-        <div className="w-56 h-56 rounded-lg shadow-2xl overflow-hidden bg-[#1f1f1f] flex items-center justify-center">
+      <div className="flex flex-col md:flex-row gap-6 mb-8 items-start bg-linear-to-b from-spotify-red to-bg-black p-8">
+        <div className="w-56 h-56 rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
         {playListData.coverImageUrl ? (
           <img
             src={playListData.coverImageUrl}
@@ -62,7 +62,7 @@ export const PlaylistHeader = ({ playListData, onAddSongClick, isPlaying, handle
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-6 p-8">
         <RoomGuard>
         <button onClick={handlePlayPause}
           className="w-14 h-14 rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center shadow-lg"

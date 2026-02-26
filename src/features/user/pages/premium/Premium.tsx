@@ -4,17 +4,18 @@ import { PaymentProcessing } from "@/core/components/loading/PaymentProcessing";
 import { useState } from "react";
 import {  getPlansForUser } from "../../helpers/subscription.data";
 import { useSubscriptionPlanPrices } from "@/core/hooks/subscription/useGetsubscriptionPrices";
+import { SpinnerCustom } from "@/components/ui/spinner";
 
 const Premium = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   
   const { priceData, loading } = useSubscriptionPlanPrices();
 
-  if (loading) return <PaymentProcessing />; 
+  if (loading) return <SpinnerCustom/>; 
 
   const plans = getPlansForUser("card",priceData!);
   return (
-    <div className="min-h-screen p-6 md:p-10 bg-black">
+    <div className="min-h-screen p-6 md:p-10">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-4">

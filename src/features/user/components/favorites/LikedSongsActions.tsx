@@ -12,7 +12,7 @@ interface LikedSongsActionsProps {
 
 const LikedSongsActions = ({ searchQuery, setSearchQuery, onPlaySong, isPlaying }: LikedSongsActionsProps) => {
   return (
-    <div className="px-6 py-4 flex items-center gap-4">
+    <div className="px-6 py-4 flex items-center gap-4 bg-background">
       <RoomGuard>
       <button 
       onClick={onPlaySong}

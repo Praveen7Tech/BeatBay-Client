@@ -1,13 +1,6 @@
 import {AreaChart,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
 import { chartData } from "../../services/artist.api";
 
-
-export interface RevenueDataPoint {
-  month: string;
-  revenue: number;
-  streams: number;
-}
-
 interface RevenueChartProps {
   data: chartData[];
   currency: string;
@@ -37,7 +30,7 @@ export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
         </div>
       </div>
 
-      <div className="h-[300px]">
+      <div className="h-75">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}>
             <defs>
@@ -77,6 +70,14 @@ export const RevenueChart = ({ data, currency }: RevenueChartProps) => {
               stroke="#1DB954"
               strokeWidth={2}
               fill="url(#revenueGradientNew)"
+            />
+
+            <Area
+              type="monotone"
+              dataKey="streams"
+              stroke="#ffcc00"
+              strokeWidth={1.5}
+              fill="transparent"
             />
           </AreaChart>
         </ResponsiveContainer>

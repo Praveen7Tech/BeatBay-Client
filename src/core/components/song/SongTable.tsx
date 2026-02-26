@@ -21,8 +21,8 @@ export const SongTable = ({ songs, title, activeSongId,onLike,showAction,showRem
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold my-8 text-white">{title}</h2>
+    <div className="p-8 ">
+      <h2 className="text-2xl font-bold  text-white">{title}</h2>
        {songs.length > 0 ? (
       <div className="bg-spotify-dark rounded-lg overflow-hidden">
         <table className="w-full">
@@ -45,7 +45,7 @@ export const SongTable = ({ songs, title, activeSongId,onLike,showAction,showRem
             {songs?.map((song, index) => (
               <tr
                 key={song.id}
-                className={`border-b border-[#282828] hover:bg-[#282828] transition-colors group
+                className={`border-b border-[#282828] hover:bg-background transition-colors group
                   ${activeSongId === song.id ? "text-green-500" : ""}`}
                 onMouseEnter={() => setHoveredRow(index)}
                 onMouseLeave={() => setHoveredRow(null)}
