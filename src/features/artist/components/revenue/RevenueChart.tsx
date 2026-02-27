@@ -1,5 +1,5 @@
 import {AreaChart,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
-import { chartData } from "../../services/artist.api";
+import { chartData } from "../../utils/api.type";
 
 interface RevenueChartProps {
   data: chartData[];

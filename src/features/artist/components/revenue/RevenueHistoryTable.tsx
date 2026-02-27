@@ -8,8 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PayOuts } from "../../services/artist.api";
 import { format, parseISO } from "date-fns";
+import { PayOuts } from "../../utils/api.type";
 
 
 interface RevenueHistoryTableProps {

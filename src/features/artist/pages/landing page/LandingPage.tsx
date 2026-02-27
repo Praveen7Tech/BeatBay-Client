@@ -2,12 +2,10 @@ import { Navbar } from "../../components/landing page/Navbar"
 import { HeroSection } from "../../components/landing page/HeroSection" 
 
 function LandingPage() {
-  const handleNavigation = () => {
-  }
 
   return (
     <div className="bg-black min-h-screen">
-      <Navbar onNavigate={handleNavigation} />
+      <Navbar/>
 
       <HeroSection />
 

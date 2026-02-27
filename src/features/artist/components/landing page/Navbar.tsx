@@ -4,11 +4,8 @@ import type React from "react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
-interface NavbarProps {
-  onNavigate: (page: string) => void
-}
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
+export const Navbar: React.FC = () => {
   const [activeNav, setActiveNav] = useState<string>("home")
   const navigate = useNavigate()
 
