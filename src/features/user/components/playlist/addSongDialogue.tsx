@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { X, Search, Plus } from "lucide-react";
 import { Input } from "@/features/artist/components/song/Input"; 
-import album1 from '/src/assets/bg.png'
-import album2 from '/src/assets/bg.png'
-import album3 from'/src/assets/bg.png';
+import album1 from '/bg/bg.png'
+import album2 from '/bg/bg.png'
+import album3 from'/bg/bg.png';
 
 interface AddSongDialogProps {
   isOpen: boolean;

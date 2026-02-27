@@ -16,13 +16,13 @@ const UserListing =()=> {
 
   const searchValue = useDebouncing(search, 500)
 
-  const {data: usersData, isLoading, isError, error} = useQuery({
+  const {data: usersData, isLoading} = useQuery({
     queryKey:["allUsers", page, searchValue],
     queryFn: ()=> adminApi.fetchUser(page, limit, searchValue),
     placeholderData: (prev) => prev,
   })
 
-  if(isError) return <div>{error.message}</div>
+  if(isLoading) return <SpinnerCustom/>
 
   const {users, totalPages} = usersData ?? {}
 

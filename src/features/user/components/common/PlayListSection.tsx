@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { PlayList } from "../../services/response.type";
+import { PlayList } from "../../utils/api.types";
 import { PlaylistCard } from "../playlist/playListCard"; 
 
 export function PlaylistsSection({ playlists,LinkPath }: { playlists: PlayList[] ,LinkPath:string}) {

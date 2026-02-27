@@ -9,8 +9,6 @@ import { useNavigate } from "react-router-dom"
 import { authApiArtist } from "../../services/artist-authApi"
 import { Button } from "@/core/components/button/Button"
 
-
-const stats= { songs: 1, albums: 1, fans: 3456789 }
 const verified= true
 
 export function ArtistHeader() {
@@ -68,12 +66,12 @@ export function ArtistHeader() {
 
               {/* Stats Section */}
               <div className="flex gap-12 mt-6">
-                <div>
+                {/* <div>
                   <div className="text-gray-400 text-sm flex items-center gap-2">
                     <span>♪</span> Songs
                   </div>
                   <div className="text-2xl font-bold text-white">
-                    {stats.songs.toLocaleString()}
+                    
                   </div>
                 </div>
                 <div>
@@ -81,9 +79,9 @@ export function ArtistHeader() {
                     <span>♪</span> Albums
                   </div>
                   <div className="text-2xl font-bold text-white">
-                    {stats.albums.toLocaleString()}
+                    
                   </div>
-                </div>
+                </div> */}
                 {/* <div>
                   <div className="text-gray-400 text-sm flex items-center gap-2">
                     <span>♪</span> Fans

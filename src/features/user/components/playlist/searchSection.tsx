@@ -2,7 +2,7 @@ import { Search, X } from "lucide-react";
 import { Input } from "@/features/artist/components/song/Input";
 import { useRef, useState, KeyboardEvent } from "react";
 import { ThreeDots } from "react-loader-spinner";
-import { SearchSongResponse } from "../../services/response.type";
+import { SearchSongResponse } from "../../utils/api.types";
 import { formatTime } from "@/core/utils/formatTime";
 
 interface PlaylistSearchSectionProps {

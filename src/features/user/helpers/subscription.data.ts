@@ -1,4 +1,4 @@
-import { PremiumPrice } from "../services/response.type";
+import { PremiumPrice } from "../utils/api.types";
 
 type PlanType = "card" | "feature"
 

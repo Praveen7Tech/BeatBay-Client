@@ -60,20 +60,55 @@ export function ProfileHeader({
               <p className="text-sm font-medium mb-2">✔ Verified</p>
             )}
             <h1 className="text-7xl font-black mb-4">{name}</h1>
-            <div className="flex gap-6 ">
-              <div >
-                <span className="text-[#00d084] font-semibold">{songCount ? songCount :followCount}</span>
-                <span className="font-medium ml-2">{songCount ? "Songs" : "Following"}</span>
-              </div>
-              <div>
-                <span className="text-[#00d084] font-semibold">{albumCount ? albumCount : followersCount}</span>
-                <span className="font-medium ml-2">{albumCount ? "Albums" : "Followers"}</span>
-              </div>
-              <div>
-                <span className="text-[#00d084] font-semibold">{playlist ? playlist : fans}</span>
-                <span className="font-medium ml-2">{playlist ? "PlayList" : "Fans"}</span>
-              </div>
-            </div>
+            <div className="flex gap-6">
+            {role === "user" ? (
+              <>
+                <div>
+                  <span className="text-[#00d084] font-semibold">
+                    {followCount ?? 0}
+                  </span>
+                  <span className="font-medium ml-2">Following</span>
+                </div>
+
+                <div>
+                  <span className="text-[#00d084] font-semibold">
+                    {followersCount ?? 0}
+                  </span>
+                  <span className="font-medium ml-2">Followers</span>
+                </div>
+
+                <div>
+                  <span className="text-[#00d084] font-semibold">
+                    {playlist ?? 0}
+                  </span>
+                  <span className="font-medium ml-2">Playlists</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <span className="text-[#00d084] font-semibold">
+                    {songCount ?? 0}
+                  </span>
+                  <span className="font-medium ml-2">Songs</span>
+                </div>
+
+                <div>
+                  <span className="text-[#00d084] font-semibold">
+                    {albumCount ?? 0}
+                  </span>
+                  <span className="font-medium ml-2">Albums</span>
+                </div>
+
+                <div>
+                  <span className="text-[#00d084] font-semibold">
+                    {fans ?? 0}
+                  </span>
+                  <span className="font-medium ml-2">Fans</span>
+                </div>
+              </>
+            )}
+          </div>
           </div>
 
         </div>

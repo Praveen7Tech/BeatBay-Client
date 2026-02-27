@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { ArtistGrowthChartData } from "../../services/artist.api";
+import { ArtistGrowthChartData } from "../../utils/api.type";
 
 type Props = {
   data: ArtistGrowthChartData[];

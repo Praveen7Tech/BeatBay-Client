@@ -1,6 +1,5 @@
 import { AlbumHeader } from "../../components/album/albumHeader";
 import { AlbumCard } from "../../components/album/albumCard";
-import { SearchBar } from "../../components/song/SearchBar";
 import { useArtistAlbums } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -32,12 +31,12 @@ export default function Albums() {
 
   return (
     <div className=" text-white">
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-350 mx-auto">
         <AlbumHeader totalAlbums={totalAlbum} totalSongs={totalSongs} />
 
-        <div className="mb-8 px-8">
+        {/* <div className="mb-8 px-8">
           <SearchBar />
-        </div>
+        </div> */}
 
         {hasAlbums ? (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-6 px-8">

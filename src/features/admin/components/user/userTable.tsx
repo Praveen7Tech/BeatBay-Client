@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ChevronRight } from "lucide-react"
 import { Link } from "react-router-dom"
-import { AdminFetchUsersResponse } from "../../services/adminApi"
+import { AdminFetchUsersResponse } from "../../utils/api.types"
 
 interface UserTableProps{
     users: AdminFetchUsersResponse[]
@@ -20,7 +20,6 @@ export function UserTable({users}: UserTableProps){
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Email</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Join Date</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Following</th>
-                {/* <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Playlists</th> */}
                 <th className="px-6 py-4 text-left text-sm font-semibold text-spotify-secondary">Status</th>
                 <th className="px-6 py-4 text-right text-sm font-semibold text-spotify-secondary">Action</th>
               </tr>
@@ -51,7 +50,6 @@ export function UserTable({users}: UserTableProps){
                   <td className="px-6 py-4 text-sm text-spotify-secondary">{user.email}</td>
                   <td className="px-6 py-4 text-sm text-spotify-secondary">{user.joinDate}</td>
                   <td className="px-6 py-4 text-sm text-spotify-text font-medium">{user.followersCount}</td>
-                  {/* <td className="px-6 py-4 text-sm text-spotify-text font-medium">{user.playlists}</td> */}
                   <td className="px-6 py-4">
                     <Badge
                       variant={user.status === true ? "default" : "destructive"}

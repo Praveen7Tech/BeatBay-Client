@@ -58,8 +58,6 @@ const ArtistDetails =()=> {
           />
           {/* Statistics */}
           <StatisticsCard type="artist" data={artist!} />
-          {/* Top Songs */}
-          {/* <TopSongsCard/> */}
           
           {/* album listing card */}
           <ArtistAlbumsGrid albums={albums!} itemsPerPage={3} />

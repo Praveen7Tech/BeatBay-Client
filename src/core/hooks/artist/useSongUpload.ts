@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { artistApi, ArtistSongDetails, FileForUploadUrl } from "@/features/artist/services/artist.api";
+import { artistApi } from "@/features/artist/services/artist.api";
 import { queryClient } from "@/core/config/query.client";
+import { ArtistSongDetails, FileForUploadUrl } from "@/features/artist/utils/api.type";
 
 // const extractFilenameFromUrl = (url: string | undefined | null): string | null => {
 //   if (!url) return null;

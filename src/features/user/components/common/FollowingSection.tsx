@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Follow } from "../../services/response.type";
+import { Follow } from "../../utils/api.types";
 import { FollowingCard } from "../following/FollowingCard"; 
 
 export function FollowingSection({ users,title,showAllLink }: { users: Follow[],title:string,showAllLink:string }) {

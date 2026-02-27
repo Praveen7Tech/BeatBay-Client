@@ -1,66 +1,7 @@
 
 import { API_ROUTE_ARTIST } from "../../../core/api/apiRoutes";
 import { axiosInstance } from "../../../core/api/axios";
-
-interface SignupRequest {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface SignupResponse {
-  message: string;
-}
-
-interface VerifyOtpRequest {
-  email: string;
-  otp: string;
-}
-
-interface VerifyOtpResponse {
-  message: string;
-}
-
-interface ResendOtpRequest {
-  email: string;
-}
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface LoginResponse {
-  message: string;
-  accessToken: string; 
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-  };
-}
-interface EditProfileResponse {
-  message: string;
-  accessToken: string; 
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-  };
-}
-interface googleSignUp {
-  token: string
-}
-interface VerifyEmailRequest {
-  email: string
-}
-
-interface ResetPassRequest {
-  password: string,
-  token: string
-}
+import { EditProfileResponse, googleSignUp, LoginRequest, LoginResponse, ResendOtpRequest, ResetPassRequest, SignupRequest, SignupResponse, VerifyEmailRequest, VerifyOtpRequest, VerifyOtpResponse } from "../utils/auth-api.type";
 
 export const authApiArtist = {
     signUp: async(data:SignupRequest): Promise<SignupResponse>=> {

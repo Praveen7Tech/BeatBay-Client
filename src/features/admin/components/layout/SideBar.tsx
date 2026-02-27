@@ -1,13 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { LayoutDashboard, Users, Music, LogOut, Menu, X, Folders, UserStar } from "lucide-react"
+import { LayoutDashboard, Users, Music, LogOut, Menu, X, Folders, UserStar, DollarSignIcon } from "lucide-react"
 import { useApi } from "@/core/hooks/api/useApi"
 import { authApiAdmin } from "../../services/admin-AuthApi" 
 import { useDispatch } from "react-redux"
 import { logout } from "@/features/auth/slices/authSlice" 
 import { Link, useLocation } from "react-router-dom"
-
 export default function Sidebar() {
   const [open, setOpen] = useState(true)
   const dispatch = useDispatch()
@@ -23,6 +22,7 @@ export default function Sidebar() {
 
   const items = [
     { name: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
+    { name: "Platform Revenue", icon: DollarSignIcon, path: "/admin/platform/revenue"},
     { name: "Users", icon: Users, path: "/admin/users" },
     { name: "Artists", icon: UserStar, path: "/admin/artists" },
     { name: "Songs", icon: Music, path: "/admin/songs" },

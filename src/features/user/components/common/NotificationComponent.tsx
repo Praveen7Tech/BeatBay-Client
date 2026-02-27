@@ -82,9 +82,9 @@ export const NotificationDropdown = () => {
         </div>
 
         {/* Notification List */}
-        <ScrollArea className="h-[400px]">
+        <ScrollArea className="h-100">
           {notifications.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-[300px] text-center px-6">
+            <div className="flex flex-col items-center justify-center h-75 text-center px-6">
               <BellOff className="h-12 w-12 text-muted-foreground animate-pulse" />
 
               <h4 className="mt-4 text-sm font-semibold text-foreground">

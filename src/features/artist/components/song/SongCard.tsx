@@ -1,9 +1,9 @@
 import { formatTime } from "@/core/utils/formatTime";
-import {  MoreHorizontal, Play } from "lucide-react";
+import { Play, Scissors } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FetchSong } from "../../services/artist.api";
 import { format, parseISO } from "date-fns";
+import { FetchSong } from "../../utils/api.type";
 
 
 export const SongCard = ({ 
@@ -62,7 +62,7 @@ export const SongCard = ({
         className="w-10 h-10 rounded-full hover:bg-[#2a2a2a] transition-all duration-200 flex items-center justify-center"
         style={{ opacity: isHovered ? 1 : 0 }}
       ><Link to={`/artist/edit-song/${id}`}>
-        <MoreHorizontal className="h-5 w-5 text-spotify-secondary" />
+        <Scissors className="h-5 w-5 text-spotify-secondary" />
         </Link>
       </button>
     </div>

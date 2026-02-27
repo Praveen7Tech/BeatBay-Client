@@ -1,172 +1,6 @@
 import { API_ROUTE_ADMIN } from "@/core/api/apiRoutes"
 import { axiosInstance } from "@/core/api/axios"
-
-export interface AdminFetchUsersResponse {
-  id: string;
-  name: string;
-  email: string;
-  profilePicture: string | null;
-  status: boolean;
-  joinDate: string;
-  followersCount: number;
-}
-export interface UsersTableResponse{
-    users: AdminFetchUsersResponse[]
-    totalCount: number
-    page: number
-    limit: number
-    totalPages: number
-}
-
-export interface AdminFetchArtistResponse {
-  id: string;
-  name: string;
-  email: string;
-  profilePicture: string | null;
-  status: boolean;
-  joinDate: string;
-  followersCount: number;
-  songsCount: number
-}
-
-export interface ArtistsTableResponse{
-    artist: AdminFetchArtistResponse[]
-    totalCount: number
-    page: number
-    limit: number
-    totalPages: number
-}
-
-export interface UserDataResponse {
-  _id: string;
-  name: string;
-  email: string;
-  profilePicture: string | null;
-  role: "user" | "artist" | "admin";
-  status: boolean;
-  playLists: string[];          
-  followingArtists: string[];   
-  followingCount: number;
-  followersCount: number
-  createdAt: Date;            
-  updatedAt: string;            
-}
-
-export interface Song{
-    id: string;
-    title: string
-    coverImageUrl: string;
-    status: boolean;
-    duration: number
-}
-export interface Album{
-    id: string;
-    title: string;
-    coverImageUrl: string; 
-    status: boolean
-    createdAt: Date
-    songsCount: number
-}
-
-export interface ArtistProfileResponse {
-  name: string;
-  bio: string ;
-  profilePicture: string
-  status: boolean;
-  email: string;
-  joinDate: Date;
-  followersCount: string
-
-  songs: Song[]
-  albums: Album[]
-}
-
-
-/* ---------------- SONG ---------------- */
-export interface ArtistSong {
-  _id: string;
-  artistId: string;
-  title: string;
-  description: string;
-  genre: string[];
-  tags: string[];
-  audioUrl: string;
-  coverImageUrl: string;
-  lyricsUrl: string;
-  duration: string;
-  releaseDate: string;
-  createdAt: string;
-  updatedAt: string;
-  status: "active"
-}
-
-/* ---------------- ALBUM ---------------- */
-export interface ArtistAlbum {
-  _id: string;
-  artistId: string;
-  title: string;
-  description: string;
-  coverImageUrl: string;
-  songs: string[]; 
-  createdAt: string;
-  updatedAt: string;
-  status: "active"
-}
-
-export interface  DashBordResponse{
-  totalUser: number
-  totalArtist: number
-  totalSongs: number
-  totalAlbums: number
-  totalPlaylists: number
-  message?:string
-}
-
-export interface AdminSong {
-  id: string;
-  title: string;
-  artist: string;
-  album: string;
-  coverImageUrl: string;
-  duration: number;
-  streams: number;
-  status: boolean;
-  uploadDate: string;
-  genre: string;
-  likesCount?:number
-}
-
-export interface SongResponse {
-  songs: AdminSong[];
-  totalCount: number;
-  totalPages: number;
-}
-
-export interface DemographicsResponse{
-    entity: string
-    range:string
-    data: DemoGraphics[]
-    totalDocs: number
-}
-
-export interface DemoGraphics{
-    date: string
-    total: number
-}
-
-export interface EntityItem{
-    label: string
-    count: number
-}
-
-export interface EntityBreakDownResponse{
-    users: EntityItem[]
-    artists: EntityItem[]
-    songs: EntityItem[]
-    albums:EntityItem[]
-    playlists: EntityItem[]
-}
-
+import { AdminPayoutPagination, AdminRevenueChartItem, AdminRevenueDashboard, ArtistProfileResponse, ArtistsTableResponse, DashBordResponse, DemographicsResponse, EntityBreakDownResponse, SongResponse, UserDataResponse, UsersTableResponse } from "../utils/api.types"
 
 export const adminApi = {
     fetchUser: async(page:number,limit: number, search: string):Promise<UsersTableResponse> =>{
@@ -262,7 +96,26 @@ export const adminApi = {
     dashBoardEntity: async(): Promise<EntityBreakDownResponse>=>{
       const response = await axiosInstance.get(API_ROUTE_ADMIN.GET_DASHBOARD_ENTITY_DATA)
       return response.data
-    }
+    },
 
+
+    getStats: async ():Promise<AdminRevenueDashboard> => {
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.PLATFORM_REVENUE_STATS);
+      return response.data
+    },
+
+    getChart: async (range: "weekly" | "monthly" | "yearly"):Promise<AdminRevenueChartItem[]> => {
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.PLATFORM_REVENUE_CHART,{
+        params: {range}
+      });
+      return response.data
+    },
+
+    getPayoutHistory: async (page: number, limit = 5):Promise<AdminPayoutPagination> => {
+      const response = await axiosInstance.get(API_ROUTE_ADMIN.PLATFORM_PAYOUT_HISTORY,{
+        params:{page, limit}
+      });
+      return response.data;
+    },
 
 }

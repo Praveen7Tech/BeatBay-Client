@@ -1,23 +1,6 @@
 import { API_ROUTE_ADMIN } from "../../../core/api/apiRoutes";
 import { axiosInstance } from "../../../core/api/axios";
-
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface LoginResponse {
-  message: string;
-  accessToken: string; 
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    status: boolean
-  };
-}
+import { LoginRequest, LoginResponse } from "../utils/auth-api.types";
 
 export const authApiAdmin = {
     login: async(data:LoginRequest): Promise<LoginResponse> => {

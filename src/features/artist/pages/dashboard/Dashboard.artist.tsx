@@ -2,8 +2,6 @@ import { useArtistDashboard } from "@/core/hooks/artist/dashboard/useDashboard";
 import { ArtistDashboardStats } from "../../components/dashboard/artistDashboardStats";
 import { ArtistGrowthChart } from "../../components/dashboard/artistGrowthChart";
 import { ArtistTopContent } from "../../components/dashboard/artistTopContents";
-// import { RevenueChart } from "../../components/revenue/RevenueChart";
-// import { useArtistRevenue } from "@/core/hooks/artist/revenue/useArtistRevenue";
 import { SpinnerArtist } from "@/components/ui/spinner";
 import { useState } from "react";
 
@@ -11,7 +9,6 @@ export default function ArtistDashboard() {
 
   const [days, setDays] = useState<number>(7);
   const {stats, isLoading, topSongs, topAlbums, growthAnalytics} = useArtistDashboard(days)
-  //const {chartData, currency, isLoadingChart} = useArtistRevenue()
 
    if(isLoading ) return <SpinnerArtist/>
 
@@ -34,7 +31,6 @@ export default function ArtistDashboard() {
 
       {/* Charts Grid */}
       <div className=" mb-8">
-        {/* <RevenueChart data={chartData!} currency={currency!}/> */}
         <ArtistGrowthChart data={growthAnalytics} days={days} setDays={setDays}/>
       </div>
 

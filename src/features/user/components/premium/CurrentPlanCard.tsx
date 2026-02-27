@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, CreditCard } from "lucide-react";
 import { format } from "date-fns";
-import { SubscriptionResponse } from "../../services/response.type";
+import { SubscriptionResponse } from "../../utils/api.types";
 import { Button } from "@/components/ui/button";
 
 interface Props {

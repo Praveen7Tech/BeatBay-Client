@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PaymentHistory } from "../../services/response.type";
+import { PaymentHistory } from "../../utils/api.types";
 import { CreditCard, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";

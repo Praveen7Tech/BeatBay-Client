@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { Route } from "react-router-dom";
 import ProtectedRoute from "./Protected-route";
 import { ROLES } from "../core/types/roles";
+import AdminPlatFormRevenue from "@/features/admin/pages/revenue/RevenueDashboard";
 
 const AdminLayout = lazy(() => import("@/features/admin/pages/Layout/adminLayout"));
 const AdminDashboard = lazy(() => import("@/features/admin/pages/dashboard/dashBoardNew"));
@@ -33,5 +34,7 @@ export const adminRoutes = (
 
     <Route path="/admin/albums" element={<AdminAlbums />} />
     <Route path="/admin/album/:id" element={<AdminAlbumDetail />} />
+
+    <Route path='/admin/platform/revenue' element={<AdminPlatFormRevenue/>}/>
   </Route>
 );

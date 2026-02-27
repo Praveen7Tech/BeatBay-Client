@@ -1,10 +1,8 @@
 import { Navbar } from "../../components/landing page/Navbar" 
 import { HeroSection } from "../../components/landing page/HeroSection" 
-import { FeatureShowcase } from "../../components/landing page/FeatureShowcase" 
 
 function LandingPage() {
   const handleNavigation = () => {
-    //console.log("Navigating to:", page)
   }
 
   return (
@@ -14,7 +12,7 @@ function LandingPage() {
       <HeroSection />
 
       {/* Amplify Your Music */}
-      <FeatureShowcase
+      {/* <FeatureShowcase
         title="Amplify your music"
         description="Turn up your music with Campaign Kit — a set of tools designed to drive meaningful metrics for artists and music marketers."
         features={[
@@ -25,10 +23,10 @@ function LandingPage() {
         ]}
         buttonText="Explore Campaign Kit"
         accentColor="green"
-      />
+      /> */}
 
       {/* Grow Your Business */}
-      <FeatureShowcase
+      {/* <FeatureShowcase
         title="Grow your business"
         description="There are many ways to earn revenue as an artist on Spotify. While Loud & Clear is your source for data, resources, and transparency around streaming royalties, here are some other opportunities to explore."
         features={[
@@ -38,10 +36,10 @@ function LandingPage() {
         ]}
         buttonText="Explore Merch, Live, & More"
         accentColor="cyan"
-      />
+      /> */}
 
       {/* Connect With Fans */}
-      <FeatureShowcase
+      {/* <FeatureShowcase
         title="Connect with fans"
         description="Invite listeners into your creative world. Customize your artist profile, create videos & visuals, and bring the story behind your music to life."
         features={[
@@ -52,10 +50,10 @@ function LandingPage() {
         ]}
         buttonText="Explore Video & Visuals"
         accentColor="cyan"
-      />
+      /> */}
 
       {/* Understand Your Audience */}
-      <FeatureShowcase
+      {/* <FeatureShowcase
         title="Understand your audience"
         description="Dig into audience, playlist, and music data to help you reach your goals."
         features={[
@@ -65,7 +63,7 @@ function LandingPage() {
         ]}
         buttonText="Explore analytics"
         accentColor="blue"
-      />
+      /> */}
 
       <div className="bg-black py-12 text-center border-t border-white/10">
         <p className="text-white/40 text-sm">© 2025 SoundFlow. All rights reserved.</p>

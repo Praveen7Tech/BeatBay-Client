@@ -1,7 +1,7 @@
 
 import { SkeletonCard } from "@/core/components/skelotons/AlbumSkeloton";
 import { Link } from "react-router-dom";
-import { AlbumResponseRaw } from "../../services/response.type";
+import { AlbumResponseRaw } from "../../utils/api.types";
 import AlbumCard from "../home/album-card";
 
 export function AlbumsSection({

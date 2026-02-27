@@ -4,10 +4,10 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Disc, ChevronLeft, ChevronRight } from "lucide-react"
-import { Album } from "../../services/adminApi"
 import { Pagination } from "../common/Pagination"
 import { format } from "date-fns"
 import { Link } from "react-router-dom"
+import { Album } from "../../utils/api.types"
 
 
 interface ArtistAlbumsGridProps {

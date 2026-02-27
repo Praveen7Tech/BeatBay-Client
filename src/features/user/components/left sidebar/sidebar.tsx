@@ -4,12 +4,11 @@ import { NavLink } from "@/components/NavLink";
 import { useUserFollowing, useUserPlayLists } from "@/core/hooks/api/useFetchHooks";
 import { useCreatePlayList } from "@/core/hooks/playList/usePlayList";
 import { SidebarShimmer } from "@/core/components/shimmers/SidebarShimmer";
-import { FollowingResponse } from "../../services/response.type";
+import { FollowingResponse } from "../../utils/api.types";
 
 const mainItems = [
   { title: "Home", url: "/home", icon: Home },
-  { title: "Browse", url: "/browse", icon: Search },
-  // { title: "Your Library", url: "/library", icon: Library },
+  { title: "Browse", url: "/search/songs", icon: Search },
 ];
 
 export function Sidebar() {
@@ -90,13 +89,14 @@ export function Sidebar() {
 
        
         {/* Scrollable Playlists */}
-        {playlists?.length! > 0 && (
+        {playlists && playlists.length > 0 && (
         <div className="overflow-y-auto max-h-[25vh] pr-2 space-y-1 scrollbar-hide">
           {playlists?.map((p) => (
             <NavLink
               key={p.id}
               to={`/playlist/${p.id}`}
-              className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
+              className={`group flex items-center py-2 rounded-md hover:bg-sidebar-accent transition-colors ${
+                isOpen ? "gap-3 px-3 justify-start" : "justify-center"}`}
               activeClassName="bg-sidebar-accent text-white"
             >
               <div className="relative h-10 w-10 rounded overflow-hidden bg-sidebar-accent flex items-center justify-center">
@@ -133,7 +133,7 @@ export function Sidebar() {
                 <NavLink
                   key={artist.id}
                   to={`/artist/${artist.id}`}
-                  className="group flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebar-accent transition-colors"
+                  className={`group flex items-center py-2 rounded-md hover:bg-sidebar-accent transition-colors ${ isOpen ? "gap-3 px-3 justify-start" : "justify-center"}`}
                   activeClassName="bg-sidebar-accent text-white"
                 >
                   <div className="relative h-10 w-10 rounded-full overflow-hidden bg-sidebar-accent flex items-center justify-center">
