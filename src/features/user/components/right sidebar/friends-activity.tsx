@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion"; 
 import { RootState } from "@/core/store/store";
 import { SpinnerCustom } from "@/components/ui/spinner";
-import { Friends } from "../../services/response.type";
+import { Friends } from "../../utils/api.types";
 import { useFriendActions } from "@/core/hooks/private-room/actions/useFriendsActions";
 import { useFriendsActivity } from "./useFriendsActivity";
 import { cn } from "@/lib/utils";

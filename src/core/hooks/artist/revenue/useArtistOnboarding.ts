@@ -5,7 +5,7 @@ import { useToaster } from "../../toast/useToast"
 export const useArtistOnBoarding = () =>{
     const {toast} = useToaster()
 
-    const {mutate: onBoarding} = useMutation({
+    const {mutate: onBoarding, isPending} = useMutation({
         mutationFn: ()=> artistApi.getOnBoardingLink(),
         onSuccess:(data)=>{
             if(data.link){
@@ -18,6 +18,7 @@ export const useArtistOnBoarding = () =>{
     })
 
     return {
-        onBoarding
+        onBoarding,
+        isPending
     }
 }

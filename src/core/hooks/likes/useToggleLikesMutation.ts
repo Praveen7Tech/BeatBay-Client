@@ -1,7 +1,7 @@
 import { userApi } from "@/features/user/services/userApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToaster } from "../toast/useToast";
-import { AlbumResponse, LikedSondResponse, SongDetailsResponse } from "@/features/user/services/response.type";
+import { AlbumResponse, LikedSondResponse, SongDetailsResponse } from "@/features/user/utils/api.types";
 
 type TableType = "song" | "album" | "liked" | "playlist"
 type ToggleLikeContext = {

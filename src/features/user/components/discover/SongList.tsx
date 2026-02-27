@@ -1,5 +1,5 @@
 import { formatTime } from "@/core/utils/formatTime";
-import { SongDetails } from "../../services/response.type";
+import { SongDetails } from "../../utils/api.types";
 import { Link } from "react-router-dom";
 import { AudioLines } from "lucide-react";
 

@@ -1,6 +1,6 @@
 import {createContext,useCallback,useContext,useEffect,useRef,useState,} from "react";
 import { useAudioEngine } from "../hooks/song/useAudioEngine";
-import { SongDetails } from "@/features/user/services/response.type";
+import { SongDetails } from "@/features/user/utils/api.types";
 import { userApi } from "@/features/user/services/userApi";
 import { getPlaybackState, savePlayBackState } from "../service/playerStorageService";
 import { useSelector } from "react-redux";

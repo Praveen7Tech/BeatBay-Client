@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { useDebouncing } from "@/core/hooks/admin/useDebouncing"
 import { adminApi } from "../../services/adminApi"
@@ -17,13 +16,13 @@ const ArtistListing = ()=> {
   
     const searchValue = useDebouncing(search, 500)
   
-    const {data: artistData, isLoading, isError, error} = useQuery({
+    const {data: artistData, isLoading} = useQuery({
       queryKey:["allArtists", page, searchValue],
       queryFn: ()=> adminApi.fetchArtists(page, limit, searchValue),
       placeholderData: (prev) => prev,
     })
   
-    if(isError) return <div>{error.message}</div>
+    if(isLoading) return <SpinnerCustom/>
   
     const {artist, totalPages} = artistData ?? {}
 

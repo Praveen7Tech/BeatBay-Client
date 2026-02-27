@@ -1,7 +1,7 @@
 import { formatTime } from "@/core/utils/formatTime";
 import { format, parseISO } from "date-fns";
 import { Play, Clock, Heart, Plus, AudioLines } from "lucide-react";
-import { SongDetails } from "../../services/response.type";
+import { SongDetails } from "../../utils/api.types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

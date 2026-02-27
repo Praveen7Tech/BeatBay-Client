@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useToaster } from "../toast/useToast"
 import { userApi } from "@/features/user/services/userApi"
-import { SubscriptionResponse } from "@/features/user/services/response.type"
+import { SubscriptionResponse } from "@/features/user/utils/api.types"
 import { useDispatch } from "react-redux"
 import { setPremiumStatus } from "@/features/auth/slices/authSlice"
 

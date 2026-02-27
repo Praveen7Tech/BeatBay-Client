@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CreateAlbumSchema, CreateAlbumData } from "@/features/artist/schema-validator/createAlbum.Schema";
-import { artistApi, EditAlbumDetailsResponse, InitialAlbumSongs } from "@/features/artist/services/artist.api";
+import { artistApi } from "@/features/artist/services/artist.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useArtistSongs } from "../api/useFetchHooks";
 import { queryClient } from "@/core/config/query.client";
+import { EditAlbumDetailsResponse, InitialAlbumSongs } from "@/features/artist/utils/api.type";
 
 export const useCreateAlbum = (isEdit: boolean) => {
   const navigate = useNavigate();

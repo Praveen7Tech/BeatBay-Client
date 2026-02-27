@@ -52,7 +52,7 @@ export const SearchBar = ({ placeholder = "What do you want to play?" }: SearchB
 
       {/* Search Input Container */}
       <div className="relative flex items-center">
-        <div className="flex items-center bg-[#282828] hover:bg-[#3e3e3e] rounded-full px-4 py-3 w-[400px] transition-colors">
+        <div className="flex items-center bg-[#282828] hover:bg-[#3e3e3e] rounded-full px-4 py-3 w-100 transition-colors">
             <Search className="w-5 h-5 text-muted-foreground mr-3" />
             <div className="relative flex-1">
             <input

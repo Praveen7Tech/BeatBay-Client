@@ -14,7 +14,7 @@ export const useArtistRevenue = () =>{
         enabled: !!isPayoutEnabled
     })
 
-    const {onBoarding} = useArtistOnBoarding()
+    const {onBoarding, isPending} = useArtistOnBoarding()
 
     const handleActivateMonetization = () => {  
         onBoarding()
@@ -36,6 +36,7 @@ export const useArtistRevenue = () =>{
         loginLink,
         isPayoutEnabled,
         handleActivateMonetization,
-        isLoadingChart
+        isLoadingChart,
+        onboardingLoading: isPending
     }
 }

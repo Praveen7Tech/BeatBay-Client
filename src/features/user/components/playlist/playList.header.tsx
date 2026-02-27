@@ -1,7 +1,7 @@
 import { Pause, Play, Plus } from "lucide-react";
 import { useState } from "react";
 import { PlaylistEditDialog } from "../../pages/playlist/editPlayList";
-import { PlaylistDetailsResponse } from "../../services/response.type";
+import { PlaylistDetailsResponse } from "../../utils/api.types";
 import { formatTime } from "@/core/utils/formatTime";
 import { PlaylistActionsMenu } from "@/core/components/action-menu/PlayListActionMenu";
 import { useDeletePlayList } from "@/core/hooks/playList/useDeletePlaylist";

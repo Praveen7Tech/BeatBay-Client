@@ -1,7 +1,7 @@
 import BrowseCard from "../../components/browse/BrowseCard"; 
-import album1 from "/src/assets/bg.png";
-import album2 from "/src/assets/bg.png";
-import album3 from "/src/assets/bg.png";
+import album1 from "/bg/bg.png";
+import album2 from "/bg/bg.png";
+import album3 from "/bg/bg.png";
 
 const startBrowsing = [
   { id: "1", title: "Music", color: "#E91E63", image: album1 },

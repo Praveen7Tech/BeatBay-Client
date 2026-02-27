@@ -102,7 +102,7 @@ export const AdminDemographicsChart = () => {
 
         <div className="flex gap-3">
           <Select value={entity} onValueChange={v => setEntity(v as EntityType)}>
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-35">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -115,7 +115,7 @@ export const AdminDemographicsChart = () => {
           </Select>
 
           <Select value={range} onValueChange={v => setRange(v as TimeRange)}>
-            <SelectTrigger className="w-[130px]">
+            <SelectTrigger className="w-32.5">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -128,7 +128,7 @@ export const AdminDemographicsChart = () => {
           </Select>
 
           <Select value={chartType} onValueChange={v => setChartType(v as ChartType)}>
-            <SelectTrigger className="w-[110px]">
+            <SelectTrigger className="w-27.5">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

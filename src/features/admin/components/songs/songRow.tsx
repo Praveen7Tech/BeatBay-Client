@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { formatTime } from "@/core/utils/formatTime";
-import { AdminSong } from "../../services/adminApi";
+import { AdminSong } from "../../utils/api.types";
 
 
 const AdminSongRow = ({ song, index }: { song: AdminSong; index: number }) => {

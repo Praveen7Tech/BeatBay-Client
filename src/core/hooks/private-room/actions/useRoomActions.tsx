@@ -1,5 +1,5 @@
 import { RootState } from "@/core/store/store";
-import { SearchSongResponse } from "@/features/user/services/response.type";
+import { SearchSongResponse } from "@/features/user/utils/api.types";
 import { SongData } from "@/features/user/slice/privateRoomSlice";
 import { useSelector } from "react-redux";
 import { socket } from "@/core/config/socket";

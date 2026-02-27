@@ -1,4 +1,5 @@
-import { artistApi, ArtistGrowthChartData } from "@/features/artist/services/artist.api"
+import { artistApi } from "@/features/artist/services/artist.api"
+import { ArtistGrowthChartData } from "@/features/artist/utils/api.type";
 import { useQuery } from "@tanstack/react-query"
 import { Music, Disc, Users, DollarSign } from "lucide-react";
 

@@ -4,7 +4,7 @@ import { store } from "./core/store/store";
 import AppRouter from "./router/AppRouter";
 import { useDispatch } from "react-redux";
 import { axiosInstance } from "./core/api/axios";
-import { completeInitialHydration } from "./features/auth/slices/authSlice";
+import { completeInitialHydration, User } from "./features/auth/slices/authSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "./core/store/store";
 import Spinner from "./core/components/Spinner";
@@ -15,22 +15,22 @@ const AppContext: React.FC = () => {
   const { initialHydrationComplete } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await axiosInstance.get(API_ROUTES.AUTH_STATUS);
-        const { user, accessToken } = response.data;
+      const checkAuthStatus = async () => {
+        let data: { user: User; accessToken: string } | null = null;
 
-        console.log("hydra ", response.data);
-        dispatch(completeInitialHydration({ user, accessToken }));
+        try {
+          const response = await axiosInstance.get(API_ROUTES.AUTH_STATUS);
+          data = response.data;
+        } catch (error) {
+          console.error("Hydration error:", error);
+        } finally {
+          dispatch(completeInitialHydration(data));
+        }
+      };
 
-      } catch (error) {
-        console.error("Hydration error:", error);
+      if (!initialHydrationComplete) {
+        checkAuthStatus();
       }
-    };
-
-    if (!initialHydrationComplete) {
-      checkAuthStatus();
-    }
   }, [dispatch, initialHydrationComplete]);
 
   if (!initialHydrationComplete) {

@@ -12,7 +12,6 @@ import { loginSuccess } from "../../../auth/slices/authSlice";
 import { Button } from "@/core/components/button/Button";
 import { Input } from "@/core/components/input/Input";
 
-// ✅ Validation schema
 const LoginSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -45,7 +44,7 @@ const AdminLogin: React.FC = () => {
   return (
     <div
       className="relative flex h-screen w-full bg-cover bg-center"
-      style={{ backgroundImage: "url('/src/assets/bg.png')" }}
+      style={{ backgroundImage: "url('/bg/bg.png')" }}
     >
       {/* Semi-transparent left panel */}
       <div className="relative z-10 w-full sm:w-1/2 h-full bg-black/60 backdrop-blur-md flex items-center justify-center px-8 sm:px-16">

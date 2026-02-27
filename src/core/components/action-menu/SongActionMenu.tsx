@@ -1,4 +1,4 @@
-import { Plus, ListPlus, Trash2, Radio, UserPlus } from "lucide-react";
+import { Plus, ListPlus, Trash2, UserPlus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -93,12 +93,12 @@ export const SongActionsMenu = ({ songId,artist,showRemoveFromPlaylist = false,o
           </DropdownMenuItem>
           </Link>
          )} 
-        <DropdownMenuItem
+        {/* <DropdownMenuItem
           className="hover:bg-[#3e3e3e] focus:bg-[#3e3e3e] cursor-pointer"
         >
           <Radio className="mr-2 h-4 w-4" />
           <span>Add to queue</span>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
          
         <DropdownMenuSeparator className="bg-[#3e3e3e]" />
      

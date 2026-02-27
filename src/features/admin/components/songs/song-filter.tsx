@@ -46,7 +46,7 @@ const AdminSongFilters = ({
 
         {/* Status Select */}
         <Select value={statusFilter} onValueChange={onStatusChange}>
-          <SelectTrigger className="w-[140px] bg-muted/30 border-none">
+          <SelectTrigger className="w-35 bg-muted/30 border-none">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
@@ -59,7 +59,7 @@ const AdminSongFilters = ({
         {/* Conditional Genre Select */}
         {showGenre && (
           <Select value={genreFilter} onValueChange={onGenreChange}>
-            <SelectTrigger className="w-[140px] bg-muted/30 border-none">
+            <SelectTrigger className="w-35 bg-muted/30 border-none">
               <SelectValue placeholder="Genre" />
             </SelectTrigger>
             <SelectContent>

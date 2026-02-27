@@ -4,10 +4,10 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Music, ChevronLeft, ChevronRight } from "lucide-react"
-import {  Song } from "../../services/adminApi"
 import { Pagination } from "../common/Pagination"
 import { formatTime } from "@/core/utils/formatTime"
 import { Link } from "react-router-dom"
+import { Song } from "../../utils/api.types"
 
 interface ArtistSongsListProps {
   songs: Song[] 

@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ArtistProfileResponse, UserDataResponse } from "../../services/adminApi";
+import { ArtistProfileResponse, UserDataResponse } from "../../utils/api.types";
 
 interface ArtistData {
   songs?: any[];

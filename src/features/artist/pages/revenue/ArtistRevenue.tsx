@@ -7,15 +7,17 @@ import { RevenueEmptyState } from "../../components/revenue/RevenueEmptyState";
 import { RevenueOverview } from "../../components/revenue/RevenueOverwiew";
 import { SpinnerArtist } from "@/components/ui/spinner";
 import { useArtistRevenue } from "@/core/hooks/artist/revenue/useArtistRevenue";
+import { MonetizationLoadingOverlay } from "@/core/components/loading/MonitisationLoading";
 
 export default function ArtistRevenue() {
 
-  const {isLoadingChart, isPayoutEnabled,loginLink,chartData,currency,handleActivateMonetization,overView,payOuts,songData} = useArtistRevenue()
+  const {isLoadingChart, isPayoutEnabled,loginLink,chartData,currency,handleActivateMonetization,overView,payOuts,songData, onboardingLoading} = useArtistRevenue()
 
   if(isLoadingChart) return <SpinnerArtist/>
   
   return (
     <div className="p-6">
+      <MonetizationLoadingOverlay isVisible={onboardingLoading} />
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">

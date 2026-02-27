@@ -2,11 +2,11 @@ import { SongCard } from "../../components/song/SongCard";
 import { ArtistHeader } from "../../components/song/ArtistHeader"; 
 import { useArtistSongs } from "@/core/hooks/api/useFetchHooks";
 import { Link } from "react-router-dom";
-import { FetchSong, } from "../../services/artist.api";
 import { Pagination } from "@/features/admin/components/common/Pagination";
 import { useState } from "react";
 import { SpinnerArtist } from "@/components/ui/spinner";
 import { Music } from "lucide-react";
+import { FetchSong } from "../../utils/api.type";
 
 const SongList = () => {
    const [currentPage, setCurrentPage] = useState(1)

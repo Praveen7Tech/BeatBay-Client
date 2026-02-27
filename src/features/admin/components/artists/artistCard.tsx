@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ChevronRight } from "lucide-react"
 import { Link } from "react-router-dom"
-import { AdminFetchArtistResponse } from "../../services/adminApi"
 import { Badge } from "@/components/ui/badge"
+import { AdminFetchArtistResponse } from "../../utils/api.types"
 
 interface ArtistCardProps{
     artist: AdminFetchArtistResponse[]

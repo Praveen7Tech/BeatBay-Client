@@ -29,16 +29,6 @@ export default function ArtistFans() {
         </div>
       </div>
 
-      {/* Filters */}
-      {/* <ArtistFansFilters
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        sortBy={sortBy}
-        onSortChange={setSortBy}
-        filterBy={filterBy}
-        onFilterChange={setFilterBy}
-      /> */}
-
       {/* Fans Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {fans?.map((fan) => (

@@ -1,4 +1,4 @@
-import { InitialAlbumSongs } from "../../services/artist.api";
+import { InitialAlbumSongs } from "../../utils/api.type";
 
 interface AlbumSongProps{
     song :InitialAlbumSongs

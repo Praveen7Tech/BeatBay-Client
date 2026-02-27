@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 interface NavbarProps {
   onNavigate: (page: string) => void
@@ -10,8 +10,14 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
   const [activeNav, setActiveNav] = useState<string>("home")
+  const navigate = useNavigate()
 
-  const navItems = ["Home", "Features", "Artists", "Resources"]
+  const navItems = ["Home", "Revenue", "Songs", "Albums", "Fans", "Profile"]
+  const handleNavClick = (itemKey: string) => {
+    setActiveNav(itemKey)
+    navigate("/artist/login")
+
+  }
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-sm border-b border-white/10">
@@ -30,10 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             return (
               <button
                 key={item}
-                onClick={() => {
-                  setActiveNav(itemKey)
-                  onNavigate(itemKey)
-                }}
+                onClick={() => handleNavClick(itemKey)}
                 className={`text-md font-medium transition-all duration-300 ${
                   isActive ? "text-green-500" : "text-white/70 hover:text-green-500"
                 }`}

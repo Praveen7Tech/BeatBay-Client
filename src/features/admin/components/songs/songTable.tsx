@@ -1,4 +1,5 @@
-import { AdminSong } from "../../services/adminApi";
+
+import { AdminSong } from "../../utils/api.types";
 import  AdminSongRow from "./songRow"; 
 
 interface AdminSongTableProps {

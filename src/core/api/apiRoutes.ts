@@ -36,7 +36,11 @@ export const API_ROUTE_ADMIN = {
   TOGGLE_ALBUM_STATUS:'/admin/album/:id/status',
 
   DEMOGRAPHICS: '/admin/demographics',
-  GET_DASHBOARD_ENTITY_DATA: '/admin/dashboard-entity'
+  GET_DASHBOARD_ENTITY_DATA: '/admin/dashboard-entity',
+
+  PLATFORM_REVENUE_STATS: "/admin/revenue/stats",
+  PLATFORM_REVENUE_CHART: '/admin/revenue/chart',
+  PLATFORM_PAYOUT_HISTORY: '/admin/revenue/payout'
 }
 
 export const API_ROUTE_ARTIST = {

@@ -1,15 +1,13 @@
-import { Eye, Calendar } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Fans } from "../../services/artist.api";
+import { Calendar } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { Fans } from "../../utils/api.type";
 
 
 interface ArtistFanCardProps {
   fan: Fans;
-  onView?: (fanId: string) => void;
 }
 
-export const ArtistFanCard = ({ fan, onView }: ArtistFanCardProps) => {
+export const ArtistFanCard = ({ fan }: ArtistFanCardProps) => {
   return (
     <div className="bg-linear-to-b from-gray-900 to-black rounded-lg p-4 hover:bg-[#282828] transition-colors group">
       <div className="flex items-center gap-4">
@@ -28,17 +26,6 @@ export const ArtistFanCard = ({ fan, onView }: ArtistFanCardProps) => {
         <div className="flex-1 min-w-0">
           <h3 className="text-white font-semibold truncate">{fan.name}</h3>
         </div>
-
-        {/* View Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onView?.(fan.id)}
-          className="opacity-0 group-hover:opacity-100 transition-opacity text-[#a7a7a7] hover:text-white hover:bg-[#333]"
-        >
-          <Eye size={16} className="mr-2" />
-          View
-        </Button>
       </div>
 
       {/* Stats */}
@@ -50,17 +37,6 @@ export const ArtistFanCard = ({ fan, onView }: ArtistFanCardProps) => {
             <p className="text-white text-sm">{format(parseISO(fan.followerdSince),"MMM dd, yyyy") }</p>
           </div>
         </div>
-        {/* <div className="flex items-center gap-2">
-          <Music size={14} className="text-[#1DB954]" />
-          <div>
-            <p className="text-[#a7a7a7] text-xs">Top Song</p>
-            <p className="text-white text-sm truncate">{"fan.topSong"}</p>
-          </div>
-        </div>
-        <div className="text-right">
-          <p className="text-[#a7a7a7] text-xs">Total Streams</p>
-          <p className="text-white text-sm font-semibold">{0}</p>
-        </div> */}
       </div>
     </div>
   );

@@ -1,8 +1,6 @@
 import { Play, Heart, DollarSign} from "lucide-react";
 import { SongStatsCard } from "../../components/song/SongStatusCard"; 
 import { SongPerformanceChart } from "../../components/song/SongPerformanceChart"; 
-// import { SongDemographics } from "../../components/song/SongDemoGraphics"; 
-// import { SongSourceBreakdown } from "../../components/song/SongSourceBreakDown"; 
 import { DetailHeader } from "../../components/common/DeatailsHeader";
 import { useSongDetails } from "@/core/hooks/artist/useSongDetails";
 import { SpinnerArtist } from "@/components/ui/spinner";
@@ -74,8 +72,6 @@ export default function ArtistSongDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <SongRevenueYearly revenue={revenueData!} />
           <SongPayoutTable payouts={revenueData?.payouts ?? []}/>
-          {/* <SongDemographics />
-          <SongSourceBreakdown /> */}
         </div>
       {/* </div> */}
     </div>

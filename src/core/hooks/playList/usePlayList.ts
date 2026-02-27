@@ -3,7 +3,7 @@ import {
   userApi,
 } from "@/features/user/services/userApi"
 import { useNavigate } from "react-router-dom"
-import { PlaylistDetailsResponse, SearchSongResponse } from "@/features/user/services/response.type"
+import { PlaylistDetailsResponse, SearchSongResponse } from "@/features/user/utils/api.types"
 import { useToaster } from "../toast/useToast"
 
 const playlistKey = (id: string) => ["playlist", id] as const

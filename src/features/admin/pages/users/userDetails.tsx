@@ -66,25 +66,6 @@ const UserDetails =()=> {
             isLoading={isLoading}
             onToggle={handleToggleBlock}
           />
-           {/* Premium Information */}
-          {/* <Card className="bg-spotify-dark border-spotify-tertiary">
-            <CardHeader>
-              <CardTitle className="text-spotify-text">Premium Subscription</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between p-4 bg-spotify-black rounded-lg border border-spotify-tertiary">
-                <div>
-                  <p className="text-sm text-spotify-secondary mb-1">Status</p>
-                  <p className="text-spotify-text font-bold">
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-spotify-secondary mb-1">Expires On</p>
-                  <p className="text-spotify-text font-bold">{"user?.subscriptionEnd"}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card> */}
         </div>
       </div>
     </div>

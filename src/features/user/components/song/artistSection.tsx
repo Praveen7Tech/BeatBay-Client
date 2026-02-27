@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import { ArtistDTO } from "../../services/response.type";
+import { ArtistDTO } from "../../utils/api.types";
 interface ArtistSectionProps {
   artist: ArtistDTO;
 }

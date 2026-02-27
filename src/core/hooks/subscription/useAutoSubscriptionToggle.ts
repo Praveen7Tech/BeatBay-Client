@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { userApi } from "@/features/user/services/userApi";
 import { useToaster } from "../toast/useToast";
-import { SubscriptionResponse } from "@/features/user/services/response.type";
+import { SubscriptionResponse } from "@/features/user/utils/api.types";
 
 export const useAutoSubscriptionToggle = (userId: string, isPremium:boolean) => {
     const queryClient = useQueryClient();

@@ -1,4 +1,4 @@
-import { Music, Disc, Users, UserCheck, Heart, ListMusic, Radio, Mic2 } from "lucide-react";
+import { Music, Disc, Users, UserCheck, Heart, ListMusic, Mic2, Crown } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +9,8 @@ const links = [
   { title: "Following", icon: UserCheck, color: "#f59e0b", path: "/connections/following" },
   { title: "Favourites", icon: Heart, color: "#ef4444", path: "/liked-songs" },
   { title: "Playlists", icon: ListMusic, color: "#1DB954", path: "/playlists" },
-  { title: "Discover", icon: Radio, color: "#3b82f6", path: "/discover" },
-  { title: "Artists", icon: Mic2, color: "#14b8a6", path: "/browse/artists" },
+  { title: "Premium", icon: Crown, color: "#3b82f6", path: "/premium/details" },
+  { title: "Private Room", icon: Mic2, color: "#14b8a6", path: "/private-room" },
 ];
 
 const QuickLinks = () => {
@@ -18,8 +18,8 @@ const QuickLinks = () => {
   const navigate = useNavigate();
 
   const bgGradient = hovered !== null
-    ? `linear-gradient(180deg, ${links[hovered].color}40 0%, #000000 100%)`
-    : "linear-gradient(180deg, #7f1d1d80 0%, #000000 100%)";
+    ? `linear-gradient(180deg, ${links[hovered].color}40 0%, #0D0D0D 100%)`
+    : "linear-gradient(180deg, #7f1d1d80 0%, #0D0D0D 100%)";
 
   return (
     <div

@@ -7,7 +7,7 @@ export function SongsSection({ songs }: { songs: any[] }) {
     addSongMutation.mutate({ playlistId ,songId });
   };
   return (
-    <div className="px-8 py-8">
+    <div className="py-8">
       <SongTable title="Popular Songs" songs={songs} showAction onAddToPlaylist={handleAddToPlaylist}/>
     </div>
   );
