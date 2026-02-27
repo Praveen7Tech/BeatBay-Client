@@ -1,5 +1,5 @@
 import {LineChart, Line,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
-import { SongPerformance } from "../../services/artist.api";
+import { SongPerformance } from "../../utils/api.type";
 
 interface Props {
   data: SongPerformance[];

@@ -16,7 +16,6 @@ const AdminSongTable = ({ songs, startIndex }: AdminSongTableProps) => {
             <tr className="border-b border-border">
               <th className="py-3 px-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider w-12">#</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Song</th>
-              {/* <th className="py-3 px-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden md:table-cell">Album</th> */}
               <th className="py-3 px-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden lg:table-cell">Genre</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden sm:table-cell">Duration</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden xl:table-cell">Streams</th>

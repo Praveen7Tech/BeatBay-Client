@@ -1,7 +1,7 @@
 import { DollarSign, TrendingUp, Wallet, Calendar } from "lucide-react";
 import { RevenueStatsCard } from "./RevenueStatusCard";
 import { format } from "date-fns";
-import { Summary } from "../../services/artist.api";
+import { Summary } from "../../utils/api.type";
 
 interface RevenueOverviewProps {
   stats: Summary;

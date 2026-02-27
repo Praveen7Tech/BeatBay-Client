@@ -1,7 +1,7 @@
 
 import {Table,TableBody,TableCell,TableHead, TableHeader,TableRow,} from "@/components/ui/table";
-import { SongRevenue } from "../../services/artist.api";
 import { Link } from "react-router-dom";
+import { SongRevenue } from "../../utils/api.type";
 
 interface RevenueSongTableProps {
   songs: SongRevenue[]
